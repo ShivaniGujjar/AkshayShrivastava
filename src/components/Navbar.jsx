@@ -44,7 +44,7 @@ export default function Navbar({ onNavigate, activeSection = 'editing' }) {
           href="/"
           onClick={handleHomeClick}
           style={{ fontFamily: "'GourmetEatery', cursive, sans-serif" }}
-          className="pointer-events-auto flex items-center gap-1.5 select-none cursor-pointer group"
+          className="pointer-events-auto flex items-center gap-1.5 select-none cursor-pointer group no-underline"
         >
           <span className="text-[#144BFF] text-sm sm:text-xl tracking-wide transition-colors duration-200 hover:text-[#FFC822] capitalize">
             Akshay shrivastav
@@ -52,8 +52,8 @@ export default function Navbar({ onNavigate, activeSection = 'editing' }) {
           <span className="w-1.5 h-1.5 rounded-full bg-[#FFC822] inline-block mb-0.5 animate-pulse shadow-[0_0_6px_#144BFF]" />
         </a>
 
-        {/* CENTER: DESKTOP CAPSULE NAVIGATION */}
-        <div className="hidden md:flex pointer-events-auto bg-[#144BFF] border border-white/20 px-5 pt-3.5 pb-2 rounded-xl items-center justify-center gap-2 shadow-xl backdrop-blur-md">
+        {/* CENTER: DESKTOP CAPSULE NAVIGATION (Exact Hero size, padding & curved rounded-md, with Blue-Yellow theme) */}
+        <div className="pointer-events-auto bg-[#144BFF] border border-white/25 px-4 pt-4 pb-2.5 rounded-md hidden md:flex items-center justify-center gap-0 shadow-xl backdrop-blur-md">
           {NAV_ITEMS.map((item, idx) => {
             const isActive = activeSection === item.id;
 
@@ -66,15 +66,14 @@ export default function Navbar({ onNavigate, activeSection = 'editing' }) {
                     if (onNavigate) onNavigate(item.id);
                   }}
                   style={{ fontFamily: "'GourmetEatery', cursive, sans-serif" }}
-                  className={`relative inline-flex items-center text-sm sm:text-base transition-all duration-200 cursor-pointer text-[#FFFFFF] hover:text-[#FFC822] ${
+                  className={`relative inline-flex items-center text-sm sm:text-base transition-all duration-200 cursor-pointer text-[#FFFFFF] hover:text-[#FFC822] px-1.5 ${
                     isActive ? 'text-[#FFC822] font-bold' : ''
                   }`}
                 >
                   <span className="leading-none">{item.label}</span>
                 </a>
-
                 {idx < NAV_ITEMS.length - 1 && (
-                  <span className="text-[#FFC822] text-[10px] leading-none select-none pointer-events-none flex items-center -translate-y-0.5">●</span>
+                  <span className="text-[#FFC822] text-[10px] leading-none select-none pointer-events-none flex items-center -translate-y-0.5 mx-1">●</span>
                 )}
               </React.Fragment>
             );
@@ -83,22 +82,20 @@ export default function Navbar({ onNavigate, activeSection = 'editing' }) {
 
         {/* RIGHT: DESKTOP CONNECT BUTTON & MOBILE HAMBURGER TOGGLE */}
         <div className="flex items-center gap-2 pointer-events-auto">
-          <a 
-            href="#contact"
-            onClick={(e) => {
-              e.preventDefault();
-              if (onNavigate) onNavigate('connect');
-            }}
+          <a
+            href="https://www.instagram.com/akshay__shri/?hl=en"
+            target="_blank"
+            rel="noopener noreferrer"
             style={{ fontFamily: "'GourmetEatery', cursive, sans-serif" }}
-            className="hidden sm:flex bg-[#144BFF] hover:bg-[#0f3cd9] text-[#FFFFFF] hover:text-[#FFC822] border border-white/20 px-4 pt-2.5 pb-2 rounded-lg text-sm sm:text-base items-center gap-1.5 transition-all duration-300 shadow-xl cursor-pointer hover:scale-105"
+            className="bg-[#144BFF] hover:bg-[#0f3cd9] text-[#FFFFFF] hover:text-[#FFC822] border border-white/25 px-4 sm:px-5 h-10 sm:h-11 rounded-md text-xs sm:text-base hidden sm:flex items-center justify-center gap-1.5 transition-all duration-300 shadow-xl cursor-pointer hover:scale-105 no-underline"
           >
-            <span className="leading-none">Let's connect ↗</span>
+            <span className="leading-none pt-0.5">Let's connect ↗</span>
           </a>
 
-          {/* MOBILE HAMBURGER BUTTON (Compacted size: w-9 h-9) */}
+          {/* MOBILE HAMBURGER BUTTON */}
           <button 
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            className="md:hidden bg-[#144BFF] border border-white/20 text-white w-9 h-9 rounded-lg flex items-center justify-center shadow-xl cursor-pointer"
+            className="md:hidden bg-[#144BFF] border border-white/25 text-white w-9 h-9 rounded-md flex items-center justify-center shadow-xl cursor-pointer"
             aria-label="Toggle Menu"
           >
             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -115,7 +112,7 @@ export default function Navbar({ onNavigate, activeSection = 'editing' }) {
 
       {/* MOBILE DROPDOWN MENU */}
       {isMobileMenuOpen && (
-        <div className="md:hidden pointer-events-auto absolute top-14 left-4 right-4 bg-[#144BFF] border border-white/20 rounded-xl p-5 shadow-2xl flex flex-col items-center justify-center text-center gap-3 backdrop-blur-xl animate-in fade-in slide-in-from-top-4 duration-200">
+        <div className="md:hidden pointer-events-auto absolute top-14 left-4 right-4 bg-[#144BFF] border border-white/25 rounded-md p-5 shadow-2xl flex flex-col items-center justify-center text-center gap-3 backdrop-blur-xl animate-in fade-in slide-in-from-top-4 duration-200">
           {NAV_ITEMS.map((item) => (
             <a 
               key={item.id}
@@ -126,7 +123,7 @@ export default function Navbar({ onNavigate, activeSection = 'editing' }) {
                 if (onNavigate) onNavigate(item.id);
               }}
               style={{ fontFamily: "'GourmetEatery', cursive, sans-serif" }}
-              className={`text-lg text-white hover:text-[#FFC822] transition-colors py-1 ${
+              className={`text-lg text-white hover:text-[#FFC822] transition-colors py-1 no-underline ${
                 activeSection === item.id ? 'text-[#FFC822] font-bold' : ''
               }`}
             >
@@ -135,14 +132,12 @@ export default function Navbar({ onNavigate, activeSection = 'editing' }) {
           ))}
           <hr className="border-white/20 w-full my-0.5" />
           <a 
-            href="#contact"
-            onClick={(e) => {
-              e.preventDefault();
-              setIsMobileMenuOpen(false);
-              if (onNavigate) onNavigate('connect');
-            }}
+            href="https://www.instagram.com/akshay__shri/?hl=en"
+            target="_blank"
+            rel="noopener noreferrer"
+            onClick={() => setIsMobileMenuOpen(false)}
             style={{ fontFamily: "'GourmetEatery', cursive, sans-serif" }}
-            className="text-lg text-[#FFC822] flex items-center justify-center gap-2 py-1"
+            className="text-lg text-[#FFC822] flex items-center justify-center gap-2 py-1 no-underline"
           >
             <span>Let's connect ↗</span>
           </a>
