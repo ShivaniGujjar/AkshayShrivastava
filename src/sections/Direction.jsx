@@ -37,7 +37,7 @@ const DIRECTION_PROJECTS = [
   }
 ];
 
-// 📸 SCRAPBOOK POLAROID GALLERY WITH PERFORMANCE-OPTIMIZED AUTOPLAY & HOVER ISOLATION
+// 📸 SCRAPBOOK POLAROID GALLERY (Fixed for Mobile Screens)
 function ScrapbookGallery() {
   const videoRefs = useRef([]);
   const containerRefs = useRef([]);
@@ -96,7 +96,7 @@ function ScrapbookGallery() {
     {
       title: 'On-Set BTS',
       src: 'https://res.cloudinary.com/n1mfkfh4/video/upload/v1785678593/Campus_film_compressed_2_otok6t.mp4',
-      rotation: 'rotate-[-6deg]',
+      rotation: 'rotate-[-3.5deg] sm:rotate-[-6deg]',
       textColor: 'text-white'
     },
     {
@@ -108,24 +108,24 @@ function ScrapbookGallery() {
     {
       title: 'Cam Cut',
       src: 'https://res.cloudinary.com/n1mfkfh4/video/upload/v1785678044/After_effects_compressed_jxplaf.mp4',
-      rotation: 'rotate-[6deg]',
+      rotation: 'rotate-[3.5deg] sm:rotate-[6deg]',
       textColor: 'text-white'
     }
   ];
 
   return (
-    <div className="w-full max-w-[950px] my-10 sm:my-16 flex flex-col items-center justify-center relative select-none px-4">
+    <div className="w-full max-w-[950px] my-8 sm:my-16 flex flex-col items-center justify-center relative select-none px-2 sm:px-4">
       
       {/* 🏷️ TOP BADGE */}
       <div 
         style={{ fontFamily: "'HelveticaNeue', sans-serif", fontWeight: 300, letterSpacing: '1px' }}
-        className="relative z-40 mb-6 px-4 sm:px-6 py-2 bg-[#144BFF] text-white text-[10px] sm:text-sm uppercase shadow-md rounded-sm rotate-[-1deg] border border-white/20 text-center"
+        className="relative z-40 mb-5 px-3 sm:px-6 py-1.5 sm:py-2 bg-[#144BFF] text-white text-[9px] sm:text-sm uppercase shadow-md rounded-sm rotate-[-1deg] border border-white/20 text-center"
       >
         🎬 DIRECTOR'S CUT • BTS & STORYBOARD
       </div>
 
-      {/* 🎞️ 3 POLAROID FRAMES CONTAINER */}
-      <div className="flex flex-row items-center justify-center gap-2 sm:gap-6 md:gap-8 w-full pt-2 pb-6 overflow-x-auto sm:overflow-visible">
+      {/* 🎞️ 3 POLAROID FRAMES CONTAINER (Fixed mobile wrapping & spacing) */}
+      <div className="flex flex-wrap sm:flex-nowrap items-center justify-center gap-3 sm:gap-6 md:gap-8 w-full pt-1 pb-4">
         {cardsData.map((card, idx) => (
           <div 
             key={idx}
@@ -133,14 +133,14 @@ function ScrapbookGallery() {
             ref={(el) => (containerRefs.current[idx] = el)}
             onMouseEnter={() => setHoveredIdx(idx)}
             onMouseLeave={() => setHoveredIdx(null)}
-            className={`relative w-[105px] xs:w-[130px] sm:w-[240px] md:w-[260px] ${card.rotation} hover:rotate-0 hover:scale-105 transition-all duration-300 z-10 cursor-pointer group filter drop-shadow-[0_15px_25px_rgba(0,0,0,0.2)] shrink-0`}
+            className={`relative w-[100px] xs:w-[115px] sm:w-[240px] md:w-[260px] ${card.rotation} hover:rotate-0 hover:scale-105 transition-all duration-300 z-10 cursor-pointer group filter drop-shadow-[0_10px_20px_rgba(0,0,0,0.15)] shrink-0`}
           >
             {/* Tape Accent */}
-            <div className="absolute -top-2.5 sm:-top-3 left-1/2 -translate-x-1/2 w-10 sm:w-16 h-3 sm:h-5 bg-[#E8DCB8]/90 border border-amber-900/10 rotate-[-2deg] z-30 shadow-xs pointer-events-none" />
+            <div className="absolute -top-2 left-1/2 -translate-x-1/2 w-8 sm:w-16 h-2.5 sm:h-5 bg-[#E8DCB8]/90 border border-amber-900/10 rotate-[-2deg] z-30 shadow-xs pointer-events-none" />
 
             {/* White Polaroid Card with Ripped Bottom Edge */}
             <div 
-              className="w-full bg-[#FFFFFF] p-1.5 sm:p-3 pb-6 sm:pb-10 rounded-t-lg relative overflow-hidden"
+              className="w-full bg-[#FFFFFF] p-1.5 sm:p-3 pb-5 sm:pb-10 rounded-t-lg relative overflow-hidden"
               style={{
                 maskImage: 'linear-gradient(to bottom, black 88%, transparent 100%), url("/bottom.png")',
                 WebkitMaskImage: 'linear-gradient(to bottom, black 85%, transparent 100%)',
@@ -159,7 +159,7 @@ function ScrapbookGallery() {
                 />
                 <span 
                   style={{ fontFamily: "'HelveticaNeue', sans-serif", fontWeight: 300 }}
-                  className={`absolute bottom-1 sm:bottom-2 left-1 sm:left-2 bg-black/80 ${card.textColor} px-1.5 sm:px-2 py-0.5 rounded text-[8px] sm:text-xs uppercase z-30`}
+                  className={`absolute bottom-1 left-1 bg-black/80 ${card.textColor} px-1 py-0.5 rounded text-[7px] sm:text-xs uppercase z-30`}
                 >
                   {card.title}
                 </span>
@@ -167,7 +167,7 @@ function ScrapbookGallery() {
 
               {/* Visual Paper Texture Bottom Edge */}
               <div 
-                className="absolute bottom-0 left-0 right-0 h-6 sm:h-10 w-full z-20 pointer-events-none bg-repeat-x bg-bottom bg-contain opacity-90"
+                className="absolute bottom-0 left-0 right-0 h-5 sm:h-10 w-full z-20 pointer-events-none bg-repeat-x bg-bottom bg-contain opacity-90"
                 style={{
                   backgroundImage: "url('/bottom.png')",
                   filter: "drop-shadow(0px -2px 2px rgba(0,0,0,0.15))"
@@ -187,7 +187,7 @@ function DirectionShortCard({ project, isHovered, onHover, onLeave }) {
     <div 
       onMouseEnter={onHover}
       onMouseLeave={onLeave}
-      className="w-[220px] sm:w-[300px] aspect-[9/16] bg-[#14120e] rounded-2xl overflow-hidden shadow-2xl relative border border-black/10 transition-transform duration-500 hover:scale-[1.02] shrink-0 cursor-pointer"
+      className="w-[200px] sm:w-[300px] aspect-[9/16] bg-[#14120e] rounded-2xl overflow-hidden shadow-2xl relative border border-black/10 transition-transform duration-500 hover:scale-[1.02] shrink-0 cursor-pointer"
     >
       <CustomVideoPlayer 
         src={project.videoUrl} 
@@ -199,7 +199,7 @@ function DirectionShortCard({ project, isHovered, onHover, onLeave }) {
   );
 }
 
-// 🚀 ANIMATED DIRECTION ROW WITH SPLIT ANIMATION (Video slides Left, Text emerges Right)
+// 🚀 ANIMATED DIRECTION ROW WITH SPLIT ANIMATION
 function DirectionProjectRow({ project, index, activeHoverId, setActiveHoverId }) {
   const rowRef = useRef(null);
   const videoWrapperRef = useRef(null);
@@ -225,7 +225,7 @@ function DirectionProjectRow({ project, index, activeHoverId, setActiveHoverId }
       gsap.set(textColRef.current, {
         opacity: 0,
         x: textInitialX,
-        y: isMobile ? 30 : 0,
+        y: isMobile ? 20 : 0,
         scale: 0.95,
       });
 
@@ -259,7 +259,7 @@ function DirectionProjectRow({ project, index, activeHoverId, setActiveHoverId }
   return (
     <div 
       ref={rowRef}
-      className={`flex flex-col ${isReverse ? 'md:flex-row-reverse' : 'md:flex-row'} items-center justify-center gap-6 md:gap-12 w-full group py-4 relative min-h-[450px] sm:min-h-[550px]`}
+      className={`flex flex-col ${isReverse ? 'md:flex-row-reverse' : 'md:flex-row'} items-center justify-center gap-6 md:gap-12 w-full group py-4 relative min-h-[400px] sm:min-h-[550px]`}
     >
       {/* 📱 9:16 Vertical Short Form Video Card */}
       <div ref={videoWrapperRef} className="shrink-0 relative z-20">
@@ -278,14 +278,14 @@ function DirectionProjectRow({ project, index, activeHoverId, setActiveHoverId }
       >
         <h3 
           style={{ fontFamily: "'Talina', sans-serif", letterSpacing: '-0.4px', fontWeight: 400 }}
-          className={`text-[#144BFF] text-2xl sm:text-3xl md:text-[2.2rem] m-0 leading-tight relative md:px-4 ${isReverse ? 'md:border-r-4' : 'md:border-l-4'} md:border-[#144BFF]`}
+          className={`text-[#144BFF] text-xl sm:text-3xl md:text-[2.2rem] m-0 leading-tight relative md:px-4 ${isReverse ? 'md:border-r-4' : 'md:border-l-4'} md:border-[#144BFF]`}
         >
           {project.title}
         </h3>
 
         <p 
           style={{ fontFamily: "'HelveticaNeue', sans-serif", letterSpacing: '-0.2px', fontWeight: 300 }}
-          className="text-[#14120e] text-xs sm:text-lg mt-3 sm:mt-4 m-0 leading-relaxed font-light md:px-4"
+          className="text-[#14120e] text-xs sm:text-lg mt-2.5 sm:mt-4 m-0 leading-relaxed font-light md:px-4"
         >
           {project.description}
         </p>
@@ -314,7 +314,7 @@ export default function Direction() {
     const ctx = gsap.context(() => {
       gsap.set(paragraphRef.current, {
         opacity: 0,
-        y: 100,
+        y: 80,
         scale: 0.9,
       });
 

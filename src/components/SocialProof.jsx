@@ -180,9 +180,9 @@ export default function SocialProof({ brands = DEFAULT_BRANDS, testimonials = DE
           </div>
         </div>
 
-        {/* Bottom Seamless Torn Edge Mask */}
+        {/* Bottom Seamless Torn Edge Mask (Fixed line artifact using -bottom-[2px] and overlap) */}
         <div 
-          className="absolute bottom-0 left-0 w-full h-[30px] sm:h-[60px] z-[12] bg-[#FFFCFB]"
+          className="absolute -bottom-[2px] left-0 w-full h-[35px] sm:h-[65px] z-[12] bg-[#FFFCFB]"
           style={{
             maskImage: "url('/bottom.png')",
             WebkitMaskImage: "url('/bottom.png')",
@@ -191,7 +191,8 @@ export default function SocialProof({ brands = DEFAULT_BRANDS, testimonials = DE
             maskRepeat: "repeat-x",
             WebkitMaskRepeat: "repeat-x",
             maskPosition: "bottom",
-            WebkitMaskPosition: "bottom"
+            WebkitMaskPosition: "bottom",
+            marginTop: "-1px"
           }}
         />
 
