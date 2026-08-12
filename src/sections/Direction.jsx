@@ -16,7 +16,7 @@ const DIRECTION_PROJECTS = [
     num: '01',
     title: 'Brand Commercial Direction',
     description: 'A high-impact brand campaign focusing on narrative pacing, emotional resonance, and high retention.',
-    videoUrl: '',
+    videoUrl: 'https://res.cloudinary.com/n1mfkfh4/video/upload/v1785678593/Campus_film_compressed_2_otok6t.mp4',
     tag: 'Commercial'
   },
   {
@@ -24,7 +24,7 @@ const DIRECTION_PROJECTS = [
     num: '02',
     title: 'Short Film Narrative',
     description: 'Exploratory visual storytelling with structured lighting, precise camera movement, and cinematic color grading.',
-    videoUrl: '',
+    videoUrl: 'https://res.cloudinary.com/n1mfkfh4/video/upload/v1785674839/Perfectionism_compressed_isgrjo.mp4',
     tag: 'Narrative'
   },
   {
@@ -32,7 +32,7 @@ const DIRECTION_PROJECTS = [
     num: '03',
     title: 'Startup Launch Film',
     description: 'Directing on-set talent and seamless motion graphics integration for modern tech positioning.',
-    videoUrl: '',
+    videoUrl: 'https://res.cloudinary.com/n1mfkfh4/video/upload/v1785678044/After_effects_compressed_jxplaf.mp4',
     tag: 'Promo'
   }
 ];
@@ -102,7 +102,7 @@ function ScrapbookGallery() {
     {
       title: 'Storyboard',
       src: 'https://res.cloudinary.com/n1mfkfh4/video/upload/v1785674839/Perfectionism_compressed_isgrjo.mp4',
-      rotation: 'rotate-[0deg] -translate-y-4',
+      rotation: 'rotate-[0deg] sm:-translate-y-4',
       textColor: 'text-[#FFC822]'
     },
     {
@@ -114,18 +114,18 @@ function ScrapbookGallery() {
   ];
 
   return (
-    <div className="w-full max-w-[950px] my-10 sm:my-16 flex flex-col items-center justify-center relative select-none">
+    <div className="w-full max-w-[950px] my-10 sm:my-16 flex flex-col items-center justify-center relative select-none px-4">
       
       {/* 🏷️ TOP BADGE */}
       <div 
         style={{ fontFamily: "'HelveticaNeue', sans-serif", fontWeight: 300, letterSpacing: '1px' }}
-        className="relative z-40 mb-6 px-6 py-2 bg-[#144BFF] text-white text-xs sm:text-sm uppercase shadow-md rounded-sm rotate-[-1deg] border border-white/20"
+        className="relative z-40 mb-6 px-4 sm:px-6 py-2 bg-[#144BFF] text-white text-[10px] sm:text-sm uppercase shadow-md rounded-sm rotate-[-1deg] border border-white/20 text-center"
       >
         🎬 DIRECTOR'S CUT • BTS & STORYBOARD
       </div>
 
       {/* 🎞️ 3 POLAROID FRAMES CONTAINER */}
-      <div className="flex flex-row items-center justify-center gap-3 sm:gap-6 md:gap-8 w-full pt-2 pb-6">
+      <div className="flex flex-row items-center justify-center gap-2 sm:gap-6 md:gap-8 w-full pt-2 pb-6 overflow-x-auto sm:overflow-visible">
         {cardsData.map((card, idx) => (
           <div 
             key={idx}
@@ -133,14 +133,14 @@ function ScrapbookGallery() {
             ref={(el) => (containerRefs.current[idx] = el)}
             onMouseEnter={() => setHoveredIdx(idx)}
             onMouseLeave={() => setHoveredIdx(null)}
-            className={`relative w-[180px] sm:w-[240px] md:w-[260px] ${card.rotation} hover:rotate-0 hover:scale-105 transition-all duration-300 z-10 cursor-pointer group filter drop-shadow-[0_15px_25px_rgba(0,0,0,0.2)]`}
+            className={`relative w-[105px] xs:w-[130px] sm:w-[240px] md:w-[260px] ${card.rotation} hover:rotate-0 hover:scale-105 transition-all duration-300 z-10 cursor-pointer group filter drop-shadow-[0_15px_25px_rgba(0,0,0,0.2)] shrink-0`}
           >
             {/* Tape Accent */}
-            <div className="absolute -top-3 left-1/2 -translate-x-1/2 w-14 sm:w-16 h-4 sm:h-5 bg-[#E8DCB8]/90 border border-amber-900/10 rotate-[-2deg] z-30 shadow-xs pointer-events-none" />
+            <div className="absolute -top-2.5 sm:-top-3 left-1/2 -translate-x-1/2 w-10 sm:w-16 h-3 sm:h-5 bg-[#E8DCB8]/90 border border-amber-900/10 rotate-[-2deg] z-30 shadow-xs pointer-events-none" />
 
             {/* White Polaroid Card with Ripped Bottom Edge */}
             <div 
-              className="w-full bg-[#FFFFFF] p-2.5 sm:p-3 pb-8 sm:pb-10 rounded-t-lg relative overflow-hidden"
+              className="w-full bg-[#FFFFFF] p-1.5 sm:p-3 pb-6 sm:pb-10 rounded-t-lg relative overflow-hidden"
               style={{
                 maskImage: 'linear-gradient(to bottom, black 88%, transparent 100%), url("/bottom.png")',
                 WebkitMaskImage: 'linear-gradient(to bottom, black 85%, transparent 100%)',
@@ -159,7 +159,7 @@ function ScrapbookGallery() {
                 />
                 <span 
                   style={{ fontFamily: "'HelveticaNeue', sans-serif", fontWeight: 300 }}
-                  className={`absolute bottom-2 left-2 bg-black/80 ${card.textColor} px-2 py-0.5 rounded text-[10px] sm:text-xs uppercase z-30`}
+                  className={`absolute bottom-1 sm:bottom-2 left-1 sm:left-2 bg-black/80 ${card.textColor} px-1.5 sm:px-2 py-0.5 rounded text-[8px] sm:text-xs uppercase z-30`}
                 >
                   {card.title}
                 </span>
@@ -167,7 +167,7 @@ function ScrapbookGallery() {
 
               {/* Visual Paper Texture Bottom Edge */}
               <div 
-                className="absolute bottom-0 left-0 right-0 h-8 sm:h-10 w-full z-20 pointer-events-none bg-repeat-x bg-bottom bg-contain opacity-90"
+                className="absolute bottom-0 left-0 right-0 h-6 sm:h-10 w-full z-20 pointer-events-none bg-repeat-x bg-bottom bg-contain opacity-90"
                 style={{
                   backgroundImage: "url('/bottom.png')",
                   filter: "drop-shadow(0px -2px 2px rgba(0,0,0,0.15))"
@@ -187,7 +187,7 @@ function DirectionShortCard({ project, isHovered, onHover, onLeave }) {
     <div 
       onMouseEnter={onHover}
       onMouseLeave={onLeave}
-      className="w-[260px] sm:w-[300px] aspect-[9/16] bg-[#14120e] rounded-2xl overflow-hidden shadow-2xl relative border border-black/10 transition-transform duration-500 hover:scale-[1.02] shrink-0 cursor-pointer"
+      className="w-[220px] sm:w-[300px] aspect-[9/16] bg-[#14120e] rounded-2xl overflow-hidden shadow-2xl relative border border-black/10 transition-transform duration-500 hover:scale-[1.02] shrink-0 cursor-pointer"
     >
       <CustomVideoPlayer 
         src={project.videoUrl} 
@@ -259,7 +259,7 @@ function DirectionProjectRow({ project, index, activeHoverId, setActiveHoverId }
   return (
     <div 
       ref={rowRef}
-      className={`flex flex-col ${isReverse ? 'md:flex-row-reverse' : 'md:flex-row'} items-center justify-center gap-6 md:gap-12 w-full group py-4 relative min-h-[550px]`}
+      className={`flex flex-col ${isReverse ? 'md:flex-row-reverse' : 'md:flex-row'} items-center justify-center gap-6 md:gap-12 w-full group py-4 relative min-h-[450px] sm:min-h-[550px]`}
     >
       {/* 📱 9:16 Vertical Short Form Video Card */}
       <div ref={videoWrapperRef} className="shrink-0 relative z-20">
@@ -274,7 +274,7 @@ function DirectionProjectRow({ project, index, activeHoverId, setActiveHoverId }
       {/* 📝 Text Content Side */}
       <div 
         ref={textColRef} 
-        className="w-full md:max-w-[480px] flex flex-col justify-center text-center md:text-left shrink-0 relative z-10"
+        className="w-full md:max-w-[480px] flex flex-col justify-center text-center md:text-left shrink-0 relative z-10 px-4"
       >
         <h3 
           style={{ fontFamily: "'Talina', sans-serif", letterSpacing: '-0.4px', fontWeight: 400 }}
@@ -285,7 +285,7 @@ function DirectionProjectRow({ project, index, activeHoverId, setActiveHoverId }
 
         <p 
           style={{ fontFamily: "'HelveticaNeue', sans-serif", letterSpacing: '-0.2px', fontWeight: 300 }}
-          className="text-[#14120e] text-base sm:text-lg mt-4 m-0 leading-relaxed font-light md:px-4"
+          className="text-[#14120e] text-xs sm:text-lg mt-3 sm:mt-4 m-0 leading-relaxed font-light md:px-4"
         >
           {project.description}
         </p>
@@ -340,7 +340,7 @@ export default function Direction() {
   }, []);
 
   return (
-    <div className="w-full min-h-screen bg-[#FFFCFB] relative overflow-x-hidden pb-0 m-0 text-[#14120e]">
+    <div className="w-full min-h-screen bg-[#FFFCFB] relative overflow-x-hidden pb-32 sm:pb-40 m-0 text-[#14120e]">
       
       {/* 🎞️ CINEMATIC GRAIN OVERLAY */}
       <div 
@@ -388,7 +388,7 @@ export default function Direction() {
       `}</style>
 
       {/* 🎬 HERO BANNER */}
-      <div className="relative w-full h-screen bg-[#14120e] flex flex-col justify-center items-center overflow-hidden m-0 p-0 editing-cutout-mask"> 
+      <div className="relative w-full h-[60vh] sm:h-screen bg-[#14120e] flex flex-col justify-center items-center overflow-hidden m-0 p-0 editing-cutout-mask"> 
         <video 
           ref={heroVideoRef}
           autoPlay 
@@ -396,7 +396,7 @@ export default function Direction() {
           muted={isMuted} 
           playsInline 
           preload="metadata"
-          className="absolute top-0 left-0 w-full h-screen object-cover z-0 filter brightness-[0.55] contrast-105"
+          className="absolute top-0 left-0 w-full h-full object-cover z-0 filter brightness-[0.55] contrast-105"
         >
           <source src="https://res.cloudinary.com/n1mfkfh4/video/upload/v1785678011/Ifolder_with_grade_final_lzq260.mp4" />
         </video>
@@ -406,7 +406,7 @@ export default function Direction() {
         {/* 🔊 MINIMAL SOUND TOGGLE BUTTON */}
         <button
           onClick={toggleAudio}
-          className="absolute bottom-20 left-8 z-30 flex items-center justify-center w-12 h-12 bg-black/60 hover:bg-[#144BFF] backdrop-blur-md text-[#FFFFFF] border border-white/20 rounded-full transition-all duration-300 shadow-xl group cursor-pointer hover:scale-110"
+          className="absolute bottom-16 left-6 sm:bottom-28 sm:left-10 z-30 flex items-center justify-center w-9 h-9 sm:w-11 sm:h-11 bg-black/60 hover:bg-[#144BFF] backdrop-blur-md text-[#FFFFFF] border border-white/20 rounded-full transition-all duration-300 shadow-xl group cursor-pointer hover:scale-110"
           aria-label="Toggle Sound"
         >
           {isMuted ? (
@@ -422,13 +422,13 @@ export default function Direction() {
 
         <div className="relative z-10 flex flex-col justify-center items-center px-4">
           <h1 
-            style={{ fontFamily: "'Talina', sans-serif", letterSpacing: '-1.2px', fontWeight: 300 }}
-            className="text-[2.5rem] sm:text-[3.8rem] md:text-[4.2rem] font-light text-[#ffffff] m-0 text-center leading-none"
+            style={{ fontFamily: "'Talina', sans-serif", letterSpacing: '-0.5px', fontWeight: 300 }}
+            className="text-[2.5rem] sm:text-[4.2rem] font-light text-[#ffffff] m-0 text-center leading-none"
           >
             Direction Work
           </h1>
 
-          <p className="flex items-center justify-center gap-1.5 sm:gap-2 mt-4 text-[#144BFF] text-xs sm:text-sm md:text-base uppercase tracking-widest text-center drop-shadow-[0_2px_10px_rgba(0,0,0,0.95)]" style={{ fontFamily: "'HelveticaNeue', sans-serif", fontWeight: 800, letterSpacing: '-1px' }}>
+          <p className="flex items-center justify-center gap-1.5 sm:gap-2 mt-3 sm:mt-4 text-[#144BFF] text-[10px] sm:text-base uppercase tracking-widest text-center drop-shadow-[0_2px_10px_rgba(0,0,0,0.95)]" style={{ fontFamily: "'HelveticaNeue', sans-serif", fontWeight: 800, letterSpacing: '-1px' }}>
             <span>STORYBOARDING</span> 
             <span className="text-[#FFC822] mx-1">•</span> 
             <span>FILMMAKING</span> 
@@ -440,10 +440,10 @@ export default function Direction() {
 
       {/* 🏛️ HEADER & FEATURED ANIMATION SECTION */}
       <div ref={featuredSectionRef} className="w-full mx-auto pt-10 sm:pt-16 pb-6 px-4 flex flex-col items-center relative z-20 text-center overflow-hidden">
-        <div className="inline-flex flex-col items-center z-20">
+        <div className="inline-flex flex-col items-center z-20 px-4">
           <h2 
-            style={{ fontFamily: "'Talina', sans-serif", letterSpacing: '-1px', fontWeight: 400 }}
-            className="text-2xl sm:text-4xl md:text-4xl m-0 text-[#144BFF] leading-tight"
+            style={{ fontFamily: "'Talina', sans-serif", letterSpacing: '-0.5px', fontWeight: 400 }}
+            className="text-2xl sm:text-4xl m-0 text-[#144BFF] leading-tight"
           >
             Welcome to Direction section
           </h2>
@@ -452,7 +452,7 @@ export default function Direction() {
         <div ref={paragraphRef} className="relative z-10 mt-3 mb-6 max-w-[700px] px-4">
           <p 
             style={{ fontFamily: "'HelveticaNeue', sans-serif", letterSpacing: '-0.2px', fontWeight: 600 }}
-            className="text-[#14120e] text-base sm:text-lg leading-relaxed font-light text-center"
+            className="text-[#14120e] text-xs sm:text-lg leading-relaxed font-light text-center"
           >
             I craft compelling visual narratives, combining script analysis, intentional blocking, and precise post-direction to build high-converting brand stories.
           </p>
@@ -463,7 +463,7 @@ export default function Direction() {
       </div>
 
       {/* 📱 9:16 SHORT FORM PROJECT ROWS */}
-      <div className="max-w-[1100px] w-full mx-auto px-6 flex flex-col gap-16 md:gap-24 my-12 sm:my-20">
+      <div className="max-w-[1100px] w-full mx-auto px-4 sm:px-6 flex flex-col gap-16 md:gap-24 my-12 sm:my-20">
         {DIRECTION_PROJECTS.map((project, idx) => (
           <DirectionProjectRow 
             key={project.id} 
@@ -476,7 +476,7 @@ export default function Direction() {
       </div>
 
       {/* 🚀 SOCIAL PROOF */}
-      <div className="m-0 p-0 mb-28 sm:mb-36">
+      <div className="m-0 p-0 mb-20 sm:mb-36">
         <SocialProof />
       </div>
 

@@ -283,7 +283,7 @@ export default function Editing() {
           <h1 
             style={{ 
               fontFamily: "'Talina', sans-serif", 
-              letterSpacing: '-1.2px', 
+              letterSpacing: '-0.5px', 
               fontWeight: 300 
             }}
             className="text-[2.5rem] sm:text-[4.2rem] text-[#ffffff] m-0 text-center leading-none"
@@ -307,14 +307,14 @@ export default function Editing() {
       {/* HEADER & FEATURED MASTERPIECE SECTION */}
       <div ref={featuredSectionRef} className="w-full mx-auto pt-10 sm:pt-16 pb-6 px-4 flex flex-col items-center relative z-20 text-center overflow-hidden">
         
-        <div className="inline-flex flex-col items-center z-20">
+        <div className="inline-flex flex-col items-center z-20 px-4">
           <h2 
             style={{ 
               fontFamily: "'Talina', sans-serif", 
-              letterSpacing:'-1px', 
+              letterSpacing:'-0.5px', 
               fontWeight: 400 
             }}
-            className="text-3xl sm:text-4xl m-0 text-[#144BFF] leading-tight"
+            className="text-2xl sm:text-4xl m-0 text-[#144BFF] leading-tight"
           >
             Welcome To Editing Section
           </h2>
@@ -350,10 +350,10 @@ export default function Editing() {
           <h3 
             style={{ 
               fontFamily: "'Talina', sans-serif", 
-              letterSpacing : '-2px',
+              letterSpacing : '-1px',
               fontWeight: 400 
             }}
-            className="text-3xl sm:text-4xl m-0 text-[#144BFF] leading-tight"
+            className="text-2xl sm:text-4xl m-0 text-[#144BFF] leading-tight"
           >
             Long Forms
           </h3>
@@ -394,10 +394,10 @@ export default function Editing() {
           <h3 
             style={{ 
               fontFamily: "'Talina', sans-serif", 
-              letterSpacing : '-2px',
+              letterSpacing : '-1px',
               fontWeight: 400 
             }}
-            className="text-3xl sm:text-4xl m-0 text-[#144BFF] leading-tight"
+            className="text-2xl sm:text-4xl m-0 text-[#144BFF] leading-tight"
           >
             Short Forms
           </h3>

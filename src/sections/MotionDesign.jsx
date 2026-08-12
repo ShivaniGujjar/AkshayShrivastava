@@ -11,10 +11,10 @@ if (typeof window !== 'undefined') {
 
 // 🎬 REAL SHOWCASE DATA
 const SHORT_FORMS = [
-  { id: 'msf1', title: '3D Kinetic Typography', brand: 'UGC Ad', videoUrl: '' },
-  { id: 'msf2', title: 'Abstract Product Reel', brand: '3D Motion', videoUrl: '' },
-  { id: 'msf3', title: 'Logo Reveal Loop', brand: 'VFX', videoUrl: '' },
-  { id: 'msf4', title: 'Character Animation', brand: '2D Motion', videoUrl: '' },
+  { id: 'msf1', title: '3D Kinetic Typography', brand: 'UGC Ad', videoUrl: '', poster: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=600' },
+  { id: 'msf2', title: 'Abstract Product Reel', brand: '3D Motion', videoUrl: '', poster: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=600' },
+  { id: 'msf3', title: 'Logo Reveal Loop', brand: 'VFX', videoUrl: '', poster: 'https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=600' },
+  { id: 'msf4', title: 'Character Animation', brand: '2D Motion', videoUrl: '', poster: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=600' },
 ];
 
 const LONG_FORMS = [
@@ -31,7 +31,7 @@ const duplicateList = (arr, count = 4) => {
   return output;
 };
 
-// 🎥 SINGLE VIDEO CARD WITH 9:16 VERTICAL RATIO FOR SHORT FORMS
+// 🎥 SINGLE VIDEO CARD WITH RESPONSIVE SIZING & LARGE CLEAR TITLES
 function VideoCard({ item, aspectRatio = "wide", hoveredId, setHoveredId }) {
   const cardRef = useRef(null);
   const videoRef = useRef(null);
@@ -73,8 +73,8 @@ function VideoCard({ item, aspectRatio = "wide", hoveredId, setHoveredId }) {
   }, [isVisible, isHovered, isAnyHovered]);
 
   const cardDimensions = aspectRatio === "wide" 
-    ? "w-[340px] sm:w-[420px] h-[210px] sm:h-[260px]" 
-    : "w-[260px] sm:w-[300px] aspect-[9/16]";
+    ? "w-[280px] sm:w-[420px] h-[160px] sm:h-[260px]" 
+    : "w-[200px] sm:w-[300px] aspect-[9/16]";
 
   return (
     <div 
@@ -99,31 +99,31 @@ function VideoCard({ item, aspectRatio = "wide", hoveredId, setHoveredId }) {
       {item.category && (
         <div 
           style={{ fontFamily: "'Talina', sans-serif", letterSpacing: '-0.3px', fontWeight: 300 }}
-          className="absolute top-4 left-4 bg-[#144BFF] backdrop-blur-md px-3 py-1 rounded-sm text-[#FFFFFF] text-xs uppercase shadow-sm"
+          className="absolute top-3 left-3 sm:top-4 sm:left-4 bg-[#144BFF] backdrop-blur-md px-2.5 sm:px-3 py-0.5 sm:py-1 rounded-sm text-[#FFFFFF] text-[10px] sm:text-xs uppercase shadow-sm"
         >
           {item.category}
         </div>
       )}
 
-      <div className={`absolute top-4 right-4 w-9 h-9 rounded-sm backdrop-blur-md flex items-center justify-center transition-all duration-300 ${isHovered ? 'scale-110 bg-[#144BFF] text-[#FFFFFF] shadow-[0_0_15px_#144BFF]' : 'bg-black/40 text-[#FFFFFF]'}`}>
+      <div className={`absolute top-3 right-3 sm:top-4 sm:right-4 w-7 h-7 sm:w-9 sm:h-9 rounded-sm backdrop-blur-md flex items-center justify-center transition-all duration-300 ${isHovered ? 'scale-110 bg-[#144BFF] text-[#FFFFFF] shadow-[0_0_15px_#144BFF]' : 'bg-black/40 text-[#FFFFFF]'}`}>
         {isHovered ? (
-          <span className="w-2.5 h-2.5 bg-[#FFFFFF] rounded-xs animate-pulse" />
+          <span className="w-2 h-2 sm:w-2.5 sm:h-2.5 bg-[#FFFFFF] rounded-xs animate-pulse" />
         ) : (
-          <svg className="w-4 h-4 fill-current ml-0.5" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+          <svg className="w-3.5 h-3.5 sm:w-4 sm:h-4 fill-current ml-0.5" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
         )}
       </div>
 
-      <div className="absolute bottom-0 left-0 right-0 p-6 transform transition-transform duration-300 group-hover:translate-y-0">
+      <div className="absolute bottom-0 left-0 right-0 p-4 sm:p-6 transform transition-transform duration-300 group-hover:translate-y-0">
         <h4 
           style={{ fontFamily: "'Talina', sans-serif", fontWeight: 300 }}
-          className="text-[#FFFFFF] text-xl sm:text-2xl leading-snug drop-shadow-md mb-1"
+          className="text-[#FFFFFF] text-lg sm:text-2xl leading-snug drop-shadow-md mb-1"
         >
           {item.title}
         </h4>
         {item.brand && (
           <p 
             style={{ fontFamily: "'HelveticaNeue', sans-serif", letterSpacing: '-0.3px', fontWeight: 300 }}
-            className="text-[#144BFF] text-xs uppercase bg-black/60 px-2.5 py-1 rounded-xs inline-block"
+            className="text-[#144BFF] text-[10px] sm:text-xs uppercase bg-black/60 px-2 py-0.5 sm:px-2.5 sm:py-1 rounded-xs inline-block"
           >
             {item.brand}
           </p>
@@ -187,7 +187,7 @@ export default function MotionDesign() {
   const isShortForm = selectedVideo && SHORT_FORMS.some(s => s.id === selectedVideo.id);
 
   return (
-    <div className="w-full min-h-screen bg-[#FFFCFB] relative overflow-x-hidden pb-0 m-0 text-[#14120e]">
+    <div className="w-full min-h-screen bg-[#FFFCFB] relative overflow-x-hidden pb-32 sm:pb-40 m-0 text-[#14120e]">
       
       {/* 🎞️ GRAIN OVERLAY */}
       <div 
@@ -235,7 +235,7 @@ export default function MotionDesign() {
       `}</style>
 
       {/* HERO BANNER */}
-      <div className="relative w-full h-screen bg-[#14120e] flex flex-col justify-center items-center overflow-hidden m-0 p-0 editing-cutout-mask"> 
+      <div className="relative w-full h-[60vh] sm:h-screen bg-[#14120e] flex flex-col justify-center items-center overflow-hidden m-0 p-0 editing-cutout-mask"> 
         <video 
           ref={heroVideoRef}
           src="https://res.cloudinary.com/n1mfkfh4/video/upload/v1785674839/Perfectionism_compressed_isgrjo.mp4" 
@@ -243,13 +243,13 @@ export default function MotionDesign() {
           loop 
           muted={isHeroMuted} 
           playsInline 
-          className="absolute top-0 left-0 w-full h-screen object-cover z-0 filter brightness-[0.55] contrast-105"
+          className="absolute top-0 left-0 w-full h-full object-cover z-0 filter brightness-[0.55] contrast-105"
         />
 
         {/* 🔊 SOUND TOGGLE BUTTON */}
         <button
           onClick={toggleHeroSound}
-          className="absolute bottom-24 left-6 sm:bottom-28 sm:left-10 z-20 w-11 h-11 rounded-full bg-black/60 hover:bg-black/80 backdrop-blur-md border border-white/10 flex items-center justify-center text-[#FFC822] hover:scale-110 transition-all duration-300 shadow-xl cursor-pointer group"
+          className="absolute bottom-16 left-6 sm:bottom-28 sm:left-10 z-20 w-9 h-9 sm:w-11 sm:h-11 rounded-full bg-black/60 hover:bg-black/80 backdrop-blur-md border border-white/10 flex items-center justify-center text-[#FFC822] hover:scale-110 transition-all duration-300 shadow-xl cursor-pointer group"
           title={isHeroMuted ? "Unmute Sound" : "Mute Sound"}
         >
           {isHeroMuted ? (
@@ -269,17 +269,17 @@ export default function MotionDesign() {
           <h1 
             style={{ 
               fontFamily: "'Talina', sans-serif", 
-              letterSpacing: '-1.2px', 
+              letterSpacing: '-0.5px', 
               fontWeight: 300 
             }}
-            className="text-[2.5rem] sm:text-[3.8rem] md:text-[4.2rem] text-[#ffffff] m-0 text-center leading-none"
+            className="text-[2.5rem] sm:text-[4.2rem] text-[#ffffff] m-0 text-center leading-none"
           >
             Motion Work
           </h1>
           
           <p 
             style={{ fontFamily: "'HelveticaNeue', sans-serif", fontWeight: 800, letterSpacing : '-1px' }}
-            className="flex items-center justify-center gap-1.5 sm:gap-2 mt-4 text-[#144BFF] text-xs sm:text-sm md:text-base uppercase tracking-widest text-center drop-shadow-[0_2px_10px_rgba(0,0,0,0.95)]"
+            className="flex items-center justify-center gap-1.5 sm:gap-2 mt-3 sm:mt-4 text-[#144BFF] text-[10px] sm:text-base uppercase tracking-widest text-center drop-shadow-[0_2px_10px_rgba(0,0,0,0.95)]"
           >
             <span>2D & 3D ANIMATION</span> 
             <span className="text-[#FFC822] mx-1">•</span> 
@@ -293,14 +293,14 @@ export default function MotionDesign() {
       {/* HEADER & FEATURED MASTERPIECE SECTION */}
       <div ref={featuredSectionRef} className="w-full mx-auto pt-10 sm:pt-16 pb-6 px-4 flex flex-col items-center relative z-20 text-center overflow-hidden">
         
-        <div className="inline-flex flex-col items-center z-20">
+        <div className="inline-flex flex-col items-center z-20 px-4">
           <h2 
             style={{ 
               fontFamily: "'Talina', sans-serif", 
-              letterSpacing:'-1px', 
+              letterSpacing:'-0.5px', 
               fontWeight: 400 
             }}
-            className="text-2xl sm:text-4xl md:text-4xl m-0 text-[#144BFF] leading-tight"
+            className="text-2xl sm:text-4xl m-0 text-[#144BFF] leading-tight"
           >
             Welcome to Motion Design section
           </h2>
@@ -313,7 +313,7 @@ export default function MotionDesign() {
               fontWeight: 600,
               letterSpacing : '-1px'
             }}
-            className="text-[#14120e] text-sm sm:text-lg leading-relaxed text-center font-light tracking-wide"
+            className="text-[#14120e] text-xs sm:text-lg leading-relaxed text-center font-light tracking-wide"
           >
             I craft dynamic 2D/3D motion graphics, kinetic typography, and fluid visual effects that elevate brand campaigns and digital storytelling.
           </p>
@@ -331,35 +331,35 @@ export default function MotionDesign() {
       </div>
 
       {/* SHORT FORMS */}
-      <div className="w-full max-w-full relative overflow-hidden my-12 sm:my-20">
+      <div className="w-full max-w-full relative overflow-hidden my-8 sm:my-20">
         <div className="max-w-[1100px] w-full mx-auto px-6 flex flex-col items-center text-center mb-6">
           <h3 
             style={{ 
               fontFamily: "'Talina', sans-serif", 
-              letterSpacing : '-2px',
+              letterSpacing : '-1px',
               fontWeight: 400 
             }}
-            className="text-2xl sm:text-4xl md:text-4xl m-0 text-[#144BFF] leading-tight"
+            className="text-2xl sm:text-4xl m-0 text-[#144BFF] leading-tight"
           >
             Short Forms
           </h3>
 
           <div 
             style={{ fontFamily: "'HelveticaNeue', sans-serif", letterSpacing: '-1px', fontWeight: 600 }}
-            className="flex items-center justify-center gap-2 sm:gap-2.5 mt-3 text-[#14120e] text-xs sm:text-base uppercase tracking-wider text-center"
+            className="flex items-center justify-center gap-1.5 sm:gap-2.5 mt-3 text-[#14120e] text-[10px] sm:text-base uppercase tracking-wider text-center"
           >
             <span>3D MOTION</span>
-            <span className="text-[#FFC822] text-sm sm:text-lg">•</span>
+            <span className="text-[#FFC822] text-xs sm:text-lg">•</span>
             <span>LOGO REVEALS</span>
-            <span className="text-[#FFC822] text-sm sm:text-lg">•</span>
+            <span className="text-[#FFC822] text-xs sm:text-lg">•</span>
             <span>UGC ADS</span>
-            <span className="text-[#FFC822] text-sm sm:text-lg">•</span>
+            <span className="text-[#FFC822] text-xs sm:text-lg">•</span>
             <span>KINETIC LOOPS</span>
           </div>
         </div>
         
-        <div className="w-full max-w-full overflow-hidden py-4 group">
-          <div className="inline-flex whitespace-nowrap gap-6 sm:gap-10 w-max will-change-transform animate-[slowMarqueeLeft_85s_linear_infinite] group-hover:[animation-play-state:paused]">
+        <div className="w-full max-w-full overflow-hidden pt-2 pb-4 group">
+          <div className="inline-flex whitespace-nowrap gap-4 sm:gap-10 w-max will-change-transform animate-[slowMarqueeLeft_85s_linear_infinite] group-hover:[animation-play-state:paused]">
             {duplicateList(SHORT_FORMS).map((item, idx) => (
               <div key={`short-${idx}`} onClick={() => setSelectedVideo(item)}>
                 <VideoCard 
@@ -375,33 +375,33 @@ export default function MotionDesign() {
       </div>
 
       {/* LONG FORMS */}
-      <div className="w-full max-w-full relative overflow-hidden my-12 sm:my-20">
+      <div className="w-full max-w-full relative overflow-hidden my-8 sm:my-20">
         <div className="max-w-[1100px] w-full mx-auto px-6 flex flex-col items-center text-center mb-6">
           <h3 
             style={{ 
               fontFamily: "'Talina', sans-serif", 
-              letterSpacing : '-2px',
+              letterSpacing : '-1px',
               fontWeight: 400 
             }}
-            className="text-2xl sm:text-4xl md:text-4xl m-0 text-[#144BFF] leading-tight"
+            className="text-2xl sm:text-4xl m-0 text-[#144BFF] leading-tight"
           >
             Long Forms
           </h3>
 
           <div 
             style={{ fontFamily: "'HelveticaNeue', sans-serif", letterSpacing: '-1px', fontWeight: 600 }}
-            className="flex items-center justify-center gap-2 sm:gap-2.5 mt-3 text-[#14120e] text-xs sm:text-base uppercase tracking-wider text-center"
+            className="flex items-center justify-center gap-1.5 sm:gap-2.5 mt-3 text-[#14120e] text-[10px] sm:text-base uppercase tracking-wider text-center"
           >
             <span>ANIMATED EXPLAINERS</span>
-            <span className="text-[#FFC822] text-sm sm:text-lg">•</span>
+            <span className="text-[#FFC822] text-xs sm:text-lg">•</span>
             <span>TITLE SEQUENCES</span>
-            <span className="text-[#FFC822] text-sm sm:text-lg">•</span>
+            <span className="text-[#FFC822] text-xs sm:text-lg">•</span>
             <span>3D VISUALS</span>
           </div>
         </div>
 
-        <div className="w-full max-w-full overflow-hidden py-4 group">
-          <div className="inline-flex whitespace-nowrap gap-6 sm:gap-10 w-max will-change-transform animate-[slowMarqueeRight_85s_linear_infinite] group-hover:[animation-play-state:paused]">
+        <div className="w-full max-w-full overflow-hidden pt-2 pb-4 group">
+          <div className="inline-flex whitespace-nowrap gap-4 sm:gap-10 w-max will-change-transform animate-[slowMarqueeRight_85s_linear_infinite] group-hover:[animation-play-state:paused]">
             {duplicateList(LONG_FORMS).map((item, idx) => (
               <div key={`long-${idx}`} onClick={() => setSelectedVideo(item)}>
                 <VideoCard 
@@ -417,11 +417,11 @@ export default function MotionDesign() {
       </div>
 
       {/* 🚀 SOCIAL PROOF */}
-      <div className="m-0 p-0 mb-28 sm:mb-36">
+      <div className="m-0 p-0 mb-20 sm:mb-36">
         <SocialProof />
       </div>
 
-      {/* FULLSCREEN PREVIEW WITH DYNAMIC ASPECT RATIO (VERTICAL FOR SHORTS, CUSTOM PLAYER FOR LONGS) */}
+      {/* FULLSCREEN PREVIEW WITH DYNAMIC ASPECT RATIO */}
       {selectedVideo && (
         <div 
           onClick={() => setSelectedVideo(null)}
@@ -460,17 +460,17 @@ export default function MotionDesign() {
                     muted={false}
                   />
                 </div>
-                <div className="p-6 bg-[#FFFCFB] text-[#14120e] flex items-center justify-between border-t border-black/10">
+                <div className="p-4 sm:p-6 bg-[#FFFCFB] text-[#14120e] flex items-center justify-between border-t border-black/10">
                   <h3 
                     style={{ fontFamily: "'Talina', sans-serif", fontWeight: 300 }}
-                    className="text-xl sm:text-2xl text-[#144BFF]"
+                    className="text-lg sm:text-2xl text-[#144BFF]"
                   >
                     {selectedVideo.title}
                   </h3>
                   {selectedVideo.brand && (
                     <span 
                       style={{ fontFamily: "'HelveticaNeue', sans-serif", letterSpacing: '-0.3px', fontWeight: 300 }}
-                      className="text-xs uppercase text-[#554f46] bg-[#f0eae1] px-3 py-1 rounded-sm border border-black/10"
+                      className="text-[10px] sm:text-xs uppercase text-[#554f46] bg-[#f0eae1] px-2.5 py-1 rounded-sm border border-black/10"
                     >
                       {selectedVideo.brand}
                     </span>

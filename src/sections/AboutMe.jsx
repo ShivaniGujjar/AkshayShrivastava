@@ -65,7 +65,7 @@ export default function AboutMe() {
   }, []);
 
   return (
-    <div className="w-full min-h-screen bg-[#FFFCFB] relative overflow-x-hidden pb-0 m-0 text-[#14120e]">
+    <div className="w-full min-h-screen bg-[#FFFCFB] relative overflow-x-hidden pb-32 sm:pb-40 m-0 text-[#14120e]">
       
       {/* 🎞️ SUBTLE CINEMATIC GRAIN OVERLAY */}
       <div 
@@ -113,14 +113,14 @@ export default function AboutMe() {
       `}</style>
 
       {/* 🎬 HERO BANNER */}
-      <div className="relative w-full h-screen bg-[#14120e] flex flex-col justify-center items-center overflow-hidden m-0 p-0 editing-cutout-mask"> 
+      <div className="relative w-full h-[60vh] sm:h-screen bg-[#14120e] flex flex-col justify-center items-center overflow-hidden m-0 p-0 editing-cutout-mask"> 
         <video 
           ref={heroVideoRef}
           autoPlay 
           loop 
           muted={isMuted} 
           playsInline 
-          className="absolute top-0 left-0 w-full h-screen object-cover z-0 filter brightness-[0.55] contrast-105"
+          className="absolute top-0 left-0 w-full h-full object-cover z-0 filter brightness-[0.55] contrast-105"
         >
           <source src="https://res.cloudinary.com/n1mfkfh4/video/upload/v1785678044/After_effects_compressed_jxplaf.mp4" />
         </video>
@@ -130,7 +130,7 @@ export default function AboutMe() {
         {/* 🔊 MINIMAL SOUND TOGGLE BUTTON */}
         <button
           onClick={toggleAudio}
-          className="absolute bottom-10 left-8 z-30 flex items-center justify-center w-12 h-12 bg-black/60 hover:bg-[#144BFF] backdrop-blur-md text-[#FFFFFF] border border-white/20 rounded-full transition-all duration-300 shadow-xl group cursor-pointer hover:scale-110"
+          className="absolute bottom-16 left-6 sm:bottom-28 sm:left-10 z-30 flex items-center justify-center w-9 h-9 sm:w-11 sm:h-11 bg-black/60 hover:bg-[#144BFF] backdrop-blur-md text-[#FFFFFF] border border-white/20 rounded-full transition-all duration-300 shadow-xl group cursor-pointer hover:scale-110"
           aria-label="Toggle Sound"
         >
           {isMuted ? (
@@ -146,15 +146,15 @@ export default function AboutMe() {
 
         <div className="relative z-10 flex flex-col justify-center items-center px-4">
           <h1 
-            style={{ fontFamily: "'Talina', sans-serif", letterSpacing: '-1.2px', fontWeight: 300 }}
-            className="text-[2.5rem] sm:text-[3.8rem] md:text-[4.2rem] font-light text-[#ffffff] m-0 text-center leading-none"
+            style={{ fontFamily: "'Talina', sans-serif", letterSpacing: '-0.5px', fontWeight: 300 }}
+            className="text-[2.5rem] sm:text-[4.2rem] font-light text-[#ffffff] m-0 text-center leading-none"
           >
             About Me
           </h1>
 
           <p 
             style={{ fontFamily: "'HelveticaNeue', sans-serif", fontWeight: 800, letterSpacing: '-1px' }}
-            className="flex items-center justify-center gap-1.5 sm:gap-2 mt-4 text-[#144BFF] text-xs sm:text-sm md:text-base uppercase tracking-widest text-center drop-shadow-[0_2px_10px_rgba(0,0,0,0.95)]"
+            className="flex items-center justify-center gap-1.5 sm:gap-2 mt-3 sm:mt-4 text-[#144BFF] text-[10px] sm:text-base uppercase tracking-widest text-center drop-shadow-[0_2px_10px_rgba(0,0,0,0.95)]"
           >
             <span>BIOGRAPHY</span> 
             <span className="text-[#FFC822] mx-1">•</span> 
@@ -168,23 +168,21 @@ export default function AboutMe() {
       {/* 🏛️ CORE SHOWCASE CANVAS BODY */}
       <div 
         ref={bioSectionRef} 
-        className="max-w-[950px] w-full mx-auto pt-16 sm:pt-24 pb-12 px-6 flex flex-col items-center text-center relative z-20"
+        className="max-w-[950px] w-full mx-auto pt-10 sm:pt-16 pb-12 px-4 sm:px-6 flex flex-col items-center text-center relative z-20"
       >
-        
-
         <h2 
           ref={nameRef}
-          style={{ fontFamily: "'Talina', sans-serif", letterSpacing: '-2px', fontWeight: 400 }}
-          className="w-full text-center text-[#144BFF] text-5xl sm:text-6xl md:text-[4.8rem] leading-[1.05] mb-8"
+          style={{ fontFamily: "'Talina', sans-serif", letterSpacing: '-1px', fontWeight: 400 }}
+          className="w-full text-center text-[#144BFF] text-3xl sm:text-5xl md:text-[4.2rem] leading-[1.1] mb-6 sm:mb-8"
         >
           Akshay{' '}
-          <span className="text-[#14120e] ml-3 sm:ml-4">Shrivastava</span>
+          <span className="text-[#14120e] ml-2 sm:ml-4">Shrivastava</span>
         </h2>
         
         <div 
           ref={cardRef}
           style={{ fontFamily: "'HelveticaNeue', sans-serif", letterSpacing: '-0.2px', fontWeight: 300 }}
-          className="bg-white/80 backdrop-blur-md p-6 sm:p-10 rounded-3xl border border-black/10 shadow-xl text-[#14120e] text-base sm:text-xl md:text-2xl leading-relaxed font-light space-y-6 w-full mb-16 relative z-10 text-left"
+          className="bg-white/80 backdrop-blur-md p-5 sm:p-10 rounded-3xl border border-black/10 shadow-xl text-[#14120e] text-xs sm:text-xl md:text-2xl leading-relaxed font-light space-y-4 sm:space-y-6 w-full mb-10 sm:mb-16 relative z-10 text-left"
         >
           <p className="m-0">
             I am a video editor, motion designer, and creative director obsessed with high-retention storytelling and high-fidelity visuals.
@@ -199,7 +197,7 @@ export default function AboutMe() {
       </div>
 
       {/* 🚀 SOCIAL PROOF */}
-      <div className="m-0 p-0 mb-28 sm:mb-36">
+      <div className="m-0 p-0 mb-20 sm:mb-36">
         <SocialProof />
       </div>
 

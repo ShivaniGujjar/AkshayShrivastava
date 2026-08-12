@@ -75,9 +75,9 @@ export default function SocialProof({ brands = DEFAULT_BRANDS, testimonials = DE
       <div className="w-full relative overflow-hidden mb-10 text-center">
         
         {/* Section Heading - TALINA */}
-        <div className="inline-flex flex-col items-center mb-4">
+        <div className="inline-flex flex-col items-center mb-4 px-4">
           <h3 
-            style={{ fontFamily: "'Talina', sans-serif", letterSpacing: '-1.2px', fontWeight: 400 }}
+            style={{ fontFamily: "'Talina', sans-serif", letterSpacing: '0.4px', fontWeight: 400 }}
             className="text-2xl sm:text-4xl m-0 text-[#144BFF] leading-tight"
           >
             Worked With
@@ -123,14 +123,14 @@ export default function SocialProof({ brands = DEFAULT_BRANDS, testimonials = DE
         {/* Header */}
         <div className="relative z-[15] text-center mb-6 px-4 pt-1">
           <h2 
-            style={{ fontFamily: "'Talina', sans-serif", letterSpacing: '-0.8px', fontWeight: 400 }}
+            style={{ fontFamily: "'Talina', sans-serif", letterSpacing: '0.4px', fontWeight: 400 }}
             className="text-2xl sm:text-4xl m-0 text-[#FFFFFF] leading-tight drop-shadow-md"
           >
             Testimonial
           </h2>
           <p 
-            style={{ fontFamily: "'HelveticaNeue', sans-serif", letterSpacing: '-0.5px', fontWeight: 600 }} 
-            className="text-[#FFFFFF]/95 text-[11px] sm:text-sm mt-1"
+            style={{ fontFamily: "'HelveticaNeue', sans-serif", letterSpacing: '0.3px', fontWeight: 600 }} 
+            className="text-[#FFFFFF]/95 text-xs sm:text-sm mt-1"
           >
             What clients say about my work
           </p>
@@ -150,8 +150,8 @@ export default function SocialProof({ brands = DEFAULT_BRANDS, testimonials = DE
                 </span>
 
                 <p 
-                  style={{ fontFamily: "'HelveticaNeue', sans-serif", letterSpacing: '-0.2px', fontWeight: 300 }}
-                  className="text-[#14120e] text-[11px] sm:text-sm leading-relaxed m-0 relative z-10"
+                  style={{ fontFamily: "'HelveticaNeue', sans-serif", letterSpacing: '0.2px', fontWeight: 300 }}
+                  className="text-[#14120e] text-xs sm:text-sm leading-relaxed m-0 relative z-10"
                 >
                   "{testi.quote}"
                 </p>
@@ -159,15 +159,15 @@ export default function SocialProof({ brands = DEFAULT_BRANDS, testimonials = DE
                 <div className="mt-3 pt-2.5 border-t border-black/10 flex items-center justify-between">
                   <div>
                     <p 
-                      style={{ fontFamily: "'Talina', sans-serif", letterSpacing: '0.3px', fontWeight: 400 }} 
-                      className="text-[#144BFF] text-[10px] sm:text-xs uppercase m-0"
+                      style={{ fontFamily: "'Talina', sans-serif", letterSpacing: '0.4px', fontWeight: 400 }} 
+                      className="text-[#144BFF] text-[11px] sm:text-xs uppercase m-0"
                     >
                       — {testi.client}
                     </p>
                     {testi.company && (
                       <p 
                         style={{ fontFamily: "'HelveticaNeue', sans-serif", letterSpacing: '0.3px', fontWeight: 300 }} 
-                        className="text-neutral-500 text-[9px] sm:text-[10px] uppercase mt-0.5 m-0"
+                        className="text-neutral-500 text-[10px] sm:text-[10px] uppercase mt-0.5 m-0"
                       >
                         {testi.company}
                       </p>
