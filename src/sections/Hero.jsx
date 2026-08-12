@@ -140,6 +140,9 @@ export default function Hero({ onColumnClick }) {
       {/* 🎬 GLOBAL CORNER VIGNETTE SHADOW */}
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_transparent_45%,_rgba(0,0,0,0.85)_100%)] pointer-events-none z-[12]" />
 
+      {/* 🎞️ ORIGINAL NOISE GIF OVERLAY (Properly blended so videos don't get washed out) */}
+      <div className="absolute inset-0 bg-[url('/noise.gif')] bg-repeat opacity-[0.08] pointer-events-none z-[16] mix-blend-overlay" />
+
       {/* 📌 STATIC FIXED NAVBAR */}
       <header className="absolute top-3 left-0 w-full box-border z-[30] px-4 sm:px-8 md:px-12 pointer-events-none flex items-center justify-between">
         
@@ -171,7 +174,7 @@ export default function Hero({ onColumnClick }) {
           ))}
         </div>
 
-        {/* RIGHT: CONNECT BUTTON (Matched size with footer: h-10 sm:h-11) */}
+        {/* RIGHT: CONNECT BUTTON */}
         <div className="pointer-events-auto">
           <a
             href="https://www.instagram.com/akshay__shri/?hl=en"
@@ -217,8 +220,7 @@ export default function Hero({ onColumnClick }) {
                 />
 
                 <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/25 to-transparent pointer-events-none z-10 transition-opacity duration-500 group-hover:opacity-60" />
-                <div className="absolute inset-0 bg-[url('/noise.gif')] bg-repeat opacity-[0.05] pointer-events-none z-15 mix-blend-overlay" />
-
+                
                 <div className={`absolute inset-x-0 top-[58%] z-20 flex flex-col items-center justify-start text-center pointer-events-none mx-auto max-w-[95%] px-2 ${index === 0 ? '-translate-x-3' : ''}`}>
                   <h1 
                     style={{ 

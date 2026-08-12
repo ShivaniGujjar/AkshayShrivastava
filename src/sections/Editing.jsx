@@ -11,26 +11,26 @@ if (typeof window !== 'undefined') {
 
 // 🎬 REAL SHOWCASE DATA
 const LONG_FORMS = [
-  { id: 'lf1', title: '1', category: 'Podcast', videoUrl: '../EditingLong1.mp4', poster: 'https://images.unsplash.com/photo-1590602847861-f357a9332bbc?w=600' },
-  { id: 'lf2', title: '2', category: 'Edutainment', videoUrl: '../EditingLong2.mp4', poster: 'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=600' },
-  { id: 'lf3', title: '3', category: 'Documentary', videoUrl: '../EditingLong3.mp4', poster: 'https://images.unsplash.com/photo-1536240478700-b869070f9279?w=600' },
-  { id: 'lf4', title: 'Talking Head Masterclass', category: 'Vlog', videoUrl: '../EditingLong4.mp4', poster: 'https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?w=600' },
-  { id: 'lf5', title: 'Talking Head Masterclass', category: 'Vlog', videoUrl: '../EditingLong5.mp4', poster: 'https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?w=600' },
-  { id: 'lf6', title: 'Talking Head Masterclass', category: 'Vlog', videoUrl: '../EditingLong6.mp4', poster: 'https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?w=600' },
+  { id: 'lf1', title: '1', category: 'Podcast', videoUrl: './EditingLong1.mp4', poster: 'https://images.unsplash.com/photo-1590602847861-f357a9332bbc?w=600' },
+  { id: 'lf2', title: '2', category: 'Edutainment', videoUrl: './EditingLong2.mp4', poster: 'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=600' },
+  { id: 'lf3', title: '3', category: 'Documentary', videoUrl: './EditingLong3.mp4', poster: 'https://images.unsplash.com/photo-1536240478700-b869070f9279?w=600' },
+  { id: 'lf4', title: 'Talking Head Masterclass', category: 'Vlog', videoUrl: './EditingLong4.mp4', poster: 'https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?w=600' },
+  { id: 'lf5', title: 'Talking Head Masterclass', category: 'Vlog', videoUrl: './EditingLong5.mp4', poster: 'https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?w=600' },
+  { id: 'lf6', title: 'Talking Head Masterclass', category: 'Vlog', videoUrl: './EditingLong6.mp4', poster: 'https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?w=600' },
 ];
 
 const SHORT_FORMS_ROW1 = [
-  { id: 'sf1', title: 'UGC Retention Hook', brand: 'Waywen', videoUrl: '../EditingShort1.mp4', poster: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=600' },
-  { id: 'sf2', title: '3D Product Reel', brand: "Master's Union", videoUrl: '../EditingShort2.mp4', poster: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=600' },
-  { id: 'sf3', title: 'Viral Podcast Clip', brand: 'Edutainment', videoUrl: '../EditingShort3.mp4', poster: 'https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=600' },
-  { id: 'sf4', title: 'App Promo Reel', brand: 'Media Hub', videoUrl: '../EditingShort4.mp4', poster: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=600' },
+  { id: 'sf1', title: 'UGC Retention Hook', brand: 'Waywen', videoUrl: './EditingShort1.mp4', poster: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=600' },
+  { id: 'sf2', title: '3D Product Reel', brand: "Master's Union", videoUrl: './EditingShort2.mp4', poster: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=600' },
+  { id: 'sf3', title: 'Viral Podcast Clip', brand: 'Edutainment', videoUrl: './EditingShort3.mp4', poster: 'https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=600' },
+  { id: 'sf4', title: 'App Promo Reel', brand: 'Media Hub', videoUrl: './EditingShort4.mp4', poster: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=600' },
 ];
 
 const SHORT_FORMS_ROW2 = [
-  { id: 'sf5', title: 'Brand Story Reel', brand: 'Kolkata Media', videoUrl: '../EditingShort5.mp4', poster: 'https://images.unsplash.com/photo-1579783902614-a3fb3927b675?w=600' },
-  { id: 'sf6', title: 'High-Retention Ad', brand: 'SaaS Launch', videoUrl: '../EditingShort6.mp4', poster: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=600' },
-  { id: 'sf7', title: 'Fashion Motion Edit', brand: 'Studio Luxe', videoUrl: '../EditingShort7.mp4', poster: 'https://images.unsplash.com/photo-1509631179647-0177331693ae?w=600' },
-  { id: 'sf8', title: 'Fitness Campaign', brand: 'Fit Tribe', videoUrl: '../EditingShort8.mp4', poster: 'https://images.unsplash.com/photo-1517838277536-f5f99be501cd?w=600' },
+  { id: 'sf5', title: 'Brand Story Reel', brand: 'Kolkata Media', videoUrl: './EditingShort5.mp4', poster: 'https://images.unsplash.com/photo-1579783902614-a3fb3927b675?w=600' },
+  { id: 'sf6', title: 'High-Retention Ad', brand: 'SaaS Launch', videoUrl: './EditingShort6.mp4', poster: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=600' },
+  { id: 'sf7', title: 'Fashion Motion Edit', brand: 'Studio Luxe', videoUrl: './EditingShort7.mp4', poster: 'https://images.unsplash.com/photo-1509631179647-0177331693ae?w=600' },
+  { id: 'sf8', title: 'Fitness Campaign', brand: 'Fit Tribe', videoUrl: './EditingShort8.mp4', poster: 'https://images.unsplash.com/photo-1517838277536-f5f99be501cd?w=600' },
 ];
 
 const duplicateList = (arr, count = 4) => {
@@ -83,15 +83,15 @@ function VideoCard({ item, aspectRatio = "wide", hoveredId, setHoveredId }) {
   }, [isVisible, isHovered, isAnyHovered]);
 
   const cardDimensions = aspectRatio === "wide" 
-    ? "w-[240px] sm:w-[420px] h-[135px] sm:h-[260px]" 
-    : "w-[160px] sm:w-[300px] aspect-[9/16]";
+    ? "w-[280px] sm:w-[420px] h-[160px] sm:h-[260px]" 
+    : "w-[200px] sm:w-[300px] aspect-[9/16]";
 
   return (
     <div 
       ref={cardRef}
       onMouseEnter={() => setHoveredId(item.id)}
       onMouseLeave={() => setHoveredId(null)}
-      className={`relative group rounded-xl overflow-hidden cursor-pointer bg-[#14120e] shadow-xl transition-all duration-500 ease-out hover:scale-[1.03] ${cardDimensions} shrink-0 outline-none focus:outline-none select-none border border-black/10`}
+      className={`relative group rounded-2xl overflow-hidden cursor-pointer bg-[#14120e] shadow-xl transition-all duration-500 ease-out hover:scale-[1.03] ${cardDimensions} shrink-0 outline-none focus:outline-none select-none border border-black/10`}
     >
       <video
         ref={videoRef}
@@ -109,31 +109,31 @@ function VideoCard({ item, aspectRatio = "wide", hoveredId, setHoveredId }) {
       {item.category && (
         <div 
           style={{ fontFamily: "'Talina', sans-serif", letterSpacing: '-0.3px', fontWeight: 300 }}
-          className="absolute top-2.5 left-2.5 sm:top-4 sm:left-4 bg-[#144BFF] backdrop-blur-md px-2 sm:px-3 py-0.5 sm:py-1 rounded-sm text-[#FFFFFF] text-[9px] sm:text-xs uppercase shadow-sm"
+          className="absolute top-3 left-3 sm:top-4 sm:left-4 bg-[#144BFF] backdrop-blur-md px-2.5 sm:px-3 py-0.5 sm:py-1 rounded-sm text-[#FFFFFF] text-[10px] sm:text-xs uppercase shadow-sm"
         >
           {item.category}
         </div>
       )}
 
-      <div className={`absolute top-2.5 right-2.5 sm:top-4 sm:right-4 w-6 h-6 sm:w-9 sm:h-9 rounded-sm backdrop-blur-md flex items-center justify-center transition-all duration-300 ${isHovered ? 'scale-110 bg-[#144BFF] text-[#FFFFFF] shadow-[0_0_15px_#144BFF]' : 'bg-black/40 text-[#FFFFFF]'}`}>
+      <div className={`absolute top-3 right-3 sm:top-4 sm:right-4 w-7 h-7 sm:w-9 sm:h-9 rounded-sm backdrop-blur-md flex items-center justify-center transition-all duration-300 ${isHovered ? 'scale-110 bg-[#144BFF] text-[#FFFFFF] shadow-[0_0_15px_#144BFF]' : 'bg-black/40 text-[#FFFFFF]'}`}>
         {isHovered ? (
-          <span className="w-1.5 h-1.5 sm:w-2.5 sm:h-2.5 bg-[#FFFFFF] rounded-xs animate-pulse" />
+          <span className="w-2 h-2 sm:w-2.5 sm:h-2.5 bg-[#FFFFFF] rounded-xs animate-pulse" />
         ) : (
-          <svg className="w-3 h-3 sm:w-4 sm:h-4 fill-current ml-0.5" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+          <svg className="w-3.5 h-3.5 sm:w-4 sm:h-4 fill-current ml-0.5" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
         )}
       </div>
 
-      <div className="absolute bottom-0 left-0 right-0 p-3 sm:p-6 transform transition-transform duration-300 group-hover:translate-y-0">
+      <div className="absolute bottom-0 left-0 right-0 p-4 sm:p-6 transform transition-transform duration-300 group-hover:translate-y-0">
         <h4 
           style={{ fontFamily: "'Talina', sans-serif", fontWeight: 300 }}
-          className="text-[#FFFFFF] text-sm sm:text-2xl leading-snug drop-shadow-md mb-0.5 sm:mb-1"
+          className="text-[#FFFFFF] text-lg sm:text-2xl leading-snug drop-shadow-md mb-1"
         >
           {item.title}
         </h4>
         {item.brand && (
           <p 
             style={{ fontFamily: "'HelveticaNeue', sans-serif", letterSpacing: '-0.3px', fontWeight: 300 }}
-            className="text-[#144BFF] text-[9px] sm:text-xs uppercase bg-black/60 px-2 py-0.5 rounded-xs inline-block"
+            className="text-[#144BFF] text-[10px] sm:text-xs uppercase bg-black/60 px-2 py-0.5 sm:px-2.5 sm:py-1 rounded-xs inline-block"
           >
             {item.brand}
           </p>
@@ -175,8 +175,8 @@ export default function Editing() {
     const ctx = gsap.context(() => {
       gsap.fromTo(paragraphRef.current, {
         opacity: 0,
-        y: 80,
-        scale: 0.95,
+        y: 120,
+        scale: 0.9,
       }, {
         opacity: 1,
         y: 0,
@@ -194,6 +194,7 @@ export default function Editing() {
     return () => ctx.revert();
   }, []);
 
+  // Check if selected video is from short forms
   const isShortForm = selectedVideo && (
     SHORT_FORMS_ROW1.some(s => s.id === selectedVideo.id) || 
     SHORT_FORMS_ROW2.some(s => s.id === selectedVideo.id)
@@ -202,12 +203,10 @@ export default function Editing() {
   return (
     <div className="w-full min-h-screen bg-[#FFFCFB] relative overflow-x-hidden pb-32 sm:pb-40 m-0 text-[#14120e]">
       
-      {/* 🎞️ GRAIN OVERLAY */}
+      {/* 🎞️ NOISE GIF OVERLAY FOR LIGHT BACKGROUND (Using mix-blend-multiply for dark grain) */}
       <div 
-        className="fixed inset-0 pointer-events-none z-[999] opacity-[0.04]"
-        style={{
-          backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")`,
-        }}
+        className="fixed inset-0 pointer-events-none z-[999] bg-[url('/noise.gif')] bg-repeat"
+        style={{ opacity: 0.05, mixBlendMode: 'multiply' }}
       />
 
       <style>{`
@@ -247,8 +246,8 @@ export default function Editing() {
         }
       `}</style>
 
-      {/* HERO BANNER (Reduced height on mobile: h-[45vh]) */}
-      <div className="relative w-full h-[45vh] sm:h-screen bg-[#14120e] flex flex-col justify-center items-center overflow-hidden m-0 p-0 editing-cutout-mask"> 
+      {/* HERO BANNER */}
+      <div className="relative w-full h-[60vh] sm:h-screen bg-[#14120e] flex flex-col justify-center items-center overflow-hidden m-0 p-0 editing-cutout-mask"> 
         <video 
           ref={heroVideoRef}
           src="https://res.cloudinary.com/n1mfkfh4/video/upload/v1785678593/Campus_film_compressed_2_otok6t.mp4" 
@@ -262,7 +261,7 @@ export default function Editing() {
         {/* 🔊 SOUND TOGGLE BUTTON */}
         <button
           onClick={toggleHeroSound}
-          className="absolute bottom-12 left-4 sm:bottom-28 sm:left-10 z-20 w-8 h-8 sm:w-11 sm:h-11 rounded-full bg-black/60 hover:bg-black/80 backdrop-blur-md border border-white/10 flex items-center justify-center text-[#FFC822] hover:scale-110 transition-all duration-300 shadow-xl cursor-pointer group"
+          className="absolute bottom-6 left-4 sm:bottom-12 sm:left-10 z-20 w-8 h-8 sm:w-11 sm:h-11 rounded-full bg-black/60 hover:bg-black/80 backdrop-blur-md border border-white/10 flex items-center justify-center text-[#FFC822] hover:scale-110 transition-all duration-300 shadow-xl cursor-pointer group"
           title={isHeroMuted ? "Unmute Sound" : "Mute Sound"}
         >
           {isHeroMuted ? (
@@ -285,14 +284,14 @@ export default function Editing() {
               letterSpacing: '-0.5px', 
               fontWeight: 300 
             }}
-            className="text-[2rem] sm:text-[4.2rem] text-[#ffffff] m-0 text-center leading-none"
+            className="text-[2.5rem] sm:text-[4.2rem] text-[#ffffff] m-0 text-center leading-none"
           >
             Editing Work
           </h1>
           
           <p 
             style={{ fontFamily: "'HelveticaNeue', sans-serif", fontWeight: 800, letterSpacing : '-1px' }}
-            className="flex items-center justify-center gap-1.5 sm:gap-2 mt-2 sm:mt-4 text-[#144BFF] text-[9px] sm:text-base uppercase tracking-widest text-center drop-shadow-[0_2px_10px_rgba(0,0,0,0.95)]"
+            className="flex items-center justify-center gap-1.5 sm:gap-2 mt-3 sm:mt-4 text-[#144BFF] text-[10px] sm:text-base uppercase tracking-widest text-center drop-shadow-[0_2px_10px_rgba(0,0,0,0.95)]"
           >
             <span>Post - Production</span> 
             <span className="text-[#FFC822] mx-1">•</span> 
@@ -304,7 +303,7 @@ export default function Editing() {
       </div>
 
       {/* HEADER & FEATURED MASTERPIECE SECTION */}
-      <div ref={featuredSectionRef} className="w-full mx-auto pt-8 sm:pt-16 pb-6 px-4 flex flex-col items-center relative z-20 text-center overflow-hidden">
+      <div ref={featuredSectionRef} className="w-full mx-auto pt-10 sm:pt-16 pb-6 px-4 flex flex-col items-center relative z-20 text-center overflow-hidden">
         
         <div className="inline-flex flex-col items-center z-20 px-4">
           <h2 
@@ -313,53 +312,53 @@ export default function Editing() {
               letterSpacing:'-0.5px', 
               fontWeight: 400 
             }}
-            className="text-xl sm:text-4xl m-0 text-[#144BFF] leading-tight"
+            className="text-2xl sm:text-4xl m-0 text-[#144BFF] leading-tight"
           >
             Welcome To Editing Section
           </h2>
         </div>
 
-        <div ref={paragraphRef} className="relative z-10 mt-2.5 mb-5 max-w-[700px] px-4">
+        <div ref={paragraphRef} className="relative z-10 mt-3 mb-6 max-w-[700px] px-4">
           <p 
             style={{ 
               fontFamily: "'HelveticaNeue', sans-serif", 
               fontWeight: 600,
               letterSpacing : '-1px'
             }}
-            className="text-[#14120e] text-[11px] sm:text-lg leading-relaxed text-center font-light tracking-wide"
+            className="text-[#14120e] text-xs sm:text-lg leading-relaxed text-center font-light tracking-wide"
           >
             I have worked with multiple startups and influencers on various kind of edit like UGC ads
           </p>
         </div>
 
-        {/* 🍿 FULL WIDE FEATURED MASTERPIECE */}
-        <div className="max-w-[1100px] w-full px-3 sm:px-6 mb-8 relative z-20">
+        {/* 🍿 FULL WIDE FEATURED MASTERPIECE - DEFAULT MUTED */}
+        <div className="max-w-[1100px] w-full px-2 sm:px-6 mb-10 relative z-20">
           <CustomVideoPlayer 
             src="https://res.cloudinary.com/n1mfkfh4/video/upload/v1785678593/Campus_film_compressed_2_otok6t.mp4"
             badgeText="Featured Masterpiece"
-            className="w-full aspect-video rounded-xl overflow-hidden shadow-2xl border border-black/10"
+            className="w-full aspect-video rounded-2xl overflow-hidden shadow-2xl border border-black/10"
             muted={true}
           />
         </div>
       </div>
 
       {/* LONG FORMS */}
-      <div className="w-full max-w-full relative overflow-hidden my-6 sm:my-16">
-        <div className="max-w-[1100px] w-full mx-auto px-6 flex flex-col items-center text-center mb-5">
+      <div className="w-full max-w-full relative overflow-hidden my-8 sm:my-16">
+        <div className="max-w-[1100px] w-full mx-auto px-6 flex flex-col items-center text-center mb-6">
           <h3 
             style={{ 
               fontFamily: "'Talina', sans-serif", 
               letterSpacing : '-1px',
               fontWeight: 400 
             }}
-            className="text-xl sm:text-4xl m-0 text-[#144BFF] leading-tight"
+            className="text-2xl sm:text-4xl m-0 text-[#144BFF] leading-tight"
           >
             Long Forms
           </h3>
 
           <div 
             style={{ fontFamily: "'HelveticaNeue', sans-serif", letterSpacing: '-1px', fontWeight: 600 }}
-            className="flex items-center justify-center gap-1.5 sm:gap-2.5 mt-2.5 text-[#14120e] text-[9px] sm:text-base uppercase tracking-wider text-center"
+            className="flex items-center justify-center gap-1.5 sm:gap-2.5 mt-3 text-[#14120e] text-[10px] sm:text-base uppercase tracking-wider text-center"
           >
             <span>PODCASTS</span>
             <span className="text-[#FFC822] text-xs sm:text-lg">•</span>
@@ -372,7 +371,7 @@ export default function Editing() {
         </div>
 
         <div className="w-full max-w-full overflow-hidden pt-2 pb-4 group">
-          <div className="inline-flex whitespace-nowrap gap-3 sm:gap-10 w-max will-change-transform animate-[slowMarqueeLeft_85s_linear_infinite] group-hover:[animation-play-state:paused]">
+          <div className="inline-flex whitespace-nowrap gap-4 sm:gap-10 w-max will-change-transform animate-[slowMarqueeLeft_85s_linear_infinite] group-hover:[animation-play-state:paused]">
             {duplicateList(LONG_FORMS).map((item, idx) => (
               <div key={`long-${idx}`} onClick={() => setSelectedVideo(item)}>
                 <VideoCard 
@@ -388,22 +387,22 @@ export default function Editing() {
       </div>
 
       {/* SHORT FORMS */}
-      <div className="w-full max-w-full relative overflow-hidden my-6 sm:my-20">
-        <div className="max-w-[1100px] w-full mx-auto px-6 flex flex-col items-center text-center mb-5">
+      <div className="w-full max-w-full relative overflow-hidden my-8 sm:my-20">
+        <div className="max-w-[1100px] w-full mx-auto px-6 flex flex-col items-center text-center mb-6">
           <h3 
             style={{ 
               fontFamily: "'Talina', sans-serif", 
               letterSpacing : '-1px',
               fontWeight: 400 
             }}
-            className="text-xl sm:text-4xl m-0 text-[#144BFF] leading-tight"
+            className="text-2xl sm:text-4xl m-0 text-[#144BFF] leading-tight"
           >
             Short Forms
           </h3>
 
           <div 
             style={{ fontFamily: "'HelveticaNeue', sans-serif", letterSpacing: '-1px', fontWeight: 600 }}
-            className="flex items-center justify-center gap-1.5 sm:gap-2.5 mt-2.5 text-[#14120e] text-[9px] sm:text-base uppercase tracking-wider text-center"
+            className="flex items-center justify-center gap-1.5 sm:gap-2.5 mt-3 text-[#14120e] text-[10px] sm:text-base uppercase tracking-wider text-center"
           >
             <span>UGC ADS</span>
             <span className="text-[#FFC822] text-xs sm:text-lg">•</span>
@@ -415,8 +414,8 @@ export default function Editing() {
           </div>
         </div>
         
-        <div className="w-full max-w-full overflow-hidden pt-2 pb-3 mb-3 sm:mb-8 group">
-          <div className="inline-flex whitespace-nowrap gap-3 sm:gap-10 w-max will-change-transform animate-[slowMarqueeLeft_85s_linear_infinite] group-hover:[animation-play-state:paused]">
+        <div className="w-full max-w-full overflow-hidden pt-2 pb-4 mb-4 sm:mb-8 group">
+          <div className="inline-flex whitespace-nowrap gap-4 sm:gap-10 w-max will-change-transform animate-[slowMarqueeLeft_85s_linear_infinite] group-hover:[animation-play-state:paused]">
             {duplicateList(SHORT_FORMS_ROW1).map((item, idx) => (
               <div key={`short1-${idx}`} onClick={() => setSelectedVideo(item)}>
                 <VideoCard 
@@ -431,7 +430,7 @@ export default function Editing() {
         </div>
 
         <div className="w-full max-w-full overflow-hidden py-2 group">
-          <div className="inline-flex whitespace-nowrap gap-3 sm:gap-10 w-max will-change-transform animate-[slowMarqueeRight_85s_linear_infinite] group-hover:[animation-play-state:paused]">
+          <div className="inline-flex whitespace-nowrap gap-4 sm:gap-10 w-max will-change-transform animate-[slowMarqueeRight_85s_linear_infinite] group-hover:[animation-play-state:paused]">
             {duplicateList(SHORT_FORMS_ROW2).map((item, idx) => (
               <div key={`short2-${idx}`} onClick={() => setSelectedVideo(item)}>
                 <VideoCard 
@@ -447,11 +446,11 @@ export default function Editing() {
       </div>
 
       {/* 🚀 SOCIAL PROOF */}
-      <div className="m-0 p-0 mb-16 sm:mb-36">
+      <div className="m-0 p-0 mb-20 sm:mb-36">
         <SocialProof />
       </div>
 
-      {/* FULLSCREEN PREVIEW */}
+      {/* FULLSCREEN PREVIEW WITH DYNAMIC PLAYER (VERTICAL FOR SHORTS, CUSTOM PLAYER FOR LONGS) */}
       {selectedVideo && (
         <div 
           onClick={() => setSelectedVideo(null)}
@@ -459,11 +458,11 @@ export default function Editing() {
         >
           <div 
             onClick={(e) => e.stopPropagation()}
-            className={`relative w-full ${isShortForm ? 'max-w-[320px] sm:max-w-[380px] aspect-[9/16] rounded-xl bg-black' : 'max-w-5xl rounded-xl bg-[#FFFCFB]'} overflow-hidden shadow-2xl cursor-default flex flex-col`}
+            className={`relative w-full ${isShortForm ? 'max-w-[340px] sm:max-w-[380px] aspect-[9/16] rounded-2xl bg-black' : 'max-w-5xl rounded-xl bg-[#FFFCFB]'} overflow-hidden shadow-2xl cursor-default flex flex-col`}
           >
             <button 
               onClick={() => setSelectedVideo(null)}
-              className={`absolute top-3 right-3 z-[1000] w-9 h-9 rounded-full ${isShortForm ? 'bg-black/60 text-white' : 'bg-[#14120e] text-[#FFFFFF] hover:bg-[#144BFF]'} flex items-center justify-center font-bold text-base transition-all shadow-lg cursor-pointer backdrop-blur-md`}
+              className={`absolute top-4 right-4 z-[1000] w-10 h-10 rounded-full ${isShortForm ? 'bg-black/60 text-white' : 'bg-[#14120e] text-[#FFFFFF] hover:bg-[#144BFF]'} flex items-center justify-center font-bold text-lg transition-all shadow-lg cursor-pointer backdrop-blur-md`}
             >
               ✕
             </button>
