@@ -140,7 +140,7 @@ export default function Hero({ onColumnClick }) {
       {/* 🎬 GLOBAL CORNER VIGNETTE SHADOW */}
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_transparent_45%,_rgba(0,0,0,0.85)_100%)] pointer-events-none z-[12]" />
 
-      {/* 🎞️ NOISE GIF OVERLAY SET TO 0.05 */}
+      {/* 🎞️ NOISE GIF OVERLAY */}
       <div 
         className="absolute inset-0 pointer-events-none z-[16] bg-[url('/noise.gif')] bg-repeat"
         style={{ opacity: 0.05, mixBlendMode: 'overlay' }}
@@ -255,28 +255,26 @@ export default function Hero({ onColumnClick }) {
           <div
             key={col.id}
             onClick={() => onColumnClick && onColumnClick(col.id)}
-            className={`relative w-full h-[26vh] cursor-pointer overflow-hidden shadow-2xl ${index !== 0 ? '-mt-8' : ''}`}
-            style={{ zIndex: 10 - index }}
+            className={`relative w-full h-[25vh] cursor-pointer overflow-hidden shadow-2xl my-[-6px] first:mt-0 ${index < 3 ? 'mobile-torn-svg-mask' : ''}`}
+            style={{ zIndex: 4 - index }}
           >
-            <div className="w-full h-full mobile-torn-svg-mask overflow-hidden absolute inset-0 filter drop-shadow-[0_-4px_8px_rgba(0,0,0,0.8)]">
-              <video
-                ref={(el) => {
-                  mobileVideoRefs.current[index] = el;
-                  if (el) el.play().catch(() => {});
-                }}
-                loop
-                muted
-                playsInline
-                autoPlay
-                preload="auto"
-                src={col.videoUrl}
-                className="absolute inset-0 w-full h-full object-cover brightness-[0.55] contrast-[1.1]"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-black/40 pointer-events-none z-10" />
-            </div>
+            <video
+              ref={(el) => {
+                mobileVideoRefs.current[index] = el;
+                if (el) el.play().catch(() => {});
+              }}
+              loop
+              muted
+              playsInline
+              autoPlay
+              preload="auto"
+              src={col.videoUrl}
+              className="absolute inset-0 w-full h-full object-cover brightness-[0.55] contrast-[1.1]"
+            />
+
+            <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-black/40 pointer-events-none z-10" />
             
-            {/* Content Text */}
-            <div className="absolute inset-0 flex flex-col items-center justify-center text-center z-30 px-4">
+            <div className="absolute inset-0 flex flex-col items-center justify-center text-center z-20 px-4">
               <h1 
                 style={{ fontFamily: "'RoseryStudio', sans-serif" }}
                 className="text-white text-xl uppercase tracking-tight leading-none mb-0.5 drop-shadow-[0_4px_8px_rgba(0,0,0,0.95)]"
@@ -294,6 +292,7 @@ export default function Hero({ onColumnClick }) {
         ))}
       </div>
 
+      {/* 📌 STATIC FIXED FOOTER */}
       {/* 📌 STATIC FIXED FOOTER */}
       <footer className="absolute bottom-0 left-0 w-full box-border z-[30] px-3 sm:px-8 md:px-12 pointer-events-none flex items-end pb-3 sm:pb-10">
         <div className="w-full flex items-center justify-between md:justify-between justify-end relative">
