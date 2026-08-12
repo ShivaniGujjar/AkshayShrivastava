@@ -452,7 +452,7 @@ export default function Editing() {
         <SocialProof />
       </div>
 
-      {/* FULLSCREEN PREVIEW WITH DYNAMIC ASPECT RATIO (VERTICAL FOR SHORTS, LANDSCAPE FOR LONGS) */}
+      {/* FULLSCREEN PREVIEW WITH DYNAMIC PLAYER (VERTICAL FOR SHORTS, CUSTOM PLAYER FOR LONGS) */}
       {selectedVideo && (
         <div 
           onClick={() => setSelectedVideo(null)}
@@ -460,23 +460,55 @@ export default function Editing() {
         >
           <div 
             onClick={(e) => e.stopPropagation()}
-            className={`relative w-full ${isShortForm ? 'max-w-[340px] sm:max-w-[380px] aspect-[9/16] rounded-2xl' : 'max-w-5xl rounded-xl'} bg-black overflow-hidden shadow-2xl cursor-default flex flex-col`}
+            className={`relative w-full ${isShortForm ? 'max-w-[340px] sm:max-w-[380px] aspect-[9/16] rounded-2xl bg-black' : 'max-w-5xl rounded-xl bg-[#FFFCFB]'} overflow-hidden shadow-2xl cursor-default flex flex-col`}
           >
             <button 
               onClick={() => setSelectedVideo(null)}
-              className="absolute top-4 right-4 z-[1000] w-10 h-10 rounded-full bg-black/60 hover:bg-[#144BFF] text-[#FFFFFF] flex items-center justify-center font-bold text-lg transition-all shadow-lg cursor-pointer backdrop-blur-md"
+              className={`absolute top-4 right-4 z-[1000] w-10 h-10 rounded-full ${isShortForm ? 'bg-black/60 text-white' : 'bg-[#14120e] text-[#FFFFFF] hover:bg-[#144BFF]'} flex items-center justify-center font-bold text-lg transition-all shadow-lg cursor-pointer backdrop-blur-md`}
             >
               ✕
             </button>
-            <div className="w-full h-full bg-black flex-1">
-              <CustomVideoPlayer 
-                src={selectedVideo.videoUrl} 
-                badgeText={selectedVideo.category || selectedVideo.brand || "Preview"} 
-                className="w-full h-full"
-                autoPlay={true}
-                muted={false}
-              />
-            </div>
+
+            {isShortForm ? (
+              <div className="w-full h-full bg-black flex-1 relative">
+                <video 
+                  src={selectedVideo.videoUrl} 
+                  controls 
+                  autoPlay 
+                  playsInline 
+                  loop
+                  className="w-full h-full object-cover outline-none" 
+                />
+              </div>
+            ) : (
+              <>
+                <div className="aspect-video w-full bg-black">
+                  <CustomVideoPlayer 
+                    src={selectedVideo.videoUrl} 
+                    badgeText={selectedVideo.category || selectedVideo.brand || "Preview"} 
+                    className="w-full h-full"
+                    autoPlay={true}
+                    muted={false}
+                  />
+                </div>
+                <div className="p-6 bg-[#FFFCFB] text-[#14120e] flex items-center justify-between border-t border-black/10">
+                  <h3 
+                    style={{ fontFamily: "'Talina', sans-serif", fontWeight: 300 }}
+                    className="text-xl sm:text-2xl text-[#144BFF]"
+                  >
+                    {selectedVideo.title}
+                  </h3>
+                  {selectedVideo.brand && (
+                    <span 
+                      style={{ fontFamily: "'HelveticaNeue', sans-serif", letterSpacing: '-0.3px', fontWeight: 300 }}
+                      className="text-xs uppercase text-[#554f46] bg-[#f0eae1] px-3 py-1 rounded-sm border border-black/10"
+                    >
+                      {selectedVideo.brand}
+                    </span>
+                  )}
+                </div>
+              </>
+            )}
           </div>
         </div>
       )}
