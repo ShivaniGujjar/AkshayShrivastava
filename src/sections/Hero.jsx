@@ -140,18 +140,21 @@ export default function Hero({ onColumnClick }) {
       {/* 🎬 GLOBAL CORNER VIGNETTE SHADOW */}
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_transparent_45%,_rgba(0,0,0,0.85)_100%)] pointer-events-none z-[12]" />
 
-      {/* 🎞️ ORIGINAL NOISE GIF OVERLAY (Properly blended so videos don't get washed out) */}
-      <div className="absolute inset-0 bg-[url('/noise.gif')] bg-repeat opacity-[0.08] pointer-events-none z-[16] mix-blend-overlay" />
+      {/* 🎞️ NOISE GIF OVERLAY */}
+      <div 
+        className="absolute inset-0 pointer-events-none z-[16] bg-[url('/noise.gif')] bg-repeat"
+        style={{ opacity: 0.05, mixBlendMode: 'overlay' }}
+      />
 
       {/* 📌 STATIC FIXED NAVBAR */}
-      <header className="absolute top-3 left-0 w-full box-border z-[30] px-4 sm:px-8 md:px-12 pointer-events-none flex items-center justify-between">
+      <header className="fixed top-3 left-0 w-screen max-w-full box-border z-[9999] px-4 sm:px-8 md:px-12 pointer-events-none transition-all duration-400 ease-out flex items-center justify-between">
         
-        {/* LEFT: NAME LOGO */}
+        {/* LEFT: NAME LOGO (Slightly larger size) */}
         <div 
           onClick={() => onColumnClick && onColumnClick('home')}
           className="pointer-events-auto flex items-center gap-1.5 select-none cursor-pointer group"
         >
-          <span className="font-gourmet text-[#FFC822] text-xs sm:text-xl tracking-wide transition-colors duration-200 capitalize">
+          <span className="font-gourmet text-[#FFC822] text-sm sm:text-2xl tracking-wide transition-colors duration-200 capitalize">
             Akshay shrivastav
           </span>
           <span className="w-1.5 h-1.5 rounded-full bg-[#FFFFFF] inline-block mb-0.5 animate-pulse" />
@@ -174,15 +177,15 @@ export default function Hero({ onColumnClick }) {
           ))}
         </div>
 
-        {/* RIGHT: CONNECT BUTTON */}
+        {/* RIGHT: CONNECT BUTTON (Instagram Link, Curved Radius, Slightly Bigger) */}
         <div className="pointer-events-auto">
           <a
             href="https://www.instagram.com/akshay__shri/?hl=en"
             target="_blank"
             rel="noopener noreferrer"
-            className="font-gourmet bg-[#0A0B0C] text-[#FFFFFF] hover:text-[#FFC822] border border-white/20 px-4 sm:px-5 h-10 sm:h-11 rounded-lg text-xs sm:text-base flex items-center justify-center gap-1.5 transition-all duration-300 shadow-xl cursor-pointer hover:scale-105 no-underline"
+            className="font-gourmet bg-[#0A0B0C] text-[#FFFFFF] hover:text-[#FFC822] border border-white/20 px-4 sm:px-6 pt-2.5 sm:pt-4 pb-2 sm:pb-3.5 rounded-md text-sm sm:text-lg flex items-center gap-1.5 transition-all duration-300 shadow-xl cursor-pointer hover:scale-105 no-underline"
           >
-            <span className="leading-none pt-0.5">Let's connect ↗</span>
+            <span className="leading-none">Let's connect ↗</span>
           </a>
         </div>
       </header>
@@ -252,28 +255,26 @@ export default function Hero({ onColumnClick }) {
           <div
             key={col.id}
             onClick={() => onColumnClick && onColumnClick(col.id)}
-            className={`relative w-full h-[26vh] cursor-pointer overflow-hidden shadow-2xl ${index !== 0 ? '-mt-8' : ''}`}
-            style={{ zIndex: 10 - index }}
+            className={`relative w-full h-[25vh] cursor-pointer overflow-hidden shadow-2xl my-[-6px] first:mt-0 ${index < 3 ? 'mobile-torn-svg-mask' : ''}`}
+            style={{ zIndex: 4 - index }}
           >
-            <div className="w-full h-full mobile-torn-svg-mask overflow-hidden absolute inset-0">
-              <video
-                ref={(el) => {
-                  mobileVideoRefs.current[index] = el;
-                  if (el) el.play().catch(() => {});
-                }}
-                loop
-                muted
-                playsInline
-                autoPlay
-                preload="auto"
-                src={col.videoUrl}
-                className="absolute inset-0 w-full h-full object-cover brightness-[0.55] contrast-[1.1]"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-black/40 pointer-events-none z-10" />
-            </div>
+            <video
+              ref={(el) => {
+                mobileVideoRefs.current[index] = el;
+                if (el) el.play().catch(() => {});
+              }}
+              loop
+              muted
+              playsInline
+              autoPlay
+              preload="auto"
+              src={col.videoUrl}
+              className="absolute inset-0 w-full h-full object-cover brightness-[0.55] contrast-[1.1]"
+            />
+
+            <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-black/40 pointer-events-none z-10" />
             
-            {/* Content Text */}
-            <div className="absolute inset-0 flex flex-col items-center justify-center text-center z-30 px-4">
+            <div className="absolute inset-0 flex flex-col items-center justify-center text-center z-20 px-4">
               <h1 
                 style={{ fontFamily: "'RoseryStudio', sans-serif" }}
                 className="text-white text-xl uppercase tracking-tight leading-none mb-0.5 drop-shadow-[0_4px_8px_rgba(0,0,0,0.95)]"
@@ -292,19 +293,17 @@ export default function Hero({ onColumnClick }) {
       </div>
 
       {/* 📌 STATIC FIXED FOOTER */}
-      <footer className="absolute bottom-0 left-0 w-full box-border z-[30] px-3 sm:px-8 md:px-12 pointer-events-none flex items-end pb-3 sm:pb-10">
+      <footer className="fixed bottom-0 left-0 w-screen max-w-full box-border z-[9999] px-3 sm:px-8 md:px-12 pointer-events-none flex items-end pb-3 sm:pb-10">
         <div className="w-full flex items-center justify-between relative">
           
-          {/* 🟢 BOTTOM-LEFT: AVAILABLE FOR WORK BADGE */}
-          <div className="font-gourmet pointer-events-auto flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-5 h-10 sm:h-11 rounded-lg bg-[#0a0a0c]/85 text-[#FFC822] border border-white/15 backdrop-blur-md shadow-xl cursor-pointer">
+          <div className="font-gourmet pointer-events-auto flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-5 h-9 sm:h-11 rounded-lg sm:rounded-xl bg-[#0a0a0c]/85 text-[#FFC822] border border-white/15 backdrop-blur-md shadow-xl cursor-pointer">
             <span className="w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full bg-[#FFC822] animate-pulse shadow-[0_0_8px_#FFC822]" />
             <span className="capitalize text-[#FFC822] text-[11px] sm:text-lg leading-none pt-0.5">
               Available for work
             </span>
           </div>
 
-          {/* 🌐 BOTTOM-RIGHT: SOCIAL LINKS CONTAINER */}
-          <div className="flex items-center justify-center bg-[#0a0a0c]/85 border border-white/15 px-2.5 sm:px-4 h-10 sm:h-12 rounded-lg shadow-xl backdrop-blur-md pointer-events-auto gap-2.5 sm:gap-4">
+          <div className="flex items-center justify-center bg-[#0a0a0c]/85 border border-white/15 px-2.5 sm:px-4 h-9 sm:h-12 rounded-lg sm:rounded-xl shadow-xl backdrop-blur-md pointer-events-auto gap-2.5 sm:gap-4">
             {SOCIAL_LINKS.map((social, idx) => (
               <React.Fragment key={social.id}>
                 <a 
