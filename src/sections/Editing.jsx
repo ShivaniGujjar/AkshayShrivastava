@@ -194,6 +194,12 @@ export default function Editing() {
     return () => ctx.revert();
   }, []);
 
+  // Check if selected video is from short forms
+  const isShortForm = selectedVideo && (
+    SHORT_FORMS_ROW1.some(s => s.id === selectedVideo.id) || 
+    SHORT_FORMS_ROW2.some(s => s.id === selectedVideo.id)
+  );
+
   return (
     <div className="w-full min-h-screen bg-[#FFFCFB] relative overflow-x-hidden pb-0 m-0 text-[#14120e]">
       
@@ -287,7 +293,7 @@ export default function Editing() {
           
           <p 
             style={{ fontFamily: "'HelveticaNeue', sans-serif", fontWeight: 800, letterSpacing : '-1px' }}
-            className="flex items-center justify-center gap-1.5 sm:gap-2 mt-4 text-[#144BFF] text-xs sm:text-sm md:text-base uppercase  tracking-widest  text-center drop-shadow-[0_2px_10px_rgba(0,0,0,0.95)]"
+            className="flex items-center justify-center gap-1.5 sm:gap-2 mt-4 text-[#144BFF] text-xs sm:text-sm md:text-base uppercase tracking-widest text-center drop-shadow-[0_2px_10px_rgba(0,0,0,0.95)]"
           >
             <span>Post - Production</span> 
             <span className="text-[#FFC822] mx-1">•</span> 
@@ -446,7 +452,7 @@ export default function Editing() {
         <SocialProof />
       </div>
 
-      {/* FULLSCREEN PREVIEW WITH CUSTOM VIDEO PLAYER - UNMUTED ON CLICK */}
+      {/* FULLSCREEN PREVIEW WITH DYNAMIC ASPECT RATIO (VERTICAL FOR SHORTS, LANDSCAPE FOR LONGS) */}
       {selectedVideo && (
         <div 
           onClick={() => setSelectedVideo(null)}
@@ -454,15 +460,15 @@ export default function Editing() {
         >
           <div 
             onClick={(e) => e.stopPropagation()}
-            className="relative w-full max-w-5xl bg-[#FFFCFB] rounded-xl overflow-hidden shadow-2xl cursor-default"
+            className={`relative w-full ${isShortForm ? 'max-w-[340px] sm:max-w-[380px] aspect-[9/16] rounded-2xl' : 'max-w-5xl rounded-xl'} bg-black overflow-hidden shadow-2xl cursor-default flex flex-col`}
           >
             <button 
               onClick={() => setSelectedVideo(null)}
-              className="absolute top-4 right-4 z-[1000] w-10 h-10 rounded-sm bg-[#14120e] text-[#FFFFFF] hover:bg-[#144BFF] flex items-center justify-center font-bold text-xl transition-all shadow-lg cursor-pointer"
+              className="absolute top-4 right-4 z-[1000] w-10 h-10 rounded-full bg-black/60 hover:bg-[#144BFF] text-[#FFFFFF] flex items-center justify-center font-bold text-lg transition-all shadow-lg cursor-pointer backdrop-blur-md"
             >
               ✕
             </button>
-            <div className="aspect-video w-full bg-black">
+            <div className="w-full h-full bg-black flex-1">
               <CustomVideoPlayer 
                 src={selectedVideo.videoUrl} 
                 badgeText={selectedVideo.category || selectedVideo.brand || "Preview"} 
@@ -470,22 +476,6 @@ export default function Editing() {
                 autoPlay={true}
                 muted={false}
               />
-            </div>
-            <div className="p-6 bg-[#FFFCFB] text-[#14120e] flex items-center justify-between border-t border-black/10">
-              <h3 
-                style={{ fontFamily: "'Talina', sans-serif", fontWeight: 300 }}
-                className="text-xl sm:text-2xl text-[#144BFF]"
-              >
-                {selectedVideo.title}
-              </h3>
-              {selectedVideo.brand && (
-                <span 
-                  style={{ fontFamily: "'HelveticaNeue', sans-serif", letterSpacing: '-0.3px', fontWeight: 300 }}
-                  className="text-xs uppercase text-[#554f46] bg-[#f0eae1] px-3 py-1 rounded-sm border border-black/10"
-                >
-                  {selectedVideo.brand}
-                </span>
-              )}
             </div>
           </div>
         </div>

@@ -3,6 +3,7 @@ import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import SocialProof from '../components/SocialProof';
 import Footer from './Footer';
+import CustomVideoPlayer from '../components/CustomVideoPlayer';
 
 if (typeof window !== 'undefined') {
   gsap.registerPlugin(ScrollTrigger);
@@ -154,7 +155,7 @@ function ScrapbookGallery() {
                   muted 
                   playsInline 
                   preload="metadata"
-                  className="w-full h-full object-cover filter brightness-95 group-hover:brightness-100 transition-all"
+                  className="w-full h-full object-cover filter brightness-95 group-hover:brightness-100 transition-all pointer-events-none"
                 />
                 <span 
                   style={{ fontFamily: "'HelveticaNeue', sans-serif", fontWeight: 300 }}
@@ -180,59 +181,20 @@ function ScrapbookGallery() {
   );
 }
 
-// 📱 SHORT FORM (VERTICAL 9:16) DIRECTION VIDEO CARD
+// 📱 SHORT FORM (VERTICAL 9:16) DIRECTION VIDEO CARD WITH CUSTOM PLAYER
 function DirectionShortCard({ project, isHovered, onHover, onLeave }) {
-  const videoRef = useRef(null);
-  const cardRef = useRef(null);
-  const [isVisible, setIsVisible] = useState(false);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        setIsVisible(entry.isIntersecting);
-      },
-      { threshold: 0.3 }
-    );
-
-    if (cardRef.current) observer.observe(cardRef.current);
-    return () => observer.disconnect();
-  }, []);
-
-  useEffect(() => {
-    if (!videoRef.current) return;
-
-    if (isHovered && isVisible) {
-      videoRef.current.play().catch(() => {});
-    } else if (!isHovered && isVisible) {
-      videoRef.current.play().catch(() => {});
-    } else {
-      videoRef.current.pause();
-    }
-  }, [isVisible, isHovered]);
-
   return (
     <div 
-      ref={cardRef}
       onMouseEnter={onHover}
       onMouseLeave={onLeave}
       className="w-[260px] sm:w-[300px] aspect-[9/16] bg-[#14120e] rounded-2xl overflow-hidden shadow-2xl relative border border-black/10 transition-transform duration-500 hover:scale-[1.02] shrink-0 cursor-pointer"
     >
-      <video 
-        ref={videoRef}
+      <CustomVideoPlayer 
         src={project.videoUrl} 
-        controls 
-        playsInline 
-        loop
-        muted
-        preload="metadata"
-        className="w-full h-full object-cover outline-none" 
+        badgeText={project.tag}
+        className="w-full h-full"
+        muted={true}
       />
-      <span 
-        style={{ fontFamily: "'HelveticaNeue', sans-serif", fontWeight: 300 }}
-        className="absolute top-4 left-4 bg-[#144BFF] text-white px-3.5 py-1 rounded-md text-xs uppercase tracking-wider shadow-sm pointer-events-none z-10"
-      >
-        {project.tag}
-      </span>
     </div>
   );
 }
@@ -315,7 +277,7 @@ function DirectionProjectRow({ project, index, activeHoverId, setActiveHoverId }
         className="w-full md:max-w-[480px] flex flex-col justify-center text-center md:text-left shrink-0 relative z-10"
       >
         <h3 
-          style={{ fontFamily: "'Talina', sans-serif", letterSpacing: '-1px', fontWeight: 400 }}
+          style={{ fontFamily: "'Talina', sans-serif", letterSpacing: '-0.4px', fontWeight: 400 }}
           className={`text-[#144BFF] text-2xl sm:text-3xl md:text-[2.2rem] m-0 leading-tight relative md:px-4 ${isReverse ? 'md:border-r-4' : 'md:border-l-4'} md:border-[#144BFF]`}
         >
           {project.title}
