@@ -1,0 +1,37 @@
+/* layout.css */
+.hero-engine {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: var(--space-lg) var(--space-md);
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.giant-type {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: clamp(3.5rem, 15vw, 13rem); /* Auto-scales for mobile */
+  font-weight: 800;
+  line-height: 0.82;
+  letter-spacing: -0.06em;
+  text-transform: uppercase;
+  font-style: italic;
+  display: block;
+}
+
+/* The "Sajan Shrestha" Stagger Effect */
+.stagger-end { align-self: flex-end; text-align: right; }
+.stagger-center { align-self: center; display: flex; align-items: center; gap: 2rem; }
+
+.status-badge {
+  background: var(--accent-green);
+  color: #000;
+  padding: 0.5rem 1rem;
+  border-radius: 2rem;
+  font-size: 10px;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 2rem;
+}

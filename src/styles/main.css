@@ -1,0 +1,31 @@
+/* main.css */
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,800;1,800&family=Inter:wght@400;500;600&display=swap');
+
+:root {
+  --bg-dark: #050505;
+  --bg-panel: #0a0a0a;
+  --accent-green: #22c55e;
+  --border-subtle: rgba(255, 255, 255, 0.04);
+  --text-main: #ffffff;
+  --text-dim: #666666;
+  
+  /* Fluid Spacing System */
+  --space-sm: clamp(1rem, 2vw, 1.5rem);
+  --space-md: clamp(2rem, 4vw, 3rem);
+  --space-lg: clamp(4rem, 8vw, 6rem);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background-color: var(--bg-dark);
+  color: var(--text-main);
+  font-family: 'Inter', sans-serif;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}

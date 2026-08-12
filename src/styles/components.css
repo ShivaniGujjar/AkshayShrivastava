@@ -1,0 +1,115 @@
+/* components.css */
+.bento-grid {
+  display: grid;
+  grid-template-columns: repeat(1, 1fr); /* Mobile: 1 Column */
+  gap: 1.5rem;
+  padding: var(--space-md);
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+@media (min-width: 768px) {
+  .bento-grid {
+    grid-template-columns: repeat(12, 1fr); /* Desktop: 12 Columns */
+    gap: 2.5rem;
+  }
+}
+
+.case-study {
+  background: var(--bg-panel);
+  border: 1px solid var(--border-subtle);
+  border-radius: 3rem;
+  padding: 3rem;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 500px;
+  transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Elite Asymmetry - Making the grid "banger" */
+.case-study.span-7 { grid-column: span 7; }
+.case-study.span-5 { grid-column: span 5; }
+.case-study.span-12 { grid-column: span 12; }
+
+.case-study:hover {
+  transform: translateY(-10px);
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+
+/* kinetic ticker styling */
+.ticker-wrap {
+  width: 100%;
+  overflow: hidden;
+  border-top: 1px solid var(--border-subtle);
+  border-bottom: 1px solid var(--border-subtle);
+  padding: 1.5rem 0;
+  background: var(--bg-dark);
+  white-space: nowrap;
+}
+
+.ticker-track {
+  display: flex;
+  width: max-content;
+  animation: scroll 40s linear infinite;
+}
+
+.ticker-item {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 11px;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.5em;
+  color: var(--text-dim);
+  padding: 0 4rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.ticker-item::after {
+  content: "•";
+  color: var(--accent-green);
+}
+
+@keyframes scroll {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+
+/* Video Modal Overlay */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.95);
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(10px);
+  padding: 2rem;
+}
+
+.video-container {
+  width: 100%;
+  max-width: 1000px;
+  aspect-ratio: 16/9;
+  background: #000;
+  border-radius: 1rem;
+  overflow: hidden;
+  box-shadow: 0 0 50px rgba(255, 255, 255, 0.05);
+}
+
+.close-btn {
+  position: absolute;
+  top: 2rem;
+  right: 2rem;
+  color: white;
+  font-size: 2rem;
+  cursor: pointer;
+  opacity: 0.5;
+}
