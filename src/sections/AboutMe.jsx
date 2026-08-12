@@ -146,14 +146,14 @@ export default function AboutMe() {
 
         <div className="relative z-10 flex flex-col justify-center items-center px-4">
           <h1 
-            style={{ fontFamily: "'HelveticaNeue', sans-serif", letterSpacing: '-5px', fontWeight: 300 }}
+            style={{ fontFamily: "'Talina', sans-serif", letterSpacing: '-1.2px', fontWeight: 300 }}
             className="text-[2.5rem] sm:text-[3.8rem] md:text-[4.2rem] font-light text-[#ffffff] m-0 text-center leading-none"
           >
             About Me
           </h1>
 
           <p 
-            style={{ fontFamily: "'HelveticaNeue', sans-serif", fontWeight: 300 }}
+            style={{ fontFamily: "'HelveticaNeue', sans-serif", fontWeight: 800, letterSpacing: '-1px' }}
             className="flex items-center justify-center gap-1.5 sm:gap-2 mt-4 text-[#144BFF] text-xs sm:text-sm md:text-base uppercase tracking-widest text-center drop-shadow-[0_2px_10px_rgba(0,0,0,0.95)]"
           >
             <span>BIOGRAPHY</span> 
@@ -170,16 +170,11 @@ export default function AboutMe() {
         ref={bioSectionRef} 
         className="max-w-[950px] w-full mx-auto pt-16 sm:pt-24 pb-12 px-6 flex flex-col items-center text-center relative z-20"
       >
-        <div 
-          style={{ fontFamily: "'HelveticaNeue', sans-serif", fontWeight: 300 }}
-          className="mb-4 px-4 py-1.5 bg-[#144BFF]/10 text-[#144BFF] rounded-sm text-xs sm:text-sm uppercase tracking-widest"
-        >
-          👤 Creative Profile
-        </div>
+        
 
         <h2 
           ref={nameRef}
-          style={{ fontFamily: "'HelveticaNeue', sans-serif", letterSpacing: '-3px', fontWeight: 300 }}
+          style={{ fontFamily: "'Talina', sans-serif", letterSpacing: '-2px', fontWeight: 400 }}
           className="w-full text-center text-[#144BFF] text-5xl sm:text-6xl md:text-[4.8rem] leading-[1.05] mb-8"
         >
           Akshay{' '}

@@ -3,12 +3,13 @@ import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import SocialProof from '../components/SocialProof';
 import Footer from './Footer';
+import CustomVideoPlayer from '../components/CustomVideoPlayer';
 
 if (typeof window !== 'undefined') {
   gsap.registerPlugin(ScrollTrigger);
 }
 
-// 🎬 REAL SHOWCASE DATA (UPDATED WITH NEW CLOUDINARY LINKS)
+// 🎬 REAL SHOWCASE DATA
 const SHORT_FORMS = [
   { id: 'msf1', title: '3D Kinetic Typography', brand: 'UGC Ad', videoUrl: '' },
   { id: 'msf2', title: 'Abstract Product Reel', brand: '3D Motion', videoUrl: '' },
@@ -30,7 +31,7 @@ const duplicateList = (arr, count = 4) => {
   return output;
 };
 
-// 🎥 SMART VIDEO CARD WITH VIEWPORT AUTOPLAY & HOVER ISOLATION
+// 🎥 SINGLE VIDEO CARD WITH 9:16 VERTICAL RATIO FOR SHORT FORMS
 function VideoCard({ item, aspectRatio = "wide", hoveredId, setHoveredId }) {
   const cardRef = useRef(null);
   const videoRef = useRef(null);
@@ -43,33 +44,34 @@ function VideoCard({ item, aspectRatio = "wide", hoveredId, setHoveredId }) {
       ([entry]) => {
         setIsVisible(entry.isIntersecting);
       },
-      { threshold: 0.2 }
+      { threshold: 0.1 }
     );
 
     if (cardRef.current) {
       observer.observe(cardRef.current);
     }
 
-    return () => observer.disconnect();
+    return () => {
+      if (cardRef.current) observer.unobserve(cardRef.current);
+    };
   }, []);
 
   useEffect(() => {
-    if (!videoRef.current) return;
-
-    if (!isVisible) {
-      videoRef.current.pause();
-    } else if (isAnyHovered) {
-      if (isHovered) {
-        videoRef.current.play().catch(() => {});
-      } else {
+    if (videoRef.current) {
+      if (!isVisible) {
         videoRef.current.pause();
+      } else if (isAnyHovered) {
+        if (isHovered) {
+          videoRef.current.play().catch(() => {});
+        } else {
+          videoRef.current.pause();
+        }
+      } else {
+        videoRef.current.play().catch(() => {});
       }
-    } else {
-      videoRef.current.play().catch(() => {});
     }
   }, [isVisible, isHovered, isAnyHovered]);
 
-  // 📐 9:16 FOR SHORT FORMS, WIDE LANDSCAPE FOR LONG FORMS
   const cardDimensions = aspectRatio === "wide" 
     ? "w-[340px] sm:w-[420px] h-[210px] sm:h-[260px]" 
     : "w-[260px] sm:w-[300px] aspect-[9/16]";
@@ -96,7 +98,7 @@ function VideoCard({ item, aspectRatio = "wide", hoveredId, setHoveredId }) {
 
       {item.category && (
         <div 
-          style={{ fontFamily: "'HelveticaNeue', sans-serif", letterSpacing: '0.5px', fontWeight: 300 }}
+          style={{ fontFamily: "'Talina', sans-serif", letterSpacing: '-0.3px', fontWeight: 300 }}
           className="absolute top-4 left-4 bg-[#144BFF] backdrop-blur-md px-3 py-1 rounded-sm text-[#FFFFFF] text-xs uppercase shadow-sm"
         >
           {item.category}
@@ -113,14 +115,14 @@ function VideoCard({ item, aspectRatio = "wide", hoveredId, setHoveredId }) {
 
       <div className="absolute bottom-0 left-0 right-0 p-6 transform transition-transform duration-300 group-hover:translate-y-0">
         <h4 
-          style={{ fontFamily: "'HelveticaNeue', sans-serif", fontWeight: 300 }}
+          style={{ fontFamily: "'Talina', sans-serif", fontWeight: 300 }}
           className="text-[#FFFFFF] text-xl sm:text-2xl leading-snug drop-shadow-md mb-1"
         >
           {item.title}
         </h4>
         {item.brand && (
           <p 
-            style={{ fontFamily: "'HelveticaNeue', sans-serif", letterSpacing: '0.3px', fontWeight: 300 }}
+            style={{ fontFamily: "'HelveticaNeue', sans-serif", letterSpacing: '-0.3px', fontWeight: 300 }}
             className="text-[#144BFF] text-xs uppercase bg-black/60 px-2.5 py-1 rounded-xs inline-block"
           >
             {item.brand}
@@ -135,23 +137,20 @@ export default function MotionDesign() {
   const [selectedVideo, setSelectedVideo] = useState(null);
   const [hoveredShortId, setHoveredShortId] = useState(null);
   const [hoveredLongId, setHoveredLongId] = useState(null);
-
+  
   // 🔊 HERO VIDEO SOUND STATE & REF
+  const [isHeroMuted, setIsHeroMuted] = useState(true);
   const heroVideoRef = useRef(null);
-  const featuredVideoRef = useRef(null);
-  const [isMuted, setIsMuted] = useState(true);
 
-  const toggleAudio = () => {
+  const featuredSectionRef = useRef(null);
+  const paragraphRef = useRef(null);
+
+  const toggleHeroSound = () => {
     if (heroVideoRef.current) {
-      heroVideoRef.current.muted = !isMuted;
-      setIsMuted(!isMuted);
+      heroVideoRef.current.muted = !isHeroMuted;
+      setIsHeroMuted(!isHeroMuted);
     }
   };
-
-  // Animation Refs
-  const featuredSectionRef = useRef(null);
-  const videoWrapperRef = useRef(null);
-  const paragraphRef = useRef(null);
 
   useEffect(() => {
     const handleKeyDown = (e) => {
@@ -163,41 +162,22 @@ export default function MotionDesign() {
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-      const isMobile = window.innerWidth < 768;
-
-      gsap.set(paragraphRef.current, {
+      gsap.fromTo(paragraphRef.current, {
         opacity: 0,
-        x: isMobile ? 0 : -80,
-        y: isMobile ? 40 : 0,
+        y: 120,
         scale: 0.9,
-      });
-
-      gsap.set(videoWrapperRef.current, {
-        x: 0,
-      });
-
-      const tl = gsap.timeline({
+      }, {
+        opacity: 1,
+        y: 0,
+        scale: 1,
+        duration: 1.1,
+        ease: 'power3.out',
         scrollTrigger: {
           trigger: featuredSectionRef.current,
           start: 'top 65%',
           toggleActions: 'play none none reverse',
-        },
+        }
       });
-
-      tl.to(videoWrapperRef.current, {
-        x: isMobile ? 0 : -120,
-        duration: 1,
-        ease: 'power3.inOut',
-      })
-      .to(paragraphRef.current, {
-        opacity: 1,
-        x: isMobile ? 0 : 40,
-        y: 0,
-        scale: 1,
-        duration: 0.9,
-        ease: 'power3.out',
-      }, '-=0.7');
-
     }, featuredSectionRef);
 
     return () => ctx.revert();
@@ -206,7 +186,7 @@ export default function MotionDesign() {
   return (
     <div className="w-full min-h-screen bg-[#FFFCFB] relative overflow-x-hidden pb-0 m-0 text-[#14120e]">
       
-      {/* 🎞️ SUBTLE CINEMATIC GRAIN OVERLAY */}
+      {/* 🎞️ GRAIN OVERLAY */}
       <div 
         className="fixed inset-0 pointer-events-none z-[999] opacity-[0.04]"
         style={{
@@ -232,7 +212,7 @@ export default function MotionDesign() {
         }
 
         @font-face {
-          font-family: 'HelveticaNeueBold';
+          font-family: 'HelveticaNeue';
           src: url('/fonts/HelveticaNeueBold.otf') format('opentype');
           font-weight: bold;
           font-style: normal;
@@ -251,48 +231,53 @@ export default function MotionDesign() {
         }
       `}</style>
 
-      {/* 🎬 HERO BANNER */}
+      {/* HERO BANNER */}
       <div className="relative w-full h-screen bg-[#14120e] flex flex-col justify-center items-center overflow-hidden m-0 p-0 editing-cutout-mask"> 
         <video 
           ref={heroVideoRef}
+          src="https://res.cloudinary.com/n1mfkfh4/video/upload/v1785674839/Perfectionism_compressed_isgrjo.mp4" 
           autoPlay 
           loop 
-          muted={isMuted} 
+          muted={isHeroMuted} 
           playsInline 
-          preload="metadata"
           className="absolute top-0 left-0 w-full h-screen object-cover z-0 filter brightness-[0.55] contrast-105"
-        >
-          <source src="https://res.cloudinary.com/n1mfkfh4/video/upload/v1785674839/Perfectionism_compressed_isgrjo.mp4" />
-        </video>
+        />
 
-        <div className="absolute inset-0 bg-gradient-to-t from-[#14120e]/80 via-transparent to-[#14120e]/60 z-[1] pointer-events-none" />
-
-        {/* 🔊 MINIMAL SOUND TOGGLE BUTTON */}
+        {/* 🔊 SOUND TOGGLE BUTTON */}
         <button
-          onClick={toggleAudio}
-          className="absolute bottom-20 left-8 z-30 flex items-center justify-center w-12 h-12 bg-black/60 hover:bg-[#144BFF] backdrop-blur-md text-[#FFFFFF] border border-white/20 rounded-full transition-all duration-300 shadow-xl group cursor-pointer hover:scale-110"
-          aria-label="Toggle Sound"
+          onClick={toggleHeroSound}
+          className="absolute bottom-24 left-6 sm:bottom-28 sm:left-10 z-20 w-11 h-11 rounded-full bg-black/60 hover:bg-black/80 backdrop-blur-md border border-white/10 flex items-center justify-center text-[#FFC822] hover:scale-110 transition-all duration-300 shadow-xl cursor-pointer group"
+          title={isHeroMuted ? "Unmute Sound" : "Mute Sound"}
         >
-          {isMuted ? (
-            <svg className="w-5 h-5 fill-current text-[#FFC822] group-hover:text-white transition-colors" viewBox="0 0 24 24">
+          {isHeroMuted ? (
+            <svg className="w-5 h-5 fill-current text-[#FFC822]" viewBox="0 0 24 24">
               <path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v2.21l2.45 2.45c.03-.2.05-.41.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51C20.63 14.91 21 13.5 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06c1.38-.31 2.63-.95 3.69-1.81L19.73 21 21 19.73l-9-9L4.27 3zM12 4L9.91 6.09 12 8.18V4z"/>
             </svg>
           ) : (
-            <svg className="w-5 h-5 fill-current text-[#FFFFFF] animate-pulse" viewBox="0 0 24 24">
+            <svg className="w-5 h-5 fill-current text-[#144BFF]" viewBox="0 0 24 24">
               <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/>
             </svg>
           )}
         </button>
 
+        <div className="absolute inset-0 bg-gradient-to-t from-[#14120e]/80 via-transparent to-[#14120e]/60 z-[1] pointer-events-none" />
+
         <div className="relative z-10 flex flex-col justify-center items-center px-4">
           <h1 
-            style={{ fontFamily: "'HelveticaNeue', sans-serif", letterSpacing: '-5px', fontWeight: 400 }}
+            style={{ 
+              fontFamily: "'Talina', sans-serif", 
+              letterSpacing: '-1.2px', 
+              fontWeight: 300 
+            }}
             className="text-[2.5rem] sm:text-[3.8rem] md:text-[4.2rem] text-[#ffffff] m-0 text-center leading-none"
           >
             Motion Work
           </h1>
-
-          <p className="flex items-center justify-center gap-1.5 sm:gap-2 mt-4 text-[#144BFF] text-xs sm:text-sm md:text-base uppercase tracking-widest text-center drop-shadow-[0_2px_10px_rgba(0,0,0,0.95)]" style={{ fontFamily: "'HelveticaNeue', sans-serif", fontWeight: 400 , letterSpacing : '-1px' }}>
+          
+          <p 
+            style={{ fontFamily: "'HelveticaNeue', sans-serif", fontWeight: 800, letterSpacing : '-1px' }}
+            className="flex items-center justify-center gap-1.5 sm:gap-2 mt-4 text-[#144BFF] text-xs sm:text-sm md:text-base uppercase tracking-widest text-center drop-shadow-[0_2px_10px_rgba(0,0,0,0.95)]"
+          >
             <span>2D & 3D ANIMATION</span> 
             <span className="text-[#FFC822] mx-1">•</span> 
             <span>VFX</span> 
@@ -302,79 +287,74 @@ export default function MotionDesign() {
         </div>
       </div>
 
-      {/* 🏛️ HEADER SECTION */}
-      <div className="w-full mx-auto pt-10 sm:pt-16 pb-4 px-4 flex flex-col items-center relative z-20 text-center overflow-x-hidden">
-        <h2 
-          style={{ fontFamily: "'HelveticaNeue', sans-serif", letterSpacing: '-3px', fontWeight: 300 }}
-          className="text-2xl sm:text-4xl md:text-4xl m-0 text-[#144BFF] leading-tight"
-        >
-          Welcome to Motion Design section
-        </h2>
-      </div>
-
-      {/* 📱 FEATURED SHORT + ANIMATED PARAGRAPH SECTION */}
-      <div 
-        ref={featuredSectionRef} 
-        className="max-w-[1100px] w-full mx-auto py-8 sm:py-12 px-6 flex flex-col md:flex-row items-center justify-center relative z-20 overflow-hidden gap-6 md:gap-4"
-      >
-        <div ref={videoWrapperRef} className="relative z-20 shrink-0">
-          <div className="relative w-[280px] sm:w-[320px] aspect-[9/16] rounded-2xl overflow-hidden bg-[#14120e] shadow-2xl border border-black/10">
-            <video 
-              ref={featuredVideoRef}
-              src="https://res.cloudinary.com/n1mfkfh4/video/upload/v1785674839/Perfectionism_compressed_isgrjo.mp4" 
-              controls
-              autoPlay
-              muted
-              loop
-              playsInline
-              preload="metadata"
-              className="w-full h-full object-cover outline-none"
-            />
-            <div 
-              style={{ fontFamily: "'HelveticaNeue', sans-serif", fontWeight: 300 }}
-              className="absolute top-4 left-4 bg-[#144BFF] text-[#FFFFFF] px-3.5 py-1.5 rounded-md text-xs uppercase shadow-md pointer-events-none"
-            >
-              Featured Short
-            </div>
-          </div>
+      {/* HEADER & FEATURED MASTERPIECE SECTION */}
+      <div ref={featuredSectionRef} className="w-full mx-auto pt-10 sm:pt-16 pb-6 px-4 flex flex-col items-center relative z-20 text-center overflow-hidden">
+        
+        <div className="inline-flex flex-col items-center z-20">
+          <h2 
+            style={{ 
+              fontFamily: "'Talina', sans-serif", 
+              letterSpacing:'-1px', 
+              fontWeight: 400 
+            }}
+            className="text-2xl sm:text-4xl md:text-4xl m-0 text-[#144BFF] leading-tight"
+          >
+            Welcome to Motion Design section
+          </h2>
         </div>
 
-        <div ref={paragraphRef} className="relative z-10 flex flex-col text-center md:text-left max-w-[450px]">
+        <div ref={paragraphRef} className="relative z-10 mt-3 mb-6 max-w-[700px] px-4">
           <p 
-            style={{ fontFamily: "'HelveticaNeue', sans-serif", letterSpacing: '-1px', fontWeight: 300 }}
-            className="text-[#14120e] text-base sm:text-xl leading-relaxed font-light"
+            style={{ 
+              fontFamily: "'HelveticaNeue', sans-serif", 
+              fontWeight: 600,
+              letterSpacing : '-1px'
+            }}
+            className="text-[#14120e] text-sm sm:text-lg leading-relaxed text-center font-light tracking-wide"
           >
             I craft dynamic 2D/3D motion graphics, kinetic typography, and fluid visual effects that elevate brand campaigns and digital storytelling.
           </p>
         </div>
+
+        {/* 🍿 FULL WIDE FEATURED MASTERPIECE */}
+        <div className="max-w-[1100px] w-full px-2 sm:px-6 mb-10 relative z-20">
+          <CustomVideoPlayer 
+            src="https://res.cloudinary.com/n1mfkfh4/video/upload/v1785674839/Perfectionism_compressed_isgrjo.mp4"
+            badgeText="Featured Masterpiece"
+            className="w-full aspect-video rounded-2xl overflow-hidden shadow-2xl border border-black/10"
+            muted={true}
+          />
+        </div>
       </div>
 
-      {/* ⚡️ SHORT FORMS */}
+      {/* SHORT FORMS */}
       <div className="w-full max-w-full relative overflow-hidden my-12 sm:my-20">
         <div className="max-w-[1100px] w-full mx-auto px-6 flex flex-col items-center text-center mb-6">
-          <div className="inline-flex flex-col items-center">
-            <h3 
-              style={{ fontFamily: "'HelveticaNeue', sans-serif", letterSpacing: '-3px', fontWeight: 400 }}
-              className="text-2xl sm:text-4xl md:text-4xl m-0 text-[#144BFF] leading-tight"
-            >
-              Short Forms
-            </h3>
-          </div>
+          <h3 
+            style={{ 
+              fontFamily: "'Talina', sans-serif", 
+              letterSpacing : '-2px',
+              fontWeight: 400 
+            }}
+            className="text-2xl sm:text-4xl md:text-4xl m-0 text-[#144BFF] leading-tight"
+          >
+            Short Forms
+          </h3>
 
           <div 
-            style={{ fontFamily: "'HelveticaNeue', sans-serif", letterSpacing: '-1px', fontWeight: 300 }}
-            className="flex items-center justify-center gap-1.5 sm:gap-2 mt-3 text-[#14120e] text-xs sm:text-base uppercase tracking-wider text-center"
+            style={{ fontFamily: "'HelveticaNeue', sans-serif", letterSpacing: '-1px', fontWeight: 600 }}
+            className="flex items-center justify-center gap-2 sm:gap-2.5 mt-3 text-[#14120e] text-xs sm:text-base uppercase tracking-wider text-center"
           >
             <span>3D MOTION</span>
-            <span className="text-[#FFC822] text-xs">•</span>
+            <span className="text-[#FFC822] text-sm sm:text-lg">•</span>
             <span>LOGO REVEALS</span>
-            <span className="text-[#FFC822] text-xs">•</span>
+            <span className="text-[#FFC822] text-sm sm:text-lg">•</span>
             <span>UGC ADS</span>
-            <span className="text-[#FFC822] text-xs">•</span>
+            <span className="text-[#FFC822] text-sm sm:text-lg">•</span>
             <span>KINETIC LOOPS</span>
           </div>
         </div>
-
+        
         <div className="w-full max-w-full overflow-hidden py-4 group">
           <div className="inline-flex whitespace-nowrap gap-6 sm:gap-10 w-max will-change-transform animate-[slowMarqueeLeft_85s_linear_infinite] group-hover:[animation-play-state:paused]">
             {duplicateList(SHORT_FORMS).map((item, idx) => (
@@ -391,26 +371,28 @@ export default function MotionDesign() {
         </div>
       </div>
 
-      {/* 🎬 LONG FORMS */}
+      {/* LONG FORMS */}
       <div className="w-full max-w-full relative overflow-hidden my-12 sm:my-20">
         <div className="max-w-[1100px] w-full mx-auto px-6 flex flex-col items-center text-center mb-6">
-          <div className="inline-flex flex-col items-center">
-            <h3 
-              style={{ fontFamily: "'HelveticaNeue', sans-serif", letterSpacing: '-3px', fontWeight: 300 }}
-              className="text-2xl sm:text-4xl md:text-4xl m-0 text-[#144BFF] leading-tight"
-            >
-              Long Forms
-            </h3>
-          </div>
+          <h3 
+            style={{ 
+              fontFamily: "'Talina', sans-serif", 
+              letterSpacing : '-2px',
+              fontWeight: 400 
+            }}
+            className="text-2xl sm:text-4xl md:text-4xl m-0 text-[#144BFF] leading-tight"
+          >
+            Long Forms
+          </h3>
 
           <div 
-            style={{ fontFamily: "'HelveticaNeue', sans-serif", letterSpacing: '-1px', fontWeight: 300 }}
-            className="flex items-center justify-center gap-1.5 sm:gap-2 mt-3 text-[#14120e] text-xs sm:text-base uppercase tracking-wider text-center"
+            style={{ fontFamily: "'HelveticaNeue', sans-serif", letterSpacing: '-1px', fontWeight: 600 }}
+            className="flex items-center justify-center gap-2 sm:gap-2.5 mt-3 text-[#14120e] text-xs sm:text-base uppercase tracking-wider text-center"
           >
             <span>ANIMATED EXPLAINERS</span>
-            <span className="text-[#FFC822] text-xs">•</span>
+            <span className="text-[#FFC822] text-sm sm:text-lg">•</span>
             <span>TITLE SEQUENCES</span>
-            <span className="text-[#FFC822] text-xs">•</span>
+            <span className="text-[#FFC822] text-sm sm:text-lg">•</span>
             <span>3D VISUALS</span>
           </div>
         </div>
@@ -436,7 +418,7 @@ export default function MotionDesign() {
         <SocialProof />
       </div>
 
-      {/* 🍿 FULLSCREEN VIDEO MODAL POPUP */}
+      {/* FULLSCREEN PREVIEW WITH CUSTOM VIDEO PLAYER */}
       {selectedVideo && (
         <div 
           onClick={() => setSelectedVideo(null)}
@@ -444,27 +426,33 @@ export default function MotionDesign() {
         >
           <div 
             onClick={(e) => e.stopPropagation()}
-            className="relative w-full max-w-5xl bg-[#FFFCFB] rounded-md overflow-hidden shadow-2xl cursor-default"
+            className="relative w-full max-w-5xl bg-[#FFFCFB] rounded-xl overflow-hidden shadow-2xl cursor-default"
           >
             <button 
               onClick={() => setSelectedVideo(null)}
-              className="absolute top-4 right-4 z-50 w-10 h-10 rounded-sm bg-[#14120e] text-[#FFFFFF] hover:bg-[#144BFF] flex items-center justify-center font-bold text-xl transition-all"
+              className="absolute top-4 right-4 z-[1000] w-10 h-10 rounded-sm bg-[#14120e] text-[#FFFFFF] hover:bg-[#144BFF] flex items-center justify-center font-bold text-xl transition-all shadow-lg cursor-pointer"
             >
               ✕
             </button>
             <div className="aspect-video w-full bg-black">
-              <video src={selectedVideo.videoUrl} controls autoPlay className="w-full h-full object-contain" />
+              <CustomVideoPlayer 
+                src={selectedVideo.videoUrl} 
+                badgeText={selectedVideo.category || selectedVideo.brand || "Preview"} 
+                className="w-full h-full"
+                autoPlay={true}
+                muted={false}
+              />
             </div>
             <div className="p-6 bg-[#FFFCFB] text-[#14120e] flex items-center justify-between border-t border-black/10">
               <h3 
-                style={{ fontFamily: "'HelveticaNeue', sans-serif", fontWeight: 300 }}
+                style={{ fontFamily: "'Talina', sans-serif", fontWeight: 300 }}
                 className="text-xl sm:text-2xl text-[#144BFF]"
               >
                 {selectedVideo.title}
               </h3>
               {selectedVideo.brand && (
                 <span 
-                  style={{ fontFamily: "'HelveticaNeue', sans-serif", letterSpacing: '0.3px', fontWeight: 300 }}
+                  style={{ fontFamily: "'HelveticaNeue', sans-serif", letterSpacing: '-0.3px', fontWeight: 300 }}
                   className="text-xs uppercase text-[#554f46] bg-[#f0eae1] px-3 py-1 rounded-sm border border-black/10"
                 >
                   {selectedVideo.brand}
@@ -475,7 +463,7 @@ export default function MotionDesign() {
         </div>
       )}
 
-      {/* 🚀 ANIMATED SCROLL FOOTER */}
+      {/* 🚀 FOOTER */}
       <Footer />
 
       <style>{`
