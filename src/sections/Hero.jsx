@@ -178,14 +178,28 @@ export default function Hero({ onColumnClick }) {
         </div>
 
         {/* RIGHT: CONNECT BUTTON (Curved rounded-md) */}
+        {/* RIGHT: CONNECT BUTTON */}
         <div className="pointer-events-auto">
           <a
             href="https://www.instagram.com/akshay__shri/?hl=en"
             target="_blank"
             rel="noopener noreferrer"
-            className="font-gourmet bg-[#0A0B0C] text-[#FFFFFF] hover:text-[#FFC822] border border-white/25 px-4 sm:px-5 h-10 sm:h-11 rounded-md text-xs sm:text-base flex items-center justify-center gap-1.5 transition-all duration-300 shadow-xl cursor-pointer hover:scale-105 no-underline"
+            className="font-gourmet bg-[#0A0B0C] text-[#FFFFFF] hover:text-[#FFC822] border border-white/25 px-4 sm:px-5 h-10 sm:h-11 rounded-md text-xs sm:text-base hidden sm:flex items-center justify-center gap-1.5 transition-all duration-300 shadow-xl cursor-pointer hover:scale-105 no-underline"
           >
             <span className="leading-none pt-0.5">Let's connect ↗</span>
+          </a>
+
+          <a
+            href="https://www.instagram.com/akshay__shri/?hl=en"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="sm:hidden bg-[#0A0B0C] border border-white/25 text-[#FFC822] w-10 h-10 rounded-md flex items-center justify-center shadow-xl cursor-pointer no-underline hover:scale-105 transition-all"
+            aria-label="Connect"
+          >
+            <svg viewBox="0 0 24 24" className="w-5 h-5 fill-none stroke-current stroke-[2] stroke-linecap-round stroke-linejoin-round">
+              <line x1="7" y1="17" x2="17" y2="7"></line>
+              <polyline points="7 7 17 7 17 17"></polyline>
+            </svg>
           </a>
         </div>
       </header>
