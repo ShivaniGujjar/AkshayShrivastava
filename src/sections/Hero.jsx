@@ -76,7 +76,7 @@ export default function Hero({ onColumnClick }) {
   };
 
   return (
-    <section className="w-full h-screen bg-[#08080a] overflow-hidden relative m-0 p-0 select-none">
+    <section className="w-full h-dvh md:h-screen bg-[#08080a] overflow-hidden relative m-0 p-0 select-none">
       
       {/* 🎨 FONT & MASK STYLING */}
       <style>{`
