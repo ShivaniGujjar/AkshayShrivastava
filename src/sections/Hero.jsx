@@ -76,10 +76,27 @@ export default function Hero({ onColumnClick }) {
   };
 
   return (
-    <section className="w-full h-dvh md:h-screen bg-[#08080a] overflow-hidden relative m-0 p-0 select-none">
+    <section className="hero-viewport-fix w-full bg-[#08080a] overflow-hidden relative m-0 p-0 select-none">
       
       {/* 🎨 FONT & MASK STYLING */}
       <style>{`
+        /* MOBILE-ONLY viewport height, with a guaranteed 100vh fallback.
+           100dvh is only applied when the browser actually supports it —
+           this avoids a height:auto collapse (and the black-video bug
+           that causes) on engines that don't understand dvh yet.
+           Desktop (768px+) is untouched: plain 100vh, same as before. */
+        .hero-viewport-fix {
+          height: 100vh;
+        }
+
+        @media (max-width: 767px) {
+          @supports (height: 100dvh) {
+            .hero-viewport-fix {
+              height: 100dvh;
+            }
+          }
+        }
+
         @font-face {
           font-family: 'RoseryStudio';
           src: url('/RoseryStudio-Regular.ttf') format('truetype');
