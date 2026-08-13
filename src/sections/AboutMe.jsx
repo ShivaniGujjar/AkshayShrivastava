@@ -65,7 +65,7 @@ export default function AboutMe() {
   }, []);
 
   return (
-    <div className="w-full min-h-screen bg-[#FFFCFB] relative overflow-x-hidden pb-32 sm:pb-40 m-0 text-[#14120e]">
+    <div className="w-full min-h-screen bg-[#FFFCFB] relative overflow-x-hidden pb-16 sm:pb-24 m-0 text-[#14120e]">
       
       {/* 🎞️ NOISE GIF OVERLAY SET TO 0.05 */}
       <div 
@@ -180,7 +180,7 @@ export default function AboutMe() {
         <div 
           ref={cardRef}
           style={{ fontFamily: "'HelveticaNeue', sans-serif", letterSpacing: '-0.2px', fontWeight: 300 }}
-          className="bg-white/80 backdrop-blur-md p-5 sm:p-10 rounded-3xl border border-black/10 shadow-xl text-[#14120e] text-xs sm:text-xl md:text-2xl leading-relaxed font-light space-y-4 sm:space-y-6 w-full mb-10 sm:mb-16 relative z-10 text-left"
+          className="bg-white/80 backdrop-blur-md p-5 sm:p-10 rounded-[12px] border border-black/10 shadow-xl text-[#14120e] text-xs sm:text-xl md:text-2xl leading-relaxed font-light space-y-4 sm:space-y-6 w-full mb-10 sm:mb-16 relative z-10 text-left"
         >
           <p className="m-0">
             I am a video editor, motion designer, and creative director obsessed with high-retention storytelling and high-fidelity visuals.
@@ -195,7 +195,7 @@ export default function AboutMe() {
       </div>
 
       {/* 🚀 SOCIAL PROOF */}
-      <div className="m-0 p-0 mb-20 sm:mb-36">
+      <div className="m-0 p-0 mb-12 sm:mb-20">
         <SocialProof />
       </div>
 

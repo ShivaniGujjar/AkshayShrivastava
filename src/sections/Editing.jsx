@@ -91,7 +91,7 @@ function VideoCard({ item, aspectRatio = "wide", hoveredId, setHoveredId }) {
       ref={cardRef}
       onMouseEnter={() => setHoveredId(item.id)}
       onMouseLeave={() => setHoveredId(null)}
-      className={`relative group rounded-2xl overflow-hidden cursor-pointer bg-[#14120e] shadow-xl transition-all duration-500 ease-out hover:scale-[1.03] ${cardDimensions} shrink-0 outline-none focus:outline-none select-none border border-black/10`}
+      className={`relative group overflow-hidden cursor-pointer bg-[#14120e] shadow-xl transition-all duration-500 ease-out hover:scale-[1.03] ${cardDimensions} shrink-0 outline-none focus:outline-none select-none border border-black/10 rounded-xl`}
     >
       <video
         ref={videoRef}
@@ -201,7 +201,7 @@ export default function Editing() {
   );
 
   return (
-    <div className="w-full min-h-screen bg-[#FFFCFB] relative overflow-x-hidden pb-32 sm:pb-40 m-0 text-[#14120e]">
+    <div className="w-full min-h-screen bg-[#FFFCFB] relative overflow-x-hidden pb-16 sm:pb-24 m-0 text-[#14120e]">
       
       {/* 🎞️ NOISE GIF OVERLAY FOR LIGHT BACKGROUND (Using mix-blend-multiply for dark grain) */}
       <div 
@@ -336,7 +336,7 @@ export default function Editing() {
           <CustomVideoPlayer 
             src="https://res.cloudinary.com/n1mfkfh4/video/upload/v1785678593/Campus_film_compressed_2_otok6t.mp4"
             badgeText="Featured Masterpiece"
-            className="w-full aspect-video rounded-2xl overflow-hidden shadow-2xl border border-black/10"
+            className="w-full aspect-video rounded-xl overflow-hidden shadow-2xl border border-black/10"
             muted={true}
           />
         </div>
@@ -446,7 +446,7 @@ export default function Editing() {
       </div>
 
       {/* 🚀 SOCIAL PROOF */}
-      <div className="m-0 p-0 mb-20 sm:mb-36">
+      <div className="m-0 p-0 mb-12 sm:mb-20">
         <SocialProof />
       </div>
 
@@ -458,7 +458,7 @@ export default function Editing() {
         >
           <div 
             onClick={(e) => e.stopPropagation()}
-            className={`relative w-full ${isShortForm ? 'max-w-[340px] sm:max-w-[380px] aspect-[9/16] rounded-2xl bg-black' : 'max-w-5xl rounded-xl bg-[#FFFCFB]'} overflow-hidden shadow-2xl cursor-default flex flex-col`}
+            className={`relative w-full ${isShortForm ? 'max-w-[340px] sm:max-w-[380px] aspect-[9/16] rounded-xl bg-black' : 'max-w-5xl rounded-xl bg-[#FFFCFB]'} overflow-hidden shadow-2xl cursor-default flex flex-col`}
           >
             <button 
               onClick={() => setSelectedVideo(null)}

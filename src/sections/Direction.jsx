@@ -187,7 +187,7 @@ function DirectionShortCard({ project, isHovered, onHover, onLeave }) {
     <div 
       onMouseEnter={onHover}
       onMouseLeave={onLeave}
-      className="w-[200px] sm:w-[300px] aspect-[9/16] bg-[#14120e] rounded-2xl overflow-hidden shadow-2xl relative border border-black/10 transition-transform duration-500 hover:scale-[1.02] shrink-0 cursor-pointer"
+      className="w-[200px] sm:w-[300px] aspect-[9/16] bg-[#14120e] rounded-[12px] overflow-hidden shadow-2xl relative border border-black/10 transition-transform duration-500 hover:scale-[1.02] shrink-0 cursor-pointer"
     >
       <CustomVideoPlayer 
         src={project.videoUrl} 
@@ -340,7 +340,7 @@ export default function Direction() {
   }, []);
 
   return (
-    <div className="w-full min-h-screen bg-[#FFFCFB] relative overflow-x-hidden pb-32 sm:pb-40 m-0 text-[#14120e]">
+    <div className="w-full min-h-screen bg-[#FFFCFB] relative overflow-x-hidden pb-16 sm:pb-24 m-0 text-[#14120e]">
       
       {/* 🎞️ NOISE GIF OVERLAY SET TO 0.05 */}
       <div 
@@ -474,7 +474,7 @@ export default function Direction() {
       </div>
 
       {/* 🚀 SOCIAL PROOF */}
-      <div className="m-0 p-0 mb-20 sm:mb-36">
+      <div className="m-0 p-0 mb-12 sm:mb-20">
         <SocialProof />
       </div>
 

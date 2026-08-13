@@ -91,7 +91,7 @@ export default function SocialProof({ brands = DEFAULT_BRANDS, testimonials = DE
               <div 
                 key={`brand-${idx}`} 
                 style={{ fontFamily: "'HelveticaNeue', sans-serif", letterSpacing: '0.5px', fontWeight: 300 }}
-                className="px-5 py-2.5 bg-[#FFFCFB] text-[#14120e] rounded-md inline-flex items-center justify-center shrink-0 shadow-sm text-xs sm:text-sm border border-[#144BFF]/20 backdrop-blur-md"
+                className="px-5 py-2.5 bg-[#FFFCFB] text-[#14120e] rounded-[8px] inline-flex items-center justify-center shrink-0 shadow-sm text-xs sm:text-sm border border-[#144BFF]/20 backdrop-blur-md"
               >
                 <span className="text-[#FFC822] mr-2">•</span>
                 {brand}
@@ -142,7 +142,7 @@ export default function SocialProof({ brands = DEFAULT_BRANDS, testimonials = DE
             {duplicateList(testimonials).map((testi, idx) => (
               <div 
                 key={`testi-${idx}`} 
-                className="relative bg-[#FFFCFB] text-[#14120e] w-[260px] sm:w-[370px] p-4 sm:p-7 rounded-xl inline-flex flex-col justify-between shrink-0 shadow-lg whitespace-normal border border-white/20 backdrop-blur-xl"
+                className="relative bg-[#FFFCFB] text-[#14120e] w-[260px] sm:w-[370px] p-4 sm:p-7 rounded-[8px] inline-flex flex-col justify-between shrink-0 shadow-lg whitespace-normal border border-white/20 backdrop-blur-xl"
               >
                 {/* Decorative Quote Mark */}
                 <span className="text-[#144BFF]/20 font-serif text-4xl sm:text-5xl leading-none absolute top-2 right-4 select-none pointer-events-none">
@@ -180,7 +180,7 @@ export default function SocialProof({ brands = DEFAULT_BRANDS, testimonials = DE
           </div>
         </div>
 
-        {/* Bottom Seamless Torn Edge Mask (Fixed line artifact using -bottom-[2px] and overlap) */}
+        {/* Bottom Seamless Torn Edge Mask */}
         <div 
           className="absolute -bottom-[2px] left-0 w-full h-[35px] sm:h-[65px] z-[12] bg-[#FFFCFB]"
           style={{
