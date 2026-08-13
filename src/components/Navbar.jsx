@@ -21,6 +21,16 @@ export default function Navbar({ onNavigate, activeSection = 'editing' }) {
     return () => window.removeEventListener('wheel', handleWheel);
   }, []);
 
+  // Lock body scroll while the mobile menu is open, so the page behind
+  // it can't be dragged around on touch devices.
+  useEffect(() => {
+    if (isMobileMenuOpen) {
+      const prevOverflow = document.body.style.overflow;
+      document.body.style.overflow = 'hidden';
+      return () => { document.body.style.overflow = prevOverflow; };
+    }
+  }, [isMobileMenuOpen]);
+
   const handleHomeClick = (e) => {
     e.preventDefault();
     setIsMobileMenuOpen(false);
@@ -46,13 +56,13 @@ export default function Navbar({ onNavigate, activeSection = 'editing' }) {
           style={{ fontFamily: "'GourmetEatery', cursive, sans-serif" }}
           className="pointer-events-auto flex items-center gap-1.5 select-none cursor-pointer group no-underline"
         >
-          <span className="text-[#144BFF] text-sm sm:text-xl tracking-wide transition-colors duration-200 hover:text-[#FFC822] capitalize">
+          <span className="text-[#144BFF] text-sm min-[380px]:text-base sm:text-xl tracking-wide transition-colors duration-200 hover:text-[#FFC822] capitalize">
             Akshay shrivastav
           </span>
           <span className="w-1.5 h-1.5 rounded-full bg-[#FFC822] inline-block mb-0.5 animate-pulse shadow-[0_0_6px_#144BFF]" />
         </a>
 
-        {/* CENTER: DESKTOP CAPSULE NAVIGATION (Exact Hero size, padding & curved rounded-md, with Blue-Yellow theme) */}
+        {/* CENTER: DESKTOP CAPSULE NAVIGATION (untouched) */}
         <div className="pointer-events-auto bg-[#144BFF] border border-white/25 px-4 pt-4 pb-2.5 rounded-md hidden md:flex items-center justify-center gap-0 shadow-xl backdrop-blur-md">
           {NAV_ITEMS.map((item, idx) => {
             const isActive = activeSection === item.id;
@@ -80,7 +90,7 @@ export default function Navbar({ onNavigate, activeSection = 'editing' }) {
           })}
         </div>
 
-        {/* RIGHT: DESKTOP CONNECT BUTTON & MOBILE HAMBURGER TOGGLE */}
+        {/* RIGHT: DESKTOP CONNECT BUTTON (untouched) & MOBILE HAMBURGER TOGGLE */}
         <div className="flex items-center gap-2 pointer-events-auto">
           <a
             href="https://www.instagram.com/akshay__shri/?hl=en"
@@ -92,11 +102,12 @@ export default function Navbar({ onNavigate, activeSection = 'editing' }) {
             <span className="leading-none pt-0.5">Let's connect ↗</span>
           </a>
 
-          {/* MOBILE HAMBURGER BUTTON */}
+          {/* MOBILE HAMBURGER BUTTON — bumped to a proper ~44px touch target, tap feedback added */}
           <button 
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            className="md:hidden bg-[#144BFF] border border-white/25 text-white w-9 h-9 rounded-md flex items-center justify-center shadow-xl cursor-pointer"
             aria-label="Toggle Menu"
+            aria-expanded={isMobileMenuOpen}
+            className="md:hidden bg-[#144BFF] border border-white/25 text-white w-10 h-10 min-[380px]:w-11 min-[380px]:h-11 rounded-md flex items-center justify-center shadow-xl cursor-pointer active:scale-95 transition-transform duration-150 touch-manipulation [-webkit-tap-highlight-color:transparent]"
           >
             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               {isMobileMenuOpen ? (
@@ -110,38 +121,47 @@ export default function Navbar({ onNavigate, activeSection = 'editing' }) {
 
       </div>
 
-      {/* MOBILE DROPDOWN MENU */}
+      {/* MOBILE MENU: tap-outside backdrop + dropdown panel */}
       {isMobileMenuOpen && (
-        <div className="md:hidden pointer-events-auto absolute top-14 left-4 right-4 bg-[#144BFF] border border-white/25 rounded-md p-5 shadow-2xl flex flex-col items-center justify-center text-center gap-3 backdrop-blur-xl animate-in fade-in slide-in-from-top-4 duration-200">
-          {NAV_ITEMS.map((item) => (
-            <a 
-              key={item.id}
-              href={`#${item.id}`}
-              onClick={(e) => {
-                e.preventDefault();
-                setIsMobileMenuOpen(false);
-                if (onNavigate) onNavigate(item.id);
-              }}
-              style={{ fontFamily: "'GourmetEatery', cursive, sans-serif" }}
-              className={`text-lg text-white hover:text-[#FFC822] transition-colors py-1 no-underline ${
-                activeSection === item.id ? 'text-[#FFC822] font-bold' : ''
-              }`}
-            >
-              {item.label}
-            </a>
-          ))}
-          <hr className="border-white/20 w-full my-0.5" />
-          <a 
-            href="https://www.instagram.com/akshay__shri/?hl=en"
-            target="_blank"
-            rel="noopener noreferrer"
+        <>
+          {/* Backdrop — tap anywhere outside the panel to close */}
+          <div
+            className="md:hidden fixed inset-0 z-[1] bg-black/50 pointer-events-auto"
             onClick={() => setIsMobileMenuOpen(false)}
-            style={{ fontFamily: "'GourmetEatery', cursive, sans-serif" }}
-            className="text-lg text-[#FFC822] flex items-center justify-center gap-2 py-1 no-underline"
-          >
-            <span>Let's connect ↗</span>
-          </a>
-        </div>
+            aria-hidden="true"
+          />
+
+          <div className="md:hidden pointer-events-auto absolute top-14 left-4 right-4 z-[2] bg-[#144BFF] border border-white/25 rounded-md p-5 shadow-2xl flex flex-col items-center justify-center text-center gap-3 backdrop-blur-xl animate-in fade-in slide-in-from-top-4 duration-200 max-h-[75vh] overflow-y-auto">
+            {NAV_ITEMS.map((item) => (
+              <a 
+                key={item.id}
+                href={`#${item.id}`}
+                onClick={(e) => {
+                  e.preventDefault();
+                  setIsMobileMenuOpen(false);
+                  if (onNavigate) onNavigate(item.id);
+                }}
+                style={{ fontFamily: "'GourmetEatery', cursive, sans-serif" }}
+                className={`text-base min-[380px]:text-lg text-white hover:text-[#FFC822] transition-colors py-2.5 w-full no-underline active:text-[#FFC822] touch-manipulation [-webkit-tap-highlight-color:transparent] ${
+                  activeSection === item.id ? 'text-[#FFC822] font-bold' : ''
+                }`}
+              >
+                {item.label}
+              </a>
+            ))}
+            <hr className="border-white/20 w-full my-0.5" />
+            <a 
+              href="https://www.instagram.com/akshay__shri/?hl=en"
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={() => setIsMobileMenuOpen(false)}
+              style={{ fontFamily: "'GourmetEatery', cursive, sans-serif" }}
+              className="text-base min-[380px]:text-lg text-[#FFC822] flex items-center justify-center gap-2 py-2.5 w-full no-underline active:opacity-70 touch-manipulation [-webkit-tap-highlight-color:transparent]"
+            >
+              <span>Let's connect ↗</span>
+            </a>
+          </div>
+        </>
       )}
     </header>
   );

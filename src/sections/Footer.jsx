@@ -51,7 +51,7 @@ export default function Footer() {
   }, [scrollYProgress]);
 
   return (
-    <footer className="fixed bottom-0 left-0 w-screen max-w-full box-border z-[9999] h-20 pointer-events-none overflow-visible bg-transparent pb-3 sm:pb-10 px-3 sm:px-8 md:px-12 flex items-end justify-between">
+    <footer className="fixed bottom-0 left-0 w-screen max-w-full box-border z-[9999] h-20 pointer-events-none overflow-visible bg-transparent pb-[calc(0.75rem+env(safe-area-inset-bottom))] sm:pb-10 px-3 sm:px-8 md:px-12 flex items-end justify-between">
       
       
 
@@ -92,7 +92,7 @@ export default function Footer() {
                 target="_blank" 
                 rel="noopener noreferrer" 
                 aria-label={social.name}
-                className="font-gourmet text-[#FFFFFF] flex items-center gap-1.5 no-underline px-0.5 sm:px-1 h-full cursor-pointer group"
+                className="font-gourmet text-[#FFFFFF] flex items-center gap-1.5 no-underline px-1.5 sm:px-1 h-full cursor-pointer group touch-manipulation [-webkit-tap-highlight-color:transparent] max-sm:active:opacity-70"
               >
                 <div className="flex items-center justify-center">{social.icon}</div>
                 

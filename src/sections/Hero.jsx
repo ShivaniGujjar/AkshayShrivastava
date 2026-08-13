@@ -23,7 +23,7 @@ const COLUMNS = [
     id: 'about', 
     title: 'About me', 
     subtitle: 'The person behind the projects.',
-    videoUrl: '../HomeVideo1.mp4' 
+    videoUrl: '../HomeVideo2.mp4' 
   }
 ];
 
@@ -135,6 +135,14 @@ export default function Hero({ onColumnClick }) {
           mask-position: center bottom;
           -webkit-mask-position: center bottom;
         }
+
+        /* MOBILE-ONLY: kill the gray tap-highlight flash on touch devices */
+        @media (max-width: 767px) {
+          .mobile-tap-card {
+            -webkit-tap-highlight-color: transparent;
+            touch-action: manipulation;
+          }
+        }
       `}</style>
 
       {/* 🎬 GLOBAL CORNER VIGNETTE SHADOW */}
@@ -154,7 +162,7 @@ export default function Hero({ onColumnClick }) {
           onClick={() => onColumnClick && onColumnClick('home')}
           className="pointer-events-auto flex items-center gap-1.5 select-none cursor-pointer group"
         >
-          <span className="font-gourmet text-[#FFC822] text-xs sm:text-xl tracking-wide transition-colors duration-200 capitalize">
+          <span className="font-gourmet text-[#FFC822] text-[11px] min-[380px]:text-xs sm:text-xl tracking-wide transition-colors duration-200 capitalize">
             Akshay shrivastav
           </span>
           <span className="w-1.5 h-1.5 rounded-full bg-[#FFFFFF] inline-block mb-0.5 animate-pulse" />
@@ -193,10 +201,10 @@ export default function Hero({ onColumnClick }) {
             href="https://www.instagram.com/akshay__shri/?hl=en"
             target="_blank"
             rel="noopener noreferrer"
-            className="sm:hidden bg-[#0A0B0C] border border-white/25 text-[#FFC822] w-10 h-10 rounded-md flex items-center justify-center shadow-xl cursor-pointer no-underline hover:scale-105 transition-all"
+            className="sm:hidden bg-[#0A0B0C] border border-white/25 text-[#FFC822] w-9 h-9 min-[380px]:w-10 min-[380px]:h-10 rounded-md flex items-center justify-center shadow-xl cursor-pointer no-underline hover:scale-105 transition-all mobile-tap-card"
             aria-label="Connect"
           >
-            <svg viewBox="0 0 24 24" className="w-5 h-5 fill-none stroke-current stroke-[2] stroke-linecap-round stroke-linejoin-round">
+            <svg viewBox="0 0 24 24" className="w-4 h-4 min-[380px]:w-5 min-[380px]:h-5 fill-none stroke-current stroke-[2] stroke-linecap-round stroke-linejoin-round">
               <line x1="7" y1="17" x2="17" y2="7"></line>
               <polyline points="7 7 17 7 17 17"></polyline>
             </svg>
@@ -204,7 +212,7 @@ export default function Hero({ onColumnClick }) {
         </div>
       </header>
       
-      {/* ================= DESKTOP LAYOUT ================= */}
+      {/* ================= DESKTOP LAYOUT (untouched) ================= */}
       <div className="hidden md:block w-full h-full overflow-hidden relative">
         <div className="flex flex-row items-stretch w-[calc(100vw+180px)] h-full relative z-[1]">
           {COLUMNS.map((col, index) => {
@@ -264,13 +272,16 @@ export default function Hero({ onColumnClick }) {
       </div>
 
       {/* ================= MOBILE STACKED LAYOUT ================= */}
-      <div className="md:hidden flex flex-col w-full h-screen overflow-hidden relative z-[1]">
+      <div className="md:hidden flex flex-col w-full h-dvh overflow-hidden relative z-[1]">
         {COLUMNS.map((col, index) => (
           <div
             key={col.id}
             onClick={() => onColumnClick && onColumnClick(col.id)}
-            className={`relative w-full h-[25vh] cursor-pointer overflow-hidden shadow-2xl my-[-6px] first:mt-0 ${index < 3 ? 'mobile-torn-svg-mask' : ''}`}
-            style={{ zIndex: 4 - index }}
+            className={`mobile-tap-card active:brightness-75 relative w-full h-[25dvh] cursor-pointer overflow-hidden shadow-2xl my-[-6px] first:mt-0 transition-[filter] duration-150 ${index < 3 ? 'mobile-torn-svg-mask' : ''}`}
+            style={{
+              zIndex: 4 - index,
+              paddingBottom: index === COLUMNS.length - 1 ? 'env(safe-area-inset-bottom)' : undefined
+            }}
           >
             <video
               ref={(el) => {
@@ -283,21 +294,27 @@ export default function Hero({ onColumnClick }) {
               autoPlay
               preload="auto"
               src={col.videoUrl}
-              className="absolute inset-0 w-full h-full object-cover brightness-[0.55] contrast-[1.1]"
+              className="absolute inset-0 w-full h-full object-cover object-center brightness-[0.55] contrast-[1.1]"
             />
 
             <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-black/40 pointer-events-none z-10" />
             
             <div className="absolute inset-0 flex flex-col items-center justify-center text-center z-20 px-4">
               <h1 
-                style={{ fontFamily: "'RoseryStudio', sans-serif" }}
-                className="text-white text-xl uppercase tracking-tight leading-none mb-0.5 drop-shadow-[0_4px_8px_rgba(0,0,0,0.95)]"
+                style={{ 
+                  fontFamily: "'RoseryStudio', sans-serif",
+                  fontSize: 'clamp(1.05rem, 5.2vw, 1.5rem)'
+                }}
+                className="text-white uppercase tracking-tight leading-none mb-0.5 drop-shadow-[0_4px_8px_rgba(0,0,0,0.95)]"
               >
                 {col.title}
               </h1>
               <p 
-                style={{ fontFamily: "'HelveticaNeue', sans-serif" }}
-                className="text-neutral-300 text-[10px] max-w-[180px] leading-tight drop-shadow-[0_2px_4px_rgba(0,0,0,0.95)]"
+                style={{ 
+                  fontFamily: "'HelveticaNeue', sans-serif",
+                  fontSize: 'clamp(0.62rem, 2.6vw, 0.78rem)'
+                }}
+                className="text-neutral-300 max-w-[85%] leading-tight drop-shadow-[0_2px_4px_rgba(0,0,0,0.95)]"
               >
                 {col.subtitle}
               </p>
@@ -307,15 +324,24 @@ export default function Hero({ onColumnClick }) {
       </div>
 
       {/* 📌 STATIC FIXED FOOTER */}
-      {/* 📌 STATIC FIXED FOOTER */}
-      <footer className="absolute bottom-0 left-0 w-full box-border z-[30] px-3 sm:px-8 md:px-12 pointer-events-none flex items-end pb-3 sm:pb-10">
-        <div className="w-full flex items-center justify-between md:justify-between justify-end relative">
+      <footer 
+        className="absolute bottom-0 left-0 w-full box-border z-[30] px-3 sm:px-8 md:px-12 pointer-events-none flex items-end pb-[calc(0.75rem+env(safe-area-inset-bottom))] sm:pb-10"
+      >
+        <div className="w-full flex items-center justify-between relative">
           
-          {/* 🟢 BOTTOM-LEFT: AVAILABLE FOR WORK BADGE (Hidden on mobile) */}
+          {/* 🟢 BOTTOM-LEFT: AVAILABLE FOR WORK BADGE (desktop version, untouched) */}
           <div className="font-gourmet pointer-events-auto hidden md:flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-5 h-10 sm:h-11 rounded-md bg-[#0a0a0c]/85 text-[#FFC822] border border-white/25 backdrop-blur-md shadow-xl cursor-pointer">
             <span className="w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full bg-[#FFC822] animate-pulse shadow-[0_0_8px_#FFC822]" />
             <span className="capitalize text-[#FFC822] text-[11px] sm:text-lg leading-none pt-0.5">
               Available for work
+            </span>
+          </div>
+
+          {/* 🟢 BOTTOM-LEFT: AVAILABLE FOR WORK BADGE (compact mobile version) */}
+          <div className="font-gourmet pointer-events-auto flex md:hidden items-center gap-1 px-2 h-8 min-[380px]:h-9 rounded-md bg-[#0a0a0c]/85 text-[#FFC822] border border-white/25 backdrop-blur-md shadow-xl">
+            <span className="w-1.5 h-1.5 rounded-full bg-[#FFC822] animate-pulse shadow-[0_0_8px_#FFC822] shrink-0" />
+            <span className="capitalize text-[#FFC822] text-[9px] min-[380px]:text-[10px] leading-none pt-0.5 whitespace-nowrap">
+              Available
             </span>
           </div>
 
@@ -328,7 +354,7 @@ export default function Hero({ onColumnClick }) {
                   target="_blank" 
                   rel="noopener noreferrer" 
                   aria-label={social.id}
-                  className="text-white flex items-center justify-center no-underline transition-all duration-200 ease-out p-1 cursor-pointer hover:scale-125 hover:text-[#FFC822]"
+                  className="mobile-tap-card text-white flex items-center justify-center no-underline transition-all duration-200 ease-out p-1 cursor-pointer hover:scale-125 hover:text-[#FFC822] active:scale-110"
                 >
                   {social.icon}
                 </a>
