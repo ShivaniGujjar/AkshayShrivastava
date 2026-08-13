@@ -32,7 +32,7 @@ const SOCIAL_LINKS = [
     id: 'Instagram', 
     url: 'https://www.instagram.com/akshay__shri/?hl=en',
     icon: (
-      <svg viewBox="0 0 24 24" className="w-[18px] h-[18px] sm:w-[26px] sm:h-[26px] fill-none stroke-current stroke-[2] stroke-linecap-round stroke-linejoin-round">
+      <svg viewBox="0 0 24 24" className="w-[16px] h-[16px] sm:w-[26px] sm:h-[26px] fill-none stroke-current stroke-[2] stroke-linecap-round stroke-linejoin-round">
         <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
         <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
         <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
@@ -43,7 +43,7 @@ const SOCIAL_LINKS = [
     id: 'Gmail', 
     url: 'mailto:client@email.com',
     icon: (
-      <svg viewBox="0 0 24 24" className="w-[18px] h-[18px] sm:w-[26px] sm:h-[26px] fill-none stroke-current stroke-[2] stroke-linecap-round stroke-linejoin-round">
+      <svg viewBox="0 0 24 24" className="w-[16px] h-[16px] sm:w-[26px] sm:h-[26px] fill-none stroke-current stroke-[2] stroke-linecap-round stroke-linejoin-round">
         <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
         <polyline points="22,6 12,13 2,6"></polyline>
       </svg>
@@ -53,7 +53,7 @@ const SOCIAL_LINKS = [
     id: 'YouTube', 
     url: 'https://youtube.com',
     icon: (
-      <svg viewBox="0 0 24 24" className="w-[18px] h-[18px] sm:w-[26px] sm:h-[26px] fill-none stroke-current stroke-[2] stroke-linecap-round stroke-linejoin-round">
+      <svg viewBox="0 0 24 24" className="w-[16px] h-[16px] sm:w-[26px] sm:h-[26px] fill-none stroke-current stroke-[2] stroke-linecap-round stroke-linejoin-round">
         <path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.25 29 29 0 0 0-.46-5.33z"></path>
         <polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02"></polygon>
       </svg>
@@ -76,27 +76,10 @@ export default function Hero({ onColumnClick }) {
   };
 
   return (
-    <section className="hero-viewport-fix w-full bg-[#08080a] overflow-hidden relative m-0 p-0 select-none">
+    <section className="w-full h-dvh md:h-screen bg-[#08080a] overflow-hidden relative m-0 p-0 select-none">
       
       {/* 🎨 FONT & MASK STYLING */}
       <style>{`
-        /* MOBILE-ONLY viewport height, with a guaranteed 100vh fallback.
-           100dvh is only applied when the browser actually supports it —
-           this avoids a height:auto collapse (and the black-video bug
-           that causes) on engines that don't understand dvh yet.
-           Desktop (768px+) is untouched: plain 100vh, same as before. */
-        .hero-viewport-fix {
-          height: 100vh;
-        }
-
-        @media (max-width: 767px) {
-          @supports (height: 100dvh) {
-            .hero-viewport-fix {
-              height: 100dvh;
-            }
-          }
-        }
-
         @font-face {
           font-family: 'RoseryStudio';
           src: url('/RoseryStudio-Regular.ttf') format('truetype');
@@ -179,7 +162,7 @@ export default function Hero({ onColumnClick }) {
           onClick={() => onColumnClick && onColumnClick('home')}
           className="pointer-events-auto flex items-center gap-1.5 select-none cursor-pointer group"
         >
-          <span className="font-gourmet text-[#FFC822] text-[11px] min-[380px]:text-xs sm:text-xl tracking-wide transition-colors duration-200 capitalize">
+          <span className="font-gourmet text-[#FFC822] text-sm min-[380px]:text-base sm:text-xl tracking-wide transition-colors duration-200 capitalize">
             Akshay shrivastav
           </span>
           <span className="w-1.5 h-1.5 rounded-full bg-[#FFFFFF] inline-block mb-0.5 animate-pulse" />
@@ -344,7 +327,7 @@ export default function Hero({ onColumnClick }) {
       <footer 
         className="absolute bottom-0 left-0 w-full box-border z-[30] px-3 sm:px-8 md:px-12 pointer-events-none flex items-end pb-[calc(0.75rem+env(safe-area-inset-bottom))] sm:pb-10"
       >
-        <div className="w-full flex items-center justify-between relative">
+        <div className="w-full flex items-center justify-end md:justify-between relative">
           
           {/* 🟢 BOTTOM-LEFT: AVAILABLE FOR WORK BADGE (desktop version, untouched) */}
           <div className="font-gourmet pointer-events-auto hidden md:flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-5 h-10 sm:h-11 rounded-md bg-[#0a0a0c]/85 text-[#FFC822] border border-white/25 backdrop-blur-md shadow-xl cursor-pointer">
@@ -354,15 +337,9 @@ export default function Hero({ onColumnClick }) {
             </span>
           </div>
 
-          {/* 🟢 BOTTOM-LEFT: AVAILABLE FOR WORK BADGE (compact mobile version) */}
-          <div className="font-gourmet pointer-events-auto flex md:hidden items-center gap-1 px-2 h-8 min-[380px]:h-9 rounded-md bg-[#0a0a0c]/85 text-[#FFC822] border border-white/25 backdrop-blur-md shadow-xl">
-            <span className="w-1.5 h-1.5 rounded-full bg-[#FFC822] animate-pulse shadow-[0_0_8px_#FFC822] shrink-0" />
-            <span className="capitalize text-[#FFC822] text-[9px] min-[380px]:text-[10px] leading-none pt-0.5 whitespace-nowrap">
-              Available
-            </span>
-          </div>
+         
 
-          {/* 🌐 BOTTOM-RIGHT: SOCIAL LINKS CONTAINER */}
+          {/* 🌐 SOCIAL LINKS CONTAINER — bottom-right on mobile (badge removed there), bottom-right on desktop too */}
           <div className="flex items-center justify-center bg-[#0a0a0c]/85 border border-white/25 px-2.5 sm:px-4 h-10 sm:h-12 rounded-md shadow-xl backdrop-blur-md pointer-events-auto gap-2.5 sm:gap-4">
             {SOCIAL_LINKS.map((social, idx) => (
               <React.Fragment key={social.id}>
