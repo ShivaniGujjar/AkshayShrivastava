@@ -5,25 +5,25 @@ const COLUMNS = [
     id: 'editing', 
     title: 'Editing', 
     subtitle: 'Crafting stories that keep people watching.',
-    videoUrl: '../HomeVideo1.mp4' 
+    videoUrl: 'https://akshayshrivastava.com/videos/EditingMain.mp4' 
   },
   { 
     id: 'motion', 
     title: 'Motion design', 
     subtitle: 'Adding motion that brings stories to life.',
-    videoUrl: '../HomeVideo2.mp4' 
+    videoUrl: 'https://akshayshrivastava.com/videos/MotionMain.mp4' 
   },
   { 
     id: 'direction', 
     title: 'Direction', 
     subtitle: 'Turning ideas into visual experiences.',
-    videoUrl: '../HomeVideo3.mp4' 
+    videoUrl: 'https://akshayshrivastava.com/videos/DirectionMain.mp4' 
   },
   { 
     id: 'about', 
     title: 'About me', 
     subtitle: 'The person behind the projects.',
-    videoUrl: '../HomeVideo2.mp4' 
+    videoUrl: 'https://akshayshrivastava.com/videos/AboutMain.mp4' 
   }
 ];
 
@@ -233,13 +233,20 @@ export default function Hero({ onColumnClick }) {
                 <video
                   key={col.videoUrl}
                   ref={(el) => {
+                    // Guard against calling .load() on every re-render —
+                    // only load once when the element first mounts.
+                    const isNewEl = videoRefs.current[index] !== el;
                     videoRefs.current[index] = el;
-                    if (el) el.load();
+                    if (el && isNewEl) el.load();
                   }}
                   loop
                   muted
                   playsInline
-                  preload="auto"
+                  // Desktop videos only ever play on hover, so there's no
+                  // need to force-download all 4 columns on page load —
+                  // metadata (dimensions/duration/first frame) is enough
+                  // until the user actually hovers.
+                  preload="metadata"
                   src={col.videoUrl}
                   className="absolute inset-0 w-full h-full object-cover brightness-[0.55] contrast-[1.1] grayscale group-hover:grayscale-0 group-hover:brightness-[0.85] transition-all duration-700 ease-out group-hover:scale-[1.03] z-0"
                 />
@@ -292,6 +299,9 @@ export default function Hero({ onColumnClick }) {
               muted
               playsInline
               autoPlay
+              // All 4 mobile bands are visible on load simultaneously (they
+              // stack to fill the screen height), so autoplay is by design
+              // here — preload stays "auto" since these will always play.
               preload="auto"
               src={col.videoUrl}
               className="absolute inset-0 w-full h-full object-cover object-center brightness-[0.55] contrast-[1.1]"

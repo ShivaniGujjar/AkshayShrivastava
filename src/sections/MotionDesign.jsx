@@ -9,21 +9,28 @@ if (typeof window !== 'undefined') {
   gsap.registerPlugin(ScrollTrigger);
 }
 
-// 🎬 REAL SHOWCASE DATA
+// 🎬 REAL SHOWCASE DATA WITH HOSTINGER LINKS
 const SHORT_FORMS = [
-  { id: 'msf1', title: '3D Kinetic Typography', brand: 'UGC Ad', videoUrl: '', poster: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=600' },
-  { id: 'msf2', title: 'Abstract Product Reel', brand: '3D Motion', videoUrl: '', poster: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=600' },
-  { id: 'msf3', title: 'Logo Reveal Loop', brand: 'VFX', videoUrl: '', poster: 'https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=600' },
-  { id: 'msf4', title: 'Character Animation', brand: '2D Motion', videoUrl: '', poster: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=600' },
+  { id: 'msf1', title: '3D Kinetic Typography', brand: 'UGC Ad', videoUrl: 'https://akshayshrivastava.com/videos/short2.mp4', poster: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=600' },
+  { id: 'msf2', title: 'Abstract Product Reel', brand: '3D Motion', videoUrl: 'https://akshayshrivastava.com/videos/short4.mp4', poster: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=600' },
+  { id: 'msf3', title: 'Logo Reveal Loop', brand: 'VFX', videoUrl: 'https://akshayshrivastava.com/videos/short6.mp4', poster: 'https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=600' },
+  { id: 'msf4', title: 'Character Animation', brand: '2D Motion', videoUrl: 'https://akshayshrivastava.com/videos/short7.mp4', poster: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=600' },
+  { id: 'msf5', title: 'Character Animation', brand: '2D Motion', videoUrl: 'https://akshayshrivastava.com/videos/short9.mp4', poster: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=600' },
+  { id: 'msf6', title: 'Character Animation', brand: '2D Motion', videoUrl: 'https://akshayshrivastava.com/videos/short13.mp4', poster: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=600' },
+  { id: 'msf7', title: 'Character Animation', brand: '2D Motion', videoUrl: 'https://akshayshrivastava.com/videos/short14.mp4', poster: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=600' },
+  { id: 'msf8', title: 'Character Animation', brand: '2D Motion', videoUrl: 'https://akshayshrivastava.com/videos/short15.mp4', poster: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=600' },
+  { id: 'msf9', title: 'Character Animation', brand: '2D Motion', videoUrl: 'https://akshayshrivastava.com/videos/short20.mp4', poster: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=600' },
 ];
 
 const LONG_FORMS = [
-  { id: 'mlf1', title: 'Explainer Film Loop', category: 'Animation', videoUrl: '', poster: 'https://images.unsplash.com/photo-1634017839464-5c339ebe3cb4?w=600' },
-  { id: 'mlf2', title: 'Campus Documentary Intro', category: 'Titles', videoUrl: '', poster: 'https://images.unsplash.com/photo-1550745165-9bc0b252726f?w=600' },
-  { id: 'mlf3', title: 'SaaS Platform Walkthrough', category: '3D UI', videoUrl: '', poster: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=600' },
+  { id: 'mlf1', title: 'Explainer Film Loop', category: 'Animation', videoUrl: 'https://akshayshrivastava.com/videos/long1.mp4', poster: 'https://images.unsplash.com/photo-1634017839464-5c339ebe3cb4?w=600' },
+  { id: 'mlf2', title: 'Campus Documentary Intro', category: 'Titles', videoUrl: 'https://akshayshrivastava.com/videos/long2.mp4', poster: 'https://images.unsplash.com/photo-1550745165-9bc0b252726f?w=600' },
+  { id: 'mlf3', title: 'SaaS Platform Walkthrough', category: '3D UI', videoUrl: 'https://akshayshrivastava.com/videos/long3.mp4', poster: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=600' },
 ];
 
-const duplicateList = (arr, count = 4) => {
+// ✅ FIX: was duplicated 4x, matching the same bug fixed in Editing.jsx.
+// 2x is the minimum needed for a seamless infinite marquee loop.
+const duplicateList = (arr, count = 2) => {
   let output = [];
   for (let i = 0; i < count; i++) {
     output = [...output, ...arr];
@@ -143,7 +150,8 @@ export default function MotionDesign() {
   const heroVideoRef = useRef(null);
 
   const featuredSectionRef = useRef(null);
-  const paragraphRef = useRef(null);
+  const reelRef = useRef(null);
+  const textContentRef = useRef(null);
 
   const toggleHeroSound = () => {
     if (heroVideoRef.current) {
@@ -162,22 +170,32 @@ export default function MotionDesign() {
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-      gsap.fromTo(paragraphRef.current, {
-        opacity: 0,
-        y: 120,
-        scale: 0.9,
-      }, {
-        opacity: 1,
-        y: 0,
-        scale: 1,
-        duration: 1.1,
-        ease: 'power3.out',
+      const isMobile = window.innerWidth < 768;
+
+      // Start from center (0) and split: Reel moves left (-60), Text moves right (+60)
+      gsap.set(reelRef.current, { x: 0, opacity: 0 });
+      gsap.set(textContentRef.current, { x: 0, opacity: 0 });
+
+      const tl = gsap.timeline({
         scrollTrigger: {
           trigger: featuredSectionRef.current,
           start: 'top 65%',
           toggleActions: 'play none none reverse',
         }
       });
+
+      tl.to(reelRef.current, {
+        opacity: 1,
+        x: isMobile ? 0 : -60,
+        duration: 1.2,
+        ease: 'power3.out',
+      })
+      .to(textContentRef.current, {
+        opacity: 1,
+        x: isMobile ? 0 : 60,
+        duration: 1.2,
+        ease: 'power3.out',
+      }, "<");
     }, featuredSectionRef);
 
     return () => ctx.revert();
@@ -236,11 +254,12 @@ export default function MotionDesign() {
       <div className="relative w-full h-[60vh] sm:h-screen bg-[#14120e] flex flex-col justify-center items-center overflow-hidden m-0 p-0 editing-cutout-mask"> 
         <video 
           ref={heroVideoRef}
-          src="https://res.cloudinary.com/n1mfkfh4/video/upload/v1785674839/Perfectionism_compressed_isgrjo.mp4" 
+          src="https://akshayshrivastava.com/videos/MotionMain.mp4" 
           autoPlay 
           loop 
           muted={isHeroMuted} 
           playsInline 
+          preload="auto"
           className="absolute top-0 left-0 w-full h-full object-cover z-0 filter brightness-[0.55] contrast-105"
         />
 
@@ -288,10 +307,10 @@ export default function MotionDesign() {
         </div>
       </div>
 
-      {/* HEADER & FEATURED MASTERPIECE SECTION */}
-      <div ref={featuredSectionRef} className="w-full mx-auto pt-10 sm:pt-16 pb-6 px-4 flex flex-col items-center relative z-20 text-center overflow-hidden">
+      {/* HEADER & FEATURED REEL + TEXT SECTION */}
+      <div ref={featuredSectionRef} className="w-full mx-auto pt-10 sm:pt-16 pb-12 px-4 sm:px-12 relative z-20 overflow-hidden">
         
-        <div className="inline-flex flex-col items-center z-20 px-4">
+        <div className="flex flex-col items-center text-center mb-8 sm:mb-12">
           <h2 
             style={{ 
               fontFamily: "'Talina', sans-serif", 
@@ -304,27 +323,36 @@ export default function MotionDesign() {
           </h2>
         </div>
 
-        <div ref={paragraphRef} className="relative z-10 mt-3 mb-6 max-w-[700px] px-4">
-          <p 
-            style={{ 
-              fontFamily: "'HelveticaNeue', sans-serif", 
-              fontWeight: 600,
-              letterSpacing : '-1px'
-            }}
-            className="text-[#14120e] text-xs sm:text-lg leading-relaxed text-center font-light tracking-wide"
-          >
-            I craft dynamic 2D/3D motion graphics, kinetic typography, and fluid visual effects that elevate brand campaigns and digital storytelling.
-          </p>
-        </div>
+        {/* Split Layout: Center-to-Sides Animation */}
+        <div className="max-w-[1050px] mx-auto flex flex-col lg:flex-row items-center justify-center gap-8 sm:gap-14 relative">
+          
+          {/* LEFT: VERTICAL REEL PLAYER */}
+          <div ref={reelRef} className="w-[260px] sm:w-[320px] aspect-[9/16] shrink-0 rounded-xl overflow-hidden shadow-2xl border border-black/10 bg-black relative">
+            <CustomVideoPlayer 
+              src="https://akshayshrivastava.com/videos/MotionMain.mp4"
+              badgeText="Featured Masterpiece"
+              className="w-full h-full"
+              autoPlay={true}
+              muted={true}
+            />
+          </div>
 
-        {/* 🍿 FULL WIDE FEATURED MASTERPIECE */}
-        <div className="max-w-[1100px] w-full px-2 sm:px-6 mb-10 relative z-20">
-          <CustomVideoPlayer 
-            src="https://res.cloudinary.com/n1mfkfh4/video/upload/v1785674839/Perfectionism_compressed_isgrjo.mp4"
-            badgeText="Featured Masterpiece"
-            className="w-full aspect-video rounded-xl overflow-hidden shadow-2xl border border-black/10"
-            muted={true}
-          />
+          {/* RIGHT: ANIMATED TEXT CONTENT WITH BLUE TITLE */}
+          <div ref={textContentRef} className="flex-1 flex flex-col items-start text-left px-2 sm:px-0 max-w-lg">
+            <h3 
+              style={{ fontFamily: "'Talina', sans-serif", fontWeight: 400 }}
+              className="text-2xl sm:text-4xl md:text-[2.5rem] text-[#144BFF] leading-tight mb-4 border-l-4 border-[#144BFF] pl-4"
+            >
+              Bringing Ideas to Life Through Motion
+            </h3>
+            <p 
+              style={{ fontFamily: "'HelveticaNeue', sans-serif", fontWeight: 300, letterSpacing: '-0.2px' }}
+              className="text-[#14120e] text-sm sm:text-lg leading-relaxed pl-4 font-light"
+            >
+              I craft dynamic 2D/3D motion graphics, kinetic typography, and fluid visual effects that elevate brand campaigns and digital storytelling. Every frame is meticulously designed to hook viewers instantly.
+            </p>
+          </div>
+
         </div>
       </div>
 
@@ -419,7 +447,7 @@ export default function MotionDesign() {
         <SocialProof />
       </div>
 
-      {/* FULLSCREEN PREVIEW WITH DYNAMIC ASPECT RATIO */}
+      {/* FULLSCREEN PREVIEW */}
       {selectedVideo && (
         <div 
           onClick={() => setSelectedVideo(null)}
@@ -444,6 +472,7 @@ export default function MotionDesign() {
                   autoPlay 
                   playsInline 
                   loop
+                  preload="auto"
                   className="w-full h-full object-cover outline-none" 
                 />
               </div>

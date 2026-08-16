@@ -32,7 +32,7 @@ const DEFAULT_TESTIMONIALS = [
   }
 ];
 
-const duplicateList = (arr, count = 4) => {
+const duplicateList = (arr, count = 6) => {
   let output = [];
   for (let i = 0; i < count; i++) {
     output = [...output, ...arr];
@@ -44,28 +44,39 @@ export default function SocialProof({ brands = DEFAULT_BRANDS, testimonials = DE
   return (
     <section className="w-full relative overflow-hidden pt-4 pb-6 sm:pt-8 sm:pb-10 select-none bg-[#FFFCFB]" style={{ fontFamily: "'HelveticaNeue', 'Helvetica Neue', Helvetica, Arial, sans-serif" }}>
       
-      {/* 🎨 LOCAL FONT DECLARATION */}
+      {/* 🎨 SLOW & SMOOTH ANIMATION STYLING */}
       <style>{`
+        @keyframes slowSmoothMarqueeLeft {
+          0% { transform: translate3d(0, 0, 0); }
+          100% { transform: translate3d(-50%, 0, 0); }
+        }
+
+        @keyframes slowSmoothMarqueeRight {
+          0% { transform: translate3d(-50%, 0, 0); }
+          100% { transform: translate3d(0, 0, 0); }
+        }
+
+        .animate-marquee-slow-left {
+          display: inline-flex;
+          white-space: nowrap;
+          animation: slowSmoothMarqueeLeft 70s linear infinite;
+        }
+
+        .animate-marquee-slow-right {
+          display: inline-flex;
+          white-space: nowrap;
+          animation: slowSmoothMarqueeRight 70s linear infinite;
+        }
+
+        .animate-marquee-slow-left:hover,
+        .animate-marquee-slow-right:hover {
+          animation-play-state: paused;
+        }
+
         @font-face {
           font-family: 'Talina';
           src: url('/Talina-Regular.ttf') format('truetype');
           font-weight: normal;
-          font-style: normal;
-          font-display: swap;
-        }
-
-        @font-face {
-          font-family: 'HelveticaNeue';
-          src: url('/fonts/HelveticaNeueRoman.otf') format('opentype');
-          font-weight: normal;
-          font-style: normal;
-          font-display: swap;
-        }
-
-        @font-face {
-          font-family: 'HelveticaNeueBold';
-          src: url('/fonts/HelveticaNeueBold.otf') format('opentype');
-          font-weight: bold;
           font-style: normal;
           font-display: swap;
         }
@@ -74,7 +85,7 @@ export default function SocialProof({ brands = DEFAULT_BRANDS, testimonials = DE
       {/* ────────────────── 1. WORKED WITH SECTION ────────────────── */}
       <div className="w-full relative overflow-hidden mb-6 sm:mb-10 text-center">
         
-        {/* Section Heading - TALINA */}
+        {/* Section Heading */}
         <div className="inline-flex flex-col items-center mb-2 sm:mb-4 px-4">
           <h3 
             style={{ fontFamily: "'Talina', sans-serif", letterSpacing: '0.4px', fontWeight: 400 }}
@@ -85,8 +96,8 @@ export default function SocialProof({ brands = DEFAULT_BRANDS, testimonials = DE
         </div>
 
         {/* Marquee Container */}
-        <div className="w-full overflow-hidden py-1 sm:py-2 group">
-          <div className="inline-flex whitespace-nowrap gap-3 sm:gap-8 w-max will-change-transform animate-[slowMarqueeLeft_65s_linear_infinite] group-hover:[animation-play-state:paused]">
+        <div className="w-full overflow-hidden py-1 sm:py-2">
+          <div className="animate-marquee-slow-left gap-3 sm:gap-8 w-max">
             {duplicateList(brands).map((brand, idx) => (
               <div 
                 key={`brand-${idx}`} 
@@ -137,8 +148,8 @@ export default function SocialProof({ brands = DEFAULT_BRANDS, testimonials = DE
         </div>
 
         {/* TICKER CARDS WRAPPER */}
-        <div className="w-full overflow-hidden py-1 sm:py-2 group relative z-[15]">
-          <div className="inline-flex whitespace-nowrap gap-4 sm:gap-7 w-max will-change-transform animate-[slowMarqueeLeft_75s_linear_infinite] group-hover:[animation-play-state:paused]">
+        <div className="w-full overflow-hidden py-1 sm:py-2 relative z-[15]">
+          <div className="animate-marquee-slow-right gap-4 sm:gap-7 w-max">
             {duplicateList(testimonials).map((testi, idx) => (
               <div 
                 key={`testi-${idx}`} 

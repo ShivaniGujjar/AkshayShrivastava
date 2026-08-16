@@ -24,6 +24,7 @@ export default function CustomVideoPlayer({
   muted = true,     // 👈 Default Muted
   compact = false
 }) {
+  const containerRef = useRef(null);
   const videoRef = useRef(null);
   const [isPlaying, setIsPlaying] = useState(autoPlay);
   const [isMuted, setIsMuted] = useState(muted);
@@ -31,15 +32,36 @@ export default function CustomVideoPlayer({
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
   const [showControls, setShowControls] = useState(true);
+  // ✅ FIX: this player sits directly on the page (e.g. "Featured
+  // Masterpiece" sections), so it mounts on page load even before the user
+  // has scrolled to it. Without a visibility check, autoPlay=true fires
+  // immediately regardless of whether it's on screen. Track visibility so
+  // it only actually plays once scrolled into view.
+  const [isVisible, setIsVisible] = useState(false);
   const timerRef = useRef(null);
 
   useEffect(() => {
-    if (autoPlay && videoRef.current) {
+    if (!containerRef.current) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => setIsVisible(entry.isIntersecting),
+      { threshold: 0.15 }
+    );
+    observer.observe(containerRef.current);
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    if (!videoRef.current) return;
+    if (autoPlay && isVisible) {
       videoRef.current.play().catch(() => {
         setIsPlaying(false);
       });
+    } else if (!isVisible) {
+      // Off-screen: pause so a mounted-but-unseen player isn't silently
+      // buffering/playing in the background.
+      videoRef.current.pause();
     }
-  }, [autoPlay, src]);
+  }, [autoPlay, isVisible, src]);
 
   const togglePlay = (e) => {
     e?.stopPropagation();
@@ -96,6 +118,7 @@ export default function CustomVideoPlayer({
 
   return (
     <div 
+      ref={containerRef}
       className={`relative overflow-hidden group select-none cursor-pointer ${className}`}
       onMouseMove={handleMouseMove}
       onMouseLeave={() => isPlaying && setShowControls(false)}
@@ -105,10 +128,16 @@ export default function CustomVideoPlayer({
         ref={videoRef}
         src={src}
         poster={poster}
-        autoPlay={autoPlay}
+        // Only force autoplay-on-load when the browser can see it's about
+        // to be visible; otherwise keep it lightweight until it's in view.
+        autoPlay={autoPlay && isVisible}
         loop={loop}
         muted={isMuted}
         playsInline
+        // ✅ FIX: no preload was set before, so browsers defaulted to
+        // fully downloading the video regardless of visibility. metadata
+        // is enough until it's actually in view and about to play.
+        preload="metadata"
         onTimeUpdate={handleTimeUpdate}
         className={videoClassName}
       />

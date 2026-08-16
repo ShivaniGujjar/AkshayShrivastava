@@ -9,31 +9,37 @@ if (typeof window !== 'undefined') {
   gsap.registerPlugin(ScrollTrigger);
 }
 
-// 🎬 REAL SHOWCASE DATA
+// 🎬 REAL SHOWCASE DATA WITH HOSTINGER LINKS
 const LONG_FORMS = [
-  { id: 'lf1', title: '1', category: 'Podcast', videoUrl: './EditingLong1.mp4', poster: 'https://images.unsplash.com/photo-1590602847861-f357a9332bbc?w=600' },
-  { id: 'lf2', title: '2', category: 'Edutainment', videoUrl: './EditingLong2.mp4', poster: 'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=600' },
-  { id: 'lf3', title: '3', category: 'Documentary', videoUrl: './EditingLong3.mp4', poster: 'https://images.unsplash.com/photo-1536240478700-b869070f9279?w=600' },
-  { id: 'lf4', title: 'Talking Head Masterclass', category: 'Vlog', videoUrl: './EditingLong4.mp4', poster: 'https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?w=600' },
-  { id: 'lf5', title: 'Talking Head Masterclass', category: 'Vlog', videoUrl: './EditingLong5.mp4', poster: 'https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?w=600' },
-  { id: 'lf6', title: 'Talking Head Masterclass', category: 'Vlog', videoUrl: './EditingLong6.mp4', poster: 'https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?w=600' },
+  { id: 'lf1', title: '1', category: 'Podcast', videoUrl: 'https://akshayshrivastava.com/videos/long1.mp4', poster: 'https://images.unsplash.com/photo-1590602847861-f357a9332bbc?w=600' },
+  { id: 'lf2', title: '2', category: 'Edutainment', videoUrl: 'https://akshayshrivastava.com/videos/long2.mp4', poster: 'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=600' },
+  { id: 'lf3', title: '3', category: 'Documentary', videoUrl: 'https://akshayshrivastava.com/videos/long3.mp4', poster: 'https://images.unsplash.com/photo-1536240478700-b869070f9279?w=600' },
+  { id: 'lf4', title: 'Talking Head Masterclass', category: 'Vlog', videoUrl: 'https://akshayshrivastava.com/videos/long4.mp4', poster: 'https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?w=600' },
+  { id: 'lf5', title: 'Talking Head Masterclass', category: 'Vlog', videoUrl: 'https://akshayshrivastava.com/videos/long5.mp4', poster: 'https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?w=600' },
+  { id: 'lf6', title: 'Talking Head Masterclass', category: 'Vlog', videoUrl: 'https://akshayshrivastava.com/videos/long6.mp4', poster: 'https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?w=600' },
 ];
 
 const SHORT_FORMS_ROW1 = [
-  { id: 'sf1', title: 'UGC Retention Hook', brand: 'Waywen', videoUrl: './EditingShort1.mp4', poster: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=600' },
-  { id: 'sf2', title: '3D Product Reel', brand: "Master's Union", videoUrl: './EditingShort2.mp4', poster: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=600' },
-  { id: 'sf3', title: 'Viral Podcast Clip', brand: 'Edutainment', videoUrl: './EditingShort3.mp4', poster: 'https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=600' },
-  { id: 'sf4', title: 'App Promo Reel', brand: 'Media Hub', videoUrl: './EditingShort4.mp4', poster: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=600' },
+  { id: 'sf1', title: 'Retention Hook 1', brand: 'Waywen', videoUrl: 'https://akshayshrivastava.com/videos/short3.mp4', poster: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=600' },
+  { id: 'sf2', title: 'Viral Podcast Clip 2', brand: 'Edutainment', videoUrl: 'https://akshayshrivastava.com/videos/short19.mp4', poster: 'https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=600' },
+  { id: 'sf3', title: 'Brand Story Reel 3', brand: 'Kolkata Media', videoUrl: 'https://akshayshrivastava.com/videos/short5.mp4', poster: 'https://images.unsplash.com/photo-1579783902614-a3fb3927b675?w=600' },
+  { id: 'sf4', title: 'Fitness Campaign 4', brand: 'Fit Tribe', videoUrl: 'https://akshayshrivastava.com/videos/short10.mp4', poster: 'https://images.unsplash.com/photo-1517838277536-f5f99be501cd?w=600' },
+  { id: 'sf5', title: 'Short Clip 5', brand: 'Brand Y', videoUrl: 'https://akshayshrivastava.com/videos/short17.mp4', poster: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=600' },
 ];
 
 const SHORT_FORMS_ROW2 = [
-  { id: 'sf5', title: 'Brand Story Reel', brand: 'Kolkata Media', videoUrl: './EditingShort5.mp4', poster: 'https://images.unsplash.com/photo-1579783902614-a3fb3927b675?w=600' },
-  { id: 'sf6', title: 'High-Retention Ad', brand: 'SaaS Launch', videoUrl: './EditingShort6.mp4', poster: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=600' },
-  { id: 'sf7', title: 'Fashion Motion Edit', brand: 'Studio Luxe', videoUrl: './EditingShort7.mp4', poster: 'https://images.unsplash.com/photo-1509631179647-0177331693ae?w=600' },
-  { id: 'sf8', title: 'Fitness Campaign', brand: 'Fit Tribe', videoUrl: './EditingShort8.mp4', poster: 'https://images.unsplash.com/photo-1517838277536-f5f99be501cd?w=600' },
+  { id: 'sf11', title: 'Short Clip 11', brand: 'Brand Z', videoUrl: 'https://akshayshrivastava.com/videos/short8.mp4', poster: 'https://images.unsplash.com/photo-1579783902614-a3fb3927b675?w=600' },
+  { id: 'sf10', title: 'Short Clip 10', brand: 'Startup A', videoUrl: 'https://akshayshrivastava.com/videos/short11.mp4', poster: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=600' },
+  { id: 'sf9', title: 'Short Clip 9', brand: 'Creator E', videoUrl: 'https://akshayshrivastava.com/videos/short16.mp4', poster: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=600' },
+  { id: 'sf8', title: 'Short Clip 8', brand: 'Creator F', videoUrl: 'https://akshayshrivastava.com/videos/short12.mp4', poster: 'https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=600' },
+  { id: 'sf7', title: 'Short Clip 7', brand: 'Media G', videoUrl: 'https://akshayshrivastava.com/videos/short1.mp4', poster: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=600' },
+  { id: 'sf6', title: 'Short Clip 6', brand: 'Media H', videoUrl: 'https://akshayshrivastava.com/videos/short18.mp4', poster: 'https://images.unsplash.com/photo-1579783902614-a3fb3927b675?w=600' },
 ];
 
-const duplicateList = (arr, count = 4) => {
+// ✅ FIX: was duplicated 4x (creating ~110 <video> elements total). 2x is the
+// minimum needed for a seamless infinite marquee loop, cutting DOM video
+// elements roughly in half.
+const duplicateList = (arr, count = 2) => {
   let output = [];
   for (let i = 0; i < count; i++) {
     output = [...output, ...arr];
@@ -67,20 +73,32 @@ function VideoCard({ item, aspectRatio = "wide", hoveredId, setHoveredId }) {
   }, []);
 
   useEffect(() => {
-    if (videoRef.current) {
-      if (!isVisible) {
-        videoRef.current.pause();
-      } else if (isAnyHovered) {
-        if (isHovered) {
-          videoRef.current.play().catch(() => {});
-        } else {
-          videoRef.current.pause();
-        }
-      } else {
-        videoRef.current.play().catch(() => {});
-      }
+    if (!videoRef.current) return;
+
+    if (!isVisible) {
+      // Off-screen: pause and drop the src so it's not silently buffering
+      // in the background while scrolled away.
+      videoRef.current.pause();
+      return;
     }
-  }, [isVisible, isHovered, isAnyHovered]);
+
+    // Client requirement: every card currently on screen autoplays by
+    // default. Hovering a specific card keeps that one playing and
+    // pauses every other visible card; moving off it resumes all of them.
+    const shouldPlay = isAnyHovered ? isHovered : true;
+
+    if (shouldPlay) {
+      // Lazily attach the src only once the card is actually visible,
+      // so cards further down the row never trigger a network request
+      // until they're about to be seen.
+      if (!videoRef.current.src) {
+        videoRef.current.src = item.videoUrl;
+      }
+      videoRef.current.play().catch(() => {});
+    } else {
+      videoRef.current.pause();
+    }
+  }, [isVisible, isHovered, isAnyHovered, item.videoUrl]);
 
   const cardDimensions = aspectRatio === "wide" 
     ? "w-[280px] sm:w-[420px] h-[160px] sm:h-[260px]" 
@@ -95,12 +113,11 @@ function VideoCard({ item, aspectRatio = "wide", hoveredId, setHoveredId }) {
     >
       <video
         ref={videoRef}
-        src={item.videoUrl}
         poster={item.poster}
         muted
         loop
         playsInline
-        preload="metadata"
+        preload="none"
         className="absolute inset-0 w-full h-full object-cover transition-all duration-700 filter brightness-[0.85] group-hover:brightness-100 group-hover:scale-105 outline-none focus:outline-none pointer-events-none"
       />
 
@@ -203,7 +220,7 @@ export default function Editing() {
   return (
     <div className="w-full min-h-screen bg-[#FFFCFB] relative overflow-x-hidden pb-16 sm:pb-24 m-0 text-[#14120e]">
       
-      {/* 🎞️ NOISE GIF OVERLAY FOR LIGHT BACKGROUND (Using mix-blend-multiply for dark grain) */}
+      {/* 🎞️ NOISE GIF OVERLAY FOR LIGHT BACKGROUND */}
       <div 
         className="fixed inset-0 pointer-events-none z-[999] bg-[url('/noise.gif')] bg-repeat"
         style={{ opacity: 0.05, mixBlendMode: 'multiply' }}
@@ -250,11 +267,12 @@ export default function Editing() {
       <div className="relative w-full h-[60vh] sm:h-screen bg-[#14120e] flex flex-col justify-center items-center overflow-hidden m-0 p-0 editing-cutout-mask"> 
         <video 
           ref={heroVideoRef}
-          src="https://res.cloudinary.com/n1mfkfh4/video/upload/v1785678593/Campus_film_compressed_2_otok6t.mp4" 
+          src="https://akshayshrivastava.com/videos/EditingMain.mp4" 
           autoPlay 
           loop 
           muted={isHeroMuted} 
           playsInline 
+          preload="auto"
           className="absolute top-0 left-0 w-full h-full object-cover z-0 filter brightness-[0.55] contrast-105"
         />
 
@@ -331,10 +349,10 @@ export default function Editing() {
           </p>
         </div>
 
-        {/* 🍿 FULL WIDE FEATURED MASTERPIECE - DEFAULT MUTED */}
+        {/* 🍿 FULL WIDE FEATURED MASTERPIECE */}
         <div className="max-w-[1100px] w-full px-2 sm:px-6 mb-10 relative z-20">
           <CustomVideoPlayer 
-            src="https://res.cloudinary.com/n1mfkfh4/video/upload/v1785678593/Campus_film_compressed_2_otok6t.mp4"
+            src="https://akshayshrivastava.com/videos/EditingMain.mp4"
             badgeText="Featured Masterpiece"
             className="w-full aspect-video rounded-xl overflow-hidden shadow-2xl border border-black/10"
             muted={true}
@@ -450,7 +468,7 @@ export default function Editing() {
         <SocialProof />
       </div>
 
-      {/* FULLSCREEN PREVIEW WITH DYNAMIC PLAYER (VERTICAL FOR SHORTS, CUSTOM PLAYER FOR LONGS) */}
+      {/* FULLSCREEN PREVIEW */}
       {selectedVideo && (
         <div 
           onClick={() => setSelectedVideo(null)}
@@ -475,6 +493,7 @@ export default function Editing() {
                   autoPlay 
                   playsInline 
                   loop
+                  preload="auto"
                   className="w-full h-full object-cover outline-none" 
                 />
               </div>

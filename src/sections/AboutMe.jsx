@@ -67,7 +67,7 @@ export default function AboutMe() {
   return (
     <div className="w-full min-h-screen bg-[#FFFCFB] relative overflow-x-hidden pb-16 sm:pb-24 m-0 text-[#14120e]">
       
-      {/* 🎞️ NOISE GIF OVERLAY SET TO 0.05 */}
+      {/* 🎞️ NOISE GIF OVERLAY */}
       <div 
         className="fixed inset-0 pointer-events-none z-[999] bg-[url('/noise.gif')] bg-repeat"
         style={{ opacity: 0.05, mixBlendMode: 'multiply' }}
@@ -110,7 +110,7 @@ export default function AboutMe() {
         }
       `}</style>
 
-      {/* 🎬 HERO BANNER */}
+      {/* 🎬 HERO BANNER WITH HOSTINGER VIDEO */}
       <div className="relative w-full h-[60vh] sm:h-screen bg-[#14120e] flex flex-col justify-center items-center overflow-hidden m-0 p-0 editing-cutout-mask"> 
         <video 
           ref={heroVideoRef}
@@ -120,7 +120,7 @@ export default function AboutMe() {
           playsInline 
           className="absolute top-0 left-0 w-full h-full object-cover z-0 filter brightness-[0.55] contrast-105"
         >
-          <source src="https://res.cloudinary.com/n1mfkfh4/video/upload/v1785678044/After_effects_compressed_jxplaf.mp4" />
+          <source src="https://akshayshrivastava.com/videos/AboutMain.mp4" />
         </video>
 
         <div className="absolute inset-0 bg-gradient-to-t from-[#14120e]/80 via-transparent to-[#14120e]/60 z-[1] pointer-events-none" />
@@ -201,13 +201,6 @@ export default function AboutMe() {
 
       {/* 🚀 FLOATING DOCK FOOTER */}
       <Footer />
-
-      <style>{`
-        @keyframes slowMarqueeLeft {
-          0% { transform: translate3d(0, 0, 0); }
-          100% { transform: translate3d(-50%, 0, 0); }
-        }
-      `}</style>
     </div>
   );
 }

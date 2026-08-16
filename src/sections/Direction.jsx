@@ -9,14 +9,14 @@ if (typeof window !== 'undefined') {
   gsap.registerPlugin(ScrollTrigger);
 }
 
-// 🎬 DIRECTION PROJECTS DATA
+// 🎬 DIRECTION PROJECTS DATA WITH HOSTINGER LINKS
 const DIRECTION_PROJECTS = [
   {
     id: 'dp1',
     num: '01',
     title: 'Brand Commercial Direction',
     description: 'A high-impact brand campaign focusing on narrative pacing, emotional resonance, and high retention.',
-    videoUrl: 'https://res.cloudinary.com/n1mfkfh4/video/upload/v1785678593/Campus_film_compressed_2_otok6t.mp4',
+    videoUrl: 'https://akshayshrivastava.com/videos/DirectionMain.mp4',
     tag: 'Commercial'
   },
   {
@@ -24,7 +24,7 @@ const DIRECTION_PROJECTS = [
     num: '02',
     title: 'Short Film Narrative',
     description: 'Exploratory visual storytelling with structured lighting, precise camera movement, and cinematic color grading.',
-    videoUrl: 'https://res.cloudinary.com/n1mfkfh4/video/upload/v1785674839/Perfectionism_compressed_isgrjo.mp4',
+    videoUrl: 'https://akshayshrivastava.com/videos/long1.mp4',
     tag: 'Narrative'
   },
   {
@@ -32,7 +32,7 @@ const DIRECTION_PROJECTS = [
     num: '03',
     title: 'Startup Launch Film',
     description: 'Directing on-set talent and seamless motion graphics integration for modern tech positioning.',
-    videoUrl: 'https://res.cloudinary.com/n1mfkfh4/video/upload/v1785678044/After_effects_compressed_jxplaf.mp4',
+    videoUrl: 'https://akshayshrivastava.com/videos/long2.mp4',
     tag: 'Promo'
   }
 ];
@@ -95,19 +95,19 @@ function ScrapbookGallery() {
   const cardsData = [
     {
       title: 'On-Set BTS',
-      src: 'https://res.cloudinary.com/n1mfkfh4/video/upload/v1785678593/Campus_film_compressed_2_otok6t.mp4',
+      src: 'https://akshayshrivastava.com/videos/AboutMain.mp4',
       rotation: 'rotate-[-3.5deg] sm:rotate-[-6deg]',
       textColor: 'text-white'
     },
     {
       title: 'Storyboard',
-      src: 'https://res.cloudinary.com/n1mfkfh4/video/upload/v1785674839/Perfectionism_compressed_isgrjo.mp4',
+      src: 'https://akshayshrivastava.com/videos/EditingMain.mp4',
       rotation: 'rotate-[0deg] sm:-translate-y-4',
       textColor: 'text-[#FFC822]'
     },
     {
       title: 'Cam Cut',
-      src: 'https://res.cloudinary.com/n1mfkfh4/video/upload/v1785678044/After_effects_compressed_jxplaf.mp4',
+      src: 'https://akshayshrivastava.com/videos/MotionMain.mp4',
       rotation: 'rotate-[3.5deg] sm:rotate-[6deg]',
       textColor: 'text-white'
     }
@@ -124,7 +124,7 @@ function ScrapbookGallery() {
         🎬 DIRECTOR'S CUT • BTS & STORYBOARD
       </div>
 
-      {/* 🎞️ 3 POLAROID FRAMES CONTAINER (Fixed mobile wrapping & spacing) */}
+      {/* 🎞️ 3 POLAROID FRAMES CONTAINER */}
       <div className="flex flex-wrap sm:flex-nowrap items-center justify-center gap-3 sm:gap-6 md:gap-8 w-full pt-1 pb-4">
         {cardsData.map((card, idx) => (
           <div 
@@ -342,7 +342,7 @@ export default function Direction() {
   return (
     <div className="w-full min-h-screen bg-[#FFFCFB] relative overflow-x-hidden pb-16 sm:pb-24 m-0 text-[#14120e]">
       
-      {/* 🎞️ NOISE GIF OVERLAY SET TO 0.05 */}
+      {/* 🎞️ NOISE GIF OVERLAY */}
       <div 
         className="fixed inset-0 pointer-events-none z-[999] bg-[url('/noise.gif')] bg-repeat"
         style={{ opacity: 0.05, mixBlendMode: 'multiply' }}
@@ -396,7 +396,7 @@ export default function Direction() {
           preload="metadata"
           className="absolute top-0 left-0 w-full h-full object-cover z-0 filter brightness-[0.55] contrast-105"
         >
-          <source src="https://res.cloudinary.com/n1mfkfh4/video/upload/v1785678011/Ifolder_with_grade_final_lzq260.mp4" />
+          <source src="https://akshayshrivastava.com/videos/DirectionMain.mp4" />
         </video>
 
         <div className="absolute inset-0 bg-gradient-to-t from-[#14120e]/80 via-transparent to-[#14120e]/60 z-[1] pointer-events-none" />
