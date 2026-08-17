@@ -70,7 +70,7 @@ export default function AboutMe() {
       {/* 🎞️ NOISE GIF OVERLAY */}
       <div 
         className="fixed inset-0 pointer-events-none z-[999] bg-[url('/noise.gif')] bg-repeat"
-        style={{ opacity: 0.05, mixBlendMode: 'multiply' }}
+        style={{ opacity: 0.03, mixBlendMode: 'multiply' }}
       />
 
       <style>{`
@@ -128,7 +128,7 @@ export default function AboutMe() {
         {/* 🔊 MINIMAL SOUND TOGGLE BUTTON */}
         <button
           onClick={toggleAudio}
-          className="absolute bottom-6 left-4 sm:bottom-12 sm:left-10 z-30 flex items-center justify-center w-8 h-8 sm:w-11 sm:h-11 bg-black/60 hover:bg-[#144BFF] backdrop-blur-md text-[#FFFFFF] border border-white/20 rounded-full transition-all duration-300 shadow-xl group cursor-pointer hover:scale-110"
+          className="absolute bottom-6 left-4 sm:bottom-12 sm:left-10 z-30 flex items-center justify-center w-8 h-8 sm:w-11 sm:h-11 bg-black/60 hover:bg-[#3068D3] backdrop-blur-md text-[#FFFFFF] border border-white/20 rounded-full transition-all duration-300 shadow-xl group cursor-pointer hover:scale-110"
           aria-label="Toggle Sound"
         >
           {isMuted ? (
@@ -151,14 +151,14 @@ export default function AboutMe() {
           </h1>
 
           <p 
-            style={{ fontFamily: "'HelveticaNeue', sans-serif", fontWeight: 800, letterSpacing: '-1px' }}
-            className="flex items-center justify-center gap-1.5 sm:gap-2 mt-3 sm:mt-4 text-[#144BFF] text-[10px] sm:text-base uppercase tracking-widest text-center drop-shadow-[0_2px_10px_rgba(0,0,0,0.95)]"
-          >
-            <span>BIOGRAPHY</span> 
+  style={{ fontFamily: "'HelveticaNeue', sans-serif", fontWeight: 800, letterSpacing : '-0.5px' }}
+  className="flex items-center justify-center gap-1.5 sm:gap-2 mt-3 sm:mt-4 text-[#3068D3] text-xs sm:text-lg tracking-widest text-center drop-shadow-[0_2px_10px_rgba(0,0,0,0.95)]"
+>
+            <span>Biography</span> 
             <span className="text-[#FFC822] mx-1">•</span> 
-            <span>EXPERIENCE</span> 
+            <span>Experience</span> 
             <span className="text-[#FFC822] mx-1">•</span> 
-            <span>CREATIVE VISION</span>
+            <span>Creative Vision</span>
           </p>
         </div>
       </div>
@@ -171,7 +171,7 @@ export default function AboutMe() {
         <h2 
           ref={nameRef}
           style={{ fontFamily: "'Talina', sans-serif", letterSpacing: '-1px', fontWeight: 400 }}
-          className="w-full text-center text-[#144BFF] text-3xl sm:text-5xl md:text-[4.2rem] leading-[1.1] mb-6 sm:mb-8"
+          className="w-full text-center text-[#3068D3] text-3xl sm:text-5xl md:text-[4.2rem] leading-[1.1] mb-6 sm:mb-8"
         >
           Akshay{' '}
           <span className="text-[#14120e] ml-2 sm:ml-4">Shrivastava</span>

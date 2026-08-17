@@ -11,34 +11,31 @@ if (typeof window !== 'undefined') {
 
 // 🎬 REAL SHOWCASE DATA WITH HOSTINGER LINKS
 const LONG_FORMS = [
-  { id: 'lf1', title: '1', category: 'Podcast', videoUrl: 'https://akshayshrivastava.com/videos/long1.mp4', poster: 'https://images.unsplash.com/photo-1590602847861-f357a9332bbc?w=600' },
-  { id: 'lf2', title: '2', category: 'Edutainment', videoUrl: 'https://akshayshrivastava.com/videos/long2.mp4', poster: 'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=600' },
-  { id: 'lf3', title: '3', category: 'Documentary', videoUrl: 'https://akshayshrivastava.com/videos/long3.mp4', poster: 'https://images.unsplash.com/photo-1536240478700-b869070f9279?w=600' },
-  { id: 'lf4', title: 'Talking Head Masterclass', category: 'Vlog', videoUrl: 'https://akshayshrivastava.com/videos/long4.mp4', poster: 'https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?w=600' },
-  { id: 'lf5', title: 'Talking Head Masterclass', category: 'Vlog', videoUrl: 'https://akshayshrivastava.com/videos/long5.mp4', poster: 'https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?w=600' },
-  { id: 'lf6', title: 'Talking Head Masterclass', category: 'Vlog', videoUrl: 'https://akshayshrivastava.com/videos/long6.mp4', poster: 'https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?w=600' },
+  { id: 'lf1', title: '1', category: 'Podcast', videoUrl: 'https://akshayshrivastava.com/videos/long1.mp4', poster: 'https://akshayshrivastava.com/images/long1.png' },
+  { id: 'lf2', title: '2', category: 'Edutainment', videoUrl: 'https://akshayshrivastava.com/videos/long2.mp4', poster: 'https://akshayshrivastava.com/images/long2.png' },
+  { id: 'lf3', title: '3', category: 'Documentary', videoUrl: 'https://akshayshrivastava.com/videos/long3.mp4', poster: 'https://akshayshrivastava.com/images/long3.png' },
+  { id: 'lf4', title: 'Talking Head Masterclass', category: 'Vlog', videoUrl: 'https://akshayshrivastava.com/videos/long4.mp4', poster: 'https://akshayshrivastava.com/images/long4.png' },
+  { id: 'lf5', title: 'Talking Head Masterclass', category: 'Vlog', videoUrl: 'https://akshayshrivastava.com/videos/long5.mp4', poster: 'https://akshayshrivastava.com/images/long5.png' },
+  { id: 'lf6', title: 'Talking Head Masterclass', category: 'Vlog', videoUrl: 'https://akshayshrivastava.com/videos/long6.mp4', poster: 'https://akshayshrivastava.com/images/long6.png' },
 ];
 
 const SHORT_FORMS_ROW1 = [
-  { id: 'sf1', title: 'Retention Hook 1', brand: 'Waywen', videoUrl: 'https://akshayshrivastava.com/videos/short3.mp4', poster: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=600' },
-  { id: 'sf2', title: 'Viral Podcast Clip 2', brand: 'Edutainment', videoUrl: 'https://akshayshrivastava.com/videos/short19.mp4', poster: 'https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=600' },
-  { id: 'sf3', title: 'Brand Story Reel 3', brand: 'Kolkata Media', videoUrl: 'https://akshayshrivastava.com/videos/short5.mp4', poster: 'https://images.unsplash.com/photo-1579783902614-a3fb3927b675?w=600' },
-  { id: 'sf4', title: 'Fitness Campaign 4', brand: 'Fit Tribe', videoUrl: 'https://akshayshrivastava.com/videos/short10.mp4', poster: 'https://images.unsplash.com/photo-1517838277536-f5f99be501cd?w=600' },
-  { id: 'sf5', title: 'Short Clip 5', brand: 'Brand Y', videoUrl: 'https://akshayshrivastava.com/videos/short17.mp4', poster: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=600' },
+  { id: 'sf1', title: 'Retention Hook 1', brand: 'Waywen', videoUrl: 'https://akshayshrivastava.com/videos/short3.mp4', poster: 'https://akshayshrivastava.com/images/short3.png' },
+  { id: 'sf2', title: 'Viral Podcast Clip 2', brand: 'Edutainment', videoUrl: 'https://akshayshrivastava.com/videos/short19.mp4', poster: 'https://akshayshrivastava.com/images/short19.png' },
+  { id: 'sf3', title: 'Brand Story Reel 3', brand: 'Kolkata Media', videoUrl: 'https://akshayshrivastava.com/videos/short5.mp4', poster: 'https://akshayshrivastava.com/images/short5.png' },
+  { id: 'sf4', title: 'Fitness Campaign 4', brand: 'Fit Tribe', videoUrl: 'https://akshayshrivastava.com/videos/short10.mp4', poster: 'https://akshayshrivastava.com/images/short10.png' },
+  { id: 'sf5', title: 'Short Clip 5', brand: 'Brand Y', videoUrl: 'https://akshayshrivastava.com/videos/short17.mp4', poster: 'https://akshayshrivastava.com/images/short17.png' },
 ];
 
 const SHORT_FORMS_ROW2 = [
-  { id: 'sf11', title: 'Short Clip 11', brand: 'Brand Z', videoUrl: 'https://akshayshrivastava.com/videos/short8.mp4', poster: 'https://images.unsplash.com/photo-1579783902614-a3fb3927b675?w=600' },
-  { id: 'sf10', title: 'Short Clip 10', brand: 'Startup A', videoUrl: 'https://akshayshrivastava.com/videos/short11.mp4', poster: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=600' },
-  { id: 'sf9', title: 'Short Clip 9', brand: 'Creator E', videoUrl: 'https://akshayshrivastava.com/videos/short16.mp4', poster: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=600' },
-  { id: 'sf8', title: 'Short Clip 8', brand: 'Creator F', videoUrl: 'https://akshayshrivastava.com/videos/short12.mp4', poster: 'https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=600' },
-  { id: 'sf7', title: 'Short Clip 7', brand: 'Media G', videoUrl: 'https://akshayshrivastava.com/videos/short1.mp4', poster: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=600' },
-  { id: 'sf6', title: 'Short Clip 6', brand: 'Media H', videoUrl: 'https://akshayshrivastava.com/videos/short18.mp4', poster: 'https://images.unsplash.com/photo-1579783902614-a3fb3927b675?w=600' },
+  { id: 'sf11', title: 'Short Clip 11', brand: 'Brand Z', videoUrl: 'https://akshayshrivastava.com/videos/short8.mp4', poster: 'https://akshayshrivastava.com/images/short8.png' },
+  { id: 'sf10', title: 'Short Clip 10', brand: 'Startup A', videoUrl: 'https://akshayshrivastava.com/videos/short11.mp4', poster: 'https://akshayshrivastava.com/images/short11.png' },
+  { id: 'sf9', title: 'Short Clip 9', brand: 'Creator E', videoUrl: 'https://akshayshrivastava.com/videos/short16.mp4', poster: 'https://akshayshrivastava.com/images/short16.png' },
+  { id: 'sf8', title: 'Short Clip 8', brand: 'Creator F', videoUrl: 'https://akshayshrivastava.com/videos/short12.mp4', poster: 'https://akshayshrivastava.com/images/short12.png' },
+  { id: 'sf7', title: 'Short Clip 7', brand: 'Media G', videoUrl: 'https://akshayshrivastava.com/videos/short1.mp4', poster: 'https://akshayshrivastava.com/images/short1.png' },
+  { id: 'sf6', title: 'Short Clip 6', brand: 'Media H', videoUrl: 'https://akshayshrivastava.com/videos/short18.mp4', poster: 'https://akshayshrivastava.com/images/short18.png' },
 ];
 
-// ✅ FIX: was duplicated 4x (creating ~110 <video> elements total). 2x is the
-// minimum needed for a seamless infinite marquee loop, cutting DOM video
-// elements roughly in half.
 const duplicateList = (arr, count = 2) => {
   let output = [];
   for (let i = 0; i < count; i++) {
@@ -47,8 +44,8 @@ const duplicateList = (arr, count = 2) => {
   return output;
 };
 
-// 🎥 SINGLE VIDEO CARD WITH RESPONSIVE SIZING & LARGE CLEAR TITLES
-function VideoCard({ item, aspectRatio = "wide", hoveredId, setHoveredId }) {
+// 🎥 SINGLE VIDEO CARD WITH HOVER PREVIEW
+function VideoCard({ item, aspectRatio = "wide", hoveredId, setHoveredId, onOpenModal }) {
   const cardRef = useRef(null);
   const videoRef = useRef(null);
   const [isVisible, setIsVisible] = useState(false);
@@ -76,21 +73,13 @@ function VideoCard({ item, aspectRatio = "wide", hoveredId, setHoveredId }) {
     if (!videoRef.current) return;
 
     if (!isVisible) {
-      // Off-screen: pause and drop the src so it's not silently buffering
-      // in the background while scrolled away.
       videoRef.current.pause();
       return;
     }
 
-    // Client requirement: every card currently on screen autoplays by
-    // default. Hovering a specific card keeps that one playing and
-    // pauses every other visible card; moving off it resumes all of them.
     const shouldPlay = isAnyHovered ? isHovered : true;
 
     if (shouldPlay) {
-      // Lazily attach the src only once the card is actually visible,
-      // so cards further down the row never trigger a network request
-      // until they're about to be seen.
       if (!videoRef.current.src) {
         videoRef.current.src = item.videoUrl;
       }
@@ -109,7 +98,8 @@ function VideoCard({ item, aspectRatio = "wide", hoveredId, setHoveredId }) {
       ref={cardRef}
       onMouseEnter={() => setHoveredId(item.id)}
       onMouseLeave={() => setHoveredId(null)}
-      className={`relative group overflow-hidden cursor-pointer bg-[#14120e] shadow-xl transition-all duration-500 ease-out hover:scale-[1.03] ${cardDimensions} shrink-0 outline-none focus:outline-none select-none border border-black/10 rounded-xl`}
+      onClick={() => onOpenModal(item)}
+      className={`relative group overflow-hidden cursor-pointer bg-[#0f0e0c] shadow-[0_8px_30px_rgba(0,0,0,0.06)] transition-all duration-500 ease-out hover:-translate-y-1 hover:shadow-[0_16px_40px_rgba(48,104,211,0.15)] ${cardDimensions} shrink-0 outline-none focus:outline-none select-none rounded-[8px]`}
     >
       <video
         ref={videoRef}
@@ -121,26 +111,29 @@ function VideoCard({ item, aspectRatio = "wide", hoveredId, setHoveredId }) {
         className="absolute inset-0 w-full h-full object-cover transition-all duration-700 filter brightness-[0.85] group-hover:brightness-100 group-hover:scale-105 outline-none focus:outline-none pointer-events-none"
       />
 
-      <div className="absolute inset-0 bg-gradient-to-t from-[#14120e]/90 via-[#14120e]/30 to-transparent transition-opacity duration-300 group-hover:opacity-75" />
+      <div className="absolute inset-0 bg-gradient-to-t from-[#0f0e0c]/90 via-[#0f0e0c]/25 to-transparent transition-opacity duration-300 group-hover:opacity-80" />
+
+      {/* Subtle bottom fade to blend with page lighting */}
+      <div className="absolute bottom-0 left-0 right-0 h-12 bg-gradient-to-t from-[#0f0e0c]/60 to-transparent pointer-events-none" />
 
       {item.category && (
         <div 
           style={{ fontFamily: "'Talina', sans-serif", letterSpacing: '-0.3px', fontWeight: 300 }}
-          className="absolute top-3 left-3 sm:top-4 sm:left-4 bg-[#144BFF] backdrop-blur-md px-2.5 sm:px-3 py-0.5 sm:py-1 rounded-sm text-[#FFFFFF] text-[10px] sm:text-xs uppercase shadow-sm"
+          className="absolute top-3 left-3 sm:top-4 sm:left-4 bg-[#3068D3]/90 backdrop-blur-md px-2.5 sm:px-3 py-0.5 sm:py-1 rounded-[4px] text-[#FFFFFF] text-[10px] sm:text-xs uppercase shadow-sm"
         >
           {item.category}
         </div>
       )}
 
-      <div className={`absolute top-3 right-3 sm:top-4 sm:right-4 w-7 h-7 sm:w-9 sm:h-9 rounded-sm backdrop-blur-md flex items-center justify-center transition-all duration-300 ${isHovered ? 'scale-110 bg-[#144BFF] text-[#FFFFFF] shadow-[0_0_15px_#144BFF]' : 'bg-black/40 text-[#FFFFFF]'}`}>
+      <div className={`absolute top-3 right-3 sm:top-4 sm:right-4 w-7 h-7 sm:w-9 sm:h-9 rounded-[4px] backdrop-blur-md flex items-center justify-center transition-all duration-300 ${isHovered ? 'scale-110 bg-[#3068D3] text-[#FFFFFF] shadow-[0_0_20px_rgba(48,104,211,0.6)]' : 'bg-black/40 text-[#FFFFFF]'}`}>
         {isHovered ? (
-          <span className="w-2 h-2 sm:w-2.5 sm:h-2.5 bg-[#FFFFFF] rounded-xs animate-pulse" />
+          <span className="w-2 h-2 sm:w-2.5 sm:h-2.5 bg-[#FFFFFF] rounded-[2px] animate-pulse" />
         ) : (
           <svg className="w-3.5 h-3.5 sm:w-4 sm:h-4 fill-current ml-0.5" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
         )}
       </div>
 
-      <div className="absolute bottom-0 left-0 right-0 p-4 sm:p-6 transform transition-transform duration-300 group-hover:translate-y-0">
+      <div className="absolute bottom-0 left-0 right-0 p-4 sm:p-6 transform transition-transform duration-300">
         <h4 
           style={{ fontFamily: "'Talina', sans-serif", fontWeight: 300 }}
           className="text-[#FFFFFF] text-lg sm:text-2xl leading-snug drop-shadow-md mb-1"
@@ -150,7 +143,7 @@ function VideoCard({ item, aspectRatio = "wide", hoveredId, setHoveredId }) {
         {item.brand && (
           <p 
             style={{ fontFamily: "'HelveticaNeue', sans-serif", letterSpacing: '-0.3px', fontWeight: 300 }}
-            className="text-[#144BFF] text-[10px] sm:text-xs uppercase bg-black/60 px-2 py-0.5 sm:px-2.5 sm:py-1 rounded-xs inline-block"
+            className="text-[#9cbbfb] text-[10px] sm:text-xs uppercase bg-black/50 backdrop-blur-sm px-2 py-0.5 sm:px-2.5 sm:py-1 rounded-[4px] inline-block"
           >
             {item.brand}
           </p>
@@ -166,7 +159,6 @@ export default function Editing() {
   const [hoveredShort1Id, setHoveredShort1Id] = useState(null);
   const [hoveredShort2Id, setHoveredShort2Id] = useState(null);
   
-  // 🔊 HERO VIDEO SOUND STATE & REF
   const [isHeroMuted, setIsHeroMuted] = useState(true);
   const heroVideoRef = useRef(null);
 
@@ -192,8 +184,8 @@ export default function Editing() {
     const ctx = gsap.context(() => {
       gsap.fromTo(paragraphRef.current, {
         opacity: 0,
-        y: 120,
-        scale: 0.9,
+        y: 80,
+        scale: 0.95,
       }, {
         opacity: 1,
         y: 0,
@@ -211,7 +203,6 @@ export default function Editing() {
     return () => ctx.revert();
   }, []);
 
-  // Check if selected video is from short forms
   const isShortForm = selectedVideo && (
     SHORT_FORMS_ROW1.some(s => s.id === selectedVideo.id) || 
     SHORT_FORMS_ROW2.some(s => s.id === selectedVideo.id)
@@ -220,13 +211,31 @@ export default function Editing() {
   return (
     <div className="w-full min-h-screen bg-[#FFFCFB] relative overflow-x-hidden pb-16 sm:pb-24 m-0 text-[#14120e]">
       
-      {/* 🎞️ NOISE GIF OVERLAY FOR LIGHT BACKGROUND */}
-      <div 
-        className="fixed inset-0 pointer-events-none z-[999] bg-[url('/noise.gif')] bg-repeat"
-        style={{ opacity: 0.05, mixBlendMode: 'multiply' }}
-      />
-
       <style>{`
+        @font-face {
+          font-family: 'GenericFont';
+          src: url('/generic.woff2') format('woff2');
+          font-weight: normal;
+          font-style: normal;
+          font-display: swap;
+        }
+
+        @font-face {
+          font-family: 'GroteskFont';
+          src: url('/grotesk.woff2') format('woff2');
+          font-weight: normal;
+          font-style: normal;
+          font-display: swap;
+        }
+
+        @font-face {
+          font-family: 'CactusJack';
+          src: url('/cactus-jack.woff2') format('woff2');
+          font-weight: normal;
+          font-style: normal;
+          font-display: swap;
+        }
+
         @font-face {
           font-family: 'Talina';
           src: url('/Talina-Regular.ttf') format('truetype');
@@ -251,6 +260,9 @@ export default function Editing() {
           font-display: swap;
         }
 
+        /* Pure CSS SVG Noise Grain Overlay */
+        
+
         .editing-cutout-mask {
           mask-image: url('/editingcutout.svg');
           -webkit-mask-image: url('/editingcutout.svg');
@@ -263,8 +275,8 @@ export default function Editing() {
         }
       `}</style>
 
-      {/* HERO BANNER */}
-      <div className="relative w-full h-[60vh] sm:h-screen bg-[#14120e] flex flex-col justify-center items-center overflow-hidden m-0 p-0 editing-cutout-mask"> 
+      {/* HERO BANNER - WITH CSS CINEMATIC NOISE OVERLAY */}
+      <div className="relative w-full h-[70vh] sm:h-screen bg-[#14120e] flex flex-col justify-center items-center overflow-hidden m-0 p-0 editing-cutout-mask"> 
         <video 
           ref={heroVideoRef}
           src="https://akshayshrivastava.com/videos/EditingMain.mp4" 
@@ -276,10 +288,12 @@ export default function Editing() {
           className="absolute top-0 left-0 w-full h-full object-cover z-0 filter brightness-[0.55] contrast-105"
         />
 
-        {/* 🔊 SOUND TOGGLE BUTTON */}
+        {/* 🎞️ RELIABLE CSS NOISE OVERLAY LAYER */}
+        <div className="absolute inset-0 pointer-events-none z-[1] cinematic-grain opacity-60 mix-blend-overlay" />
+
         <button
           onClick={toggleHeroSound}
-          className="absolute bottom-6 left-4 sm:bottom-12 sm:left-10 z-20 w-8 h-8 sm:w-11 sm:h-11 rounded-full bg-black/60 hover:bg-black/80 backdrop-blur-md border border-white/10 flex items-center justify-center text-[#FFC822] hover:scale-110 transition-all duration-300 shadow-xl cursor-pointer group"
+          className="absolute bottom-12 left-4 sm:bottom-16 sm:left-10 z-20 w-8 h-8 sm:w-11 sm:h-11 rounded-full bg-black/60 hover:bg-black/80 backdrop-blur-md border border-white/10 flex items-center justify-center text-[#FFC822] hover:scale-110 transition-all duration-300 shadow-xl cursor-pointer group"
           title={isHeroMuted ? "Unmute Sound" : "Mute Sound"}
         >
           {isHeroMuted ? (
@@ -287,36 +301,44 @@ export default function Editing() {
               <path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v2.21l2.45 2.45c.03-.2.05-.41.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51C20.63 14.91 21 13.5 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06c1.38-.31 2.63-.95 3.69-1.81L19.73 21 21 19.73l-9-9L4.27 3zM12 4L9.91 6.09 12 8.18V4z"/>
             </svg>
           ) : (
-            <svg className="w-4 h-4 sm:w-5 sm:h-5 fill-current text-[#144BFF]" viewBox="0 0 24 24">
+            <svg className="w-4 h-4 sm:w-5 sm:h-5 fill-current text-[#3068D3]" viewBox="0 0 24 24">
               <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/>
             </svg>
           )}
         </button>
 
-        <div className="absolute inset-0 bg-gradient-to-t from-[#14120e]/80 via-transparent to-[#14120e]/60 z-[1] pointer-events-none" />
+        <div className="absolute inset-0 bg-gradient-to-t from-[#14120e]/80 via-transparent to-[#14120e]/60 z-[2] pointer-events-none" />
 
-        <div className="relative z-10 flex flex-col justify-center items-center px-4">
+        <div className="relative z-10 flex flex-col justify-center items-center px-4 text-center mt-6">
           <h1 
             style={{ 
-              fontFamily: "'Talina', sans-serif", 
+              fontFamily: "'GenericFont', cursive, sans-serif", 
               letterSpacing: '-0.5px', 
-              fontWeight: 300 
+              fontWeight: 400 
             }}
-            className="text-[2.5rem] sm:text-[4.2rem] text-[#ffffff] m-0 text-center leading-none"
+            className="text-[3rem] sm:text-[5.5rem] text-[#ffffff] m-0 leading-none drop-shadow-lg"
           >
             Editing Work
           </h1>
           
           <p 
-            style={{ fontFamily: "'HelveticaNeue', sans-serif", fontWeight: 800, letterSpacing : '-1px' }}
-            className="flex items-center justify-center gap-1.5 sm:gap-2 mt-3 sm:mt-4 text-[#144BFF] text-[10px] sm:text-base uppercase tracking-widest text-center drop-shadow-[0_2px_10px_rgba(0,0,0,0.95)]"
+            style={{ fontFamily: "'CactusJack', cursive, sans-serif", letterSpacing : '0.5px' }}
+            className="flex items-center justify-center gap-2 sm:gap-3 mt-4 sm:mt-5 text-white text-sm sm:text-2xl tracking-wider text-center drop-shadow-[0_2px_10px_rgba(0,0,0,0.95)] uppercase"
           >
             <span>Post - Production</span> 
-            <span className="text-[#FFC822] mx-1">•</span> 
+            <span className="text-[#FFC822]">•</span> 
             <span>Retention Editing</span> 
-            <span className="text-[#FFC822] mx-1">•</span> 
+            <span className="text-[#FFC822]">•</span> 
             <span>UGC Ads</span>
           </p>
+
+          <a
+  href="#long-forms"
+  className="mt-6 sm:mt-8 bg-[#3068D3] hover:bg-[#2552ab] text-white px-8 py-3.5 rounded-lg font-bold uppercase tracking-wider text-sm transition-all duration-300 shadow-[0_0_25px_rgba(48,104,211,0.5)] hover:scale-105 no-underline"
+  style={{ fontFamily: "'CactusJack', cursive, sans-serif" }}
+>
+  Explore Work
+</a>
         </div>
       </div>
 
@@ -326,11 +348,11 @@ export default function Editing() {
         <div className="inline-flex flex-col items-center z-20 px-4">
           <h2 
             style={{ 
-              fontFamily: "'Talina', sans-serif", 
+              fontFamily: "'GenericFont', cursive, sans-serif", 
               letterSpacing:'-0.5px', 
               fontWeight: 400 
             }}
-            className="text-2xl sm:text-4xl m-0 text-[#144BFF] leading-tight"
+            className="text-2xl sm:text-4xl m-0 text-[#3068D3] leading-tight"
           >
             Welcome To Editing Section
           </h2>
@@ -339,66 +361,68 @@ export default function Editing() {
         <div ref={paragraphRef} className="relative z-10 mt-3 mb-6 max-w-[700px] px-4">
           <p 
             style={{ 
-              fontFamily: "'HelveticaNeue', sans-serif", 
-              fontWeight: 600,
+              fontFamily: "GroteskFont", 
+              fontWeight: 400,
               letterSpacing : '-1px'
             }}
-            className="text-[#14120e] text-xs sm:text-lg leading-relaxed text-center font-light tracking-wide"
+            className="text-[#3b352e] text-xs sm:text-lg leading-relaxed text-center font-light tracking-wide"
           >
             I have worked with multiple startups and influencers on various kind of edit like UGC ads
           </p>
         </div>
 
         {/* 🍿 FULL WIDE FEATURED MASTERPIECE */}
-        <div className="max-w-[1100px] w-full px-2 sm:px-6 mb-10 relative z-20">
-          <CustomVideoPlayer 
-            src="https://akshayshrivastava.com/videos/EditingMain.mp4"
-            badgeText="Featured Masterpiece"
-            className="w-full aspect-video rounded-xl overflow-hidden shadow-2xl border border-black/10"
-            muted={true}
-          />
+        <div className="max-w-[950px] w-full px-2 sm:px-6 mb-10 relative z-20">
+          <div className="w-full aspect-video rounded-[8px] overflow-hidden shadow-[0_18px_50px_rgba(0,0,0,0.15)] bg-[#0f0e0c]">
+            <CustomVideoPlayer 
+              src="https://akshayshrivastava.com/videos/EditingMain.mp4"
+              badgeText="Featured Masterpiece"
+              className="w-full h-full"
+              muted={true}
+            />
+          </div>
         </div>
       </div>
 
       {/* LONG FORMS */}
-      <div className="w-full max-w-full relative overflow-hidden my-8 sm:my-16">
-        <div className="max-w-[1100px] w-full mx-auto px-6 flex flex-col items-center text-center mb-6">
+      <div id="long-forms" className="w-full max-w-full relative overflow-hidden my-8 sm:my-16">
+        <div className="max-w-[1100px] w-full mx-auto px-6 flex flex-col items-center text-center mb-8">
           <h3 
             style={{ 
-              fontFamily: "'Talina', sans-serif", 
-              letterSpacing : '-1px',
+              fontFamily: "'GenericFont', cursive, sans-serif", 
+              letterSpacing : '-0.5px',
               fontWeight: 400 
             }}
-            className="text-2xl sm:text-4xl m-0 text-[#144BFF] leading-tight"
+            className="text-2xl sm:text-4xl m-0 text-[#3068D3] leading-tight"
           >
             Long Forms
           </h3>
 
           <div 
-            style={{ fontFamily: "'HelveticaNeue', sans-serif", letterSpacing: '-1px', fontWeight: 600 }}
-            className="flex items-center justify-center gap-1.5 sm:gap-2.5 mt-3 text-[#14120e] text-[10px] sm:text-base uppercase tracking-wider text-center"
+            style={{ fontFamily: "'CactusJack', cursive, sans-serif", letterSpacing: '0.5px' , fontWeight : '900' }}
+            className="flex items-center justify-center gap-2 sm:gap-3 mt-3 text-[#3b352e] text-xs sm:text-base tracking-wider text-center uppercase"
           >
-            <span>PODCASTS</span>
-            <span className="text-[#FFC822] text-xs sm:text-lg">•</span>
-            <span>YOUTUBE DOCUMENTARIES</span>
-            <span className="text-[#FFC822] text-xs sm:text-lg">•</span>
-            <span>TALKING HEAD</span>
-            <span className="text-[#FFC822] text-xs sm:text-lg">•</span>
-            <span>CAMPUS FILM</span>
+            <span>Podcasts</span>
+            <span className="text-[#FFC822]">•</span>
+            <span>Youtube Documentaries</span>
+            <span className="text-[#FFC822]">•</span>
+            <span>Talking Head</span>
+            <span className="text-[#FFC822]">•</span>
+            <span>Campus Film</span>
           </div>
         </div>
 
-        <div className="w-full max-w-full overflow-hidden pt-2 pb-4 group">
-          <div className="inline-flex whitespace-nowrap gap-4 sm:gap-10 w-max will-change-transform animate-[slowMarqueeLeft_85s_linear_infinite] group-hover:[animation-play-state:paused]">
+        <div className="w-full max-w-full overflow-hidden pt-2 pb-6 group">
+          <div className="inline-flex whitespace-nowrap gap-5 sm:gap-10 w-max will-change-transform animate-[slowMarqueeLeft_85s_linear_infinite] group-hover:[animation-play-state:paused]">
             {duplicateList(LONG_FORMS).map((item, idx) => (
-              <div key={`long-${idx}`} onClick={() => setSelectedVideo(item)}>
-                <VideoCard 
-                  item={item} 
-                  aspectRatio="wide" 
-                  hoveredId={hoveredLongId} 
-                  setHoveredId={setHoveredLongId} 
-                />
-              </div>
+              <VideoCard 
+                key={`long-${idx}`}
+                item={item} 
+                aspectRatio="wide" 
+                hoveredId={hoveredLongId} 
+                setHoveredId={setHoveredLongId} 
+                onOpenModal={setSelectedVideo}
+              />
             ))}
           </div>
         </div>
@@ -406,58 +430,58 @@ export default function Editing() {
 
       {/* SHORT FORMS */}
       <div className="w-full max-w-full relative overflow-hidden my-8 sm:my-20">
-        <div className="max-w-[1100px] w-full mx-auto px-6 flex flex-col items-center text-center mb-6">
+        <div className="max-w-[1100px] w-full mx-auto px-6 flex flex-col items-center text-center mb-8">
           <h3 
             style={{ 
-              fontFamily: "'Talina', sans-serif", 
-              letterSpacing : '-1px',
+              fontFamily: "'GenericFont', cursive, sans-serif", 
+              letterSpacing : '-0.5px',
               fontWeight: 400 
             }}
-            className="text-2xl sm:text-4xl m-0 text-[#144BFF] leading-tight"
+            className="text-2xl sm:text-4xl m-0 text-[#3068D3] leading-tight"
           >
             Short Forms
           </h3>
 
           <div 
-            style={{ fontFamily: "'HelveticaNeue', sans-serif", letterSpacing: '-1px', fontWeight: 600 }}
-            className="flex items-center justify-center gap-1.5 sm:gap-2.5 mt-3 text-[#14120e] text-[10px] sm:text-base uppercase tracking-wider text-center"
+            style={{ fontFamily: "'CactusJack', cursive, sans-serif", letterSpacing: '0.5px' , fontWeight : '900' }}
+            className="flex items-center justify-center gap-2 sm:gap-3 mt-3 text-[#3b352e] text-xs sm:text-base tracking-wider text-center uppercase"
           >
-            <span>UGC ADS</span>
-            <span className="text-[#FFC822] text-xs sm:text-lg">•</span>
-            <span>RETENTION HOOKS</span>
-            <span className="text-[#FFC822] text-xs sm:text-lg">•</span>
-            <span>PODCAST SHORTS</span>
-            <span className="text-[#FFC822] text-xs sm:text-lg">•</span>
-            <span>REELS</span>
+            <span>UGC Ads</span>
+            <span className="text-[#FFC822]">•</span>
+            <span>Retention Hooks</span>
+            <span className="text-[#FFC822]">•</span>
+            <span>Podcast Shorts</span>
+            <span className="text-[#FFC822]">•</span>
+            <span>Reels</span>
           </div>
         </div>
         
         <div className="w-full max-w-full overflow-hidden pt-2 pb-4 mb-4 sm:mb-8 group">
-          <div className="inline-flex whitespace-nowrap gap-4 sm:gap-10 w-max will-change-transform animate-[slowMarqueeLeft_85s_linear_infinite] group-hover:[animation-play-state:paused]">
+          <div className="inline-flex whitespace-nowrap gap-5 sm:gap-10 w-max will-change-transform animate-[slowMarqueeLeft_85s_linear_infinite] group-hover:[animation-play-state:paused]">
             {duplicateList(SHORT_FORMS_ROW1).map((item, idx) => (
-              <div key={`short1-${idx}`} onClick={() => setSelectedVideo(item)}>
-                <VideoCard 
-                  item={item} 
-                  aspectRatio="tall" 
-                  hoveredId={hoveredShort1Id} 
-                  setHoveredId={setHoveredShort1Id} 
-                />
-              </div>
+              <VideoCard 
+                key={`short1-${idx}`}
+                item={item} 
+                aspectRatio="tall" 
+                hoveredId={hoveredShort1Id} 
+                setHoveredId={setHoveredShort1Id} 
+                onOpenModal={setSelectedVideo}
+              />
             ))}
           </div>
         </div>
 
         <div className="w-full max-w-full overflow-hidden py-2 group">
-          <div className="inline-flex whitespace-nowrap gap-4 sm:gap-10 w-max will-change-transform animate-[slowMarqueeRight_85s_linear_infinite] group-hover:[animation-play-state:paused]">
+          <div className="inline-flex whitespace-nowrap gap-5 sm:gap-10 w-max will-change-transform animate-[slowMarqueeRight_85s_linear_infinite] group-hover:[animation-play-state:paused]">
             {duplicateList(SHORT_FORMS_ROW2).map((item, idx) => (
-              <div key={`short2-${idx}`} onClick={() => setSelectedVideo(item)}>
-                <VideoCard 
-                  item={item} 
-                  aspectRatio="tall" 
-                  hoveredId={hoveredShort2Id} 
-                  setHoveredId={setHoveredShort2Id} 
-                />
-              </div>
+              <VideoCard 
+                key={`short2-${idx}`}
+                item={item} 
+                aspectRatio="tall" 
+                hoveredId={hoveredShort2Id} 
+                setHoveredId={setHoveredShort2Id} 
+                onOpenModal={setSelectedVideo}
+              />
             ))}
           </div>
         </div>
@@ -476,25 +500,24 @@ export default function Editing() {
         >
           <div 
             onClick={(e) => e.stopPropagation()}
-            className={`relative w-full ${isShortForm ? 'max-w-[340px] sm:max-w-[380px] aspect-[9/16] rounded-xl bg-black' : 'max-w-5xl rounded-xl bg-[#FFFCFB]'} overflow-hidden shadow-2xl cursor-default flex flex-col`}
+            className={`relative w-full ${isShortForm ? 'max-w-[340px] sm:max-w-[380px] aspect-[9/16] rounded-[8px] bg-black' : 'max-w-5xl rounded-[8px] bg-[#FFFCFB]'} overflow-hidden shadow-2xl cursor-default flex flex-col`}
           >
             <button 
               onClick={() => setSelectedVideo(null)}
-              className={`absolute top-4 right-4 z-[1000] w-10 h-10 rounded-full ${isShortForm ? 'bg-black/60 text-white' : 'bg-[#14120e] text-[#FFFFFF] hover:bg-[#144BFF]'} flex items-center justify-center font-bold text-lg transition-all shadow-lg cursor-pointer backdrop-blur-md`}
+              className={`absolute top-4 right-4 z-[1000] w-10 h-10 rounded-full ${isShortForm ? 'bg-black/60 text-white' : 'bg-[#14120e] text-[#FFFFFF] hover:bg-[#3068D3]'} flex items-center justify-center font-bold text-lg transition-all shadow-lg cursor-pointer backdrop-blur-md`}
             >
               ✕
             </button>
 
             {isShortForm ? (
               <div className="w-full h-full bg-black flex-1 relative">
-                <video 
+                <CustomVideoPlayer 
                   src={selectedVideo.videoUrl} 
-                  controls 
-                  autoPlay 
-                  playsInline 
-                  loop
-                  preload="auto"
-                  className="w-full h-full object-cover outline-none" 
+                  autoPlay={true}
+                  loop={true}
+                  muted={false}
+                  className="w-full h-full"
+                  videoClassName="w-full h-full object-cover outline-none"
                 />
               </div>
             ) : (
@@ -508,17 +531,17 @@ export default function Editing() {
                     muted={false}
                   />
                 </div>
-                <div className="p-4 sm:p-6 bg-[#FFFCFB] text-[#14120e] flex items-center justify-between border-t border-black/10">
+                <div className="p-4 sm:p-6 bg-[#FFFCFB] text-[#14120e] flex items-center justify-between border-t border-black/5">
                   <h3 
                     style={{ fontFamily: "'Talina', sans-serif", fontWeight: 300 }}
-                    className="text-lg sm:text-2xl text-[#144BFF]"
+                    className="text-lg sm:text-2xl text-[#3068D3]"
                   >
                     {selectedVideo.title}
                   </h3>
                   {selectedVideo.brand && (
                     <span 
                       style={{ fontFamily: "'HelveticaNeue', sans-serif", letterSpacing: '-0.3px', fontWeight: 300 }}
-                      className="text-[10px] sm:text-xs uppercase text-[#554f46] bg-[#f0eae1] px-2.5 py-1 rounded-sm border border-black/10"
+                      className="text-[10px] sm:text-xs uppercase text-[#554f46] bg-[#f0eae1] px-2.5 py-1 rounded-[4px]"
                     >
                       {selectedVideo.brand}
                     </span>

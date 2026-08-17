@@ -34,6 +34,13 @@ export default function App() {
 
   return (
     <div className="min-h-screen w-full bg-slate-950 text-slate-100 flex flex-col selection:bg-sky-500 selection:text-white relative">
+      
+      {/* 🎞️ GLOBAL CINEMATIC NOISE OVERLAY (Applies across the entire website) */}
+      <div 
+        className="fixed inset-0 pointer-events-none z-[999999] bg-[url('/noise.gif')] bg-repeat"
+        style={{ opacity: 0.035, mixBlendMode: 'overlay' }}
+      />
+
       {/* Navbar (Only visible when not on home section) */}
       {activeSection !== 'home' && (
         <Navbar onNavigate={handleNavigate} activeSection={activeSection} />
