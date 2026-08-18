@@ -4,28 +4,24 @@ const COLUMNS = [
   { 
     id: 'editing', 
     title: 'Editing', 
-    subtitle: 'Crafting stories that keep people watching.',
     videoUrl: 'https://akshayshrivastava.com/videos/EditingMain.mp4',
     poster: 'https://akshayshrivastava.com/images/EditingMain.png'
   },
   { 
     id: 'motion', 
     title: 'Motion design', 
-    subtitle: 'Adding motion that brings stories to life.',
     videoUrl: 'https://akshayshrivastava.com/videos/MotionMain.mp4',
     poster: 'https://akshayshrivastava.com/images/MotionMain.png'
   },
   { 
     id: 'direction', 
     title: 'Direction', 
-    subtitle: 'Turning ideas into visual experiences.',
     videoUrl: 'https://akshayshrivastava.com/videos/DirectionMain.mp4',
     poster: 'https://akshayshrivastava.com/images/DirectionMain.png'
   },
   { 
     id: 'about', 
     title: 'About me', 
-    subtitle: 'The person behind the projects.',
     videoUrl: 'https://akshayshrivastava.com/videos/AboutMain.mp4',
     poster: 'https://akshayshrivastava.com/images/AboutMain.png'
   }
@@ -181,7 +177,7 @@ export default function Hero({ onColumnClick }) {
           className="pointer-events-auto flex items-center gap-1.5 select-none cursor-pointer group"
         >
           <span className="font-gourmet text-[#FFC822] text-sm min-[380px]:text-base sm:text-xl tracking-wide transition-colors duration-200 capitalize">
-            Akshay shrivastav
+            LOGO
           </span>
           <span className="w-1.5 h-1.5 rounded-full bg-[#FFFFFF] inline-block mb-0.5 animate-pulse" />
         </div>
@@ -295,84 +291,57 @@ export default function Hero({ onColumnClick }) {
         </div>
       </div>
 
-      {/* ================= MOBILE STACKED LAYOUT ================= */}
-      <div className="md:hidden flex flex-col w-full h-dvh overflow-hidden relative z-[1]">
-        {COLUMNS.map((col, index) => {
-          const isLoaded = mobileLoaded[index];
-          return (
-            <div
-              key={col.id}
-              onClick={() => onColumnClick && onColumnClick(col.id)}
-              className={`mobile-tap-card active:brightness-75 relative w-full h-[25dvh] cursor-pointer overflow-hidden shadow-2xl my-[-6px] first:mt-0 transition-[filter] duration-150 ${index < 3 ? 'mobile-torn-svg-mask' : ''}`}
-              style={{
-                zIndex: 4 - index,
-                paddingBottom: index === COLUMNS.length - 1 ? 'env(safe-area-inset-bottom)' : undefined
-              }}
-            >
-              {!isLoaded && (
-                <img 
-                  src={col.poster} 
-                  alt={col.title}
-                  className="absolute inset-0 w-full h-full object-cover object-center brightness-[0.55] contrast-[1.1] z-[2] pointer-events-none"
-                />
-              )}
+      
+      {/* ================= MOBILE STACKED LAYOUT (SIRF IMAGE) ================= */}
+<div className="md:hidden flex flex-col w-full h-dvh overflow-hidden relative z-[1]">
+  {COLUMNS.map((col, index) => {
+    return (
+      <div
+        key={col.id}
+        onClick={() => onColumnClick && onColumnClick(col.id)}
+        className={`mobile-tap-card active:brightness-75 relative w-full h-[25dvh] cursor-pointer overflow-hidden shadow-2xl my-[-6px] first:mt-0 ${index < 3 ? 'mobile-torn-svg-mask' : ''}`}
+        style={{
+          zIndex: 4 - index,
+          paddingBottom: index === COLUMNS.length - 1 ? 'env(safe-area-inset-bottom)' : undefined
+        }}
+      >
+        {/* MOBILE PAR SIRF POSTER IMAGE, NO VIDEO */}
+        <img 
+          src={col.poster} 
+          alt={col.title}
+          className="absolute inset-0 w-full h-full object-cover object-center brightness-[0.55] contrast-[1.1] z-[1] pointer-events-none"
+        />
 
-              <video
-                ref={(el) => {
-                  mobileVideoRefs.current[index] = el;
-                  if (el) el.play().catch(() => {});
-                }}
-                onPlaying={() => setMobileLoaded(prev => ({ ...prev, [index]: true }))}
-                loop
-                muted
-                playsInline
-                autoPlay
-                preload="auto"
-                src={col.videoUrl}
-                className="absolute inset-0 w-full h-full object-cover object-center brightness-[0.55] contrast-[1.1] z-0"
-              />
-
-              <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-black/40 pointer-events-none z-10" />
-              
-              <div className="absolute inset-0 flex flex-col items-center justify-center text-center z-20 px-4">
-                <h1 
-                  style={{ 
-                    fontFamily: "'RoseryStudio', sans-serif",
-                    fontSize: 'clamp(1.05rem, 5.2vw, 1.5rem)'
-                  }}
-                  className="text-white uppercase tracking-tight leading-none mb-0.5 drop-shadow-[0_4px_8px_rgba(0,0,0,0.95)]"
-                >
-                  {col.title}
-                </h1>
-                <p 
-                  style={{ 
-                    fontFamily: "'HelveticaNeue', sans-serif",
-                    fontSize: 'clamp(0.62rem, 2.6vw, 0.78rem)'
-                  }}
-                  className="text-neutral-300 max-w-[85%] leading-tight drop-shadow-[0_2px_4px_rgba(0,0,0,0.95)]"
-                >
-                  {col.subtitle}
-                </p>
-              </div>
-            </div>
-          );
-        })}
-      </div>
-
-      {/* 📌 STATIC FIXED FOOTER (EXACT MATCH WITH EDITING PAGE) */}
-      <footer className="absolute bottom-0 left-3 ml-1 w-full box-border z-[30] px-4 sm:px-8 md:px-12 pointer-events-none flex items-end pb-3 sm:pb-8 justify-between">
+        <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-black/40 pointer-events-none z-10" />
         
-        {/* Left: Available for work box */}
-        <div 
-          style={{ fontFamily: "'GourmetEatery', cursive, sans-serif" }}
-          className="pointer-events-auto flex items-center gap-2 px-4 py-2.5 rounded-md bg-[#0a0a0c]/85 text-[#FFC822] border border-white/25 backdrop-blur-md shadow-xl"
-        >
-          <span className="w-2 h-2 rounded-full bg-[#FFC822] animate-pulse shadow-[0_0_8px_#FFC822]" />
-          <span className="capitalize text-xs sm:text-sm leading-none pt-0.5">
-            Available for work
-          </span>
+        <div className="absolute inset-0 flex flex-col items-center justify-center text-center z-20 px-4">
+          <h1 
+            style={{ 
+              fontFamily: "'RoseryStudio', sans-serif",
+              fontSize: 'clamp(1.05rem, 5.2vw, 1.5rem)'
+            }}
+            className="text-white uppercase tracking-tight leading-none mb-0.5 drop-shadow-[0_4px_8px_rgba(0,0,0,0.95)]"
+          >
+            {col.title}
+          </h1>
+          <p 
+            style={{ 
+              fontFamily: "'HelveticaNeue', sans-serif",
+              fontSize: 'clamp(0.62rem, 2.6vw, 0.78rem)'
+            }}
+            className="text-neutral-300 max-w-[85%] leading-tight drop-shadow-[0_2px_4px_rgba(0,0,0,0.95)]"
+          >
+            {col.subtitle}
+          </p>
         </div>
+      </div>
+    );
+  })}
+</div>
 
+      {/* 📌 STATIC FIXED FOOTER */}
+      <footer className="absolute bottom-0 left-0 w-full box-border z-[30] px-4 sm:px-8 md:px-12 pointer-events-none flex items-end pb-3 sm:pb-8 justify-end">
+        
         {/* Right: Social Icons Only with yellow dots */}
         <div 
           style={{ fontFamily: "'GourmetEatery', cursive, sans-serif" }}
