@@ -375,7 +375,7 @@ export default function Editing() {
         <div className="max-w-[950px] w-full px-2 sm:px-6 mb-10 relative z-20">
           <div className="w-full aspect-video rounded-[8px] overflow-hidden shadow-[0_18px_50px_rgba(0,0,0,0.15)] bg-[#0f0e0c]">
             <CustomVideoPlayer 
-              src="https://akshayshrivastava.com/videos/EditingMain.mp4"
+              src="https://akshayshrivastava.com/videos/EditingFull.mp4"
               badgeText="Featured Masterpiece"
               className="w-full h-full"
               muted={true}

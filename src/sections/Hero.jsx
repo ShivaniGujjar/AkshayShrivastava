@@ -133,15 +133,15 @@ export default function Hero({ onColumnClick }) {
 
         /* DESKTOP TORN PAPER MASK */
         .organic-torn-mask {
-          mask-image: url('/home-mask-desktop.svg');
-          -webkit-mask-image: url('/home-mask-desktop.svg');
-          mask-size: auto 100vh;
-          -webkit-mask-size: auto 100vh;
-          mask-repeat: no-repeat;
-          -webkit-mask-repeat: no-repeat;
-          mask-position: right center;
-          -webkit-mask-position: right center;
-        }
+        mask-image: url('/home-mask-desktop.svg');
+        -webkit-mask-image: url('/home-mask-desktop.svg');
+        mask-size: calc((100vw + 180px) / 4) 100%;
+       -webkit-mask-size: calc((100vw + 180px) / 4) 100%;
+       mask-repeat: no-repeat;
+       -webkit-mask-repeat: no-repeat;
+       mask-position: right center;
+      -webkit-mask-position: right center;
+       }
 
         /* MOBILE SVG TORN MASK */
         .mobile-torn-svg-mask {

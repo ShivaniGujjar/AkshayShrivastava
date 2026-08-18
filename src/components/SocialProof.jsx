@@ -45,43 +45,36 @@ const duplicateList = (arr, count = 6) => {
 
 export default function SocialProof({ brands = DEFAULT_BRANDS, testimonials = DEFAULT_TESTIMONIALS }) {
   return (
-    <section className="w-full relative overflow-hidden pt-4 pb-12 sm:pt-8 sm:pb-20 select-none bg-[#FFFCFB]" style={{ fontFamily: "'HelveticaNeue', 'Helvetica Neue', Helvetica, Arial, sans-serif" }}>
+    <section className="w-full relative overflow-hidden pt-4 pb-8 sm:pt-8 sm:pb-20 select-none bg-[#FFFCFB]" style={{ fontFamily: "'HelveticaNeue', 'Helvetica Neue', Helvetica, Arial, sans-serif" }}>
       
-      {/* 🎨 ANIMATION STYLING */}
       <style>{`
         @keyframes slowSmoothMarqueeLeft {
           0% { transform: translate3d(0, 0, 0); }
           100% { transform: translate3d(-50%, 0, 0); }
         }
-
         @keyframes slowSmoothMarqueeRight {
           0% { transform: translate3d(-50%, 0, 0); }
           100% { transform: translate3d(0, 0, 0); }
         }
-
         .animate-marquee-slow-left {
           display: inline-flex;
           white-space: nowrap;
           animation: slowSmoothMarqueeLeft 200s linear infinite;
         }
-
         .animate-marquee-slow-right {
           display: inline-flex;
           white-space: nowrap;
           animation: slowSmoothMarqueeRight 200s linear infinite;
         }
-
         .animate-marquee-slow-left:hover,
         .animate-marquee-slow-right:hover {
           animation-play-state: paused;
         }
-
         @font-face {
           font-family: 'GenericFont';
           src: url('/generic.woff2') format('woff2');
           font-display: swap;
         }
-
         @font-face {
           font-family: 'Talina';
           src: url('/Talina-Regular.ttf') format('truetype');
@@ -90,23 +83,22 @@ export default function SocialProof({ brands = DEFAULT_BRANDS, testimonials = DE
       `}</style>
 
       {/* ────────────────── 1. WORKED WITH SECTION ────────────────── */}
-      {/* Sirf yahan margin (mb) ko 0 kiya hai taaki gap khatam ho jaye */}
       <div className="w-full relative overflow-hidden mb-0 text-center z-10">
-        <div className="inline-flex flex-col items-center mb-4 sm:mb-6 px-4">
+        <div className="inline-flex flex-col items-center mb-3 sm:mb-6 px-4">
           <h3 
             style={{ fontFamily: "GenericFont, sans-serif", letterSpacing: '0.4px', fontWeight: 400 }}
-            className="text-xl sm:text-4xl m-0 text-[#3068D3] leading-tight"
+            className="text-base sm:text-4xl m-0 text-[#3068D3] leading-tight"
           >
             Worked With
           </h3>
         </div>
 
-        <div className="w-full overflow-hidden py-2 mt-2 sm:py-3 ">
-          <div className="animate-marquee-slow-left gap-10 sm:gap-16 w-max items-center">
+        <div className="w-full overflow-hidden py-1.5 mt-1 sm:py-3">
+          <div className="animate-marquee-slow-left gap-6 sm:gap-16 w-max items-center">
             {duplicateList(brands).map((logoUrl, idx) => (
               <div 
                 key={`brand-logo-${idx}`} 
-                className="inline-flex items-center justify-center shrink-0 h-10 sm:h-14"
+                className="inline-flex items-center justify-center shrink-0 h-6 sm:h-14"
               >
                 <img 
                   src={logoUrl} 
@@ -120,78 +112,74 @@ export default function SocialProof({ brands = DEFAULT_BRANDS, testimonials = DE
       </div>
 
       {/* ────────────────── 2. TESTIMONIALS SECTION (AVATAR STYLE) ────────────────── */}
-      {/* Yahan negative margin (-mt-4) lagaya hai aur top padding (pt) thodi kam ki hai */}
-      <div className="relative w-full -mt-8 sm:-mt-20 pt-16 pb-32 sm:pt-20 sm:pb-48 flex flex-col items-center justify-center overflow-hidden">
-        
-        {/* 🟦 BLUE TORN PAPER BACKGROUND */}
+     <div className="relative w-full -mt-6 sm:-mt-20 pt-14 pb-20 sm:pt-20 sm:pb-40 flex flex-col items-center justify-center overflow-hidden">
+  
+  <div 
+    className="absolute inset-0 w-full h-full bg-no-repeat bg-center bg-cover pointer-events-none z-0"
+    style={{ backgroundImage: `url('/testimonial.png')` }}
+  />
+
+  <div className="relative z-[15] text-center mb-3 sm:mb-4 pt-14 sm:pt-26 pb-1 sm:pb-2 px-2">
+    <h2 
+      style={{ fontFamily: "GenericFont, sans-serif", letterSpacing: '0.4px', fontWeight: 300 }}
+      className="text-xl sm:text-[40px] mt-2 sm:mt-6 m-0 text-[#FFFFFF] leading-tight drop-shadow-md pt-1 sm:pt-2"
+    >
+      Testimonial
+    </h2>
+
+    <p 
+      className="text-[#FFFFFF]/95 text-[10px] sm:text-base mt-1 sm:mt-2 font-medium"
+    >
+      What clients say about my work
+    </p>
+  </div>
+
+  {/* TICKER CARDS WRAPPER */}
+  <div className="w-full overflow-hidden mb-3 sm:mb-8 pb-1 sm:pb-4 py-0 sm:py-2 relative z-[15]">
+    <div className="animate-marquee-slow-right gap-4 sm:gap-20 w-max items-center">
+      {duplicateList(testimonials).map((testi, idx) => (
         <div 
-          className="absolute inset-0 w-full h-full bg-no-repeat bg-center bg-cover pointer-events-none z-0"
-          style={{ backgroundImage: `url('/testimonial.png')` }}
-        />
-
-        {/* Header */}
-        <div className="relative z-[15] text-center mb-8 sm:mb-4 pt-20 pb-2 sm:pt-26 px-2">
-          <h2 
-            style={{ fontFamily: "GenericFont, sans-serif", letterSpacing: '0.4px', fontWeight: 300 }}
-            className="text-[40px] mt-6 m-0 text-[#FFFFFF] leading-tight drop-shadow-md pt-2"
-          >
-            Testimonial
-          </h2>
-
-          <p 
-            className="text-[#FFFFFF]/95 text-xs sm:text-base mt-1 sm:mt-2 font-medium"
-          >
-            What clients say about my work
-          </p>
-          
-        </div>
-
-        {/* TICKER CARDS WRAPPER */}
-        <div className="w-full overflow-hidden mb-8 pb-4 py-0 sm:py-2 relative z-[15]">
-          <div className="animate-marquee-slow-right gap-12 sm:gap-20 w-max items-center">
-            {duplicateList(testimonials).map((testi, idx) => (
-              <div 
-                key={`testi-${idx}`} 
-                className="relative text-[#FFFFFF] w-[280px] sm:w-[400px] px-4 sm:px-6 inline-flex flex-col items-center text-center justify-between shrink-0 whitespace-normal"
-              >
-                {/* Creator Avatar */}
-                <div className="mb-4 sm:mb-5">
-                  <img 
-                    src={testi.avatar} 
-                    alt={testi.handle} 
-                    className="w-8 h-8 sm:w-20 sm:h-20 rounded-full object-cover border-2 border-white/30 shadow-md mx-auto"
-                  />
-                </div>
-
-                {/* Handle & Role */}
-                <div className="mb-4 sm:mb-5">
-                  <h4 
-                    style={{ fontFamily: "'Talina', sans-serif", letterSpacing: '0.5px' }}
-                    className="text-white text-base sm:text-xl m-0 drop-shadow"
-                  >
-                    {testi.handle}
-                  </h4>
-                  <p 
-                    style={{ letterSpacing: '0.5px', fontWeight: 600 }}
-                    className="text-white/70 text-[11px] sm:text-sm uppercase m-0 mt-1"
-                  >
-                    {testi.role}
-                  </p>
-                </div>
-
-                {/* Quote Text */}
-                <p 
-                  style={{ letterSpacing: '-0.1px', fontWeight: 300 }}
-                  className="text-white/95 text-sm sm:text-base leading-relaxed m-0"
-                >
-                  "{testi.quote}"
-                </p>
-              </div>
-            ))}
+          key={`testi-${idx}`} 
+          className="relative text-[#FFFFFF] w-[190px] sm:w-[400px] px-2 sm:px-6 inline-flex flex-col items-center text-center justify-between shrink-0 whitespace-normal"
+        >
+          {/* Creator Avatar */}
+          <div className="mb-1.5 sm:mb-5">
+            <img 
+              src={testi.avatar} 
+              alt={testi.handle} 
+              className="w-6 h-6 sm:w-20 sm:h-20 rounded-full object-cover border-2 border-white/30 shadow-md mx-auto"
+            />
           </div>
-        </div>
 
-      </div>
+          {/* Handle & Role */}
+          <div className="mb-1.5 sm:mb-5">
+            <h4 
+              style={{ fontFamily: "'Talina', sans-serif", letterSpacing: '0.5px' }}
+              className="text-white text-xs sm:text-xl m-0 drop-shadow"
+            >
+              {testi.handle}
+            </h4>
+            <p 
+              style={{ letterSpacing: '0.5px', fontWeight: 600 }}
+              className="text-white/70 text-[8px] sm:text-sm uppercase m-0 mt-0.5"
+            >
+              {testi.role}
+            </p>
+          </div>
+
+          {/* Quote Text */}
+          <p 
+            style={{ letterSpacing: '-0.1px', fontWeight: 300 }}
+            className="text-white/95 text-[10px] sm:text-base leading-snug m-0 line-clamp-3"
+          >
+            "{testi.quote}"
+          </p>
+        </div>
+      ))}
+    </div>
+  </div>
+
+</div>
 
     </section>
   );

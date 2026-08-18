@@ -188,22 +188,8 @@ export default function Navbar({ onNavigate, activeSection = 'editing' }) {
                   </a>
                 ))}
                 <hr className="border-white/20 w-full my-1" />
-                <a 
-                  href="#cart"
-                  onClick={(e) => { e.preventDefault(); setIsMobileMenuOpen(false); }}
-                  style={{ fontFamily: "'CactusJack', cursive, sans-serif" }}
-                  className="text-lg sm:text-xl uppercase tracking-wider text-white hover:text-[#FFC822] py-2 w-full no-underline"
-                >
-                  Cart
-                </a>
-                <a 
-                  href="#login"
-                  onClick={(e) => { e.preventDefault(); setIsMobileMenuOpen(false); }}
-                  style={{ fontFamily: "'CactusJack', cursive, sans-serif" }}
-                  className="text-lg sm:text-xl uppercase tracking-wider text-white hover:text-[#FFC822] py-2 w-full no-underline"
-                >
-                  Log in
-                </a>
+                
+                
               </div>
             </div>
           </>

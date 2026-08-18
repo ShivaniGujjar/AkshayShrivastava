@@ -253,15 +253,16 @@ export default function MotionDesign() {
       {/* HERO BANNER */}
       <div className="relative w-full h-[60vh] sm:h-screen bg-[#14120e] flex flex-col justify-center items-center overflow-hidden m-0 p-0 editing-cutout-mask"> 
         <video 
-          ref={heroVideoRef}
-          src="https://akshayshrivastava.com/videos/MotionMain.mp4" 
-          autoPlay 
-          loop 
-          muted={isHeroMuted} 
-          playsInline 
-          preload="auto"
-          className="absolute top-0 left-0 w-full h-full object-cover z-0 filter brightness-[0.55] contrast-105"
-        />
+  ref={heroVideoRef}
+  src="https://akshayshrivastava.com/videos/MotionMain.mp4" 
+  poster="https://akshayshrivastava.com/images/MotionMain.png"
+  autoPlay 
+  loop 
+  muted={isHeroMuted} 
+  playsInline 
+  preload="auto"
+  className="absolute top-0 left-0 w-full h-full object-cover z-0 filter brightness-[0.55] contrast-105"
+/>
 
         {/* 🔊 SOUND TOGGLE BUTTON */}
         <button

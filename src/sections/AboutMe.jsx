@@ -113,15 +113,17 @@ export default function AboutMe() {
       {/* 🎬 HERO BANNER WITH HOSTINGER VIDEO */}
       <div className="relative w-full h-[60vh] sm:h-screen bg-[#14120e] flex flex-col justify-center items-center overflow-hidden m-0 p-0 editing-cutout-mask"> 
         <video 
-          ref={heroVideoRef}
-          autoPlay 
-          loop 
-          muted={isMuted} 
-          playsInline 
-          className="absolute top-0 left-0 w-full h-full object-cover z-0 filter brightness-[0.55] contrast-105"
-        >
-          <source src="https://akshayshrivastava.com/videos/AboutMain.mp4" />
-        </video>
+  ref={heroVideoRef}
+  poster="https://akshayshrivastava.com/images/AboutMain.png"
+  autoPlay 
+  loop 
+  muted={isMuted} 
+  playsInline 
+  preload="metadata"
+  className="absolute top-0 left-0 w-full h-full object-cover z-0 filter brightness-[0.55] contrast-105"
+>
+  <source src="https://akshayshrivastava.com/videos/AboutMain.mp4" />
+</video>
 
         <div className="absolute inset-0 bg-gradient-to-t from-[#14120e]/80 via-transparent to-[#14120e]/60 z-[1] pointer-events-none" />
 
