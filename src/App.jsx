@@ -1,4 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import Lenis from 'lenis';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 // 🟢 COMPONENTS & SECTIONS
 import Navbar from './components/Navbar';
@@ -9,8 +12,36 @@ import MotionDesign from './sections/MotionDesign';
 import Direction from './sections/Direction';
 import AboutMe from './sections/AboutMe';
 
+if (typeof window !== 'undefined') {
+  gsap.registerPlugin(ScrollTrigger);
+}
+
 export default function App() {
   const [activeSection, setActiveSection] = useState('home');
+
+  // 🛹 LENIS SMOOTH SCROLL INTEGRATION
+  useEffect(() => {
+    const lenis = new Lenis({
+      duration: 1.2,
+      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      direction: 'vertical',
+      smooth: true,
+      touchMultiplier: 2,
+    });
+
+    lenis.on('scroll', ScrollTrigger.update);
+
+    gsap.ticker.add((time) => {
+      lenis.raf(time * 1000);
+    });
+
+    gsap.ticker.lagSmoothing(0);
+
+    return () => {
+      lenis.destroy();
+      gsap.ticker.remove((time) => lenis.raf(time * 1000));
+    };
+  }, []);
 
   const handleNavigate = (sectionId) => {
     setActiveSection(sectionId);
@@ -33,7 +64,7 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen w-full bg-slate-950 text-slate-100 flex flex-col selection:bg-sky-500 selection:text-white relative">
+    <div className="min-h-screen w-full bg-[#08080a] text-slate-100 flex flex-col selection:bg-red-500 selection:text-white relative">
       
       {/* 🎞️ GLOBAL CINEMATIC NOISE OVERLAY (Applies across the entire website) */}
       <div 

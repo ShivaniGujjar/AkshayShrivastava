@@ -40,17 +40,6 @@ const SOCIAL_LINKS = [
   { id: 'LinkedIn', name: 'Linkedin', url: 'https://www.linkedin.com/in/your-profile-here' }
 ];
 
-/*
-  COLOR-ROLE CONTRACT (keep this disciplined everywhere in the file):
-  - #08080a (black)  -> base/background only
-  - #FFFFFF (white)  -> default resting text
-  - #D42C2C (red)    -> resting-state accent (nav labels, links)
-  - #FFC300 (yellow) -> ACTIVE / HOVER state only, never resting
-  Never introduce a 5th "loud" color via an uncontrolled image asset —
-  every poster/video gets the same DUOTONE_TINT treatment below so the
-  imagery and the UI chrome read as one palette instead of two.
-*/
-
 export default function Hero({ onColumnClick }) {
   const videoRefs = useRef([]);
   const [hoveredIndex, setHoveredIndex] = useState(null);
@@ -94,9 +83,6 @@ export default function Hero({ onColumnClick }) {
   return (
     <section className="w-full h-dvh md:h-screen bg-[#08080a] overflow-hidden relative m-0 p-0 select-none">
       
-      {/* 🎨 FONT STYLING — consolidated to 2 families: SquidBoy (display/personality)
-          and HelveticaNeue (everything else: nav, footer, subtitles).
-          Dropped GourmetEatery + RoseryStudio — unused/competing voices. */}
       <style>{`
         @font-face {
           font-family: 'SquidBoy';
@@ -189,13 +175,14 @@ export default function Hero({ onColumnClick }) {
           
           {/* CENTER: DESKTOP CAPSULE NAVIGATION */}
           <div className="hidden md:flex items-center justify-center pointer-events-auto mx-auto">
-            <div className="relative bg-[#08080a] clean-pill pt-3 px-6 py-2.5 rounded-lg overflow-hidden flex items-center justify-center gap-3 shadow-lg" style={{ border: 'none', outline: 'none' }}>
+            <div className="relative bg-[#08080a] clean-pill pt-3 pb-3 px-6 rounded-lg overflow-hidden flex items-center justify-center shadow-lg" style={{ border: 'none', outline: 'none' }}>
               <div 
                 className="absolute inset-0 pointer-events-none z-[1] bg-[url('/noise.gif')] bg-repeat"
                 style={{ opacity: 0.08, mixBlendMode: 'overlay' }}
               />
 
-              <div className="relative z-[2] flex items-center justify-center gap-3">
+              {/* GAP REMOVED / TIGHTENED */}
+              <div className="relative z-[2] flex items-center justify-center">
                 {NAV_ITEMS.map((item, idx) => {
                   const isActive = hoveredIndex === COLUMNS.findIndex(c => c.id === item.id);
 
@@ -210,14 +197,14 @@ export default function Hero({ onColumnClick }) {
                         onMouseEnter={() => handleMouseEnter(COLUMNS.findIndex(c => c.id === item.id))}
                         onMouseLeave={() => handleMouseLeave(COLUMNS.findIndex(c => c.id === item.id))}
                         style={{ fontFamily: "GourmetEatery, cursive, sans-serif" }}
-                        className={`relative inline-flex items-center text-sm sm:text-base tracking-wide transition-all duration-200 cursor-pointer hover:text-[#FFC300] whitespace-nowrap ${
+                        className={`relative inline-flex items-center text-sm sm:text-base tracking-wide transition-all duration-200 cursor-pointer hover:text-[#FFC300] whitespace-nowrap px-1.5 ${
                           isActive ? 'text-[#FFC300]' : 'text-white'
                         }`}
                       >
                         <span className="leading-none pt-0.5">{item.label}</span>
                       </a>
                       {idx < NAV_ITEMS.length - 1 && (
-                        <span className="w-1.5 h-1.5 rounded-full bg-[#D42C2C] inline-block select-none shrink-0" />
+                        <span className="w-1.5 h-1.5 rounded-full bg-[#D42C2C] inline-block select-none shrink-0 mx-0.5" />
                       )}
                     </React.Fragment>
                   );
@@ -330,10 +317,6 @@ export default function Hero({ onColumnClick }) {
                   }`}
                 />
 
-                {/* DUOTONE TINT — every column gets the same warm-black cast so no
-                    single poster (e.g. the Motion Design grid) can introduce an
-                    uncontrolled color that fights the red/yellow accent system.
-                    Fades out on hover (from the column itself OR the matching navbar item) along with the grayscale. */}
                 <div 
                   className={`absolute inset-0 pointer-events-none z-[3] transition-opacity duration-700 ${isHovered ? 'opacity-0' : ''}`}
                   style={{ backgroundColor: '#2a0d0d', mixBlendMode: 'multiply', opacity: isHovered ? 0 : 0.18 }}
@@ -394,7 +377,6 @@ export default function Hero({ onColumnClick }) {
                 className="absolute inset-0 w-full h-full object-cover object-center brightness-[0.75] contrast-[1.0] grayscale z-[1] pointer-events-none"
               />
 
-              {/* Same duotone tint on mobile for consistency */}
               <div 
                 className="absolute inset-0 pointer-events-none z-[2]"
                 style={{ backgroundColor: '#2a0d0d', mixBlendMode: 'multiply', opacity: 0.18 }}
@@ -429,30 +411,30 @@ export default function Hero({ onColumnClick }) {
         })}
       </div>
 
-      {/* ================= CLEAN CENTERED FOOTER ================= */}
+     {/* ================= CLEAN CENTERED FOOTER ================= */}
       <footer className="fixed bottom-8 left-1/2 -translate-x-1/2 pointer-events-none z-[999] flex justify-center items-center">
         <div 
-          className="relative pointer-events-auto bg-[#08080a] text-[#D42C2C] pt-3 px-5 py-2 rounded-lg flex items-center gap-3 shadow-lg overflow-hidden"
+          className="relative pointer-events-auto bg-[#08080a] text-[#FFC300] pt-3 pb-3 px-4 rounded-lg flex items-center justify-center shadow-lg overflow-hidden"
         >
           <div 
             className="absolute inset-0 pointer-events-none z-[1] bg-[url('/noise.gif')] bg-repeat"
             style={{ opacity: 0.08, mixBlendMode: 'overlay' }}
           />
 
-          <div className="relative z-[2] flex items-center gap-3">
+          <div className="relative z-[2] flex items-center justify-center">
             {SOCIAL_LINKS.map((link, idx) => (
               <React.Fragment key={link.id}>
                 <a 
                   href={link.url} 
                   target="_blank" 
                   rel="noopener noreferrer" 
-                  className="text-white hover:text-[#FFC300] transition-colors text-sm sm:text-base tracking-wider leading-none flex items-center"
+                  className="text-white hover:text-[#FFC300] transition-colors text-sm sm:text-base capitalize tracking-wide leading-none flex items-center px-1"
                   style={{ fontFamily: "GourmetEatery, cursive, sans-serif" }}
                 >
-                  {link.name}
+                  <span className="leading-none pt-0.5">{link.name}</span>
                 </a>
                 {idx < SOCIAL_LINKS.length - 1 && (
-                  <span className="w-1.5 h-1.5 rounded-full bg-[#D42C2C] inline-block select-none self-center shrink-0" />
+                  <span className="w-1.5 h-1.5 rounded-full bg-[#D42C2C] inline-block select-none shrink-0 mx-0.5" />
                 )}
               </React.Fragment>
             ))}

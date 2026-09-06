@@ -51,6 +51,7 @@ function VideoCard({ item, aspectRatio = "wide", hoveredId, setHoveredId, onOpen
   const [isVisible, setIsVisible] = useState(false);
   const isHovered = hoveredId === item.id;
   const isAnyHovered = hoveredId !== null;
+  const isShort = aspectRatio === "tall";
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -99,7 +100,7 @@ function VideoCard({ item, aspectRatio = "wide", hoveredId, setHoveredId, onOpen
       onMouseEnter={() => setHoveredId(item.id)}
       onMouseLeave={() => setHoveredId(null)}
       onClick={() => onOpenModal(item)}
-      className={`relative group overflow-hidden cursor-pointer bg-[#0f0e0c] shadow-[0_8px_30px_rgba(0,0,0,0.06)] transition-all duration-500 ease-out hover:-translate-y-1 hover:shadow-[0_16px_40px_rgba(48,104,211,0.15)] ${cardDimensions} shrink-0 outline-none focus:outline-none select-none rounded-[8px]`}
+      className={`relative group overflow-hidden cursor-pointer bg-[#0f0e0c] shadow-[0_8px_30px_rgba(0,0,0,0.06)] transition-all duration-500 ease-out hover:-translate-y-1 hover:shadow-[0_16px_40px_rgba(212,44,44,0.15)] ${cardDimensions} shrink-0 outline-none focus:outline-none select-none rounded-[8px]`}
     >
       <video
         ref={videoRef}
@@ -116,34 +117,37 @@ function VideoCard({ item, aspectRatio = "wide", hoveredId, setHoveredId, onOpen
       {/* Subtle bottom fade to blend with page lighting */}
       <div className="absolute bottom-0 left-0 right-0 h-12 bg-gradient-to-t from-[#0f0e0c]/60 to-transparent pointer-events-none" />
 
-      {item.category && (
+      {/* Badge / Category for Long forms */}
+      {!isShort && item.category && (
         <div 
-          style={{ fontFamily: "'Talina', sans-serif", letterSpacing: '-0.3px', fontWeight: 300 }}
-          className="absolute top-3 left-3 sm:top-4 sm:left-4 bg-[#D42C2C]/90 backdrop-blur-md px-2.5 sm:px-3 py-0.5 sm:py-1 rounded-[4px] text-[#FFFFFF] text-[10px] sm:text-xs uppercase shadow-sm"
+          style={{ fontFamily: "'SquidBoy', sans-serif", letterSpacing: '0.5px' }}
+          className="absolute top-3 left-3 sm:top-4 sm:left-4 bg-[#D42C2C]/90 backdrop-blur-md px-2.5 sm:px-3 py-0.5 sm:py-1 rounded-[4px] text-[#FFFCFB] text-[10px] sm:text-xs capitalize shadow-sm"
         >
           {item.category}
         </div>
       )}
 
-      <div className={`absolute top-3 right-3 sm:top-4 sm:right-4 w-7 h-7 sm:w-9 sm:h-9 rounded-[4px] backdrop-blur-md flex items-center justify-center transition-all duration-300 ${isHovered ? 'scale-110 bg-[#D42C2C] text-[#FFFFFF] shadow-[0_0_20px_rgba(48,104,211,0.6)]' : 'bg-black/40 text-[#FFFFFF]'}`}>
+      <div className={`absolute top-3 right-3 sm:top-4 sm:right-4 w-7 h-7 sm:w-9 sm:h-9 rounded-[4px] backdrop-blur-md flex items-center justify-center transition-all duration-300 ${isHovered ? 'scale-110 bg-[#D42C2C] text-[#FFFCFB] shadow-[0_0_20px_rgba(212,44,44,0.6)]' : 'bg-black/40 text-[#FFFCFB]'}`}>
         {isHovered ? (
-          <span className="w-2 h-2 sm:w-2.5 sm:h-2.5 bg-[#FFFFFF] rounded-[2px] animate-pulse" />
+          <span className="w-2 h-2 sm:w-2.5 sm:h-2.5 bg-[#FFFCFB] rounded-[2px] animate-pulse" />
         ) : (
           <svg className="w-3.5 h-3.5 sm:w-4 sm:h-4 fill-current ml-0.5" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
         )}
       </div>
 
       <div className="absolute bottom-0 left-0 right-0 p-4 sm:p-6 transform transition-transform duration-300">
-        <h4 
-          style={{ fontFamily: "'Talina', sans-serif", fontWeight: 300 }}
-          className="text-[#FFFFFF] text-lg sm:text-2xl leading-snug drop-shadow-md mb-1"
-        >
-          {item.title}
-        </h4>
+        {!isShort && (
+          <h4 
+            style={{ fontFamily: "'SquidBoy', sans-serif", letterSpacing: '0.5px' }}
+            className="text-[#FFFCFB] text-lg sm:text-2xl leading-snug drop-shadow-md mb-1 capitalize"
+          >
+            {item.title}
+          </h4>
+        )}
         {item.brand && (
           <p 
-            style={{ fontFamily: "'HelveticaNeue', sans-serif", letterSpacing: '-0.3px', fontWeight: 300 }}
-            className="text-[#9cbbfb] text-[10px] sm:text-xs uppercase bg-black/50 backdrop-blur-sm px-2 py-0.5 sm:px-2.5 sm:py-1 rounded-[4px] inline-block"
+            style={{ fontFamily: "'GroteskFont', sans-serif", letterSpacing: '-0.3px', fontWeight: 400 }}
+            className="text-[#FFFCFB] text-[10px] sm:text-xs capitalize bg-[#D42C2C] px-2.5 py-1 rounded-[4px] inline-block shadow-md"
           >
             {item.brand}
           </p>
@@ -213,9 +217,17 @@ export default function Editing() {
       
       <style>{`
         @font-face {
-          font-family: 'GenericFont';
-          src: url('/generic.woff2') format('woff2');
+          font-family: 'SquidBoy';
+          src: url('/Fonts/SquidBoy.otf') format('opentype');
           font-weight: normal;
+          font-style: normal;
+          font-display: swap;
+        }
+
+        @font-face {
+          font-family: 'SquidBoy';
+          src: url('/Fonts/SquidBoy-Bold.otf') format('opentype');
+          font-weight: bold;
           font-style: normal;
           font-display: swap;
         }
@@ -227,41 +239,6 @@ export default function Editing() {
           font-style: normal;
           font-display: swap;
         }
-
-        @font-face {
-          font-family: 'CactusJack';
-          src: url('/cactus-jack.woff2') format('woff2');
-          font-weight: normal;
-          font-style: normal;
-          font-display: swap;
-        }
-
-        @font-face {
-          font-family: 'Talina';
-          src: url('/Talina-Regular.ttf') format('truetype');
-          font-weight: normal;
-          font-style: normal;
-          font-display: swap;
-        }
-
-        @font-face {
-          font-family: 'HelveticaNeue';
-          src: url('/fonts/HelveticaNeueRoman.otf') format('opentype');
-          font-weight: normal;
-          font-style: normal;
-          font-display: swap;
-        }
-
-        @font-face {
-          font-family: 'HelveticaNeue';
-          src: url('/fonts/HelveticaNeueBold.otf') format('opentype');
-          font-weight: bold;
-          font-style: normal;
-          font-display: swap;
-        }
-
-        /* Pure CSS SVG Noise Grain Overlay */
-        
 
         .editing-cutout-mask {
           mask-image: url('/editingcutout.svg');
@@ -275,7 +252,7 @@ export default function Editing() {
         }
       `}</style>
 
-      {/* HERO BANNER - WITH CSS CINEMATIC NOISE OVERLAY */}
+      {/* HERO BANNER */}
       <div className="relative w-full h-[70vh] sm:h-screen bg-[#14120e] flex flex-col justify-center items-center overflow-hidden m-0 p-0 editing-cutout-mask"> 
         <video 
           ref={heroVideoRef}
@@ -285,19 +262,19 @@ export default function Editing() {
           muted={isHeroMuted} 
           playsInline 
           preload="auto"
-          className="absolute top-0 left-0 w-full h-full object-cover z-0 filter brightness-[0.55] contrast-105"
+          className="absolute top-0 left-0 w-full h-full object-cover z-0 filter brightness-[0.75] contrast-100"
         />
 
-        {/* 🎞️ RELIABLE CSS NOISE OVERLAY LAYER */}
-        <div className="absolute inset-0 pointer-events-none z-[1] cinematic-grain opacity-60 mix-blend-overlay" />
+        {/* Noise opacity bilkul halki (0.015) */}
+        <div className="absolute inset-0 pointer-events-none z-[1] bg-[url('/noise.gif')] bg-repeat opacity-[0.015] mix-blend-overlay" />
 
         <button
           onClick={toggleHeroSound}
-          className="absolute bottom-12 left-4 sm:bottom-16 sm:left-10 z-20 w-8 h-8 sm:w-11 sm:h-11 rounded-full bg-black/60 hover:bg-black/80 backdrop-blur-md border border-white/10 flex items-center justify-center text-[#FFC822] hover:scale-110 transition-all duration-300 shadow-xl cursor-pointer group"
+          className="absolute bottom-12 left-4 sm:bottom-16 sm:left-10 z-20 w-8 h-8 sm:w-11 sm:h-11 rounded-full bg-black/60 hover:bg-black/80 backdrop-blur-md border border-white/10 flex items-center justify-center text-[#FFC300] hover:scale-110 transition-all duration-300 shadow-xl cursor-pointer group"
           title={isHeroMuted ? "Unmute Sound" : "Mute Sound"}
         >
           {isHeroMuted ? (
-            <svg className="w-4 h-4 sm:w-5 sm:h-5 fill-current text-[#FFC822]" viewBox="0 0 24 24">
+            <svg className="w-4 h-4 sm:w-5 sm:h-5 fill-current text-[#FFC300]" viewBox="0 0 24 24">
               <path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v2.21l2.45 2.45c.03-.2.05-.41.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51C20.63 14.91 21 13.5 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06c1.38-.31 2.63-.95 3.69-1.81L19.73 21 21 19.73l-9-9L4.27 3zM12 4L9.91 6.09 12 8.18V4z"/>
             </svg>
           ) : (
@@ -307,38 +284,26 @@ export default function Editing() {
           )}
         </button>
 
-        <div className="absolute inset-0 bg-gradient-to-t from-[#14120e]/80 via-transparent to-[#14120e]/60 z-[2] pointer-events-none" />
+        <div className="absolute inset-0 bg-gradient-to-t from-[#14120e]/50 via-transparent to-[#14120e]/30 z-[2] pointer-events-none" />
 
         <div className="relative z-10 flex flex-col justify-center items-center px-4 text-center mt-6">
           <h1 
             style={{ 
-              fontFamily: "'GenericFont', cursive, sans-serif", 
-              letterSpacing: '-0.5px', 
-              fontWeight: 400 
+              fontFamily: "'SquidBoy', sans-serif", 
+              letterSpacing: '1px'
             }}
-            className="text-[3rem] sm:text-[5.5rem] text-[#ffffff] m-0 leading-none drop-shadow-lg"
+            className="text-[3rem] sm:text-[5.5rem] text-[#FFFCFB] m-0 leading-none drop-shadow-lg capitalize"
           >
             Editing Work
           </h1>
           
-          <p 
-            style={{ fontFamily: "'CactusJack', cursive, sans-serif", letterSpacing : '0.5px' }}
-            className="flex items-center justify-center gap-2 sm:gap-3 mt-4 sm:mt-5 text-white text-sm sm:text-2xl tracking-wider text-center drop-shadow-[0_2px_10px_rgba(0,0,0,0.95)] uppercase"
-          >
-            <span>Post - Production</span> 
-            <span className="text-[#FFC822]">•</span> 
-            <span>Retention Editing</span> 
-            <span className="text-[#FFC822]">•</span> 
-            <span>UGC Ads</span>
-          </p>
-
           <a
-  href="#long-forms"
-  className="mt-6 sm:mt-8 bg-[#D42C2C] hover:bg-[#2552ab] text-white px-8 py-3.5 rounded-lg font-bold uppercase tracking-wider text-sm transition-all duration-300 shadow-[0_0_25px_rgba(48,104,211,0.5)] hover:scale-105 no-underline"
-  style={{ fontFamily: "'CactusJack', cursive, sans-serif" }}
->
-  Explore Work
-</a>
+            href="#long-forms"
+            className="mt-6 sm:mt-8 bg-[#D42C2C] hover:bg-[#b02222] text-[#FFFCFB] px-8 py-3.5 rounded-lg font-bold capitalize tracking-wider text-sm transition-all duration-300 hover:scale-105 no-underline"
+            style={{ fontFamily: "'SquidBoy', sans-serif" }}
+          >
+            Explore Work
+          </a>
         </div>
       </div>
 
@@ -348,11 +313,10 @@ export default function Editing() {
         <div className="inline-flex flex-col items-center z-20 px-4">
           <h2 
             style={{ 
-              fontFamily: "'GenericFont', cursive, sans-serif", 
-              letterSpacing:'-0.5px', 
-              fontWeight: 400 
+              fontFamily: "'SquidBoy', sans-serif", 
+              letterSpacing:'1px'
             }}
-            className="text-2xl sm:text-4xl m-0 text-[#D42C2C] leading-tight"
+            className="text-2xl sm:text-4xl m-0 text-[#D42C2C] leading-tight capitalize"
           >
             Welcome To Editing Section
           </h2>
@@ -361,9 +325,9 @@ export default function Editing() {
         <div ref={paragraphRef} className="relative z-10 mt-3 mb-6 max-w-[700px] px-4">
           <p 
             style={{ 
-              fontFamily: "GroteskFont", 
+              fontFamily: "'GroteskFont', sans-serif", 
               fontWeight: 400,
-              letterSpacing : '-1px'
+              letterSpacing : '-0.5px'
             }}
             className="text-[#3b352e] text-xs sm:text-lg leading-relaxed text-center font-light tracking-wide"
           >
@@ -389,25 +353,24 @@ export default function Editing() {
         <div className="max-w-[1100px] w-full mx-auto px-6 flex flex-col items-center text-center mb-8">
           <h3 
             style={{ 
-              fontFamily: "'GenericFont', cursive, sans-serif", 
-              letterSpacing : '-0.5px',
-              fontWeight: 400 
+              fontFamily: "'SquidBoy', sans-serif", 
+              letterSpacing : '1px'
             }}
-            className="text-2xl sm:text-4xl m-0 text-[#D42C2C] leading-tight"
+            className="text-2xl sm:text-4xl m-0 text-[#D42C2C] leading-tight capitalize"
           >
             Long Forms
           </h3>
 
           <div 
-            style={{ fontFamily: "'CactusJack', cursive, sans-serif", letterSpacing: '0.5px' , fontWeight : '900' }}
-            className="flex items-center justify-center gap-2 sm:gap-3 mt-3 text-[#3b352e] text-xs sm:text-base tracking-wider text-center uppercase"
+            style={{ fontFamily: "'GroteskFont', sans-serif", letterSpacing: '1px' }}
+            className="flex items-center justify-center gap-2 sm:gap-3 mt-3 text-[#3b352e] text-xs sm:text-base tracking-wider text-center capitalize"
           >
             <span>Podcasts</span>
-            <span className="text-[#FFC822]">•</span>
+            <span className="text-[#FFC300]">•</span>
             <span>Youtube Documentaries</span>
-            <span className="text-[#FFC822]">•</span>
+            <span className="text-[#FFC300]">•</span>
             <span>Talking Head</span>
-            <span className="text-[#FFC822]">•</span>
+            <span className="text-[#FFC300]">•</span>
             <span>Campus Film</span>
           </div>
         </div>
@@ -433,25 +396,24 @@ export default function Editing() {
         <div className="max-w-[1100px] w-full mx-auto px-6 flex flex-col items-center text-center mb-8">
           <h3 
             style={{ 
-              fontFamily: "'GenericFont', cursive, sans-serif", 
-              letterSpacing : '-0.5px',
-              fontWeight: 400 
+              fontFamily: "'SquidBoy', sans-serif", 
+              letterSpacing : '1px'
             }}
-            className="text-2xl sm:text-4xl m-0 text-[#D42C2C] leading-tight"
+            className="text-2xl sm:text-4xl m-0 text-[#D42C2C] leading-tight capitalize"
           >
             Short Forms
           </h3>
 
           <div 
-            style={{ fontFamily: "'CactusJack', cursive, sans-serif", letterSpacing: '0.5px' , fontWeight : '900' }}
-            className="flex items-center justify-center gap-2 sm:gap-3 mt-3 text-[#3b352e] text-xs sm:text-base tracking-wider text-center uppercase"
+            style={{ fontFamily: "'GroteskFont', sans-serif", letterSpacing: '1px' }}
+            className="flex items-center justify-center gap-2 sm:gap-3 mt-3 text-[#3b352e] text-xs sm:text-base tracking-wider text-center capitalize"
           >
             <span>UGC Ads</span>
-            <span className="text-[#FFC822]">•</span>
+            <span className="text-[#FFC300]">•</span>
             <span>Retention Hooks</span>
-            <span className="text-[#FFC822]">•</span>
+            <span className="text-[#FFC300]">•</span>
             <span>Podcast Shorts</span>
-            <span className="text-[#FFC822]">•</span>
+            <span className="text-[#FFC300]">•</span>
             <span>Reels</span>
           </div>
         </div>
@@ -504,7 +466,7 @@ export default function Editing() {
           >
             <button 
               onClick={() => setSelectedVideo(null)}
-              className={`absolute top-4 right-4 z-[1000] w-10 h-10 rounded-full ${isShortForm ? 'bg-black/60 text-white' : 'bg-[#14120e] text-[#FFFFFF] hover:bg-[#D42C2C]'} flex items-center justify-center font-bold text-lg transition-all shadow-lg cursor-pointer backdrop-blur-md`}
+              className={`absolute top-4 right-4 z-[1000] w-10 h-10 rounded-full ${isShortForm ? 'bg-black/60 text-white' : 'bg-[#14120e] text-[#FFFCFB] hover:bg-[#D42C2C]'} flex items-center justify-center font-bold text-lg transition-all shadow-lg cursor-pointer backdrop-blur-md`}
             >
               ✕
             </button>
@@ -533,15 +495,15 @@ export default function Editing() {
                 </div>
                 <div className="p-4 sm:p-6 bg-[#FFFCFB] text-[#14120e] flex items-center justify-between border-t border-black/5">
                   <h3 
-                    style={{ fontFamily: "'Talina', sans-serif", fontWeight: 300 }}
-                    className="text-lg sm:text-2xl text-[#D42C2C]"
+                    style={{ fontFamily: "'SquidBoy', sans-serif", letterSpacing: '0.5px' }}
+                    className="text-lg sm:text-2xl text-[#D42C2C] capitalize"
                   >
                     {selectedVideo.title}
                   </h3>
                   {selectedVideo.brand && (
                     <span 
-                      style={{ fontFamily: "'HelveticaNeue', sans-serif", letterSpacing: '-0.3px', fontWeight: 300 }}
-                      className="text-[10px] sm:text-xs uppercase text-[#554f46] bg-[#f0eae1] px-2.5 py-1 rounded-[4px]"
+                      style={{ fontFamily: "'GroteskFont', sans-serif", letterSpacing: '-0.3px', fontWeight: 300 }}
+                      className="text-[10px] sm:text-xs capitalize text-[#554f46] bg-[#f0eae1] px-2.5 py-1 rounded-[4px]"
                     >
                       {selectedVideo.brand}
                     </span>

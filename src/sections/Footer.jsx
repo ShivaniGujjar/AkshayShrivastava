@@ -1,95 +1,33 @@
-import React, { useRef, useEffect } from 'react';
-import gsap from 'gsap';
+import React, { useState, useEffect } from 'react';
 
 const SOCIAL_LINKS = [
-  { id: 'Instagram', name: 'INSTAGRAM', url: 'https://www.instagram.com/akshay__shri/?hl=en' },
-  { id: 'Gmail', name: 'MAIL', url: 'mailto:client@email.com' }
+  { id: 'Instagram', name: 'Instagram', url: 'https://www.instagram.com/akshay__shri/?hl=en' },
+  { id: 'Gmail', name: 'Mail', url: 'mailto:client@email.com' },
+  { id: 'LinkedIn', name: 'Linkedin', url: 'https://www.linkedin.com/in/your-profile-here' }
 ];
 
 export default function Footer() {
-  const wrapperRef = useRef(null);
-  const pathRef = useRef(null);
-  const headRef = useRef(null);
-  const labelRef = useRef(null);
-  const isVisibleRef = useRef(false);
-  const timelineRef = useRef(null);
-  const idleTweenRef = useRef(null);
+  const [isAtBottom, setIsAtBottom] = useState(false);
 
   useEffect(() => {
-    const path = pathRef.current;
-    if (!path) return;
-    const length = path.getTotalLength();
-
-    gsap.set(path, { strokeDasharray: length, strokeDashoffset: length });
-    gsap.set(headRef.current, { opacity: 0, scale: 0.4, transformOrigin: '50% 50%' });
-    gsap.set(labelRef.current, { opacity: 0, y: 6, rotate: -3 });
-    gsap.set(wrapperRef.current, { opacity: 0 });
-
-    const buildTimeline = () => {
-      const tl = gsap.timeline({ paused: true });
-
-      tl.to(wrapperRef.current, { opacity: 1, duration: 0.1 })
-        .fromTo(labelRef.current, 
-          { opacity: 0, y: 6, rotate: -3 }, 
-          { opacity: 1, y: 0, rotate: -3, duration: 0.4, ease: 'power2.out' }
-        )
-        .to(path, {
-          strokeDashoffset: 0,
-          duration: 1.5,
-          ease: 'power2.inOut'
-        }, '-=0.1')
-        .to(headRef.current, {
-          opacity: 1,
-          scale: 1,
-          duration: 0.45,
-          ease: 'back.out(3)'
-        }, '-=0.2')
-        .call(() => {
-          idleTweenRef.current = gsap.to(wrapperRef.current, {
-            y: -5,
-            rotate: 1.5,
-            duration: 1.1,
-            repeat: -1,
-            yoyo: true,
-            ease: 'sine.inOut'
-          });
-        });
-
-      return tl;
-    };
-
-    timelineRef.current = buildTimeline();
-
-    const checkScroll = () => {
+    const handleScroll = () => {
       const scrollY = window.scrollY || window.pageYOffset;
       const viewportHeight = window.innerHeight;
       const fullHeight = document.documentElement.scrollHeight;
+      
       const distanceFromBottom = fullHeight - (scrollY + viewportHeight);
-      const shouldShow = distanceFromBottom < 250;
-
-      if (shouldShow && !isVisibleRef.current) {
-        isVisibleRef.current = true;
-        timelineRef.current.play();
-      } else if (!shouldShow && isVisibleRef.current) {
-        isVisibleRef.current = false;
-        idleTweenRef.current?.kill();
-        timelineRef.current.pause(0);
-        gsap.set(path, { strokeDashoffset: length });
-        gsap.set(headRef.current, { opacity: 0, scale: 0.4 });
-        gsap.set(labelRef.current, { opacity: 0, y: 6, rotate: -3 });
-        gsap.set(wrapperRef.current, { opacity: 0, y: 0, rotate: 0 });
+      if (distanceFromBottom < 120) {
+        setIsAtBottom(true);
+      } else {
+        setIsAtBottom(false);
       }
     };
 
-    checkScroll();
-    window.addEventListener('scroll', checkScroll, { passive: true });
-    window.addEventListener('resize', checkScroll);
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    handleScroll();
 
     return () => {
-      window.removeEventListener('scroll', checkScroll);
-      window.removeEventListener('resize', checkScroll);
-      idleTweenRef.current?.kill();
-      timelineRef.current?.kill();
+      window.removeEventListener('scroll', handleScroll);
     };
   }, []);
 
@@ -103,34 +41,57 @@ export default function Footer() {
           font-style: normal;
           font-display: swap;
         }
+
+        @font-face {
+          font-family: 'SquidBoy';
+          src: url('/Fonts/SquidBoy.otf') format('opentype');
+          font-weight: normal;
+          font-style: normal;
+          font-display: swap;
+        }
       `}</style>
 
-      
-      
+      {/* "Contact Now" text with responsive sizing to prevent awkward breaking on mobile */}
+      <div className={`fixed z-[998] left-1/2 -translate-x-1/2 pointer-events-none transition-all duration-500 ease-out ${
+        isAtBottom ? 'bottom-24 sm:bottom-28 opacity-100 scale-100' : 'bottom-16 opacity-0 scale-95'
+      } flex flex-col items-center justify-center w-full px-4 text-center`}>
+        <a 
+          href="mailto:client@email.com"
+          style={{ fontFamily: "'SquidBoy', sans-serif", letterSpacing: '1px' }}
+          className="text-[#D42C2C] hover:text-[#b02222] transition-colors text-3xl sm:text-5xl md:text-6xl tracking-wide leading-none drop-shadow-md cursor-pointer pointer-events-auto no-underline whitespace-nowrap"
+        >
+          Contact Now
+        </a>
+      </div>
 
-      <footer className="fixed bottom-8 right-5 sm:right-8 md:right-12 pointer-events-none z-[999] flex justify-end items-end">
+      {/* Social Links Pill transitioning from bottom-right to bottom-center */}
+      <footer className={`fixed z-[999] pointer-events-none transition-all duration-500 ease-out ${
+        isAtBottom 
+          ? 'bottom-8 left-1/2 -translate-x-1/2' 
+          : 'bottom-8 right-5 sm:right-8 md:right-12'
+      } flex justify-center items-center`}>
         <div 
-          className="relative pointer-events-auto bg-[#D42C2C] text-white pt-4 px-3 py-3 rounded-lg flex items-center gap-4 shadow-lg overflow-hidden"
+          className="relative pointer-events-auto bg-[#D42C2C] text-white pt-2.5 pb-2.5 px-4 rounded-lg flex items-center justify-center shadow-xl overflow-hidden transition-all duration-300"
         >
           <div 
             className="absolute inset-0 pointer-events-none z-[1] bg-[url('/noise.gif')] bg-repeat"
             style={{ opacity: 0.08, mixBlendMode: 'overlay' }}
           />
 
-          <div className="relative z-[2] flex items-center gap-4">
+          <div className="relative z-[2] flex items-center justify-center">
             {SOCIAL_LINKS.map((link, idx) => (
               <React.Fragment key={link.id}>
                 <a 
                   href={link.url} 
                   target="_blank" 
                   rel="noopener noreferrer" 
-                  className="text-white hover:text-[#FFC822] transition-colors text-sm sm:text-base uppercase tracking-wider leading-none flex items-center"
+                  className="text-white hover:text-[#FFC822] transition-colors text-xs sm:text-sm md:text-base capitalize tracking-wide leading-none flex items-center px-1"
                   style={{ fontFamily: "GourmetEatery, cursive, sans-serif" }}
                 >
-                  {link.name}
+                  <span className="leading-none pt-0.5">{link.name}</span>
                 </a>
                 {idx < SOCIAL_LINKS.length - 1 && (
-                  <span className="w-1.5 h-1.5 rounded-full bg-[#FFC822] inline-block select-none self-center shrink-0" />
+                  <span className="w-1 h-1 sm:w-1.5 sm:h-1.5 rounded-full bg-[#FFC822] inline-block select-none shrink-0 mx-0.5" />
                 )}
               </React.Fragment>
             ))}

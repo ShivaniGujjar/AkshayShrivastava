@@ -2,9 +2,9 @@ import React, { useState, useEffect } from 'react';
 
 const NAV_ITEMS = [
   { label: 'Editing', id: 'editing' },
-  { label: 'Motion', id: 'motion' },
+  { label: 'Motion Design', id: 'motion' },
   { label: 'Direction', id: 'direction' },
-  { label: 'About', id: 'about' }
+  { label: 'About Me', id: 'about' }
 ];
 
 export default function Navbar({ onNavigate, activeSection = 'editing' }) {
@@ -29,16 +29,6 @@ export default function Navbar({ onNavigate, activeSection = 'editing' }) {
     }
   }, [isMobileMenuOpen]);
 
-  const handleHomeClick = (e) => {
-    e.preventDefault();
-    setIsMobileMenuOpen(false);
-    if (onNavigate) {
-      onNavigate('home');
-    } else {
-      window.location.href = '/';
-    }
-  };
-
   return (
     <>
       <style>{`
@@ -56,34 +46,23 @@ export default function Navbar({ onNavigate, activeSection = 'editing' }) {
           isVisible ? 'translate-y-0 opacity-100' : '-translate-y-[200%] opacity-0'
         }`}
       >
-        {/* 3-COLUMN GRID LAYOUT */}
-        <div className="w-full grid grid-cols-2 md:grid-cols-3 items-center relative">
+        {/* FLEX CONTAINER TO PROPERLY ALIGN CENTER NAV AND RIGHT CONNECT BUTTON */}
+        <div className="w-full flex items-center justify-between relative">
           
-          {/* LEFT: LOGO IMAGE INSTEAD OF NAME */}
-          <div className="flex items-center justify-start">
-            <a 
-              href="/"
-              onClick={handleHomeClick}
-              className="pointer-events-auto flex items-center select-none cursor-pointer group no-underline"
-            >
-              <img 
-                src="/FinalLogo.png" 
-                alt="Logo" 
-                className="w-9 h-9 sm:w-11 sm:h-11 object-contain transition-transform duration-300 group-hover:scale-105" 
-              />
-            </a>
-          </div>
+          {/* LEFT BALANCER SPACE FOR DESKTOP */}
+          <div className="hidden md:block w-[140px]" />
 
           {/* CENTER: DESKTOP CAPSULE NAVIGATION */}
-          <div className="hidden md:flex items-center justify-center pointer-events-auto">
-            <div className="relative bg-[#D42C2C] clean-pill pt-4 px-8 py-3 rounded-lg overflow-hidden flex items-center justify-center gap-5 shadow-lg">
+          <div className="hidden md:flex items-center justify-center pointer-events-auto mx-auto">
+            <div className="relative bg-[#D42C2C] clean-pill pt-3 pb-3 px-6 rounded-lg overflow-hidden flex items-center justify-center shadow-lg">
               {/* NOISE OVERLAY */}
               <div 
                 className="absolute inset-0 pointer-events-none z-[1] bg-[url('/noise.gif')] bg-repeat"
                 style={{ opacity: 0.08, mixBlendMode: 'overlay' }}
               />
 
-              <div className="relative z-[2] flex items-center justify-center gap-4">
+              {/* GAP ZEROED OUT */}
+              <div className="relative z-[2] flex items-center justify-center">
                 {NAV_ITEMS.map((item, idx) => {
                   const isActive = activeSection === item.id;
 
@@ -96,14 +75,14 @@ export default function Navbar({ onNavigate, activeSection = 'editing' }) {
                           if (onNavigate) onNavigate(item.id);
                         }}
                         style={{ fontFamily: "GourmetEatery, cursive, sans-serif" }}
-                        className={`relative inline-flex items-center text-sm sm:text-base tracking-wide transition-all duration-200 cursor-pointer text-[#FFFFFF] hover:text-[#FFC822] whitespace-nowrap uppercase ${
+                        className={`relative inline-flex items-center text-sm sm:text-base tracking-wide transition-all duration-200 cursor-pointer text-[#FFFFFF] hover:text-[#FFC822] whitespace-nowrap capitalize px-1 ${
                           isActive ? 'text-[#FFC822] font-bold' : ''
                         }`}
                       >
                         <span className="leading-none pt-0.5">{item.label}</span>
                       </a>
                       {idx < NAV_ITEMS.length - 1 && (
-                        <span className="w-1.5 h-1.5 rounded-full bg-[#FFC822] inline-block select-none shrink-0" />
+                        <span className="w-1.5 h-1.5 rounded-full bg-[#FFC822] inline-block select-none shrink-0 mx-0.5" />
                       )}
                     </React.Fragment>
                   );
@@ -113,24 +92,9 @@ export default function Navbar({ onNavigate, activeSection = 'editing' }) {
           </div>
 
           {/* RIGHT: CONNECT BUTTON & MOBILE MENU */}
-          <div className="flex items-center justify-end gap-2.5 pointer-events-auto">
+          <div className="flex items-center justify-between md:justify-end w-full md:w-auto pointer-events-auto">
             
-            {/* CONNECT BUTTON */}
-            <a
-              href="#login"
-              onClick={(e) => { e.preventDefault(); alert("Log In clicked!"); }}
-              style={{ fontFamily: "GourmetEatery, cursive, sans-serif" }}
-              className="relative bg-[#D42C2C] hover:text-[#FFC822] text-white clean-pill pt-4 px-5 py-2.5 rounded-lg overflow-hidden text-xs sm:text-sm uppercase tracking-wide hidden sm:flex items-center gap-2 transition-all duration-300 shadow-lg cursor-pointer no-underline shrink-0"
-            >
-              <div 
-                className="absolute inset-0 pointer-events-none z-[1] bg-[url('/noise.gif')] bg-repeat"
-                style={{ opacity: 0.08, mixBlendMode: 'overlay' }}
-              />
-              
-              <span className="relative z-[2] leading-none pt-0.5">Let's Connect</span>
-            </a>
-
-            {/* MOBILE HAMBURGER BUTTON */}
+            {/* MOBILE MENU TOGGLE (LEFT SIDE ON MOBILE VIEW) */}
             <button 
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
               aria-label="Toggle Menu"
@@ -149,20 +113,36 @@ export default function Navbar({ onNavigate, activeSection = 'editing' }) {
                 )}
               </svg>
             </button>
+
+            {/* CONNECT BUTTON */}
+            <a
+              href="#connect"
+              onClick={(e) => { e.preventDefault(); alert("Let's Connect clicked!"); }}
+              style={{ fontFamily: "GourmetEatery, cursive, sans-serif" }}
+              className="relative bg-[#D42C2C] hover:text-[#FFC822] text-white clean-pill pt-3 pb-3 px-5 rounded-lg text-xs sm:text-sm capitalize tracking-wide flex items-center gap-2 transition-all duration-300 shadow-lg cursor-pointer no-underline shrink-0"
+            >
+              <div 
+                className="absolute inset-0 pointer-events-none z-[1] bg-[url('/noise.gif')] bg-repeat"
+                style={{ opacity: 0.08, mixBlendMode: 'overlay' }}
+              />
+              
+              <span className="relative z-[2] leading-none pt-0.5">Let's Connect</span>
+            </a>
+
           </div>
 
         </div>
 
-        {/* MOBILE MENU */}
+        {/* MOBILE MENU DROPDOWN */}
         {isMobileMenuOpen && (
           <>
             <div
-              className="md:hidden fixed inset-0 z-[1] bg-black/50 pointer-events-auto"
+              className="md:hidden fixed inset-0 z-[1] bg-black/50 backdrop-blur-sm pointer-events-auto"
               onClick={() => setIsMobileMenuOpen(false)}
               aria-hidden="true"
             />
 
-            <div className="md:hidden pointer-events-auto absolute top-14 left-4 right-4 z-[2] bg-[#D42C2C] clean-pill rounded-xl overflow-hidden p-6 shadow-2xl flex flex-col items-center justify-center text-center gap-4 backdrop-blur-xl animate-in fade-in slide-in-from-top-4 duration-200 max-h-[75vh] overflow-y-auto">
+            <div className="md:hidden pointer-events-auto absolute top-16 left-4 right-4 z-[2] bg-[#D42C2C] clean-pill rounded-xl overflow-hidden p-6 shadow-2xl flex flex-col items-center justify-center text-center gap-4 animate-in fade-in slide-in-from-top-4 duration-200 max-h-[75vh] overflow-y-auto">
               <div 
                 className="absolute inset-0 pointer-events-none z-[1] bg-[url('/noise.gif')] bg-repeat"
                 style={{ opacity: 0.08, mixBlendMode: 'overlay' }}
@@ -177,15 +157,14 @@ export default function Navbar({ onNavigate, activeSection = 'editing' }) {
                       setIsMobileMenuOpen(false);
                       if (onNavigate) onNavigate(item.id);
                     }}
-                    style={{ fontFamily: "'CactusJack', cursive, sans-serif" }}
-                    className={`text-lg sm:text-xl uppercase tracking-wider text-white hover:text-[#FFC822] transition-colors py-2 w-full no-underline active:text-[#FFC822] touch-manipulation [-webkit-tap-highlight-color:transparent] ${
+                    style={{ fontFamily: "GourmetEatery, cursive, sans-serif" }}
+                    className={`text-lg sm:text-xl capitalize tracking-wider text-white hover:text-[#FFC822] transition-colors py-2 w-full no-underline active:text-[#FFC822] touch-manipulation [-webkit-tap-highlight-color:transparent] ${
                       activeSection === item.id ? 'text-[#FFC822] font-bold' : ''
                     }`}
                   >
                     {item.label}
                   </a>
                 ))}
-                <hr className="border-white/20 w-full my-1" />
               </div>
             </div>
           </>
