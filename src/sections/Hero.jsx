@@ -9,7 +9,7 @@ const COLUMNS = [
   },
   { 
     id: 'motion', 
-    title: 'Motion design', 
+    title: 'Motion Design', 
     videoUrl: 'https://akshayshrivastava.com/videos/MotionMain.mp4',
     poster: 'https://akshayshrivastava.com/images/MotionMain.png'
   },
@@ -21,7 +21,7 @@ const COLUMNS = [
   },
   { 
     id: 'about', 
-    title: 'About me', 
+    title: 'About Me', 
     videoUrl: 'https://akshayshrivastava.com/videos/AboutMain.mp4',
     poster: 'https://akshayshrivastava.com/images/AboutMain.png'
   }
@@ -29,9 +29,9 @@ const COLUMNS = [
 
 const NAV_ITEMS = [
   { label: 'Editing', id: 'editing' },
-  { label: 'Motion', id: 'motion' },
+  { label: 'Motion Design', id: 'motion' },
   { label: 'Direction', id: 'direction' },
-  { label: 'About', id: 'about' }
+  { label: 'About Me', id: 'about' }
 ];
 
 const SOCIAL_LINKS = [
@@ -189,7 +189,7 @@ export default function Hero({ onColumnClick }) {
           
           {/* CENTER: DESKTOP CAPSULE NAVIGATION */}
           <div className="hidden md:flex items-center justify-center pointer-events-auto mx-auto">
-            <div className="relative bg-[#08080a] clean-pill pt-3 px-6 py-2.5 rounded-md overflow-hidden flex items-center justify-center gap-3 shadow-lg" style={{ border: 'none', outline: 'none' }}>
+            <div className="relative bg-[#08080a] clean-pill pt-3 px-6 py-2.5 rounded-lg overflow-hidden flex items-center justify-center gap-3 shadow-lg" style={{ border: 'none', outline: 'none' }}>
               <div 
                 className="absolute inset-0 pointer-events-none z-[1] bg-[url('/noise.gif')] bg-repeat"
                 style={{ opacity: 0.08, mixBlendMode: 'overlay' }}
@@ -207,6 +207,8 @@ export default function Hero({ onColumnClick }) {
                           e.preventDefault();
                           if (onColumnClick) onColumnClick(item.id);
                         }}
+                        onMouseEnter={() => handleMouseEnter(COLUMNS.findIndex(c => c.id === item.id))}
+                        onMouseLeave={() => handleMouseLeave(COLUMNS.findIndex(c => c.id === item.id))}
                         style={{ fontFamily: "GourmetEatery, cursive, sans-serif" }}
                         className={`relative inline-flex items-center text-sm sm:text-base tracking-wide transition-all duration-200 cursor-pointer hover:text-[#FFC300] whitespace-nowrap ${
                           isActive ? 'text-[#FFC300]' : 'text-white'
@@ -291,6 +293,7 @@ export default function Hero({ onColumnClick }) {
           {COLUMNS.map((col, index) => {
             const zIndices = ['z-[4]', 'z-[3]', 'z-[2]', 'z-[1]'];
             const isTornCol = index < 3;
+            const isHovered = hoveredIndex === index;
 
             return (
               <div
@@ -306,7 +309,9 @@ export default function Hero({ onColumnClick }) {
                   <img 
                     src={col.poster} 
                     alt={col.title}
-                    className="absolute inset-0 w-full h-full object-cover brightness-[0.75] contrast-[1.0] grayscale group-hover:grayscale-0 transition-all duration-700 z-[2] pointer-events-none"
+                    className={`absolute inset-0 w-full h-full object-cover brightness-[0.75] contrast-[1.0] transition-all duration-700 z-[2] pointer-events-none ${
+                      isHovered ? 'grayscale-0' : 'grayscale'
+                    }`}
                   />
                 )}
 
@@ -320,19 +325,21 @@ export default function Hero({ onColumnClick }) {
                   playsInline
                   preload="metadata"
                   src={col.videoUrl}
-                  className="absolute inset-0 w-full h-full object-cover brightness-[0.75] contrast-[1.0] grayscale group-hover:grayscale-0 group-hover:brightness-[0.95] transition-all duration-700 ease-out group-hover:scale-[1.03] z-0"
+                  className={`absolute inset-0 w-full h-full object-cover contrast-[1.0] transition-all duration-700 ease-out z-0 ${
+                    isHovered ? 'grayscale-0 brightness-[0.95] scale-[1.03]' : 'grayscale brightness-[0.75]'
+                  }`}
                 />
 
                 {/* DUOTONE TINT — every column gets the same warm-black cast so no
                     single poster (e.g. the Motion Design grid) can introduce an
                     uncontrolled color that fights the red/yellow accent system.
-                    Fades out on hover along with the grayscale. */}
+                    Fades out on hover (from the column itself OR the matching navbar item) along with the grayscale. */}
                 <div 
-                  className="absolute inset-0 pointer-events-none z-[3] transition-opacity duration-700 group-hover:opacity-0"
-                  style={{ backgroundColor: '#2a0d0d', mixBlendMode: 'multiply', opacity: 0.18 }}
+                  className={`absolute inset-0 pointer-events-none z-[3] transition-opacity duration-700 ${isHovered ? 'opacity-0' : ''}`}
+                  style={{ backgroundColor: '#2a0d0d', mixBlendMode: 'multiply', opacity: isHovered ? 0 : 0.18 }}
                 />
 
-                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent pointer-events-none z-10 transition-opacity duration-500 group-hover:opacity-40" />
+                <div className={`absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent pointer-events-none z-10 transition-opacity duration-500 ${isHovered ? 'opacity-40' : ''}`} />
                 
                 <div 
                   className={`absolute inset-x-0 top-[58%] z-20 flex flex-col items-center justify-start text-center pointer-events-none mx-auto max-w-[90%] px-2 ${
@@ -342,18 +349,22 @@ export default function Hero({ onColumnClick }) {
                   <h1 
                     style={{ 
                       fontFamily: "'SquidBoy', sans-serif", 
-                      fontSize: 'clamp(1.5rem, 2.8vw, 3rem)',
+                      fontSize: 'clamp(1.8rem, 3.4vw, 3.6rem)',
                       letterSpacing: '0.01em',
                       lineHeight: '1.1'
                     }}
-                    className="text-[#FFFFFF] uppercase drop-shadow-[0_8px_16px_rgba(0,0,0,0.8)] transition-all duration-300 group-hover:text-[#FFC300] mb-2.5 font-normal text-center w-full"
+                    className={`drop-shadow-[0_8px_16px_rgba(0,0,0,0.8)] transition-all duration-300 mb-2.5 font-normal text-center w-full ${
+                      isHovered ? 'text-[#FFC300]' : 'text-[#FFFFFF]'
+                    }`}
                   >
                     {col.title}
                   </h1>
 
                   <p 
                     style={{ fontFamily: "'HelveticaNeue', sans-serif", fontWeight: 'normal' }}
-                    className="text-neutral-300 text-xs sm:text-sm max-w-[160px] sm:max-w-[200px] leading-tight transition-colors duration-300 group-hover:text-[#FFFFFF]"
+                    className={`text-xs sm:text-sm max-w-[160px] sm:max-w-[200px] leading-tight transition-colors duration-300 ${
+                      isHovered ? 'text-[#FFFFFF]' : 'text-neutral-300'
+                    }`}
                   >
                     {col.subtitle}
                   </p>
@@ -399,7 +410,7 @@ export default function Hero({ onColumnClick }) {
                     letterSpacing: '0.01em',
                     lineHeight: '1.1'
                   }}
-                  className="text-[#FFFFFF] uppercase mb-0.5 drop-shadow-[0_4px_8px_rgba(0,0,0,0.8)] text-center w-full"
+                  className="text-[#FFFFFF] mb-0.5 drop-shadow-[0_4px_8px_rgba(0,0,0,0.8)] text-center w-full font-normal"
                 >
                   {col.title}
                 </h1>
@@ -421,7 +432,7 @@ export default function Hero({ onColumnClick }) {
       {/* ================= CLEAN CENTERED FOOTER ================= */}
       <footer className="fixed bottom-8 left-1/2 -translate-x-1/2 pointer-events-none z-[999] flex justify-center items-center">
         <div 
-          className="relative pointer-events-auto bg-[#08080a] text-[#D42C2C] pt-3 px-5 py-2 rounded-md flex items-center gap-3 shadow-lg overflow-hidden"
+          className="relative pointer-events-auto bg-[#08080a] text-[#D42C2C] pt-3 px-5 py-2 rounded-lg flex items-center gap-3 shadow-lg overflow-hidden"
         >
           <div 
             className="absolute inset-0 pointer-events-none z-[1] bg-[url('/noise.gif')] bg-repeat"
