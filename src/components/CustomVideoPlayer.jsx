@@ -146,7 +146,7 @@ export default function CustomVideoPlayer({
       {badgeText && (
         <span 
           style={{ fontFamily: "'Telina', sans-serif" }}
-          className="absolute top-4 left-4 bg-[#3068D3] text-white px-3.5 py-1 rounded-md text-xs font-bold uppercase tracking-wider shadow-md pointer-events-none z-10"
+          className="absolute top-4 left-4 bg-[#D42C2C] text-white px-3.5 py-1 rounded-md text-xs font-bold uppercase tracking-wider shadow-md pointer-events-none z-10"
         >
           {badgeText}
         </span>
@@ -163,7 +163,7 @@ export default function CustomVideoPlayer({
           onClick={handleSeek}
         >
           <div 
-            className="h-full bg-[#3068D3] rounded-full relative"
+            className="h-full bg-[#D42C2C] rounded-full relative"
             style={{ width: `${progress}%` }}
           >
             <div className="absolute right-0 top-1/2 -translate-y-1/2 w-3 h-3 bg-white rounded-full opacity-0 group-hover:opacity-100 shadow-sm" />
@@ -173,7 +173,7 @@ export default function CustomVideoPlayer({
         {/* Buttons Row */}
         <div className="flex items-center justify-between text-white text-xs px-1">
           <div className="flex items-center gap-3">
-            <button onClick={togglePlay} className="hover:text-[#3068D3] transition-colors">
+            <button onClick={togglePlay} className="hover:text-[#D42C2C] transition-colors">
               {isPlaying ? <PauseIcon /> : <PlayIcon />}
             </button>
             {!compact && (
@@ -183,7 +183,7 @@ export default function CustomVideoPlayer({
             )}
           </div>
 
-          <button onClick={toggleMute} className="hover:text-[#3068D3] transition-colors">
+          <button onClick={toggleMute} className="hover:text-[#D42C2C] transition-colors">
             {isMuted ? <MuteIcon /> : <VolumeIcon />}
           </button>
         </div>

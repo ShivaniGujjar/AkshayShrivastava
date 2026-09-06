@@ -38,7 +38,7 @@ export default function App() {
       {/* 🎞️ GLOBAL CINEMATIC NOISE OVERLAY (Applies across the entire website) */}
       <div 
         className="fixed inset-0 pointer-events-none z-[999999] bg-[url('/noise.gif')] bg-repeat"
-        style={{ opacity: 0.035, mixBlendMode: 'overlay' }}
+        style={{ opacity: 0.03, mixBlendMode: 'overlay' }}
       />
 
       {/* Navbar (Only visible when not on home section) */}

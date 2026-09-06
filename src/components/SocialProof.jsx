@@ -87,7 +87,7 @@ export default function SocialProof({ brands = DEFAULT_BRANDS, testimonials = DE
         <div className="inline-flex flex-col items-center mb-3 sm:mb-6 px-4">
           <h3 
             style={{ fontFamily: "GenericFont, sans-serif", letterSpacing: '0.4px', fontWeight: 400 }}
-            className="text-base sm:text-4xl m-0 text-[#3068D3] leading-tight"
+            className="text-base sm:text-4xl m-0 text-[#D42C2C] leading-tight"
           >
             Worked With
           </h3>

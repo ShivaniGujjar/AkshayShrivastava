@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 
 const COLUMNS = [
   { 
@@ -27,48 +27,58 @@ const COLUMNS = [
   }
 ];
 
-const SOCIAL_LINKS = [
-  { 
-    id: 'Instagram', 
-    url: 'https://www.instagram.com/akshay__shri/?hl=en',
-    icon: (
-      <svg viewBox="0 0 24 24" className="w-[18px] h-[18px] sm:w-[22px] sm:h-[22px] fill-none stroke-current stroke-[2] stroke-linecap-round stroke-linejoin-round shrink-0 text-[#FFFFFF] group-hover:text-[#FFC822] transition-colors duration-200">
-        <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
-        <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
-        <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
-      </svg>
-    )
-  },
-  { 
-    id: 'Gmail', 
-    url: 'mailto:client@email.com',
-    icon: (
-      <svg viewBox="0 0 24 24" className="w-[18px] h-[18px] sm:w-[22px] sm:h-[22px] fill-none stroke-current stroke-[2] stroke-linecap-round stroke-linejoin-round shrink-0 text-[#FFFFFF] group-hover:text-[#FFC822] transition-colors duration-200">
-        <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
-        <polyline points="22,6 12,13 2,6"></polyline>
-      </svg>
-    )
-  },
-  { 
-    id: 'YouTube', 
-    url: 'https://youtube.com',
-    icon: (
-      <svg viewBox="0 0 24 24" className="w-[18px] h-[18px] sm:w-[22px] sm:h-[22px] fill-none stroke-current stroke-[2] stroke-linecap-round stroke-linejoin-round shrink-0 text-[#FFFFFF] group-hover:text-[#FFC822] transition-colors duration-200">
-        <path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.25 29 29 0 0 0-.46-5.33z"></path>
-        <polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02"></polygon>
-      </svg>
-    )
-  }
+const NAV_ITEMS = [
+  { label: 'Editing', id: 'editing' },
+  { label: 'Motion', id: 'motion' },
+  { label: 'Direction', id: 'direction' },
+  { label: 'About', id: 'about' }
 ];
+
+const SOCIAL_LINKS = [
+  { id: 'Instagram', name: 'Instagram', url: 'https://www.instagram.com/akshay__shri/?hl=en' },
+  { id: 'Gmail', name: 'Gmail', url: 'mailto:client@email.com' },
+  { id: 'LinkedIn', name: 'Linkedin', url: 'https://www.linkedin.com/in/your-profile-here' }
+];
+
+/*
+  COLOR-ROLE CONTRACT (keep this disciplined everywhere in the file):
+  - #08080a (black)  -> base/background only
+  - #FFFFFF (white)  -> default resting text
+  - #D42C2C (red)    -> resting-state accent (nav labels, links)
+  - #FFC300 (yellow) -> ACTIVE / HOVER state only, never resting
+  Never introduce a 5th "loud" color via an uncontrolled image asset —
+  every poster/video gets the same DUOTONE_TINT treatment below so the
+  imagery and the UI chrome read as one palette instead of two.
+*/
 
 export default function Hero({ onColumnClick }) {
   const videoRefs = useRef([]);
-  const mobileVideoRefs = useRef([]);
   const [hoveredIndex, setHoveredIndex] = useState(null);
-  const [mobileLoaded, setMobileLoaded] = useState({});
+  const [hasInteracted, setHasInteracted] = useState({});
+  const [isNavbarVisible, setIsNavbarVisible] = useState(true);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
+  useEffect(() => {
+    const handleWheel = (e) => {
+      if (e.deltaY > 5) setIsNavbarVisible(false);
+      else if (e.deltaY < -5) setIsNavbarVisible(true);
+    };
+
+    window.addEventListener('wheel', handleWheel, { passive: true });
+    return () => window.removeEventListener('wheel', handleWheel);
+  }, []);
+
+  useEffect(() => {
+    if (isMobileMenuOpen) {
+      const prevOverflow = document.body.style.overflow;
+      document.body.style.overflow = 'hidden';
+      return () => { document.body.style.overflow = prevOverflow; };
+    }
+  }, [isMobileMenuOpen]);
 
   const handleMouseEnter = (index) => {
     setHoveredIndex(index);
+    setHasInteracted(prev => ({ ...prev, [index]: true }));
     const video = videoRefs.current[index];
     if (video) video.play().catch(() => {});
   };
@@ -78,27 +88,28 @@ export default function Hero({ onColumnClick }) {
     const video = videoRefs.current[index];
     if (video) {
       video.pause();
-      video.currentTime = 0;
     }
   };
 
   return (
     <section className="w-full h-dvh md:h-screen bg-[#08080a] overflow-hidden relative m-0 p-0 select-none">
       
-      {/* 🎨 FONT & MASK STYLING */}
+      {/* 🎨 FONT STYLING — consolidated to 2 families: SquidBoy (display/personality)
+          and HelveticaNeue (everything else: nav, footer, subtitles).
+          Dropped GourmetEatery + RoseryStudio — unused/competing voices. */}
       <style>{`
         @font-face {
-          font-family: 'RoseryStudio';
-          src: url('/RoseryStudio-Regular.ttf') format('truetype');
+          font-family: 'SquidBoy';
+          src: url('/Fonts/SquidBoy.otf') format('opentype');
           font-weight: normal;
           font-style: normal;
           font-display: swap;
         }
 
-         @font-face {
-          font-family: 'GourmetEatery';
-          src: url('/GourmetEatery.woff2') format('woff2');
-          font-weight: normal;
+        @font-face {
+          font-family: 'SquidBoy';
+          src: url('/Fonts/SquidBoy-Bold.otf') format('opentype');
+          font-weight: bold;
           font-style: normal;
           font-display: swap;
         }
@@ -120,24 +131,24 @@ export default function Hero({ onColumnClick }) {
         }
 
         @font-face {
-          font-family: 'HelveticaNeue';
-          src: url('/fonts/HelveticaNeueMedium.otf') format('opentype');
-          font-weight: 500;
+          font-family: 'GourmetEatery';
+          src: url('/GourmetEatery.woff2') format('woff2');
+          font-weight: normal;
           font-style: normal;
           font-display: swap;
         }
 
         /* DESKTOP TORN PAPER MASK */
         .organic-torn-mask {
-        mask-image: url('/home-mask-desktop.svg');
-        -webkit-mask-image: url('/home-mask-desktop.svg');
-        mask-size: calc((100vw + 180px) / 4) 100%;
-       -webkit-mask-size: calc((100vw + 180px) / 4) 100%;
-       mask-repeat: no-repeat;
-       -webkit-mask-repeat: no-repeat;
-       mask-position: right center;
-      -webkit-mask-position: right center;
-       }
+          mask-image: url('/home-mask-desktop.svg');
+          -webkit-mask-image: url('/home-mask-desktop.svg');
+          mask-size: calc((100vw + 180px) / 4) 100%;
+          -webkit-mask-size: calc((100vw + 180px) / 4) 100%;
+          mask-repeat: no-repeat;
+          -webkit-mask-repeat: no-repeat;
+          mask-position: right center;
+          -webkit-mask-position: right center;
+        }
 
         /* MOBILE SVG TORN MASK */
         .mobile-torn-svg-mask {
@@ -160,69 +171,118 @@ export default function Hero({ onColumnClick }) {
       `}</style>
 
       {/* 🎬 GLOBAL CORNER VIGNETTE SHADOW */}
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_transparent_45%,_rgba(0,0,0,0.85)_100%)] pointer-events-none z-[12]" />
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_transparent_55%,_rgba(0,0,0,0.3)_100%)] pointer-events-none z-[12]" />
 
       {/* 🎞️ NOISE GIF OVERLAY */}
       <div 
         className="absolute inset-0 pointer-events-none z-[16] bg-[url('/noise.gif')] bg-repeat"
-        style={{ opacity: 0.04, mixBlendMode: 'overlay' }}
+        style={{ opacity: 0.012, mixBlendMode: 'overlay' }}
       />
 
-      {/* 📌 STATIC FIXED NAVBAR */}
-      <header className="absolute top-8 left-0 w-screen max-w-full box-border z-[9999] px-4 sm:px-8 md:px-12 pointer-events-none flex items-center justify-between">
-        
-        {/* LEFT: NAME LOGO */}
-        <div 
-          onClick={() => onColumnClick && onColumnClick('home')}
-          className="pointer-events-auto flex items-center gap-1.5 select-none cursor-pointer group"
-        >
-          <span className="font-gourmet text-[#FFC822] text-sm min-[380px]:text-base sm:text-xl tracking-wide transition-colors duration-200 capitalize">
-            LOGO
-          </span>
-          <span className="w-1.5 h-1.5 rounded-full bg-[#FFFFFF] inline-block mb-0.5 animate-pulse" />
+      {/* 📌 RENDERED NAVBAR */}
+      <header 
+        className={`absolute md:fixed top-8 left-0 w-screen max-w-full box-border z-[9999] px-4 sm:px-8 md:px-12 pointer-events-none transition-all duration-400 ease-out ${
+          isNavbarVisible ? 'translate-y-0 opacity-100' : '-translate-y-[200%] opacity-0'
+        }`}
+      >
+        <div className="w-full flex items-center justify-center relative">
+          
+          {/* CENTER: DESKTOP CAPSULE NAVIGATION */}
+          <div className="hidden md:flex items-center justify-center pointer-events-auto mx-auto">
+            <div className="relative bg-[#08080a] clean-pill pt-3 px-6 py-2.5 rounded-md overflow-hidden flex items-center justify-center gap-3 shadow-lg" style={{ border: 'none', outline: 'none' }}>
+              <div 
+                className="absolute inset-0 pointer-events-none z-[1] bg-[url('/noise.gif')] bg-repeat"
+                style={{ opacity: 0.08, mixBlendMode: 'overlay' }}
+              />
+
+              <div className="relative z-[2] flex items-center justify-center gap-3">
+                {NAV_ITEMS.map((item, idx) => {
+                  const isActive = hoveredIndex === COLUMNS.findIndex(c => c.id === item.id);
+
+                  return (
+                    <React.Fragment key={item.id}>
+                      <a 
+                        href={`#${item.id}`} 
+                        onClick={(e) => {
+                          e.preventDefault();
+                          if (onColumnClick) onColumnClick(item.id);
+                        }}
+                        style={{ fontFamily: "GourmetEatery, cursive, sans-serif" }}
+                        className={`relative inline-flex items-center text-sm sm:text-base tracking-wide transition-all duration-200 cursor-pointer hover:text-[#FFC300] whitespace-nowrap ${
+                          isActive ? 'text-[#FFC300]' : 'text-white'
+                        }`}
+                      >
+                        <span className="leading-none pt-0.5">{item.label}</span>
+                      </a>
+                      {idx < NAV_ITEMS.length - 1 && (
+                        <span className="w-1.5 h-1.5 rounded-full bg-[#D42C2C] inline-block select-none shrink-0" />
+                      )}
+                    </React.Fragment>
+                  );
+                })}
+              </div>
+            </div>
+          </div>
+
+          {/* MOBILE MENU TOGGLE */}
+          <div className="flex items-center justify-center w-full md:hidden pointer-events-auto">
+            <button 
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+              aria-label="Toggle Menu"
+              aria-expanded={isMobileMenuOpen}
+              className="relative md:hidden bg-[#08080a] clean-pill text-[#D42C2C] w-10 h-10 rounded-xl overflow-hidden flex items-center justify-center shadow-xl cursor-pointer active:scale-95 transition-transform duration-150 touch-manipulation [-webkit-tap-highlight-color:transparent]"
+              style={{ border: 'none', outline: 'none' }}
+            >
+              <div 
+                className="absolute inset-0 pointer-events-none z-[1] bg-[url('/noise.gif')] bg-repeat"
+                style={{ opacity: 0.08, mixBlendMode: 'overlay' }}
+              />
+              <svg className="relative z-[2] w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                {isMobileMenuOpen ? (
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
+                ) : (
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16" />
+                )}
+              </svg>
+            </button>
+          </div>
+
         </div>
 
-        {/* CENTER: CAPSULE NAVIGATION */}
-        <div className="pointer-events-auto bg-[#0A0B0C] clean-pill px-4 pt-4 pb-2.5 rounded-lg overflow-hidden hidden md:flex items-center justify-center gap-0">
-          {COLUMNS.map((col, idx) => (
-            <React.Fragment key={col.id}>
-              <button
-                onClick={() => onColumnClick && onColumnClick(col.id)}
-                className="font-gourmet relative inline-flex items-center text-sm sm:text-base transition-all duration-200 cursor-pointer text-[#FFFFFF] hover:text-[#FFC822] bg-transparent border-none outline-none px-0.4"
-              >
-                <span className="leading-none">{col.title}</span>
-              </button>
-              {idx < COLUMNS.length - 1 && (
-                <span className="text-[#FFC822] text-[10px] leading-none select-none pointer-events-none flex items-center -translate-y-0.5 mx-2">●</span>
-              )}
-            </React.Fragment>
-          ))}
-        </div>
+        {/* MOBILE MENU */}
+        {isMobileMenuOpen && (
+          <>
+            <div
+              className="md:hidden fixed inset-0 z-[1] bg-black/50 pointer-events-auto"
+              onClick={() => setIsMobileMenuOpen(false)}
+              aria-hidden="true"
+            />
 
-        {/* RIGHT: CONNECT BUTTON */}
-        <div className="pointer-events-auto">
-          <a
-            href="https://www.instagram.com/akshay__shri/?hl=en"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="font-gourmet bg-[#0A0B0C] text-[#FFFFFF] hover:text-[#FFC822] clean-pill px-4 py-3 rounded-md overflow-hidden text-xs sm:text-sm hidden sm:flex items-center justify-center transition-all duration-300 shadow-sm cursor-pointer no-underline shrink-0"
-          >
-            <span className="leading-none pt-0.5">Let's connect ↗</span>
-          </a>
-
-          <a
-            href="https://www.instagram.com/akshay__shri/?hl=en"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="sm:hidden bg-[#0A0B0C] border border-white/25 text-[#FFC822] w-9 h-9 min-[380px]:w-10 min-[380px]:h-10 rounded-md flex items-center justify-center shadow-xl cursor-pointer no-underline hover:scale-105 transition-all mobile-tap-card"
-            aria-label="Connect"
-          >
-            <svg viewBox="0 0 24 24" className="w-4 h-4 min-[380px]:w-5 min-[380px]:h-5 fill-none stroke-current stroke-[2] stroke-linecap-round stroke-linejoin-round">
-              <line x1="7" y1="17" x2="17" y2="7"></line>
-              <polyline points="7 7 17 7 17 17"></polyline>
-            </svg>
-          </a>
-        </div>
+            <div className="md:hidden pointer-events-auto absolute top-14 left-4 right-4 z-[2] bg-[#08080a] clean-pill rounded-xl overflow-hidden p-6 shadow-2xl flex flex-col items-center justify-center text-center gap-4 backdrop-blur-xl animate-in fade-in slide-in-from-top-4 duration-200 max-h-[75vh] overflow-y-auto" style={{ border: 'none', outline: 'none' }}>
+              <div 
+                className="absolute inset-0 pointer-events-none z-[1] bg-[url('/noise.gif')] bg-repeat"
+                style={{ opacity: 0.08, mixBlendMode: 'overlay' }}
+              />
+              <div className="relative z-[2] w-full flex flex-col items-center gap-4">
+                {NAV_ITEMS.map((item) => (
+                  <a 
+                    key={item.id}
+                    href={`#${item.id}`}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      setIsMobileMenuOpen(false);
+                      if (onColumnClick) onColumnClick(item.id);
+                    }}
+                    style={{ fontFamily: "GourmetEatery, cursive, sans-serif" }}
+                    className="text-lg sm:text-xl tracking-wider text-white hover:text-[#FFC300] transition-colors py-2 w-full no-underline active:text-[#FFC300] touch-manipulation [-webkit-tap-highlight-color:transparent]"
+                  >
+                    {item.label}
+                  </a>
+                ))}
+              </div>
+            </div>
+          </>
+        )}
       </header>
       
       {/* ================= DESKTOP LAYOUT ================= */}
@@ -231,23 +291,22 @@ export default function Hero({ onColumnClick }) {
           {COLUMNS.map((col, index) => {
             const zIndices = ['z-[4]', 'z-[3]', 'z-[2]', 'z-[1]'];
             const isTornCol = index < 3;
-            const isHovered = hoveredIndex === index;
 
             return (
               <div
                 key={col.id}
                 className={`group relative h-full w-[25%] shrink-0 min-w-0 cursor-pointer overflow-hidden ${zIndices[index]} ${
-                  isTornCol ? 'organic-torn-mask pr-[50px] -mr-[50px] [filter:drop-shadow(-15px_0_20px_rgba(0,0,0,0.95))]' : ''
+                  isTornCol ? 'organic-torn-mask pr-[50px] -mr-[50px] [filter:drop-shadow(-15px_0_20px_rgba(0,0,0,0.6))]' : ''
                 }`}
                 onMouseEnter={() => handleMouseEnter(index)}
                 onMouseLeave={() => handleMouseLeave(index)}
                 onClick={() => onColumnClick && onColumnClick(col.id)}
               >
-                {!isHovered && (
+                {!hasInteracted[index] && (
                   <img 
                     src={col.poster} 
                     alt={col.title}
-                    className="absolute inset-0 w-full h-full object-cover brightness-[0.55] contrast-[1.1] grayscale group-hover:grayscale-0 transition-all duration-700 z-[2] pointer-events-none"
+                    className="absolute inset-0 w-full h-full object-cover brightness-[0.75] contrast-[1.0] grayscale group-hover:grayscale-0 transition-all duration-700 z-[2] pointer-events-none"
                   />
                 )}
 
@@ -261,26 +320,40 @@ export default function Hero({ onColumnClick }) {
                   playsInline
                   preload="metadata"
                   src={col.videoUrl}
-                  className="absolute inset-0 w-full h-full object-cover brightness-[0.55] contrast-[1.1] grayscale group-hover:grayscale-0 group-hover:brightness-[0.85] transition-all duration-700 ease-out group-hover:scale-[1.03] z-0"
+                  className="absolute inset-0 w-full h-full object-cover brightness-[0.75] contrast-[1.0] grayscale group-hover:grayscale-0 group-hover:brightness-[0.95] transition-all duration-700 ease-out group-hover:scale-[1.03] z-0"
                 />
 
-                <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/25 to-transparent pointer-events-none z-10 transition-opacity duration-500 group-hover:opacity-60" />
+                {/* DUOTONE TINT — every column gets the same warm-black cast so no
+                    single poster (e.g. the Motion Design grid) can introduce an
+                    uncontrolled color that fights the red/yellow accent system.
+                    Fades out on hover along with the grayscale. */}
+                <div 
+                  className="absolute inset-0 pointer-events-none z-[3] transition-opacity duration-700 group-hover:opacity-0"
+                  style={{ backgroundColor: '#2a0d0d', mixBlendMode: 'multiply', opacity: 0.18 }}
+                />
+
+                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent pointer-events-none z-10 transition-opacity duration-500 group-hover:opacity-40" />
                 
-                <div className={`absolute inset-x-0 top-[58%] z-20 flex flex-col items-center justify-start text-center pointer-events-none mx-auto max-w-[95%] px-2 ${index === 0 ? '-translate-x-3' : ''}`}>
+                <div 
+                  className={`absolute inset-x-0 top-[58%] z-20 flex flex-col items-center justify-start text-center pointer-events-none mx-auto max-w-[90%] px-2 ${
+                    index === 0 ? '-translate-x-3' : ''
+                  } ${index === 3 ? '-translate-x-4' : ''}`}
+                >
                   <h1 
                     style={{ 
-                      fontFamily: "GourmetEatery, sans-serif", 
-                      fontSize: 'clamp(1.8rem, 3.2vw, 3.4rem)',
-                      letterSpacing: '0.03em'
+                      fontFamily: "'SquidBoy', sans-serif", 
+                      fontSize: 'clamp(1.5rem, 2.8vw, 3rem)',
+                      letterSpacing: '0.01em',
+                      lineHeight: '1.1'
                     }}
-                    className="text-white uppercase tracking-tight leading-[1.0] drop-shadow-[0_8px_16px_rgba(0,0,0,0.95)] transition-all duration-300 group-hover:text-amber-300 mb-2.5 font-normal"
+                    className="text-[#FFFFFF] uppercase drop-shadow-[0_8px_16px_rgba(0,0,0,0.8)] transition-all duration-300 group-hover:text-[#FFC300] mb-2.5 font-normal text-center w-full"
                   >
                     {col.title}
                   </h1>
 
                   <p 
                     style={{ fontFamily: "'HelveticaNeue', sans-serif", fontWeight: 'normal' }}
-                    className="text-neutral-300 text-xs sm:text-sm max-w-[160px] sm:max-w-[200px] leading-tight transition-colors duration-300 group-hover:text-white"
+                    className="text-neutral-300 text-xs sm:text-sm max-w-[160px] sm:max-w-[200px] leading-tight transition-colors duration-300 group-hover:text-[#FFFFFF]"
                   >
                     {col.subtitle}
                   </p>
@@ -290,82 +363,92 @@ export default function Hero({ onColumnClick }) {
           })}
         </div>
       </div>
-
       
-      {/* ================= MOBILE STACKED LAYOUT (SIRF IMAGE) ================= */}
-<div className="md:hidden flex flex-col w-full h-dvh overflow-hidden relative z-[1]">
-  {COLUMNS.map((col, index) => {
-    return (
-      <div
-        key={col.id}
-        onClick={() => onColumnClick && onColumnClick(col.id)}
-        className={`mobile-tap-card active:brightness-75 relative w-full h-[25dvh] cursor-pointer overflow-hidden shadow-2xl my-[-6px] first:mt-0 ${index < 3 ? 'mobile-torn-svg-mask' : ''}`}
-        style={{
-          zIndex: 4 - index,
-          paddingBottom: index === COLUMNS.length - 1 ? 'env(safe-area-inset-bottom)' : undefined
-        }}
-      >
-        {/* MOBILE PAR SIRF POSTER IMAGE, NO VIDEO */}
-        <img 
-          src={col.poster} 
-          alt={col.title}
-          className="absolute inset-0 w-full h-full object-cover object-center brightness-[0.55] contrast-[1.1] z-[1] pointer-events-none"
-        />
+      {/* ================= MOBILE STACKED LAYOUT ================= */}
+      <div className="md:hidden flex flex-col w-full h-dvh overflow-hidden relative z-[1]">
+        {COLUMNS.map((col, index) => {
+          return (
+            <div
+              key={col.id}
+              onClick={() => onColumnClick && onColumnClick(col.id)}
+              className={`mobile-tap-card active:brightness-90 relative w-full h-[25dvh] cursor-pointer overflow-hidden shadow-xl my-[-6px] first:mt-0 ${index < 3 ? 'mobile-torn-svg-mask' : ''}`}
+              style={{
+                zIndex: 4 - index,
+                paddingBottom: index === COLUMNS.length - 1 ? 'env(safe-area-inset-bottom)' : undefined
+              }}
+            >
+              <img 
+                src={col.poster} 
+                alt={col.title}
+                className="absolute inset-0 w-full h-full object-cover object-center brightness-[0.75] contrast-[1.0] grayscale z-[1] pointer-events-none"
+              />
 
-        <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-black/40 pointer-events-none z-10" />
-        
-        <div className="absolute inset-0 flex flex-col items-center justify-center text-center z-20 px-4">
-          <h1 
-            style={{ 
-              fontFamily: "'RoseryStudio', sans-serif",
-              fontSize: 'clamp(1.05rem, 5.2vw, 1.5rem)'
-            }}
-            className="text-white uppercase tracking-tight leading-none mb-0.5 drop-shadow-[0_4px_8px_rgba(0,0,0,0.95)]"
-          >
-            {col.title}
-          </h1>
-          <p 
-            style={{ 
-              fontFamily: "'HelveticaNeue', sans-serif",
-              fontSize: 'clamp(0.62rem, 2.6vw, 0.78rem)'
-            }}
-            className="text-neutral-300 max-w-[85%] leading-tight drop-shadow-[0_2px_4px_rgba(0,0,0,0.95)]"
-          >
-            {col.subtitle}
-          </p>
-        </div>
+              {/* Same duotone tint on mobile for consistency */}
+              <div 
+                className="absolute inset-0 pointer-events-none z-[2]"
+                style={{ backgroundColor: '#2a0d0d', mixBlendMode: 'multiply', opacity: 0.18 }}
+              />
+
+              <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-black/15 to-black/25 pointer-events-none z-10" />
+              
+              <div className="absolute inset-0 flex flex-col items-center justify-center text-center z-20 px-4">
+                <h1 
+                  style={{ 
+                    fontFamily: "'SquidBoy', sans-serif",
+                    fontSize: 'clamp(1rem, 4.5vw, 1.4rem)',
+                    letterSpacing: '0.01em',
+                    lineHeight: '1.1'
+                  }}
+                  className="text-[#FFFFFF] uppercase mb-0.5 drop-shadow-[0_4px_8px_rgba(0,0,0,0.8)] text-center w-full"
+                >
+                  {col.title}
+                </h1>
+                <p 
+                  style={{ 
+                    fontFamily: "'HelveticaNeue', sans-serif",
+                    fontSize: 'clamp(0.62rem, 2.6vw, 0.78rem)'
+                  }}
+                  className="text-neutral-300 max-w-[85%] leading-tight drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]"
+                >
+                  {col.subtitle}
+                </p>
+              </div>
+            </div>
+          );
+        })}
       </div>
-    );
-  })}
-</div>
 
-      {/* 📌 STATIC FIXED FOOTER */}
-      <footer className="absolute bottom-0 left-0 w-full box-border z-[30] px-4 sm:px-8 md:px-12 pointer-events-none flex items-end pb-3 sm:pb-8 justify-end">
-        
-        {/* Right: Social Icons Only with yellow dots */}
+      {/* ================= CLEAN CENTERED FOOTER ================= */}
+      <footer className="fixed bottom-8 left-1/2 -translate-x-1/2 pointer-events-none z-[999] flex justify-center items-center">
         <div 
-          style={{ fontFamily: "'GourmetEatery', cursive, sans-serif" }}
-          className="pointer-events-auto flex items-center justify-center bg-[#0a0a0c]/85 border border-white/25 px-2 py-2 rounded-md shadow-xl backdrop-blur-md gap-3 sm:gap-4 group"
+          className="relative pointer-events-auto bg-[#08080a] text-[#D42C2C] pt-3 px-5 py-2 rounded-md flex items-center gap-3 shadow-lg overflow-hidden"
         >
-          {SOCIAL_LINKS.map((social, idx) => (
-            <React.Fragment key={social.id}>
-              <a 
-                href={social.url} 
-                target="_blank" 
-                rel="noopener noreferrer" 
-                aria-label={social.id}
-                className="text-white flex items-center justify-center no-underline transition-all duration-200 ease-out p-1 cursor-pointer hover:scale-125 hover:text-[#FFC822] active:scale-110"
-              >
-                {social.icon}
-              </a>
-              {idx < SOCIAL_LINKS.length - 1 && (
-                <span className="text-[10px] text-[#FFC822] select-none pointer-events-none leading-none">•</span>
-              )}
-            </React.Fragment>
-          ))}
-        </div>
+          <div 
+            className="absolute inset-0 pointer-events-none z-[1] bg-[url('/noise.gif')] bg-repeat"
+            style={{ opacity: 0.08, mixBlendMode: 'overlay' }}
+          />
 
+          <div className="relative z-[2] flex items-center gap-3">
+            {SOCIAL_LINKS.map((link, idx) => (
+              <React.Fragment key={link.id}>
+                <a 
+                  href={link.url} 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  className="text-white hover:text-[#FFC300] transition-colors text-sm sm:text-base tracking-wider leading-none flex items-center"
+                  style={{ fontFamily: "GourmetEatery, cursive, sans-serif" }}
+                >
+                  {link.name}
+                </a>
+                {idx < SOCIAL_LINKS.length - 1 && (
+                  <span className="w-1.5 h-1.5 rounded-full bg-[#D42C2C] inline-block select-none self-center shrink-0" />
+                )}
+              </React.Fragment>
+            ))}
+          </div>
+        </div>
       </footer>
+
     </section>
   );
 }

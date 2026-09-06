@@ -106,13 +106,13 @@ function VideoCard({ item, aspectRatio = "wide", hoveredId, setHoveredId }) {
       {item.category && (
         <div 
           style={{ fontFamily: "'Talina', sans-serif", letterSpacing: '-0.3px', fontWeight: 300 }}
-          className="absolute top-3 left-3 sm:top-4 sm:left-4 bg-[#3068D3] backdrop-blur-md px-2.5 sm:px-3 py-0.5 sm:py-1 rounded-sm text-[#FFFFFF] text-[10px] sm:text-xs uppercase shadow-sm"
+          className="absolute top-3 left-3 sm:top-4 sm:left-4 bg-[#D42C2C] backdrop-blur-md px-2.5 sm:px-3 py-0.5 sm:py-1 rounded-sm text-[#FFFFFF] text-[10px] sm:text-xs uppercase shadow-sm"
         >
           {item.category}
         </div>
       )}
 
-      <div className={`absolute top-3 right-3 sm:top-4 sm:right-4 w-7 h-7 sm:w-9 sm:h-9 rounded-sm backdrop-blur-md flex items-center justify-center transition-all duration-300 ${isHovered ? 'scale-110 bg-[#3068D3] text-[#FFFFFF] shadow-[0_0_15px_#3068D3]' : 'bg-black/40 text-[#FFFFFF]'}`}>
+      <div className={`absolute top-3 right-3 sm:top-4 sm:right-4 w-7 h-7 sm:w-9 sm:h-9 rounded-sm backdrop-blur-md flex items-center justify-center transition-all duration-300 ${isHovered ? 'scale-110 bg-[#D42C2C] text-[#FFFFFF] shadow-[0_0_15px_#D42C2C]' : 'bg-black/40 text-[#FFFFFF]'}`}>
         {isHovered ? (
           <span className="w-2 h-2 sm:w-2.5 sm:h-2.5 bg-[#FFFFFF] rounded-xs animate-pulse" />
         ) : (
@@ -130,7 +130,7 @@ function VideoCard({ item, aspectRatio = "wide", hoveredId, setHoveredId }) {
         {item.brand && (
           <p 
             style={{ fontFamily: "'HelveticaNeue', sans-serif", letterSpacing: '-0.3px', fontWeight: 300 }}
-            className="text-[#3068D3] text-[10px] sm:text-xs uppercase bg-black/60 px-2 py-0.5 sm:px-2.5 sm:py-1 rounded-xs inline-block"
+            className="text-[#D42C2C] text-[10px] sm:text-xs uppercase bg-black/60 px-2 py-0.5 sm:px-2.5 sm:py-1 rounded-xs inline-block"
           >
             {item.brand}
           </p>
@@ -275,7 +275,7 @@ export default function MotionDesign() {
               <path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v2.21l2.45 2.45c.03-.2.05-.41.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51C20.63 14.91 21 13.5 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06c1.38-.31 2.63-.95 3.69-1.81L19.73 21 21 19.73l-9-9L4.27 3zM12 4L9.91 6.09 12 8.18V4z"/>
             </svg>
           ) : (
-            <svg className="w-4 h-4 sm:w-5 sm:h-5 fill-current text-[#3068D3]" viewBox="0 0 24 24">
+            <svg className="w-4 h-4 sm:w-5 sm:h-5 fill-current text-[#D42C2C]" viewBox="0 0 24 24">
               <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/>
             </svg>
           )}
@@ -297,7 +297,7 @@ export default function MotionDesign() {
           
           <p 
   style={{ fontFamily: "'HelveticaNeue', sans-serif", fontWeight: 800, letterSpacing : '-0.5px' }}
-  className="flex items-center justify-center gap-1.5 sm:gap-2 mt-3 sm:mt-4 text-[#3068D3] text-xs sm:text-lg tracking-widest text-center drop-shadow-[0_2px_10px_rgba(0,0,0,0.95)]"
+  className="flex items-center justify-center gap-1.5 sm:gap-2 mt-3 sm:mt-4 text-[#D42C2C] text-xs sm:text-lg tracking-widest text-center drop-shadow-[0_2px_10px_rgba(0,0,0,0.95)]"
 >
             <span>2D & 3D Animation</span> 
             <span className="text-[#FFC822] mx-1">•</span> 
@@ -318,7 +318,7 @@ export default function MotionDesign() {
               letterSpacing:'-0.5px', 
               fontWeight: 400 
             }}
-            className="text-2xl sm:text-4xl m-0 text-[#3068D3] leading-tight"
+            className="text-2xl sm:text-4xl m-0 text-[#D42C2C] leading-tight"
           >
             Welcome to Motion Design section
           </h2>
@@ -342,7 +342,7 @@ export default function MotionDesign() {
           <div ref={textContentRef} className="flex-1 flex flex-col items-start text-left px-2 sm:px-0 max-w-lg">
             <h3 
               style={{ fontFamily: "'Talina', sans-serif", fontWeight: 400 }}
-              className="text-2xl sm:text-4xl md:text-[2.5rem] text-[#3068D3] leading-tight mb-4 border-l-4 border-[#3068D3] pl-4"
+              className="text-2xl sm:text-4xl md:text-[2.5rem] text-[#D42C2C] leading-tight mb-4 border-l-4 border-[#D42C2C] pl-4"
             >
               Bringing Ideas to Life Through Motion
             </h3>
@@ -366,7 +366,7 @@ export default function MotionDesign() {
               letterSpacing : '-1px',
               fontWeight: 400 
             }}
-            className="text-2xl sm:text-4xl m-0 text-[#3068D3] leading-tight"
+            className="text-2xl sm:text-4xl m-0 text-[#D42C2C] leading-tight"
           >
             Short Forms
           </h3>
@@ -410,7 +410,7 @@ export default function MotionDesign() {
               letterSpacing : '-1px',
               fontWeight: 400 
             }}
-            className="text-2xl sm:text-4xl m-0 text-[#3068D3] leading-tight"
+            className="text-2xl sm:text-4xl m-0 text-[#D42C2C] leading-tight"
           >
             Long Forms
           </h3>
@@ -460,7 +460,7 @@ export default function MotionDesign() {
           >
             <button 
               onClick={() => setSelectedVideo(null)}
-              className={`absolute top-4 right-4 z-[1000] w-10 h-10 rounded-full ${isShortForm ? 'bg-black/60 text-white' : 'bg-[#14120e] text-[#FFFFFF] hover:bg-[#3068D3]'} flex items-center justify-center font-bold text-lg transition-all shadow-lg cursor-pointer backdrop-blur-md`}
+              className={`absolute top-4 right-4 z-[1000] w-10 h-10 rounded-full ${isShortForm ? 'bg-black/60 text-white' : 'bg-[#14120e] text-[#FFFFFF] hover:bg-[#D42C2C]'} flex items-center justify-center font-bold text-lg transition-all shadow-lg cursor-pointer backdrop-blur-md`}
             >
               ✕
             </button>
@@ -491,7 +491,7 @@ export default function MotionDesign() {
                 <div className="p-4 sm:p-6 bg-[#FFFCFB] text-[#14120e] flex items-center justify-between border-t border-black/10">
                   <h3 
                     style={{ fontFamily: "'Talina', sans-serif", fontWeight: 300 }}
-                    className="text-lg sm:text-2xl text-[#3068D3]"
+                    className="text-lg sm:text-2xl text-[#D42C2C]"
                   >
                     {selectedVideo.title}
                   </h3>

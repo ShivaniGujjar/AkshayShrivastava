@@ -56,27 +56,27 @@ export default function Navbar({ onNavigate, activeSection = 'editing' }) {
           isVisible ? 'translate-y-0 opacity-100' : '-translate-y-[200%] opacity-0'
         }`}
       >
-        {/* 3-COLUMN GRID LAYOUT (Exact Filmkid Structure) */}
+        {/* 3-COLUMN GRID LAYOUT */}
         <div className="w-full grid grid-cols-2 md:grid-cols-3 items-center relative">
           
-          {/* LEFT: AKSHAY SHRIVASTAV NAME WITH YELLOW DOT */}
+          {/* LEFT: LOGO IMAGE INSTEAD OF NAME */}
           <div className="flex items-center justify-start">
             <a 
               href="/"
               onClick={handleHomeClick}
-              style={{ fontFamily: "GourmetEatery, cursive, sans-serif" }}
-              className="pointer-events-auto flex items-center gap-2 select-none cursor-pointer group no-underline"
+              className="pointer-events-auto flex items-center select-none cursor-pointer group no-underline"
             >
-              <span className=" text-[#3068D3] text-base sm:text-xl tracking-wide transition-colors duration-200 hover:text-[#FFC822]  drop-shadow-md">
-                Akshay Shrivastava
-              </span>
-              {/* <span className="w-2 h-2 rounded-full bg-[#FFC822] inline-block mb-0.5 animate-pulse " /> */}
+              <img 
+                src="/FinalLogo.png" 
+                alt="Logo" 
+                className="w-9 h-9 sm:w-11 sm:h-11 object-contain transition-transform duration-300 group-hover:scale-105" 
+              />
             </a>
           </div>
 
-          {/* CENTER: DESKTOP CAPSULE NAVIGATION (Exact White Dots & Proportions) */}
+          {/* CENTER: DESKTOP CAPSULE NAVIGATION */}
           <div className="hidden md:flex items-center justify-center pointer-events-auto">
-            <div className="relative bg-[#3068D3] clean-pill pt-4 px-8 py-3 rounded-lg overflow-hidden flex items-center justify-center gap-5 shadow-lg">
+            <div className="relative bg-[#D42C2C] clean-pill pt-4 px-8 py-3 rounded-lg overflow-hidden flex items-center justify-center gap-5 shadow-lg">
               {/* NOISE OVERLAY */}
               <div 
                 className="absolute inset-0 pointer-events-none z-[1] bg-[url('/noise.gif')] bg-repeat"
@@ -112,17 +112,15 @@ export default function Navbar({ onNavigate, activeSection = 'editing' }) {
             </div>
           </div>
 
-          {/* RIGHT: TWO SEPARATE PILLS (CART & LOG IN) + MOBILE MENU */}
+          {/* RIGHT: CONNECT BUTTON & MOBILE MENU */}
           <div className="flex items-center justify-end gap-2.5 pointer-events-auto">
             
-            
-              
             {/* CONNECT BUTTON */}
             <a
               href="#login"
               onClick={(e) => { e.preventDefault(); alert("Log In clicked!"); }}
               style={{ fontFamily: "GourmetEatery, cursive, sans-serif" }}
-              className="relative bg-[#3068D3] hover:text-[#FFC822] text-white clean-pill pt-4 px-5 py-2.5 rounded-lg overflow-hidden text-xs sm:text-sm uppercase tracking-wide hidden sm:flex items-center gap-2 transition-all duration-300 shadow-lg cursor-pointer no-underline shrink-0"
+              className="relative bg-[#D42C2C] hover:text-[#FFC822] text-white clean-pill pt-4 px-5 py-2.5 rounded-lg overflow-hidden text-xs sm:text-sm uppercase tracking-wide hidden sm:flex items-center gap-2 transition-all duration-300 shadow-lg cursor-pointer no-underline shrink-0"
             >
               <div 
                 className="absolute inset-0 pointer-events-none z-[1] bg-[url('/noise.gif')] bg-repeat"
@@ -137,7 +135,7 @@ export default function Navbar({ onNavigate, activeSection = 'editing' }) {
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
               aria-label="Toggle Menu"
               aria-expanded={isMobileMenuOpen}
-              className="relative md:hidden bg-[#3068D3] clean-pill text-white w-10 h-10 rounded-xl overflow-hidden flex items-center justify-center shadow-xl cursor-pointer active:scale-95 transition-transform duration-150 touch-manipulation [-webkit-tap-highlight-color:transparent]"
+              className="relative md:hidden bg-[#D42C2C] clean-pill text-white w-10 h-10 rounded-xl overflow-hidden flex items-center justify-center shadow-xl cursor-pointer active:scale-95 transition-transform duration-150 touch-manipulation [-webkit-tap-highlight-color:transparent]"
             >
               <div 
                 className="absolute inset-0 pointer-events-none z-[1] bg-[url('/noise.gif')] bg-repeat"
@@ -164,7 +162,7 @@ export default function Navbar({ onNavigate, activeSection = 'editing' }) {
               aria-hidden="true"
             />
 
-            <div className="md:hidden pointer-events-auto absolute top-14 left-4 right-4 z-[2] bg-[#3068D3] clean-pill rounded-xl overflow-hidden p-6 shadow-2xl flex flex-col items-center justify-center text-center gap-4 backdrop-blur-xl animate-in fade-in slide-in-from-top-4 duration-200 max-h-[75vh] overflow-y-auto">
+            <div className="md:hidden pointer-events-auto absolute top-14 left-4 right-4 z-[2] bg-[#D42C2C] clean-pill rounded-xl overflow-hidden p-6 shadow-2xl flex flex-col items-center justify-center text-center gap-4 backdrop-blur-xl animate-in fade-in slide-in-from-top-4 duration-200 max-h-[75vh] overflow-y-auto">
               <div 
                 className="absolute inset-0 pointer-events-none z-[1] bg-[url('/noise.gif')] bg-repeat"
                 style={{ opacity: 0.08, mixBlendMode: 'overlay' }}
@@ -188,8 +186,6 @@ export default function Navbar({ onNavigate, activeSection = 'editing' }) {
                   </a>
                 ))}
                 <hr className="border-white/20 w-full my-1" />
-                
-                
               </div>
             </div>
           </>

@@ -2,6 +2,22 @@
 
 /* 🔤 FONT FACE DEFINITIONS */
 @font-face {
+  font-family: 'SquidBoy';
+  src: url('/Fonts/SquidBoy.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'SquidBoy';
+  src: url('/Fonts/SquidBoy-Bold.otf') format('opentype');
+  font-weight: bold;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
   font-family: 'NewClientFont';
   src: url('/fonts/RoseryStudio-Regular.ttf') format('truetype');
   font-weight: normal;
@@ -40,7 +56,7 @@
 }
 
 @theme {
-  --color-brand-blue: #3068D3;
+  --color-brand-blue: #D42C2C;
   --color-brand-blue-glass: rgba(20, 75, 255, 0.9);
   --color-brand-beige: #f3efe6;
   --color-brand-beige-muted: #d9d3c5;
@@ -48,12 +64,17 @@
   --color-canvas-bg: #fafafa;
   --color-brand-dark: #0c0c0e;
 
+  --font-squid: 'SquidBoy', sans-serif;
   --font-rosery: 'RoseryStudio', sans-serif;
   --font-talina: 'Talina', sans-serif;
   --font-gourmet: 'GourmetEatery', cursive, sans-serif;
 }
 
 /* 🎨 TAILWIND V4 FONT UTILITY */
+@utility font-squid {
+  font-family: 'SquidBoy', sans-serif;
+}
+
 @utility font-gourmet {
   font-family: 'GourmetEatery', cursive, sans-serif;
 }
@@ -82,8 +103,6 @@ body {
   overflow-x: hidden;
   max-width: 100vw;
 }
-
-
 
 .animate-\[slowMarqueeLeft_85s_linear_infinite\],
 .animate-\[slowMarqueeRight_85s_linear_infinite\],

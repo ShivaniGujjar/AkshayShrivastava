@@ -105,59 +105,12 @@ export default function Footer() {
         }
       `}</style>
 
-      {/* 👉 GSAP HAND-DRAWN SWIRL ARROW POINTING TO SOCIAL ICONS */}
-      <div
-        ref={wrapperRef}
-        className="fixed bottom-[82px] right-[65px] sm:right-[105px] md:right-[145px] pointer-events-none z-[998]"
-      >
-        <svg 
-          width="190" 
-          height="120" 
-          viewBox="0 0 190 120" 
-          fill="none" 
-          xmlns="http://www.w3.org/2000/svg"
-          className="drop-shadow-[0_4px_10px_rgba(48,104,211,0.4)] overflow-visible"
-        >
-          {/* Sketchy entry line + asymmetric hand-drawn coil + downward exit sweep toward the pill */}
-          <path 
-            ref={pathRef}
-            d="M4 22
-               C 22 6, 42 4, 58 14
-               C 72 23, 76 38, 62 44
-               C 50 49, 38 42, 41 30
-               C 43 21, 55 18, 66 24
-               C 82 33, 96 48, 112 62
-               C 130 78, 148 92, 165 96
-               C 172 98, 178 96, 182 90"
-            stroke="#3068D3" 
-            strokeWidth="3.2" 
-            strokeLinecap="round" 
-            strokeLinejoin="round"
-            fill="none"
-          />
-          {/* Arrowhead: tip matches the path's exact end point (182, 90), wings angled to its tangent */}
-          <path 
-            ref={headRef}
-            d="M174 78 L182 90 L167 92"
-            stroke="#3068D3" 
-            strokeWidth="3.2" 
-            strokeLinecap="round" 
-            strokeLinejoin="round" 
-            fill="none"
-          />
-        </svg>
-        <span 
-          ref={labelRef}
-          style={{ fontFamily: "GourmetEatery, cursive, sans-serif" }}
-          className="absolute -top-1 left-0 text-[#3068D3] text-xs sm:text-sm whitespace-nowrap drop-shadow-sm"
-        >
-          say hi!
-        </span>
-      </div>
+      
+      
 
       <footer className="fixed bottom-8 right-5 sm:right-8 md:right-12 pointer-events-none z-[999] flex justify-end items-end">
         <div 
-          className="relative pointer-events-auto bg-[#3068D3] text-white pt-4 px-3 py-3 rounded-lg flex items-center gap-4 shadow-lg overflow-hidden"
+          className="relative pointer-events-auto bg-[#D42C2C] text-white pt-4 px-3 py-3 rounded-lg flex items-center gap-4 shadow-lg overflow-hidden"
         >
           <div 
             className="absolute inset-0 pointer-events-none z-[1] bg-[url('/noise.gif')] bg-repeat"

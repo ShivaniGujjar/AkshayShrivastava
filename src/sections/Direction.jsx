@@ -122,7 +122,7 @@ function ScrapbookGallery() {
       {/* 🏷️ TOP BADGE */}
       <div 
         style={{ fontFamily: "'HelveticaNeue', sans-serif", fontWeight: 300, letterSpacing: '1px' }}
-        className="relative z-40 mb-5 px-3 sm:px-6 py-1.5 sm:py-2 bg-[#3068D3] text-white text-[9px] sm:text-sm uppercase shadow-md rounded-sm rotate-[-1deg] border border-white/20 text-center"
+        className="relative z-40 mb-5 px-3 sm:px-6 py-1.5 sm:py-2 bg-[#D42C2C] text-white text-[9px] sm:text-sm uppercase shadow-md rounded-sm rotate-[-1deg] border border-white/20 text-center"
       >
         🎬 DIRECTOR'S CUT • BTS & STORYBOARD
       </div>
@@ -281,7 +281,7 @@ function DirectionProjectRow({ project, index, activeHoverId, setActiveHoverId }
       >
         <h3 
           style={{ fontFamily: "'Talina', sans-serif", letterSpacing: '-0.4px', fontWeight: 400 }}
-          className={`text-[#3068D3] text-xl sm:text-3xl md:text-[2.2rem] m-0 leading-tight relative md:px-4 ${isReverse ? 'md:border-r-4' : 'md:border-l-4'} md:border-[#3068D3]`}
+          className={`text-[#D42C2C] text-xl sm:text-3xl md:text-[2.2rem] m-0 leading-tight relative md:px-4 ${isReverse ? 'md:border-r-4' : 'md:border-l-4'} md:border-[#D42C2C]`}
         >
           {project.title}
         </h3>
@@ -408,7 +408,7 @@ export default function Direction() {
         {/* 🔊 MINIMAL SOUND TOGGLE BUTTON */}
         <button
           onClick={toggleAudio}
-          className="absolute bottom-6 left-4 sm:bottom-12 sm:left-10 z-30 flex items-center justify-center w-8 h-8 sm:w-11 sm:h-11 bg-black/60 hover:bg-[#3068D3] backdrop-blur-md text-[#FFFFFF] border border-white/20 rounded-full transition-all duration-300 shadow-xl group cursor-pointer hover:scale-110"
+          className="absolute bottom-6 left-4 sm:bottom-12 sm:left-10 z-30 flex items-center justify-center w-8 h-8 sm:w-11 sm:h-11 bg-black/60 hover:bg-[#D42C2C] backdrop-blur-md text-[#FFFFFF] border border-white/20 rounded-full transition-all duration-300 shadow-xl group cursor-pointer hover:scale-110"
           aria-label="Toggle Sound"
         >
           {isMuted ? (
@@ -432,7 +432,7 @@ export default function Direction() {
 
          <p 
   style={{ fontFamily: "'HelveticaNeue', sans-serif", fontWeight: 800, letterSpacing : '-0.5px' }}
-  className="flex items-center justify-center gap-1.5 sm:gap-2 mt-3 sm:mt-4 text-[#3068D3] text-xs sm:text-lg tracking-widest text-center drop-shadow-[0_2px_10px_rgba(0,0,0,0.95)]"
+  className="flex items-center justify-center gap-1.5 sm:gap-2 mt-3 sm:mt-4 text-[#D42C2C] text-xs sm:text-lg tracking-widest text-center drop-shadow-[0_2px_10px_rgba(0,0,0,0.95)]"
 >
             <span>Storyboarding</span> 
             <span className="text-[#FFC822] mx-1">•</span> 
@@ -448,7 +448,7 @@ export default function Direction() {
         <div className="inline-flex flex-col items-center z-20 px-4">
           <h2 
             style={{ fontFamily: "'Talina', sans-serif", letterSpacing: '-0.5px', fontWeight: 400 }}
-            className="text-2xl sm:text-4xl m-0 text-[#3068D3] leading-tight"
+            className="text-2xl sm:text-4xl m-0 text-[#D42C2C] leading-tight"
           >
             Welcome to Direction section
           </h2>
