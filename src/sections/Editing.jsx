@@ -109,6 +109,7 @@ function VideoCard({ item, aspectRatio = "wide", hoveredId, setHoveredId, onOpen
         loop
         playsInline
         preload="none"
+        draggable={false}
         className="absolute inset-0 w-full h-full object-cover transition-all duration-700 filter brightness-[0.85] group-hover:brightness-100 group-hover:scale-105 outline-none focus:outline-none pointer-events-none"
       />
 
@@ -152,6 +153,200 @@ function VideoCard({ item, aspectRatio = "wide", hoveredId, setHoveredId, onOpen
             {item.brand}
           </p>
         )}
+      </div>
+    </div>
+  );
+}
+
+// 🎠 MARQUEE ROW — autoplay/autoscroll, pauses on hover (only hovered video plays),
+// resumes on mouse leave, and supports manual drag/swipe.
+function MarqueeRow({ items, aspectRatio, direction = 'left', hoveredId, setHoveredId, onOpenModal, speed = 45 }) {
+  const containerRef = useRef(null);
+  const hoveredIdRef = useRef(hoveredId);
+  const isDraggingRef = useRef(false);
+  const rafRef = useRef(null);
+  const lastTimeRef = useRef(null);
+  const draggedRef = useRef(false);
+  const momentumRafRef = useRef(null);
+
+  useEffect(() => {
+    hoveredIdRef.current = hoveredId;
+  }, [hoveredId]);
+
+  useEffect(() => {
+    return () => {
+      if (momentumRafRef.current) cancelAnimationFrame(momentumRafRef.current);
+    };
+  }, []);
+
+  useEffect(() => {
+    const el = containerRef.current;
+    if (!el) return;
+
+    // For a "right moving" row, start halfway through the duplicated
+    // list so it can decrement smoothly and wrap.
+    if (direction === 'right') {
+      el.scrollLeft = el.scrollWidth / 2;
+    }
+
+    const step = (timestamp) => {
+      if (lastTimeRef.current == null) lastTimeRef.current = timestamp;
+      const delta = timestamp - lastTimeRef.current;
+      lastTimeRef.current = timestamp;
+
+      if (hoveredIdRef.current == null && !isDraggingRef.current) {
+        const half = el.scrollWidth / 2;
+        const dir = direction === 'left' ? 1 : -1;
+
+        el.scrollLeft += dir * speed * (delta / 1000);
+
+        if (el.scrollLeft >= half) {
+          el.scrollLeft -= half;
+        } else if (el.scrollLeft <= 0) {
+          el.scrollLeft += half;
+        }
+      }
+
+      rafRef.current = requestAnimationFrame(step);
+    };
+
+    rafRef.current = requestAnimationFrame(step);
+
+    return () => {
+      if (rafRef.current) cancelAnimationFrame(rafRef.current);
+      lastTimeRef.current = null;
+    };
+  }, [direction, speed]);
+
+  // Mouse drag-to-scroll (desktop). Touch keeps native swipe scrolling,
+  // which already pauses autoscroll via onTouchStart/onTouchEnd below.
+  // A real "drag" only starts once the pointer moves past DRAG_THRESHOLD —
+  // this stops normal clicks (which have a pixel or two of jitter) from
+  // being mistaken for a drag and blocking the open-modal click below.
+  // IMPORTANT: this intentionally does NOT use setPointerCapture — capturing
+  // the pointer on the row container causes the browser to retarget the
+  // final "click" event to the container instead of the actual card, which
+  // silently breaks the open-modal click on every card. Plain window-level
+  // mousemove/mouseup listeners avoid that entirely.
+  const DRAG_THRESHOLD = 8;
+
+  const handleMouseDown = (e) => {
+    const el = containerRef.current;
+    if (!el) return;
+
+    // A fresh drag cancels any glide still in progress from a previous one.
+    if (momentumRafRef.current) {
+      cancelAnimationFrame(momentumRafRef.current);
+      momentumRafRef.current = null;
+    }
+
+    draggedRef.current = false;
+    const startX = e.clientX;
+    const startScroll = el.scrollLeft;
+    let lastX = e.clientX;
+    let lastTime = performance.now();
+    let velocity = 0; // px of cursor movement per ms
+
+    const handleMouseMove = (moveEvent) => {
+      const dx = moveEvent.clientX - startX;
+
+      if (!isDraggingRef.current) {
+        if (Math.abs(dx) < DRAG_THRESHOLD) return;
+        // Threshold crossed — this is now a genuine drag.
+        isDraggingRef.current = true;
+        draggedRef.current = true;
+        el.style.cursor = 'grabbing';
+      }
+
+      el.scrollLeft = startScroll - dx;
+
+      const now = performance.now();
+      const dt = now - lastTime;
+      if (dt > 0) {
+        velocity = (moveEvent.clientX - lastX) / dt;
+      }
+      lastX = moveEvent.clientX;
+      lastTime = now;
+    };
+
+    const handleMouseUp = () => {
+      window.removeEventListener('mousemove', handleMouseMove);
+      window.removeEventListener('mouseup', handleMouseUp);
+      el.style.cursor = 'grab';
+
+      // Glide the scroll smoothly to a stop instead of cutting it dead —
+      // isDraggingRef stays true (so autoscroll waits) until the glide settles.
+      let scrollVelocity = -velocity; // px per ms, opposite to cursor delta
+      let lastTs = null;
+
+      const glide = (ts) => {
+        if (lastTs == null) lastTs = ts;
+        const dt = ts - lastTs;
+        lastTs = ts;
+
+        el.scrollLeft += scrollVelocity * dt;
+        scrollVelocity *= Math.pow(0.94, dt / 16.67);
+
+        const half = el.scrollWidth / 2;
+        if (half > 0) {
+          if (el.scrollLeft >= half) el.scrollLeft -= half;
+          else if (el.scrollLeft <= 0) el.scrollLeft += half;
+        }
+
+        if (Math.abs(scrollVelocity) > 0.02) {
+          momentumRafRef.current = requestAnimationFrame(glide);
+        } else {
+          momentumRafRef.current = null;
+          isDraggingRef.current = false;
+        }
+      };
+
+      if (draggedRef.current && Math.abs(scrollVelocity) > 0.02) {
+        momentumRafRef.current = requestAnimationFrame(glide);
+      } else {
+        isDraggingRef.current = false;
+      }
+    };
+
+    window.addEventListener('mousemove', handleMouseMove);
+    window.addEventListener('mouseup', handleMouseUp);
+  };
+
+  const handleContainerMouseLeave = () => {
+    setHoveredId(null);
+  };
+
+  // Prevent the click-to-open-modal from firing right after a real drag.
+  const handleClickCapture = (e) => {
+    if (draggedRef.current) {
+      e.stopPropagation();
+      e.preventDefault();
+      draggedRef.current = false;
+    }
+  };
+
+  return (
+    <div
+      ref={containerRef}
+      onMouseLeave={handleContainerMouseLeave}
+      onMouseDown={handleMouseDown}
+      onTouchStart={() => { isDraggingRef.current = true; }}
+      onTouchEnd={() => { isDraggingRef.current = false; }}
+      onClickCapture={handleClickCapture}
+      className="w-full max-w-full overflow-x-scroll overflow-y-hidden pt-2 pb-6 cursor-grab select-none [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden"
+      style={{ touchAction: 'pan-y' }}
+    >
+      <div className="inline-flex whitespace-nowrap gap-5 sm:gap-10 w-max">
+        {items.map((item, idx) => (
+          <VideoCard
+            key={`${item.id}-${idx}`}
+            item={item}
+            aspectRatio={aspectRatio}
+            hoveredId={hoveredId}
+            setHoveredId={setHoveredId}
+            onOpenModal={onOpenModal}
+          />
+        ))}
       </div>
     </div>
   );
@@ -375,20 +570,15 @@ export default function Editing() {
           </div>
         </div>
 
-        <div className="w-full max-w-full overflow-hidden pt-2 pb-6 group">
-          <div className="inline-flex whitespace-nowrap gap-5 sm:gap-10 w-max will-change-transform animate-[slowMarqueeLeft_85s_linear_infinite] group-hover:[animation-play-state:paused]">
-            {duplicateList(LONG_FORMS).map((item, idx) => (
-              <VideoCard 
-                key={`long-${idx}`}
-                item={item} 
-                aspectRatio="wide" 
-                hoveredId={hoveredLongId} 
-                setHoveredId={setHoveredLongId} 
-                onOpenModal={setSelectedVideo}
-              />
-            ))}
-          </div>
-        </div>
+        <MarqueeRow
+          items={duplicateList(LONG_FORMS)}
+          aspectRatio="wide"
+          direction="left"
+          speed={55}
+          hoveredId={hoveredLongId}
+          setHoveredId={setHoveredLongId}
+          onOpenModal={setSelectedVideo}
+        />
       </div>
 
       {/* SHORT FORMS */}
@@ -418,35 +608,27 @@ export default function Editing() {
           </div>
         </div>
         
-        <div className="w-full max-w-full overflow-hidden pt-2 pb-4 mb-4 sm:mb-8 group">
-          <div className="inline-flex whitespace-nowrap gap-5 sm:gap-10 w-max will-change-transform animate-[slowMarqueeLeft_85s_linear_infinite] group-hover:[animation-play-state:paused]">
-            {duplicateList(SHORT_FORMS_ROW1).map((item, idx) => (
-              <VideoCard 
-                key={`short1-${idx}`}
-                item={item} 
-                aspectRatio="tall" 
-                hoveredId={hoveredShort1Id} 
-                setHoveredId={setHoveredShort1Id} 
-                onOpenModal={setSelectedVideo}
-              />
-            ))}
-          </div>
+        <div className="mb-4 sm:mb-8">
+          <MarqueeRow
+            items={duplicateList(SHORT_FORMS_ROW1)}
+            aspectRatio="tall"
+            direction="left"
+            speed={40}
+            hoveredId={hoveredShort1Id}
+            setHoveredId={setHoveredShort1Id}
+            onOpenModal={setSelectedVideo}
+          />
         </div>
 
-        <div className="w-full max-w-full overflow-hidden py-2 group">
-          <div className="inline-flex whitespace-nowrap gap-5 sm:gap-10 w-max will-change-transform animate-[slowMarqueeRight_85s_linear_infinite] group-hover:[animation-play-state:paused]">
-            {duplicateList(SHORT_FORMS_ROW2).map((item, idx) => (
-              <VideoCard 
-                key={`short2-${idx}`}
-                item={item} 
-                aspectRatio="tall" 
-                hoveredId={hoveredShort2Id} 
-                setHoveredId={setHoveredShort2Id} 
-                onOpenModal={setSelectedVideo}
-              />
-            ))}
-          </div>
-        </div>
+        <MarqueeRow
+          items={duplicateList(SHORT_FORMS_ROW2)}
+          aspectRatio="tall"
+          direction="right"
+          speed={40}
+          hoveredId={hoveredShort2Id}
+          setHoveredId={setHoveredShort2Id}
+          onOpenModal={setSelectedVideo}
+        />
       </div>
 
       {/* 🚀 SOCIAL PROOF */}
@@ -517,17 +699,6 @@ export default function Editing() {
 
       {/* 🚀 FOOTER */}
       <Footer />
-
-      <style>{`
-        @keyframes slowMarqueeLeft {
-          0% { transform: translate3d(0, 0, 0); }
-          100% { transform: translate3d(-50%, 0, 0); }
-        }
-        @keyframes slowMarqueeRight {
-          0% { transform: translate3d(-50%, 0, 0); }
-          100% { transform: translate3d(0, 0, 0); }
-        }
-      `}</style>
     </div>
   );
 }
