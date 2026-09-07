@@ -4,24 +4,28 @@ const COLUMNS = [
   { 
     id: 'editing', 
     title: 'Editing', 
+    subtitle: 'Visual storytelling & retention pacing',
     videoUrl: 'https://akshayshrivastava.com/videos/EditingMain.mp4',
     poster: 'https://akshayshrivastava.com/images/EditingMain.png'
   },
   { 
     id: 'motion', 
     title: 'Motion Design', 
+    subtitle: '2D/3D graphics & kinetic type',
     videoUrl: 'https://akshayshrivastava.com/videos/MotionMain.mp4',
     poster: 'https://akshayshrivastava.com/images/MotionMain.png'
   },
   { 
     id: 'direction', 
     title: 'Direction', 
+    subtitle: 'Commercials & narrative vision',
     videoUrl: 'https://akshayshrivastava.com/videos/DirectionMain.mp4',
     poster: 'https://akshayshrivastava.com/images/DirectionMain.png'
   },
   { 
     id: 'about', 
     title: 'About Me', 
+    subtitle: 'Creative director & editor profile',
     videoUrl: 'https://akshayshrivastava.com/videos/AboutMain.mp4',
     poster: 'https://akshayshrivastava.com/images/AboutMain.png'
   }
@@ -167,21 +171,20 @@ export default function Hero({ onColumnClick }) {
 
       {/* 📌 RENDERED NAVBAR */}
       <header 
-        className={`absolute md:fixed top-8 left-0 w-screen max-w-full box-border z-[9999] px-4 sm:px-8 md:px-12 pointer-events-none transition-all duration-400 ease-out ${
+        className={`absolute md:fixed top-6 md:top-8 left-0 w-screen max-w-full box-border z-[9999] px-4 sm:px-8 md:px-12 pointer-events-none transition-all duration-400 ease-out border-0 outline-none ${
           isNavbarVisible ? 'translate-y-0 opacity-100' : '-translate-y-[200%] opacity-0'
         }`}
       >
-        <div className="w-full flex items-center justify-center relative">
+        <div className="w-full flex items-center justify-center relative min-h-[1px]">
           
           {/* CENTER: DESKTOP CAPSULE NAVIGATION */}
-          <div className="hidden md:flex items-center justify-center pointer-events-auto mx-auto">
-            <div className="relative bg-[#08080a] clean-pill pt-3 pb-3 px-6 rounded-lg overflow-hidden flex items-center justify-center shadow-lg" style={{ border: 'none', outline: 'none' }}>
+          <div className="hidden md:flex absolute left-1/2 -translate-x-1/2 items-center justify-center pointer-events-auto">
+            <div className="relative bg-[#08080a] clean-pill pt-3 pb-3 px-6 rounded-lg overflow-hidden flex items-center justify-center shadow-lg border-0 outline-none">
               <div 
                 className="absolute inset-0 pointer-events-none z-[1] bg-[url('/noise.gif')] bg-repeat"
                 style={{ opacity: 0.08, mixBlendMode: 'overlay' }}
               />
 
-              {/* GAP REMOVED / TIGHTENED */}
               <div className="relative z-[2] flex items-center justify-center">
                 {NAV_ITEMS.map((item, idx) => {
                   const isActive = hoveredIndex === COLUMNS.findIndex(c => c.id === item.id);
@@ -214,27 +217,24 @@ export default function Hero({ onColumnClick }) {
           </div>
 
           {/* MOBILE MENU TOGGLE */}
-          <div className="flex items-center justify-center w-full md:hidden pointer-events-auto">
-            <button 
-              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              aria-label="Toggle Menu"
-              aria-expanded={isMobileMenuOpen}
-              className="relative md:hidden bg-[#08080a] clean-pill text-[#D42C2C] w-10 h-10 rounded-xl overflow-hidden flex items-center justify-center shadow-xl cursor-pointer active:scale-95 transition-transform duration-150 touch-manipulation [-webkit-tap-highlight-color:transparent]"
-              style={{ border: 'none', outline: 'none' }}
-            >
-              <div 
-                className="absolute inset-0 pointer-events-none z-[1] bg-[url('/noise.gif')] bg-repeat"
-                style={{ opacity: 0.08, mixBlendMode: 'overlay' }}
-              />
-              <svg className="relative z-[2] w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                {isMobileMenuOpen ? (
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
-                ) : (
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16" />
-                )}
-              </svg>
-            </button>
-          </div>
+          <button 
+            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            aria-label="Toggle Menu"
+            aria-expanded={isMobileMenuOpen}
+            className="md:hidden absolute left-0 top-1/2 -translate-y-1/2 bg-[#08080a] clean-pill text-[#D42C2C] w-10 h-10 rounded-[6px] overflow-hidden flex items-center justify-center shadow-xl cursor-pointer active:scale-95 transition-transform duration-150 touch-manipulation [-webkit-tap-highlight-color:transparent] pointer-events-auto border-0 outline-none"
+          >
+            <div 
+              className="absolute inset-0 pointer-events-none z-[1] bg-[url('/noise.gif')] bg-repeat"
+              style={{ opacity: 0.08, mixBlendMode: 'overlay' }}
+            />
+            <svg className="relative z-[2] w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              {isMobileMenuOpen ? (
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
+              ) : (
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16" />
+              )}
+            </svg>
+          </button>
 
         </div>
 
@@ -242,12 +242,12 @@ export default function Hero({ onColumnClick }) {
         {isMobileMenuOpen && (
           <>
             <div
-              className="md:hidden fixed inset-0 z-[1] bg-black/50 pointer-events-auto"
+              className="md:hidden fixed inset-0 z-[1] bg-black/50 backdrop-blur-sm pointer-events-auto"
               onClick={() => setIsMobileMenuOpen(false)}
               aria-hidden="true"
             />
 
-            <div className="md:hidden pointer-events-auto absolute top-14 left-4 right-4 z-[2] bg-[#08080a] clean-pill rounded-xl overflow-hidden p-6 shadow-2xl flex flex-col items-center justify-center text-center gap-4 backdrop-blur-xl animate-in fade-in slide-in-from-top-4 duration-200 max-h-[75vh] overflow-y-auto" style={{ border: 'none', outline: 'none' }}>
+            <div className="md:hidden pointer-events-auto absolute top-14 left-4 right-4 z-[2] bg-[#08080a] clean-pill rounded-[8px] overflow-hidden p-6 shadow-2xl flex flex-col items-center justify-center text-center gap-4 animate-in fade-in slide-in-from-top-4 duration-200 max-h-[75vh] overflow-y-auto border-0 outline-none">
               <div 
                 className="absolute inset-0 pointer-events-none z-[1] bg-[url('/noise.gif')] bg-repeat"
                 style={{ opacity: 0.08, mixBlendMode: 'overlay' }}
@@ -412,9 +412,9 @@ export default function Hero({ onColumnClick }) {
       </div>
 
      {/* ================= CLEAN CENTERED FOOTER ================= */}
-      <footer className="fixed bottom-8 left-1/2 -translate-x-1/2 pointer-events-none z-[999] flex justify-center items-center">
+      <footer className="fixed bottom-6 left-1/2 -translate-x-1/2 pointer-events-none z-[999] flex justify-center items-center">
         <div 
-          className="relative pointer-events-auto bg-[#08080a] text-[#FFC300] pt-3 pb-3 px-4 rounded-lg flex items-center justify-center shadow-lg overflow-hidden"
+          className="relative pointer-events-auto bg-[#08080a] text-[#FFC300] pt-2.5 pb-2.5 px-4 rounded-lg flex items-center justify-center shadow-lg overflow-hidden border-0 outline-none"
         >
           <div 
             className="absolute inset-0 pointer-events-none z-[1] bg-[url('/noise.gif')] bg-repeat"
@@ -428,7 +428,7 @@ export default function Hero({ onColumnClick }) {
                   href={link.url} 
                   target="_blank" 
                   rel="noopener noreferrer" 
-                  className="text-white hover:text-[#FFC300] transition-colors text-sm sm:text-base capitalize tracking-wide leading-none flex items-center px-1"
+                  className="text-white hover:text-[#FFC300] transition-colors text-xs sm:text-base capitalize tracking-wide leading-none flex items-center px-1"
                   style={{ fontFamily: "GourmetEatery, cursive, sans-serif" }}
                 >
                   <span className="leading-none pt-0.5">{link.name}</span>

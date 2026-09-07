@@ -112,74 +112,75 @@ export default function SocialProof({ brands = DEFAULT_BRANDS, testimonials = DE
       </div>
 
       {/* ────────────────── 2. TESTIMONIALS SECTION (AVATAR STYLE) ────────────────── */}
-     <div className="relative w-full -mt-6 sm:-mt-20 pt-14 pb-20 sm:pt-20 sm:pb-40 flex flex-col items-center justify-center overflow-hidden">
-  
-  <div 
-    className="absolute inset-0 w-full h-full bg-no-repeat bg-center bg-cover pointer-events-none z-0"
-    style={{ backgroundImage: `url('/testimonialRed.png')` }}
-  />
-
-  <div className="relative z-[15] text-center mb-3 sm:mb-4 pt-14 sm:pt-26 pb-1 sm:pb-2 px-2">
-    <h2 
-      style={{ fontFamily: "GenericFont, sans-serif", letterSpacing: '0.4px', fontWeight: 300 }}
-      className="text-xl sm:text-[40px] mt-2 sm:mt-6 m-0 text-[#FFFFFF] leading-tight drop-shadow-md pt-1 sm:pt-2"
-    >
-      Testimonial
-    </h2>
-
-    <p 
-      className="text-[#FFFFFF]/95 text-[10px] sm:text-base mt-1 sm:mt-2 font-medium"
-    >
-      What clients say about my work
-    </p>
-  </div>
-
-  {/* TICKER CARDS WRAPPER */}
-  <div className="w-full overflow-hidden mb-3 sm:mb-8 pb-1 sm:pb-4 py-0 sm:py-2 relative z-[15]">
-    <div className="animate-marquee-slow-right gap-4 sm:gap-20 w-max items-center">
-      {duplicateList(testimonials).map((testi, idx) => (
+      <div className="relative w-full -mt-6 sm:-mt-20 pt-14 pb-20 sm:pt-20 sm:pb-40 flex flex-col items-center justify-center overflow-hidden">
+        
         <div 
-          key={`testi-${idx}`} 
-          className="relative text-[#FFFFFF] w-[190px] sm:w-[400px] px-2 sm:px-6 inline-flex flex-col items-center text-center justify-between shrink-0 whitespace-normal"
-        >
-          {/* Creator Avatar */}
-          <div className="mb-1.5 sm:mb-5">
-            <img 
-              src={testi.avatar} 
-              alt={testi.handle} 
-              className="w-6 h-6 sm:w-20 sm:h-20 rounded-full object-cover border-2 border-white/30 shadow-md mx-auto"
-            />
-          </div>
+          className="absolute inset-0 w-full h-full bg-no-repeat bg-center bg-cover pointer-events-none z-0"
+          style={{ backgroundImage: `url('/testimonialRed.png')` }}
+        />
 
-          {/* Handle & Role */}
-          <div className="mb-1.5 sm:mb-5">
-            <h4 
-              style={{ fontFamily: "'Talina', sans-serif", letterSpacing: '0.5px' }}
-              className="text-white text-xs sm:text-xl m-0 drop-shadow"
-            >
-              {testi.handle}
-            </h4>
-            <p 
-              style={{ letterSpacing: '0.5px', fontWeight: 600 }}
-              className="text-white/70 text-[8px] sm:text-sm uppercase m-0 mt-0.5"
-            >
-              {testi.role}
-            </p>
-          </div>
-
-          {/* Quote Text */}
-          <p 
-            style={{ letterSpacing: '-0.1px', fontWeight: 300 }}
-            className="text-white/95 text-[10px] sm:text-base leading-snug m-0 line-clamp-3"
+        <div className="relative z-[15] text-center mb-3 sm:mb-4 pt-14 sm:pt-26 pb-1 sm:pb-2 px-2">
+          <h2 
+            style={{ fontFamily: "GenericFont, sans-serif", letterSpacing: '0.4px', fontWeight: 300 }}
+            className="text-xl sm:text-[40px] mt-2 sm:mt-6 m-0 text-[#FFFFFF] leading-tight drop-shadow-md pt-1 sm:pt-2"
           >
-            "{testi.quote}"
+            Testimonial
+          </h2>
+
+          <p 
+            style={{ color: '#FFC300' }}
+            className="text-[10px] sm:text-base mt-1 sm:mt-2 font-medium"
+          >
+            What clients say about my work
           </p>
         </div>
-      ))}
-    </div>
-  </div>
 
-</div>
+        {/* TICKER CARDS WRAPPER */}
+        <div className="w-full overflow-hidden mb-3 sm:mb-8 pb-1 sm:pb-4 py-0 sm:py-2 relative z-[15]">
+          <div className="animate-marquee-slow-right gap-4 sm:gap-20 w-max items-center">
+            {duplicateList(testimonials).map((testi, idx) => (
+              <div 
+                key={`testi-${idx}`} 
+                className="relative text-[#FFFFFF] w-[190px] sm:w-[400px] px-2 sm:px-6 inline-flex flex-col items-center text-center justify-between shrink-0 whitespace-normal"
+              >
+                {/* Creator Avatar */}
+                <div className="mb-1.5 sm:mb-5">
+                  <img 
+                    src={testi.avatar} 
+                    alt={testi.handle} 
+                    className="w-6 h-6 sm:w-20 sm:h-20 rounded-full object-cover border-2 border-white/30 shadow-md mx-auto"
+                  />
+                </div>
+
+                {/* Handle & Role */}
+                <div className="mb-1.5 sm:mb-5">
+                  <h4 
+                    style={{ fontFamily: "'Talina', sans-serif", letterSpacing: '0.5px' }}
+                    className="text-white text-xs sm:text-xl m-0 drop-shadow"
+                  >
+                    {testi.handle}
+                  </h4>
+                  <p 
+                    style={{ letterSpacing: '0.5px', fontWeight: 600 }}
+                    className="text-white/70 text-[8px] sm:text-sm uppercase m-0 mt-0.5"
+                  >
+                    {testi.role}
+                  </p>
+                </div>
+
+                {/* Quote Text */}
+                <p 
+                  style={{ letterSpacing: '-0.1px', fontWeight: 300 }}
+                  className="text-white/95 text-[10px] sm:text-base leading-snug m-0 line-clamp-3"
+                >
+                  "{testi.quote}"
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
+
+      </div>
 
     </section>
   );

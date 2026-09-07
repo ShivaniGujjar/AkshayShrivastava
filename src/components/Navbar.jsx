@@ -42,7 +42,7 @@ export default function Navbar({ onNavigate, activeSection = 'editing' }) {
       `}</style>
 
       <header 
-        className={`absolute md:fixed top-10 sm:top-12 md:top-14 left-0 w-screen max-w-full box-border z-[9999] px-4 sm:px-8 md:px-12 pointer-events-none transition-all duration-400 ease-out ${
+        className={`absolute md:fixed top-10 sm:top-12 md:top-14 left-0 w-screen max-w-full box-border z-[9999] px-4 sm:px-8 md:px-12 pointer-events-none transition-all duration-400 ease-out border-none outline-none ${
           isVisible ? 'translate-y-0 opacity-100' : '-translate-y-[200%] opacity-0'
         }`}
       >
@@ -53,7 +53,7 @@ export default function Navbar({ onNavigate, activeSection = 'editing' }) {
 
           {/* CENTER: DESKTOP CAPSULE NAVIGATION — true horizontal center */}
           <div className="hidden md:flex absolute left-1/2 -translate-x-1/2 items-center justify-center pointer-events-auto">
-            <div className="relative bg-[#D42C2C] clean-pill pt-3 pb-3 px-6 rounded-lg overflow-hidden flex items-center justify-center shadow-lg">
+            <div className="relative bg-[#D42C2C] clean-pill pt-3 pb-3 px-6 rounded-lg overflow-hidden flex items-center justify-center shadow-lg border-none outline-none">
               {/* NOISE OVERLAY */}
               <div 
                 className="absolute inset-0 pointer-events-none z-[1] bg-[url('/noise.gif')] bg-repeat"
@@ -95,7 +95,7 @@ export default function Navbar({ onNavigate, activeSection = 'editing' }) {
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
             aria-label="Toggle Menu"
             aria-expanded={isMobileMenuOpen}
-            className="md:hidden absolute left-0 top-1/2 -translate-y-1/2 bg-[#D42C2C] clean-pill text-white w-10 h-10 rounded-xl overflow-hidden flex items-center justify-center shadow-xl cursor-pointer active:scale-95 transition-transform duration-150 touch-manipulation [-webkit-tap-highlight-color:transparent] pointer-events-auto"
+            className="md:hidden absolute left-0 top-1/2 -translate-y-1/2 bg-[#D42C2C] clean-pill text-white w-10 h-10 rounded-[6px] overflow-hidden flex items-center justify-center shadow-xl cursor-pointer active:scale-95 transition-transform duration-150 touch-manipulation [-webkit-tap-highlight-color:transparent] pointer-events-auto border-none outline-none"
           >
             <div 
               className="absolute inset-0 pointer-events-none z-[1] bg-[url('/noise.gif')] bg-repeat"
@@ -121,7 +121,7 @@ export default function Navbar({ onNavigate, activeSection = 'editing' }) {
               aria-hidden="true"
             />
 
-            <div className="md:hidden pointer-events-auto absolute top-16 left-4 right-4 z-[2] bg-[#D42C2C] clean-pill rounded-xl overflow-hidden p-6 shadow-2xl flex flex-col items-center justify-center text-center gap-4 animate-in fade-in slide-in-from-top-4 duration-200 max-h-[75vh] overflow-y-auto">
+            <div className="md:hidden pointer-events-auto absolute top-16 left-4 right-4 z-[2] bg-[#D42C2C] clean-pill rounded-[8px] overflow-hidden p-6 shadow-2xl flex flex-col items-center justify-center text-center gap-4 animate-in fade-in slide-in-from-top-4 duration-200 max-h-[75vh] overflow-y-auto border-none outline-none">
               <div 
                 className="absolute inset-0 pointer-events-none z-[1] bg-[url('/noise.gif')] bg-repeat"
                 style={{ opacity: 0.08, mixBlendMode: 'overlay' }}
