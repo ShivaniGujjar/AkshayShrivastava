@@ -420,6 +420,14 @@ export default function Editing() {
           font-display: swap;
         }
 
+        @font-face {
+          font-family: 'ParaFont';
+          src: url('/ParaFont.ttf') format('woff2');
+          font-weight: normal;
+          font-style: normal;
+          font-display: swap;
+        }
+
         .editing-cutout-mask {
           mask-image: url('/editingcutout.svg');
           -webkit-mask-image: url('/editingcutout.svg');
@@ -437,6 +445,7 @@ export default function Editing() {
         <video 
           ref={heroVideoRef}
           src="https://akshayshrivastava.com/videos/EditingMain.mp4" 
+          poster="https://akshayshrivastava.com/images/EditingHome.png"
           autoPlay 
           loop 
           muted={isHeroMuted} 
@@ -497,7 +506,7 @@ export default function Editing() {
         <div ref={paragraphRef} className="relative z-10 mt-2 sm:mt-3 mb-6 max-w-[700px] px-4">
           <p 
             style={{ 
-              fontFamily: "'GroteskFont', sans-serif", 
+              fontFamily: "'ParaFont', sans-serif", 
               fontWeight: 400,
               letterSpacing : '-0.5px'
             }}
@@ -512,6 +521,7 @@ export default function Editing() {
           <div className="w-full aspect-video rounded-[8px] overflow-hidden shadow-[0_18px_50px_rgba(0,0,0,0.15)] bg-[#0f0e0c]">
             <CustomVideoPlayer 
               src="https://akshayshrivastava.com/videos/EditingFull.mp4"
+              poster="https://akshayshrivastava.com/images/EditingHome.png"
               badgeText="Featured Masterpiece"
               className="w-full h-full"
               muted={true}
@@ -537,7 +547,7 @@ export default function Editing() {
           </h3>
 
           <div 
-            style={{ fontFamily: "'GroteskFont', sans-serif", letterSpacing: '0.5px' }}
+            style={{ fontFamily: "'ParaFont', sans-serif", letterSpacing: '0.5px' }}
             className="flex flex-wrap items-center justify-center gap-1.5 sm:gap-3 mt-2 sm:mt-3 text-[#3b352e] text-[11px] sm:text-base tracking-wider text-center capitalize"
           >
             <span>Podcasts</span>
@@ -575,7 +585,7 @@ export default function Editing() {
           </h3>
 
           <div 
-            style={{ fontFamily: "'GroteskFont', sans-serif", letterSpacing: '0.5px' }}
+            style={{ fontFamily: "'ParaFont', sans-serif", letterSpacing: '0.5px' }}
             className="flex flex-wrap items-center justify-center gap-1.5 sm:gap-3 mt-2 sm:mt-3 text-[#3b352e] text-[11px] sm:text-base tracking-wider text-center capitalize"
           >
             <span>UGC Ads</span>

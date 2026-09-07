@@ -18,7 +18,7 @@ const DIRECTION_PROJECTS = [
     title: 'Brand Commercial Direction',
     description: 'A high-impact brand campaign focusing on narrative pacing, emotional resonance, and high retention.',
     videoUrl: 'https://akshayshrivastava.com/videos/DirectionMain.mp4',
-    poster: 'https://akshayshrivastava.com/images/DirectionMain.png',
+    poster: 'https://akshayshrivastava.com/images/DirectionHome.png',
     tag: 'Commercial'
   },
   {
@@ -100,18 +100,21 @@ function ScrapbookGallery() {
     {
       title: 'On-Set BTS',
       src: 'https://akshayshrivastava.com/videos/AboutMain.mp4',
+      poster: 'https://akshayshrivastava.com/images/AboutHome.png',
       rotation: 'rotate-[-3deg] sm:rotate-[-6deg]',
       textColor: 'text-white'
     },
     {
       title: 'Storyboard',
       src: 'https://akshayshrivastava.com/videos/short18.mp4',
+      poster: 'https://akshayshrivastava.com/images/short18.png',
       rotation: 'rotate-[0deg] sm:-translate-y-4',
       textColor: 'text-[#FFC822]'
     },
     {
       title: 'Cam Cut',
       src: 'https://akshayshrivastava.com/videos/MotionMain.mp4',
+      poster: 'https://akshayshrivastava.com/images/MotionHome.png',
       rotation: 'rotate-[3deg] sm:rotate-[6deg]',
       textColor: 'text-white'
     }
@@ -155,6 +158,7 @@ function ScrapbookGallery() {
                 <video 
                   ref={(el) => (videoRefs.current[idx] = el)}
                   src={card.src} 
+                  poster={card.poster}
                   loop 
                   muted 
                   playsInline 
@@ -196,6 +200,7 @@ function DirectionShortCard({ project, isHovered, onHover, onLeave }) {
     >
       <CustomVideoPlayer 
         src={project.videoUrl} 
+        poster={project.poster}
         badgeText={project.tag}
         className="w-full h-full"
         muted={true}
@@ -289,7 +294,7 @@ function DirectionProjectRow({ project, index, activeHoverId, setActiveHoverId }
         </h3>
 
         <p 
-          style={{ fontFamily: "'GroteskFont', sans-serif", letterSpacing: '-0.2px', fontWeight: 400 }}
+          style={{ fontFamily: "'ParaFont', sans-serif", letterSpacing: '-0.2px', fontWeight: 400 }}
           className="text-[#3b352e] text-xs sm:text-lg mt-2 sm:mt-4 m-0 leading-relaxed font-light md:px-4"
         >
           {project.description}
@@ -378,6 +383,14 @@ export default function Direction() {
           font-display: swap;
         }
 
+        @font-face {
+          font-family: 'ParaFont';
+          src: url('/ParaFont.ttf') format('woff2');
+          font-weight: normal;
+          font-style: normal;
+          font-display: swap;
+        }
+
         .editing-cutout-mask {
           mask-image: url('/editingcutout.svg');
           -webkit-mask-image: url('/editingcutout.svg');
@@ -447,7 +460,7 @@ export default function Direction() {
 
         <div ref={paragraphRef} className="relative z-10 mt-2 mb-4 max-w-[700px] px-4">
           <p 
-            style={{ fontFamily: "'GroteskFont', sans-serif", letterSpacing: '-0.2px', fontWeight: 400 }}
+            style={{ fontFamily: "'ParaFont', sans-serif", letterSpacing: '-0.2px', fontWeight: 400 }}
             className="text-[#3b352e] text-[11px] sm:text-lg leading-relaxed font-light text-center"
           >
             I craft compelling visual narratives, combining script analysis, intentional blocking, and precise post-direction to build high-converting brand stories.

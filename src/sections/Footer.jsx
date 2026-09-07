@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 
 const SOCIAL_LINKS = [
   { id: 'Instagram', name: 'Instagram', url: 'https://www.instagram.com/akshay__shri/?hl=en' },
-  { id: 'Gmail', name: 'Mail', url: 'mailto:client@email.com' },
+  { id: 'Gmail', name: 'GMail', url: 'mailto:client@email.com' },
   { id: 'LinkedIn', name: 'Linkedin', url: 'https://www.linkedin.com/in/your-profile-here' }
 ];
 

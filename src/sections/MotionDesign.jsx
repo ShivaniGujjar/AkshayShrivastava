@@ -417,6 +417,14 @@ export default function MotionDesign() {
           font-display: swap;
         }
 
+        @font-face {
+          font-family: 'ParaFont';
+          src: url('/ParaFont.ttf') format('woff2');
+          font-weight: normal;
+          font-style: normal;
+          font-display: swap;
+        }
+
         .editing-cutout-mask {
           mask-image: url('/editingcutout.svg');
           -webkit-mask-image: url('/editingcutout.svg');
@@ -434,7 +442,7 @@ export default function MotionDesign() {
         <video 
           ref={heroVideoRef}
           src="https://akshayshrivastava.com/videos/MotionMain.mp4" 
-          poster="https://akshayshrivastava.com/images/MotionMain.png"
+          poster="https://akshayshrivastava.com/images/MotionHome.png"
           autoPlay 
           loop 
           muted={isHeroMuted} 
@@ -496,6 +504,7 @@ export default function MotionDesign() {
           <div ref={reelRef} className="w-[220px] xs:w-[260px] sm:w-[320px] aspect-[9/16] shrink-0 rounded-[8px] overflow-hidden shadow-2xl bg-black relative">
             <CustomVideoPlayer 
               src="https://akshayshrivastava.com/videos/MotionMain.mp4"
+              poster="https://akshayshrivastava.com/images/MotionHome.png"
               badgeText="Featured Masterpiece"
               className="w-full h-full"
               autoPlay={true}
@@ -512,7 +521,7 @@ export default function MotionDesign() {
               Bringing Ideas to Life Through Motion
             </h3>
             <p 
-              style={{ fontFamily: "'GroteskFont', sans-serif", fontWeight: 400, letterSpacing: '-0.3px' }}
+              style={{ fontFamily: "'ParaFont', sans-serif", fontWeight: 400, letterSpacing: '-0.3px' }}
               className="text-[#3b352e] text-xs sm:text-lg leading-relaxed pl-3 sm:pl-4 font-light"
             >
               I craft dynamic 2D/3D motion graphics, kinetic typography, and fluid visual effects that elevate brand campaigns and digital storytelling. Every frame is meticulously designed to hook viewers instantly.
@@ -539,7 +548,7 @@ export default function MotionDesign() {
           </h3>
 
           <div 
-            style={{ fontFamily: "'GroteskFont', sans-serif", letterSpacing: '0.5px' }}
+            style={{ fontFamily: "'ParaFont', sans-serif", letterSpacing: '0.5px' }}
             className="flex flex-wrap items-center justify-center gap-1.5 sm:gap-3 mt-1.5 sm:mt-3 text-[#3b352e] text-[10px] sm:text-base tracking-wider text-center capitalize"
           >
             <span>3D Motion</span>
@@ -577,7 +586,7 @@ export default function MotionDesign() {
           </h3>
 
           <div 
-            style={{ fontFamily: "'GroteskFont', sans-serif", letterSpacing: '0.5px' }}
+            style={{ fontFamily: "'ParaFont', sans-serif", letterSpacing: '0.5px' }}
             className="flex flex-wrap items-center justify-center gap-1.5 sm:gap-3 mt-1.5 sm:mt-3 text-[#3b352e] text-[10px] sm:text-base tracking-wider text-center capitalize"
           >
             <span>Animated Explainers</span>

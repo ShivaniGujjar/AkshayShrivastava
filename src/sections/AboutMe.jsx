@@ -98,6 +98,13 @@ export default function AboutMe() {
           font-display: swap;
         }
 
+        @font-face {
+          font-family: 'ParaFont';
+          src: url('/ParaFont.ttf') format('woff2');
+          font-weight: normal;
+          font-style: normal;
+          font-display: swap;
+        }
         .editing-cutout-mask {
           mask-image: url('/editingcutout.svg');
           -webkit-mask-image: url('/editingcutout.svg');
@@ -114,7 +121,7 @@ export default function AboutMe() {
       <div className="relative w-full h-[55vh] sm:h-screen bg-[#14120e] flex flex-col justify-center items-center overflow-hidden m-0 p-0 editing-cutout-mask"> 
         <video 
           ref={heroVideoRef}
-          poster="https://akshayshrivastava.com/images/AboutMain.png"
+          poster="https://akshayshrivastava.com/images/AboutHome.png"
           autoPlay 
           loop 
           muted={isMuted} 
@@ -170,7 +177,7 @@ export default function AboutMe() {
         
         <div 
           ref={cardRef}
-          style={{ fontFamily: "'GroteskFont', sans-serif", letterSpacing: '-0.2px', fontWeight: 400 }}
+          style={{ fontFamily: "'ParaFont', sans-serif", letterSpacing: '-0.2px', fontWeight: 400 }}
           className="bg-white/80 backdrop-blur-md p-4 xs:p-6 sm:p-10 rounded-[8px] border border-black/10 shadow-xl text-[#14120e] text-xs sm:text-xl md:text-2xl leading-relaxed font-light space-y-3 sm:space-y-6 w-full mb-8 sm:mb-16 relative z-10 text-left"
         >
           <p className="m-0">

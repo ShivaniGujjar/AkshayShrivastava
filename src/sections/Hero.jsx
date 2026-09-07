@@ -6,28 +6,28 @@ const COLUMNS = [
     title: 'Editing', 
     subtitle: 'Visual storytelling & retention pacing',
     videoUrl: 'https://akshayshrivastava.com/videos/EditingMain.mp4',
-    poster: 'https://akshayshrivastava.com/images/EditingMain.png'
+    poster: 'https://akshayshrivastava.com/images/EditingHome.png'
   },
   { 
     id: 'motion', 
     title: 'Motion Design', 
     subtitle: '2D/3D graphics & kinetic type',
     videoUrl: 'https://akshayshrivastava.com/videos/MotionMain.mp4',
-    poster: 'https://akshayshrivastava.com/images/MotionMain.png'
+    poster: 'https://akshayshrivastava.com/images/MotionHome.png'
   },
   { 
     id: 'direction', 
     title: 'Direction', 
     subtitle: 'Commercials & narrative vision',
     videoUrl: 'https://akshayshrivastava.com/videos/DirectionMain.mp4',
-    poster: 'https://akshayshrivastava.com/images/DirectionMain.png'
+    poster: 'https://akshayshrivastava.com/images/DirectionHome.png'
   },
   { 
     id: 'about', 
     title: 'About Me', 
     subtitle: 'Creative director & editor profile',
     videoUrl: 'https://akshayshrivastava.com/videos/AboutMain.mp4',
-    poster: 'https://akshayshrivastava.com/images/AboutMain.png'
+    poster: 'https://akshayshrivastava.com/images/AboutHome.png'
   }
 ];
 
@@ -171,7 +171,7 @@ export default function Hero({ onColumnClick }) {
 
       {/* 📌 RENDERED NAVBAR */}
       <header 
-        className={`absolute md:fixed top-6 md:top-8 left-0 w-screen max-w-full box-border z-[9999] px-4 sm:px-8 md:px-12 pointer-events-none transition-all duration-400 ease-out border-0 outline-none ${
+        className={`absolute md:fixed top-6 md:top-12 left-0 w-screen max-w-full box-border z-[9999] px-4 sm:px-8 md:px-12 pointer-events-none transition-all duration-400 ease-out border-0 outline-none ${
           isNavbarVisible ? 'translate-y-0 opacity-100' : '-translate-y-[200%] opacity-0'
         }`}
       >

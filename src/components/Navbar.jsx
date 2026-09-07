@@ -42,7 +42,7 @@ export default function Navbar({ onNavigate, activeSection = 'editing' }) {
       `}</style>
 
       <header 
-        className={`absolute md:fixed top-10 sm:top-12 md:top-14 left-0 w-screen max-w-full box-border z-[9999] px-4 sm:px-8 md:px-12 pointer-events-none transition-all duration-400 ease-out border-none outline-none ${
+        className={`absolute md:fixed top-8 sm:top-12 md:top-12 left-0 w-screen max-w-full box-border z-[9999] px-4 sm:px-8 md:px-12 pointer-events-none transition-all duration-400 ease-out border-none outline-none ${
           isVisible ? 'translate-y-0 opacity-100' : '-translate-y-[200%] opacity-0'
         }`}
       >

@@ -112,7 +112,7 @@ export default function StatsCounter({ stats = DEFAULT_STATS }) {
             <span className="w-8 h-[3px] rounded-full bg-[#FFC300] mt-3 mb-3" />
 
             <span
-              style={{ fontFamily: "'GroteskFont', sans-serif", letterSpacing: '1px' }}
+              style={{ fontFamily: "'ParaFont', sans-serif", letterSpacing: '1px' }}
               className="text-[#3b352e] text-xs sm:text-sm tracking-wider capitalize"
             >
               {stat.label}
