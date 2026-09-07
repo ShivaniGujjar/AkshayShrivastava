@@ -48,18 +48,7 @@ export default function Hero({ onColumnClick }) {
   const videoRefs = useRef([]);
   const [hoveredIndex, setHoveredIndex] = useState(null);
   const [hasInteracted, setHasInteracted] = useState({});
-  const [isNavbarVisible, setIsNavbarVisible] = useState(true);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-
-  useEffect(() => {
-    const handleWheel = (e) => {
-      if (e.deltaY > 5) setIsNavbarVisible(false);
-      else if (e.deltaY < -5) setIsNavbarVisible(true);
-    };
-
-    window.addEventListener('wheel', handleWheel, { passive: true });
-    return () => window.removeEventListener('wheel', handleWheel);
-  }, []);
 
   useEffect(() => {
     if (isMobileMenuOpen) {
@@ -177,11 +166,9 @@ export default function Hero({ onColumnClick }) {
         style={{ opacity: 0.012, mixBlendMode: 'overlay' }}
       />
 
-      {/* 📌 RENDERED NAVBAR */}
+      {/* 📌 RENDERED NAVBAR (FIXED, WON'T DISAPPEAR) */}
       <header 
-        className={`absolute md:fixed top-6 md:top-12 left-0 w-screen max-w-full box-border z-[9999] px-4 sm:px-8 md:px-12 pointer-events-none transition-all duration-400 ease-out border-0 outline-none ${
-          isNavbarVisible ? 'translate-y-0 opacity-100' : '-translate-y-[200%] opacity-0'
-        }`}
+        className="absolute md:fixed top-6 md:top-12 left-0 w-screen max-w-full box-border z-[9999] px-4 sm:px-8 md:px-12 pointer-events-none border-0 outline-none"
       >
         <div className="w-full flex items-center justify-center relative min-h-[1px]">
           
