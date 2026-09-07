@@ -28,8 +28,6 @@ const LONG_FORMS = [
   { id: 'mlf3', title: 'SaaS Platform Walkthrough', category: '3D UI', videoUrl: 'https://akshayshrivastava.com/videos/long3.mp4', poster: 'https://akshayshrivastava.com/images/long3.png' },
 ];
 
-// ✅ FIX: was duplicated 4x, matching the same bug fixed in Editing.jsx.
-// 2x is the minimum needed for a seamless infinite marquee loop.
 const duplicateList = (arr, count = 2) => {
   let output = [];
   for (let i = 0; i < count; i++) {
@@ -38,8 +36,8 @@ const duplicateList = (arr, count = 2) => {
   return output;
 };
 
-// 🎥 SINGLE VIDEO CARD WITH RESPONSIVE SIZING & LARGE CLEAR TITLES
-function VideoCard({ item, aspectRatio = "wide", hoveredId, setHoveredId }) {
+// 🎥 SINGLE VIDEO CARD WITH HOVER PREVIEW
+function VideoCard({ item, aspectRatio = "wide", hoveredId, setHoveredId, onOpenModal }) {
   const cardRef = useRef(null);
   const videoRef = useRef(null);
   const [isVisible, setIsVisible] = useState(false);
@@ -64,20 +62,24 @@ function VideoCard({ item, aspectRatio = "wide", hoveredId, setHoveredId }) {
   }, []);
 
   useEffect(() => {
-    if (videoRef.current) {
-      if (!isVisible) {
-        videoRef.current.pause();
-      } else if (isAnyHovered) {
-        if (isHovered) {
-          videoRef.current.play().catch(() => {});
-        } else {
-          videoRef.current.pause();
-        }
-      } else {
-        videoRef.current.play().catch(() => {});
-      }
+    if (!videoRef.current) return;
+
+    if (!isVisible) {
+      videoRef.current.pause();
+      return;
     }
-  }, [isVisible, isHovered, isAnyHovered]);
+
+    const shouldPlay = isAnyHovered ? isHovered : true;
+
+    if (shouldPlay) {
+      if (!videoRef.current.src) {
+        videoRef.current.src = item.videoUrl;
+      }
+      videoRef.current.play().catch(() => {});
+    } else {
+      videoRef.current.pause();
+    }
+  }, [isVisible, isHovered, isAnyHovered, item.videoUrl]);
 
   const cardDimensions = aspectRatio === "wide" 
     ? "w-[280px] sm:w-[420px] h-[160px] sm:h-[260px]" 
@@ -88,53 +90,247 @@ function VideoCard({ item, aspectRatio = "wide", hoveredId, setHoveredId }) {
       ref={cardRef}
       onMouseEnter={() => setHoveredId(item.id)}
       onMouseLeave={() => setHoveredId(null)}
-      className={`relative group overflow-hidden cursor-pointer bg-[#14120e] shadow-xl transition-all duration-500 ease-out hover:scale-[1.03] ${cardDimensions} shrink-0 outline-none focus:outline-none select-none border border-black/10 rounded-xl`}
+      onClick={() => onOpenModal(item)}
+      className={`relative group overflow-hidden cursor-pointer bg-[#14120e] shadow-[0_8px_30px_rgba(0,0,0,0.06)] transition-all duration-500 ease-out hover:-translate-y-1 hover:shadow-[0_16px_40px_rgba(212,44,44,0.15)] ${cardDimensions} shrink-0 outline-none focus:outline-none select-none rounded-[8px]`}
     >
       <video
         ref={videoRef}
-        src={item.videoUrl}
         poster={item.poster}
         muted
         loop
         playsInline
-        preload="metadata"
+        preload="none"
+        draggable={false}
         className="absolute inset-0 w-full h-full object-cover transition-all duration-700 filter brightness-[0.85] group-hover:brightness-100 group-hover:scale-105 outline-none focus:outline-none pointer-events-none"
       />
 
-      <div className="absolute inset-0 bg-gradient-to-t from-[#14120e]/90 via-[#14120e]/30 to-transparent transition-opacity duration-300 group-hover:opacity-75" />
+      <div className="absolute inset-0 bg-gradient-to-t from-[#14120e]/90 via-[#14120e]/25 to-transparent transition-opacity duration-300 group-hover:opacity-80" />
+
+      <div className="absolute bottom-0 left-0 right-0 h-12 bg-gradient-to-t from-[#14120e]/60 to-transparent pointer-events-none" />
 
       {item.category && (
         <div 
-          style={{ fontFamily: "'Talina', sans-serif", letterSpacing: '-0.3px', fontWeight: 300 }}
-          className="absolute top-3 left-3 sm:top-4 sm:left-4 bg-[#D42C2C] backdrop-blur-md px-2.5 sm:px-3 py-0.5 sm:py-1 rounded-sm text-[#FFFFFF] text-[10px] sm:text-xs uppercase shadow-sm"
+          style={{ fontFamily: "'SquidBoy', sans-serif", letterSpacing: '0.5px' }}
+          className="absolute top-3 left-3 sm:top-4 sm:left-4 bg-[#D42C2C]/90 backdrop-blur-md px-2.5 sm:px-3 py-0.5 sm:py-1 rounded-[4px] text-[#FFFCFB] text-[10px] sm:text-xs capitalize shadow-sm"
         >
           {item.category}
         </div>
       )}
 
-      <div className={`absolute top-3 right-3 sm:top-4 sm:right-4 w-7 h-7 sm:w-9 sm:h-9 rounded-sm backdrop-blur-md flex items-center justify-center transition-all duration-300 ${isHovered ? 'scale-110 bg-[#D42C2C] text-[#FFFFFF] shadow-[0_0_15px_#D42C2C]' : 'bg-black/40 text-[#FFFFFF]'}`}>
+      <div className={`absolute top-3 right-3 sm:top-4 sm:right-4 w-7 h-7 sm:w-9 sm:h-9 rounded-[4px] backdrop-blur-md flex items-center justify-center transition-all duration-300 ${isHovered ? 'scale-110 bg-[#D42C2C] text-[#FFFCFB] shadow-[0_0_20px_rgba(212,44,44,0.6)]' : 'bg-black/40 text-[#FFFCFB]'}`}>
         {isHovered ? (
-          <span className="w-2 h-2 sm:w-2.5 sm:h-2.5 bg-[#FFFFFF] rounded-xs animate-pulse" />
+          <span className="w-2 h-2 sm:w-2.5 sm:h-2.5 bg-[#FFFCFB] rounded-[2px] animate-pulse" />
         ) : (
           <svg className="w-3.5 h-3.5 sm:w-4 sm:h-4 fill-current ml-0.5" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
         )}
       </div>
 
-      <div className="absolute bottom-0 left-0 right-0 p-4 sm:p-6 transform transition-transform duration-300 group-hover:translate-y-0">
+      <div className="absolute bottom-0 left-0 right-0 p-4 sm:p-6 transform transition-transform duration-300">
         <h4 
-          style={{ fontFamily: "'Talina', sans-serif", fontWeight: 300 }}
-          className="text-[#FFFFFF] text-lg sm:text-2xl leading-snug drop-shadow-md mb-1"
+          style={{ fontFamily: "'SquidBoy', sans-serif", letterSpacing: '0.5px' }}
+          className="text-[#FFFCFB] text-lg sm:text-2xl leading-snug drop-shadow-md mb-1 capitalize"
         >
           {item.title}
         </h4>
         {item.brand && (
           <p 
-            style={{ fontFamily: "'HelveticaNeue', sans-serif", letterSpacing: '-0.3px', fontWeight: 300 }}
-            className="text-[#D42C2C] text-[10px] sm:text-xs uppercase bg-black/60 px-2 py-0.5 sm:px-2.5 sm:py-1 rounded-xs inline-block"
+            style={{ fontFamily: "'GroteskFont', sans-serif", letterSpacing: '-0.3px', fontWeight: 400 }}
+            className="text-[#FFFCFB] text-[10px] sm:text-xs capitalize bg-[#D42C2C] px-2.5 py-1 rounded-[4px] inline-block shadow-md"
           >
             {item.brand}
           </p>
         )}
+      </div>
+    </div>
+  );
+}
+
+// 🎠 MARQUEE ROW — autoplay/autoscroll, pauses on hover (only hovered video plays),
+// resumes on mouse leave, supports drag/swipe with momentum glide on release.
+function MarqueeRow({ items, aspectRatio, direction = 'left', hoveredId, setHoveredId, onOpenModal, speed = 45 }) {
+  const containerRef = useRef(null);
+  const hoveredIdRef = useRef(hoveredId);
+  const isDraggingRef = useRef(false);
+  const rafRef = useRef(null);
+  const lastTimeRef = useRef(null);
+  const draggedRef = useRef(false);
+  const momentumRafRef = useRef(null);
+
+  useEffect(() => {
+    hoveredIdRef.current = hoveredId;
+  }, [hoveredId]);
+
+  useEffect(() => {
+    return () => {
+      if (momentumRafRef.current) cancelAnimationFrame(momentumRafRef.current);
+    };
+  }, []);
+
+  useEffect(() => {
+    const el = containerRef.current;
+    if (!el) return;
+
+    // For a "right moving" row, start halfway through the duplicated
+    // list so it can decrement smoothly and wrap.
+    if (direction === 'right') {
+      el.scrollLeft = el.scrollWidth / 2;
+    }
+
+    const step = (timestamp) => {
+      if (lastTimeRef.current == null) lastTimeRef.current = timestamp;
+      const delta = timestamp - lastTimeRef.current;
+      lastTimeRef.current = timestamp;
+
+      if (hoveredIdRef.current == null && !isDraggingRef.current) {
+        const half = el.scrollWidth / 2;
+        const dir = direction === 'left' ? 1 : -1;
+
+        el.scrollLeft += dir * speed * (delta / 1000);
+
+        if (el.scrollLeft >= half) {
+          el.scrollLeft -= half;
+        } else if (el.scrollLeft <= 0) {
+          el.scrollLeft += half;
+        }
+      }
+
+      rafRef.current = requestAnimationFrame(step);
+    };
+
+    rafRef.current = requestAnimationFrame(step);
+
+    return () => {
+      if (rafRef.current) cancelAnimationFrame(rafRef.current);
+      lastTimeRef.current = null;
+    };
+  }, [direction, speed]);
+
+  // Mouse drag-to-scroll (desktop). Touch keeps native swipe scrolling,
+  // which already pauses autoscroll via onTouchStart/onTouchEnd below.
+  // A real "drag" only starts once the pointer moves past DRAG_THRESHOLD —
+  // this stops normal clicks (which have a pixel or two of jitter) from
+  // being mistaken for a drag and blocking the open-modal click below.
+  // IMPORTANT: this intentionally does NOT use setPointerCapture — capturing
+  // the pointer on the row container causes the browser to retarget the
+  // final "click" event to the container instead of the actual card, which
+  // silently breaks the open-modal click on every card. Plain window-level
+  // mousemove/mouseup listeners avoid that entirely.
+  const DRAG_THRESHOLD = 8;
+
+  const handleMouseDown = (e) => {
+    const el = containerRef.current;
+    if (!el) return;
+
+    // A fresh drag cancels any glide still in progress from a previous one.
+    if (momentumRafRef.current) {
+      cancelAnimationFrame(momentumRafRef.current);
+      momentumRafRef.current = null;
+    }
+
+    draggedRef.current = false;
+    const startX = e.clientX;
+    const startScroll = el.scrollLeft;
+    let lastX = e.clientX;
+    let lastTime = performance.now();
+    let velocity = 0; // px of cursor movement per ms
+
+    const handleMouseMove = (moveEvent) => {
+      const dx = moveEvent.clientX - startX;
+
+      if (!isDraggingRef.current) {
+        if (Math.abs(dx) < DRAG_THRESHOLD) return;
+        isDraggingRef.current = true;
+        draggedRef.current = true;
+        el.style.cursor = 'grabbing';
+      }
+
+      el.scrollLeft = startScroll - dx;
+
+      const now = performance.now();
+      const dt = now - lastTime;
+      if (dt > 0) {
+        velocity = (moveEvent.clientX - lastX) / dt;
+      }
+      lastX = moveEvent.clientX;
+      lastTime = now;
+    };
+
+    const handleMouseUp = () => {
+      window.removeEventListener('mousemove', handleMouseMove);
+      window.removeEventListener('mouseup', handleMouseUp);
+      el.style.cursor = 'grab';
+
+      let scrollVelocity = -velocity; // px per ms, opposite to cursor delta
+      let lastTs = null;
+
+      const glide = (ts) => {
+        if (lastTs == null) lastTs = ts;
+        const dt = ts - lastTs;
+        lastTs = ts;
+
+        el.scrollLeft += scrollVelocity * dt;
+        scrollVelocity *= Math.pow(0.94, dt / 16.67);
+
+        const half = el.scrollWidth / 2;
+        if (half > 0) {
+          if (el.scrollLeft >= half) el.scrollLeft -= half;
+          else if (el.scrollLeft <= 0) el.scrollLeft += half;
+        }
+
+        if (Math.abs(scrollVelocity) > 0.02) {
+          momentumRafRef.current = requestAnimationFrame(glide);
+        } else {
+          momentumRafRef.current = null;
+          isDraggingRef.current = false;
+        }
+      };
+
+      if (draggedRef.current && Math.abs(scrollVelocity) > 0.02) {
+        momentumRafRef.current = requestAnimationFrame(glide);
+      } else {
+        isDraggingRef.current = false;
+      }
+    };
+
+    window.addEventListener('mousemove', handleMouseMove);
+    window.addEventListener('mouseup', handleMouseUp);
+  };
+
+  const handleContainerMouseLeave = () => {
+    setHoveredId(null);
+  };
+
+  // Prevent the click-to-open-modal from firing right after a real drag.
+  const handleClickCapture = (e) => {
+    if (draggedRef.current) {
+      e.stopPropagation();
+      e.preventDefault();
+      draggedRef.current = false;
+    }
+  };
+
+  return (
+    <div
+      ref={containerRef}
+      onMouseLeave={handleContainerMouseLeave}
+      onMouseDown={handleMouseDown}
+      onTouchStart={() => { isDraggingRef.current = true; }}
+      onTouchEnd={() => { isDraggingRef.current = false; }}
+      onClickCapture={handleClickCapture}
+      className="w-full max-w-full overflow-x-scroll overflow-y-hidden pt-2 pb-4 cursor-grab select-none [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden"
+      style={{ touchAction: 'pan-y' }}
+    >
+      <div className="inline-flex whitespace-nowrap gap-4 sm:gap-10 w-max">
+        {items.map((item, idx) => (
+          <VideoCard
+            key={`${item.id}-${idx}`}
+            item={item}
+            aspectRatio={aspectRatio}
+            hoveredId={hoveredId}
+            setHoveredId={setHoveredId}
+            onOpenModal={onOpenModal}
+          />
+        ))}
       </div>
     </div>
   );
@@ -172,7 +368,6 @@ export default function MotionDesign() {
     const ctx = gsap.context(() => {
       const isMobile = window.innerWidth < 768;
 
-      // Start from center (0) and split: Reel moves left (-60), Text moves right (+60)
       gsap.set(reelRef.current, { x: 0, opacity: 0 });
       gsap.set(textContentRef.current, { x: 0, opacity: 0 });
 
@@ -201,13 +396,12 @@ export default function MotionDesign() {
     return () => ctx.revert();
   }, []);
 
-  // Check if selected video is from short forms
   const isShortForm = selectedVideo && SHORT_FORMS.some(s => s.id === selectedVideo.id);
 
   return (
     <div className="w-full min-h-screen bg-[#FFFCFB] relative overflow-x-hidden pb-16 sm:pb-24 m-0 text-[#14120e]">
       
-      {/* 🎞️ NOISE GIF OVERLAY SET TO 0.05 */}
+      {/* 🎞️ NOISE GIF OVERLAY */}
       <div 
         className="fixed inset-0 pointer-events-none z-[999] bg-[url('/noise.gif')] bg-repeat"
         style={{ opacity: 0.03, mixBlendMode: 'multiply' }}
@@ -215,25 +409,25 @@ export default function MotionDesign() {
 
       <style>{`
         @font-face {
-          font-family: 'Talina';
-          src: url('/Talina-Regular.ttf') format('truetype');
+          font-family: 'SquidBoy';
+          src: url('/Fonts/SquidBoy.otf') format('opentype');
           font-weight: normal;
           font-style: normal;
           font-display: swap;
         }
 
         @font-face {
-          font-family: 'HelveticaNeue';
-          src: url('/fonts/HelveticaNeueRoman.otf') format('opentype');
-          font-weight: normal;
-          font-style: normal;
-          font-display: swap;
-        }
-
-        @font-face {
-          font-family: 'HelveticaNeue';
-          src: url('/fonts/HelveticaNeueBold.otf') format('opentype');
+          font-family: 'SquidBoy';
+          src: url('/Fonts/SquidBoy-Bold.otf') format('opentype');
           font-weight: bold;
+          font-style: normal;
+          font-display: swap;
+        }
+
+        @font-face {
+          font-family: 'GroteskFont';
+          src: url('/grotesk.woff2') format('woff2');
+          font-weight: normal;
           font-style: normal;
           font-display: swap;
         }
@@ -253,18 +447,17 @@ export default function MotionDesign() {
       {/* HERO BANNER */}
       <div className="relative w-full h-[60vh] sm:h-screen bg-[#14120e] flex flex-col justify-center items-center overflow-hidden m-0 p-0 editing-cutout-mask"> 
         <video 
-  ref={heroVideoRef}
-  src="https://akshayshrivastava.com/videos/MotionMain.mp4" 
-  poster="https://akshayshrivastava.com/images/MotionMain.png"
-  autoPlay 
-  loop 
-  muted={isHeroMuted} 
-  playsInline 
-  preload="auto"
-  className="absolute top-0 left-0 w-full h-full object-cover z-0 filter brightness-[0.55] contrast-105"
-/>
+          ref={heroVideoRef}
+          src="https://akshayshrivastava.com/videos/MotionMain.mp4" 
+          poster="https://akshayshrivastava.com/images/MotionMain.png"
+          autoPlay 
+          loop 
+          muted={isHeroMuted} 
+          playsInline 
+          preload="auto"
+          className="absolute top-0 left-0 w-full h-full object-cover z-0 filter brightness-[0.55] contrast-105"
+        />
 
-        {/* 🔊 SOUND TOGGLE BUTTON */}
         <button
           onClick={toggleHeroSound}
           className="absolute bottom-6 left-4 sm:bottom-12 sm:left-10 z-20 w-8 h-8 sm:w-11 sm:h-11 rounded-full bg-black/60 hover:bg-black/80 backdrop-blur-md border border-white/10 flex items-center justify-center text-[#FFC822] hover:scale-110 transition-all duration-300 shadow-xl cursor-pointer group"
@@ -286,25 +479,15 @@ export default function MotionDesign() {
         <div className="relative z-10 flex flex-col justify-center items-center px-4">
           <h1 
             style={{ 
-              fontFamily: "'Talina', sans-serif", 
-              letterSpacing: '-0.5px', 
-              fontWeight: 300 
+              fontFamily: "'SquidBoy', sans-serif", 
+              letterSpacing: '1px'
             }}
-            className="text-[2.5rem] sm:text-[4.2rem] text-[#ffffff] m-0 text-center leading-none"
+            className="text-[3rem] sm:text-[5.5rem] text-[#FFFCFB] m-0 text-center leading-none drop-shadow-lg capitalize"
           >
             Motion Work
           </h1>
           
-          <p 
-  style={{ fontFamily: "'HelveticaNeue', sans-serif", fontWeight: 800, letterSpacing : '-0.5px' }}
-  className="flex items-center justify-center gap-1.5 sm:gap-2 mt-3 sm:mt-4 text-[#D42C2C] text-xs sm:text-lg tracking-widest text-center drop-shadow-[0_2px_10px_rgba(0,0,0,0.95)]"
->
-            <span>2D & 3D Animation</span> 
-            <span className="text-[#FFC822] mx-1">•</span> 
-            <span>VFX</span> 
-            <span className="text-[#FFC822] mx-1">•</span> 
-            <span>Kinetic Titles</span>
-          </p>
+          
         </div>
       </div>
 
@@ -314,11 +497,10 @@ export default function MotionDesign() {
         <div className="flex flex-col items-center text-center mb-8 sm:mb-12">
           <h2 
             style={{ 
-              fontFamily: "'Talina', sans-serif", 
-              letterSpacing:'-0.5px', 
-              fontWeight: 400 
+              fontFamily: "'SquidBoy', sans-serif", 
+              letterSpacing:'1px'
             }}
-            className="text-2xl sm:text-4xl m-0 text-[#D42C2C] leading-tight"
+            className="text-2xl sm:text-4xl m-0 text-[#D42C2C] leading-tight capitalize"
           >
             Welcome to Motion Design section
           </h2>
@@ -328,7 +510,7 @@ export default function MotionDesign() {
         <div className="max-w-[1050px] mx-auto flex flex-col lg:flex-row items-center justify-center gap-8 sm:gap-14 relative">
           
           {/* LEFT: VERTICAL REEL PLAYER */}
-          <div ref={reelRef} className="w-[260px] sm:w-[320px] aspect-[9/16] shrink-0 rounded-xl overflow-hidden shadow-2xl border border-black/10 bg-black relative">
+          <div ref={reelRef} className="w-[260px] sm:w-[320px] aspect-[9/16] shrink-0 rounded-[8px] overflow-hidden shadow-2xl bg-black relative">
             <CustomVideoPlayer 
               src="https://akshayshrivastava.com/videos/MotionMain.mp4"
               badgeText="Featured Masterpiece"
@@ -338,17 +520,17 @@ export default function MotionDesign() {
             />
           </div>
 
-          {/* RIGHT: ANIMATED TEXT CONTENT WITH BLUE TITLE */}
+          {/* RIGHT: ANIMATED TEXT CONTENT */}
           <div ref={textContentRef} className="flex-1 flex flex-col items-start text-left px-2 sm:px-0 max-w-lg">
             <h3 
-              style={{ fontFamily: "'Talina', sans-serif", fontWeight: 400 }}
-              className="text-2xl sm:text-4xl md:text-[2.5rem] text-[#D42C2C] leading-tight mb-4 border-l-4 border-[#D42C2C] pl-4"
+              style={{ fontFamily: "'SquidBoy', sans-serif", letterSpacing: '0.5px' }}
+              className="text-2xl sm:text-4xl md:text-[2.5rem] text-[#D42C2C] leading-tight mb-4 border-l-4 border-[#D42C2C] pl-4 capitalize"
             >
               Bringing Ideas to Life Through Motion
             </h3>
             <p 
-              style={{ fontFamily: "'HelveticaNeue', sans-serif", fontWeight: 300, letterSpacing: '-0.2px' }}
-              className="text-[#14120e] text-sm sm:text-lg leading-relaxed pl-4 font-light"
+              style={{ fontFamily: "'GroteskFont', sans-serif", fontWeight: 400, letterSpacing: '-0.3px' }}
+              className="text-[#3b352e] text-sm sm:text-lg leading-relaxed pl-4 font-light"
             >
               I craft dynamic 2D/3D motion graphics, kinetic typography, and fluid visual effects that elevate brand campaigns and digital storytelling. Every frame is meticulously designed to hook viewers instantly.
             </p>
@@ -362,43 +544,37 @@ export default function MotionDesign() {
         <div className="max-w-[1100px] w-full mx-auto px-6 flex flex-col items-center text-center mb-6">
           <h3 
             style={{ 
-              fontFamily: "'Talina', sans-serif", 
-              letterSpacing : '-1px',
-              fontWeight: 400 
+              fontFamily: "'SquidBoy', sans-serif", 
+              letterSpacing : '1px'
             }}
-            className="text-2xl sm:text-4xl m-0 text-[#D42C2C] leading-tight"
+            className="text-2xl sm:text-4xl m-0 text-[#D42C2C] leading-tight capitalize"
           >
             Short Forms
           </h3>
 
           <div 
-            style={{ fontFamily: "'HelveticaNeue', sans-serif", letterSpacing: '-1px', fontWeight: 600 }}
-            className="flex items-center justify-center gap-1.5 sm:gap-2.5 mt-3 text-[#14120e] text-[10px] sm:text-base uppercase tracking-wider text-center"
+            style={{ fontFamily: "'GroteskFont', sans-serif", letterSpacing: '1px' }}
+            className="flex items-center justify-center gap-2 sm:gap-3 mt-3 text-[#3b352e] text-xs sm:text-base tracking-wider text-center capitalize"
           >
-            <span>3D MOTION</span>
-            <span className="text-[#FFC822] text-xs sm:text-lg">•</span>
-            <span>LOGO REVEALS</span>
-            <span className="text-[#FFC822] text-xs sm:text-lg">•</span>
-            <span>UGC ADS</span>
-            <span className="text-[#FFC822] text-xs sm:text-lg">•</span>
-            <span>KINETIC LOOPS</span>
+            <span>3D Motion</span>
+            <span className="text-[#FFC822]">•</span>
+            <span>Logo Reveals</span>
+            <span className="text-[#FFC822]">•</span>
+            <span>UGC Ads</span>
+            <span className="text-[#FFC822]">•</span>
+            <span>Kinetic Loops</span>
           </div>
         </div>
         
-        <div className="w-full max-w-full overflow-hidden pt-2 pb-4 group">
-          <div className="inline-flex whitespace-nowrap gap-4 sm:gap-10 w-max will-change-transform animate-[slowMarqueeLeft_85s_linear_infinite] group-hover:[animation-play-state:paused]">
-            {duplicateList(SHORT_FORMS).map((item, idx) => (
-              <div key={`short-${idx}`} onClick={() => setSelectedVideo(item)}>
-                <VideoCard 
-                  item={item} 
-                  aspectRatio="tall" 
-                  hoveredId={hoveredShortId} 
-                  setHoveredId={setHoveredShortId} 
-                />
-              </div>
-            ))}
-          </div>
-        </div>
+        <MarqueeRow
+          items={duplicateList(SHORT_FORMS)}
+          aspectRatio="tall"
+          direction="left"
+          speed={40}
+          hoveredId={hoveredShortId}
+          setHoveredId={setHoveredShortId}
+          onOpenModal={setSelectedVideo}
+        />
       </div>
 
       {/* LONG FORMS */}
@@ -406,41 +582,35 @@ export default function MotionDesign() {
         <div className="max-w-[1100px] w-full mx-auto px-6 flex flex-col items-center text-center mb-6">
           <h3 
             style={{ 
-              fontFamily: "'Talina', sans-serif", 
-              letterSpacing : '-1px',
-              fontWeight: 400 
+              fontFamily: "'SquidBoy', sans-serif", 
+              letterSpacing : '1px'
             }}
-            className="text-2xl sm:text-4xl m-0 text-[#D42C2C] leading-tight"
+            className="text-2xl sm:text-4xl m-0 text-[#D42C2C] leading-tight capitalize"
           >
             Long Forms
           </h3>
 
           <div 
-            style={{ fontFamily: "'HelveticaNeue', sans-serif", letterSpacing: '-1px', fontWeight: 600 }}
-            className="flex items-center justify-center gap-1.5 sm:gap-2.5 mt-3 text-[#14120e] text-[10px] sm:text-base uppercase tracking-wider text-center"
+            style={{ fontFamily: "'GroteskFont', sans-serif", letterSpacing: '1px' }}
+            className="flex items-center justify-center gap-2 sm:gap-3 mt-3 text-[#3b352e] text-xs sm:text-base tracking-wider text-center capitalize"
           >
-            <span>ANIMATED EXPLAINERS</span>
-            <span className="text-[#FFC822] text-xs sm:text-lg">•</span>
-            <span>TITLE SEQUENCES</span>
-            <span className="text-[#FFC822] text-xs sm:text-lg">•</span>
-            <span>3D VISUALS</span>
+            <span>Animated Explainers</span>
+            <span className="text-[#FFC822]">•</span>
+            <span>Title Sequences</span>
+            <span className="text-[#FFC822]">•</span>
+            <span>3D Visuals</span>
           </div>
         </div>
 
-        <div className="w-full max-w-full overflow-hidden pt-2 pb-4 group">
-          <div className="inline-flex whitespace-nowrap gap-4 sm:gap-10 w-max will-change-transform animate-[slowMarqueeRight_85s_linear_infinite] group-hover:[animation-play-state:paused]">
-            {duplicateList(LONG_FORMS).map((item, idx) => (
-              <div key={`long-${idx}`} onClick={() => setSelectedVideo(item)}>
-                <VideoCard 
-                  item={item} 
-                  aspectRatio="wide" 
-                  hoveredId={hoveredLongId} 
-                  setHoveredId={setHoveredLongId} 
-                />
-              </div>
-            ))}
-          </div>
-        </div>
+        <MarqueeRow
+          items={duplicateList(LONG_FORMS)}
+          aspectRatio="wide"
+          direction="right"
+          speed={55}
+          hoveredId={hoveredLongId}
+          setHoveredId={setHoveredLongId}
+          onOpenModal={setSelectedVideo}
+        />
       </div>
 
       {/* 🚀 SOCIAL PROOF */}
@@ -456,25 +626,24 @@ export default function MotionDesign() {
         >
           <div 
             onClick={(e) => e.stopPropagation()}
-            className={`relative w-full ${isShortForm ? 'max-w-[340px] sm:max-w-[380px] aspect-[9/16] rounded-xl bg-black' : 'max-w-5xl rounded-xl bg-[#FFFCFB]'} overflow-hidden shadow-2xl cursor-default flex flex-col`}
+            className={`relative w-full ${isShortForm ? 'max-w-[340px] sm:max-w-[380px] aspect-[9/16] rounded-[8px] bg-black' : 'max-w-5xl rounded-[8px] bg-[#FFFCFB]'} overflow-hidden shadow-2xl cursor-default flex flex-col`}
           >
             <button 
               onClick={() => setSelectedVideo(null)}
-              className={`absolute top-4 right-4 z-[1000] w-10 h-10 rounded-full ${isShortForm ? 'bg-black/60 text-white' : 'bg-[#14120e] text-[#FFFFFF] hover:bg-[#D42C2C]'} flex items-center justify-center font-bold text-lg transition-all shadow-lg cursor-pointer backdrop-blur-md`}
+              className={`absolute top-4 right-4 z-[1000] w-10 h-10 rounded-full ${isShortForm ? 'bg-black/60 text-white' : 'bg-[#14120e] text-[#FFFCFB] hover:bg-[#D42C2C]'} flex items-center justify-center font-bold text-lg transition-all shadow-lg cursor-pointer backdrop-blur-md`}
             >
               ✕
             </button>
 
             {isShortForm ? (
               <div className="w-full h-full bg-black flex-1 relative">
-                <video 
+                <CustomVideoPlayer 
                   src={selectedVideo.videoUrl} 
-                  controls 
-                  autoPlay 
-                  playsInline 
-                  loop
-                  preload="auto"
-                  className="w-full h-full object-cover outline-none" 
+                  autoPlay={true}
+                  loop={true}
+                  muted={false}
+                  className="w-full h-full"
+                  videoClassName="w-full h-full object-cover outline-none"
                 />
               </div>
             ) : (
@@ -488,17 +657,17 @@ export default function MotionDesign() {
                     muted={false}
                   />
                 </div>
-                <div className="p-4 sm:p-6 bg-[#FFFCFB] text-[#14120e] flex items-center justify-between border-t border-black/10">
+                <div className="p-4 sm:p-6 bg-[#FFFCFB] text-[#14120e] flex items-center justify-between border-t border-black/5">
                   <h3 
-                    style={{ fontFamily: "'Talina', sans-serif", fontWeight: 300 }}
-                    className="text-lg sm:text-2xl text-[#D42C2C]"
+                    style={{ fontFamily: "'SquidBoy', sans-serif", letterSpacing: '0.5px' }}
+                    className="text-lg sm:text-2xl text-[#D42C2C] capitalize"
                   >
                     {selectedVideo.title}
                   </h3>
                   {selectedVideo.brand && (
                     <span 
-                      style={{ fontFamily: "'HelveticaNeue', sans-serif", letterSpacing: '-0.3px', fontWeight: 300 }}
-                      className="text-[10px] sm:text-xs uppercase text-[#554f46] bg-[#f0eae1] px-2.5 py-1 rounded-sm border border-black/10"
+                      style={{ fontFamily: "'GroteskFont', sans-serif", letterSpacing: '-0.3px', fontWeight: 300 }}
+                      className="text-[10px] sm:text-xs capitalize text-[#554f46] bg-[#f0eae1] px-2.5 py-1 rounded-[4px]"
                     >
                       {selectedVideo.brand}
                     </span>
@@ -512,17 +681,6 @@ export default function MotionDesign() {
 
       {/* 🚀 FOOTER */}
       <Footer />
-
-      <style>{`
-        @keyframes slowMarqueeLeft {
-          0% { transform: translate3d(0, 0, 0); }
-          100% { transform: translate3d(-50%, 0, 0); }
-        }
-        @keyframes slowMarqueeRight {
-          0% { transform: translate3d(-50%, 0, 0); }
-          100% { transform: translate3d(0, 0, 0); }
-        }
-      `}</style>
     </div>
   );
 }

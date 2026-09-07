@@ -75,25 +75,25 @@ export default function AboutMe() {
 
       <style>{`
         @font-face {
-          font-family: 'Talina';
-          src: url('/Talina-Regular.ttf') format('truetype');
+          font-family: 'SquidBoy';
+          src: url('/Fonts/SquidBoy.otf') format('opentype');
           font-weight: normal;
           font-style: normal;
           font-display: swap;
         }
 
         @font-face {
-          font-family: 'HelveticaNeue';
-          src: url('/fonts/HelveticaNeueRoman.otf') format('opentype');
-          font-weight: normal;
-          font-style: normal;
-          font-display: swap;
-        }
-
-        @font-face {
-          font-family: 'HelveticaNeueBold';
-          src: url('/fonts/HelveticaNeueBold.otf') format('opentype');
+          font-family: 'SquidBoy';
+          src: url('/Fonts/SquidBoy-Bold.otf') format('opentype');
           font-weight: bold;
+          font-style: normal;
+          font-display: swap;
+        }
+
+        @font-face {
+          font-family: 'GroteskFont';
+          src: url('/grotesk.woff2') format('woff2');
+          font-weight: normal;
           font-style: normal;
           font-display: swap;
         }
@@ -113,17 +113,17 @@ export default function AboutMe() {
       {/* 🎬 HERO BANNER WITH HOSTINGER VIDEO */}
       <div className="relative w-full h-[60vh] sm:h-screen bg-[#14120e] flex flex-col justify-center items-center overflow-hidden m-0 p-0 editing-cutout-mask"> 
         <video 
-  ref={heroVideoRef}
-  poster="https://akshayshrivastava.com/images/AboutMain.png"
-  autoPlay 
-  loop 
-  muted={isMuted} 
-  playsInline 
-  preload="metadata"
-  className="absolute top-0 left-0 w-full h-full object-cover z-0 filter brightness-[0.55] contrast-105"
->
-  <source src="https://akshayshrivastava.com/videos/AboutMain.mp4" />
-</video>
+          ref={heroVideoRef}
+          poster="https://akshayshrivastava.com/images/AboutMain.png"
+          autoPlay 
+          loop 
+          muted={isMuted} 
+          playsInline 
+          preload="metadata"
+          className="absolute top-0 left-0 w-full h-full object-cover z-0 filter brightness-[0.55] contrast-105"
+        >
+          <source src="https://akshayshrivastava.com/videos/AboutMain.mp4" />
+        </video>
 
         <div className="absolute inset-0 bg-gradient-to-t from-[#14120e]/80 via-transparent to-[#14120e]/60 z-[1] pointer-events-none" />
 
@@ -146,22 +146,13 @@ export default function AboutMe() {
 
         <div className="relative z-10 flex flex-col justify-center items-center px-4">
           <h1 
-            style={{ fontFamily: "'Talina', sans-serif", letterSpacing: '-0.5px', fontWeight: 300 }}
-            className="text-[2.5rem] sm:text-[4.2rem] font-light text-[#ffffff] m-0 text-center leading-none"
+            style={{ fontFamily: "'SquidBoy', sans-serif", letterSpacing: '1px' }}
+            className="text-[3rem] sm:text-[5.5rem] text-[#FFFCFB] m-0 text-center leading-none drop-shadow-lg capitalize"
           >
             About Me
           </h1>
 
-          <p 
-  style={{ fontFamily: "'HelveticaNeue', sans-serif", fontWeight: 800, letterSpacing : '-0.5px' }}
-  className="flex items-center justify-center gap-1.5 sm:gap-2 mt-3 sm:mt-4 text-[#D42C2C] text-xs sm:text-lg tracking-widest text-center drop-shadow-[0_2px_10px_rgba(0,0,0,0.95)]"
->
-            <span>Biography</span> 
-            <span className="text-[#FFC822] mx-1">•</span> 
-            <span>Experience</span> 
-            <span className="text-[#FFC822] mx-1">•</span> 
-            <span>Creative Vision</span>
-          </p>
+          
         </div>
       </div>
 
@@ -172,8 +163,8 @@ export default function AboutMe() {
       >
         <h2 
           ref={nameRef}
-          style={{ fontFamily: "'Talina', sans-serif", letterSpacing: '-1px', fontWeight: 400 }}
-          className="w-full text-center text-[#D42C2C] text-3xl sm:text-5xl md:text-[4.2rem] leading-[1.1] mb-6 sm:mb-8"
+          style={{ fontFamily: "'SquidBoy', sans-serif", letterSpacing: '0.5px' }}
+          className="w-full text-center text-[#D42C2C] text-3xl sm:text-5xl md:text-[4.2rem] leading-[1.1] mb-6 sm:mb-8 capitalize"
         >
           Akshay{' '}
           <span className="text-[#14120e] ml-2 sm:ml-4">Shrivastava</span>
@@ -181,8 +172,8 @@ export default function AboutMe() {
         
         <div 
           ref={cardRef}
-          style={{ fontFamily: "'HelveticaNeue', sans-serif", letterSpacing: '-0.2px', fontWeight: 300 }}
-          className="bg-white/80 backdrop-blur-md p-5 sm:p-10 rounded-[12px] border border-black/10 shadow-xl text-[#14120e] text-xs sm:text-xl md:text-2xl leading-relaxed font-light space-y-4 sm:space-y-6 w-full mb-10 sm:mb-16 relative z-10 text-left"
+          style={{ fontFamily: "'GroteskFont', sans-serif", letterSpacing: '-0.2px', fontWeight: 400 }}
+          className="bg-white/80 backdrop-blur-md p-5 sm:p-10 rounded-[8px] border border-black/10 shadow-xl text-[#14120e] text-xs sm:text-xl md:text-2xl leading-relaxed font-light space-y-4 sm:space-y-6 w-full mb-10 sm:mb-16 relative z-10 text-left"
         >
           <p className="m-0">
             I am a video editor, motion designer, and creative director obsessed with high-retention storytelling and high-fidelity visuals.

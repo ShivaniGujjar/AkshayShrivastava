@@ -116,7 +116,7 @@ export default function SocialProof({ brands = DEFAULT_BRANDS, testimonials = DE
   
   <div 
     className="absolute inset-0 w-full h-full bg-no-repeat bg-center bg-cover pointer-events-none z-0"
-    style={{ backgroundImage: `url('/testimonial.png')` }}
+    style={{ backgroundImage: `url('/testimonialRed.png')` }}
   />
 
   <div className="relative z-[15] text-center mb-3 sm:mb-4 pt-14 sm:pt-26 pb-1 sm:pb-2 px-2">

@@ -25,8 +25,8 @@ const DIRECTION_PROJECTS = [
     num: '02',
     title: 'Short Film Narrative',
     description: 'Exploratory visual storytelling with structured lighting, precise camera movement, and cinematic color grading.',
-    videoUrl: 'https://akshayshrivastava.com/videos/long1.mp4',
-    poster: 'https://akshayshrivastava.com/images/long1.png',
+    videoUrl: 'https://akshayshrivastava.com/videos/short18.mp4',
+    poster: 'https://akshayshrivastava.com/images/short18.png',
     tag: 'Narrative'
   },
   {
@@ -34,8 +34,8 @@ const DIRECTION_PROJECTS = [
     num: '03',
     title: 'Startup Launch Film',
     description: 'Directing on-set talent and seamless motion graphics integration for modern tech positioning.',
-    videoUrl: 'https://akshayshrivastava.com/videos/long2.mp4',
-    poster: 'https://akshayshrivastava.com/images/long2.png',
+    videoUrl: 'https://akshayshrivastava.com/videos/short2.mp4',
+    poster: 'https://akshayshrivastava.com/images/short2.png',
     tag: 'Promo'
   }
 ];
@@ -104,7 +104,7 @@ function ScrapbookGallery() {
     },
     {
       title: 'Storyboard',
-      src: 'https://akshayshrivastava.com/videos/EditingMain.mp4',
+      src: 'https://akshayshrivastava.com/videos/short18.mp4',
       rotation: 'rotate-[0deg] sm:-translate-y-4',
       textColor: 'text-[#FFC822]'
     },
@@ -121,10 +121,10 @@ function ScrapbookGallery() {
       
       {/* 🏷️ TOP BADGE */}
       <div 
-        style={{ fontFamily: "'HelveticaNeue', sans-serif", fontWeight: 300, letterSpacing: '1px' }}
-        className="relative z-40 mb-5 px-3 sm:px-6 py-1.5 sm:py-2 bg-[#D42C2C] text-white text-[9px] sm:text-sm uppercase shadow-md rounded-sm rotate-[-1deg] border border-white/20 text-center"
+        style={{ fontFamily: "'GroteskFont', sans-serif", fontWeight: 400, letterSpacing: '1px' }}
+        className="relative z-40 mb-5 px-3 sm:px-6 py-1.5 sm:py-2 bg-[#D42C2C] text-white text-[9px] sm:text-sm capitalize shadow-md rounded-[4px] rotate-[-1deg] border border-white/20 text-center"
       >
-        🎬 DIRECTOR'S CUT • BTS & STORYBOARD
+        🎬 Director's Cut • BTS & Storyboard
       </div>
 
       {/* 🎞️ 3 POLAROID FRAMES CONTAINER */}
@@ -150,7 +150,7 @@ function ScrapbookGallery() {
               }}
             >
               {/* Inner Video Container */}
-              <div className="w-full aspect-[3/4] bg-black rounded-sm overflow-hidden relative shadow-inner">
+              <div className="w-full aspect-[3/4] bg-black rounded-[4px] overflow-hidden relative shadow-inner">
                 <video 
                   ref={(el) => (videoRefs.current[idx] = el)}
                   src={card.src} 
@@ -161,8 +161,8 @@ function ScrapbookGallery() {
                   className="w-full h-full object-cover filter brightness-95 group-hover:brightness-100 transition-all pointer-events-none"
                 />
                 <span 
-                  style={{ fontFamily: "'HelveticaNeue', sans-serif", fontWeight: 300 }}
-                  className={`absolute bottom-1 left-1 bg-black/80 ${card.textColor} px-1 py-0.5 rounded text-[7px] sm:text-xs uppercase z-30`}
+                  style={{ fontFamily: "'GroteskFont', sans-serif", fontWeight: 400 }}
+                  className={`absolute bottom-1 left-1 bg-black/80 ${card.textColor} px-1 py-0.5 rounded-[4px] text-[7px] sm:text-xs capitalize z-30`}
                 >
                   {card.title}
                 </span>
@@ -190,7 +190,7 @@ function DirectionShortCard({ project, isHovered, onHover, onLeave }) {
     <div 
       onMouseEnter={onHover}
       onMouseLeave={onLeave}
-      className="w-[200px] sm:w-[300px] aspect-[9/16] bg-[#14120e] rounded-[12px] overflow-hidden shadow-2xl relative border border-black/10 transition-transform duration-500 hover:scale-[1.02] shrink-0 cursor-pointer"
+      className="w-[200px] sm:w-[300px] aspect-[9/16] bg-[#14120e] rounded-[8px] overflow-hidden shadow-2xl relative transition-transform duration-500 hover:scale-[1.02] shrink-0 cursor-pointer"
     >
       <CustomVideoPlayer 
         src={project.videoUrl} 
@@ -280,15 +280,15 @@ function DirectionProjectRow({ project, index, activeHoverId, setActiveHoverId }
         className="w-full md:max-w-[480px] flex flex-col justify-center text-center md:text-left shrink-0 relative z-10 px-4"
       >
         <h3 
-          style={{ fontFamily: "'Talina', sans-serif", letterSpacing: '-0.4px', fontWeight: 400 }}
-          className={`text-[#D42C2C] text-xl sm:text-3xl md:text-[2.2rem] m-0 leading-tight relative md:px-4 ${isReverse ? 'md:border-r-4' : 'md:border-l-4'} md:border-[#D42C2C]`}
+          style={{ fontFamily: "'SquidBoy', sans-serif", letterSpacing: '0.5px' }}
+          className={`text-[#D42C2C] text-xl sm:text-3xl md:text-[2.2rem] m-0 leading-tight capitalize relative md:px-4 ${isReverse ? 'md:border-r-4' : 'md:border-l-4'} md:border-[#D42C2C]`}
         >
           {project.title}
         </h3>
 
         <p 
-          style={{ fontFamily: "'HelveticaNeue', sans-serif", letterSpacing: '-0.2px', fontWeight: 300 }}
-          className="text-[#14120e] text-xs sm:text-lg mt-2.5 sm:mt-4 m-0 leading-relaxed font-light md:px-4"
+          style={{ fontFamily: "'GroteskFont', sans-serif", letterSpacing: '-0.2px', fontWeight: 400 }}
+          className="text-[#3b352e] text-xs sm:text-lg mt-2.5 sm:mt-4 m-0 leading-relaxed font-light md:px-4"
         >
           {project.description}
         </p>
@@ -353,25 +353,25 @@ export default function Direction() {
 
       <style>{`
         @font-face {
-          font-family: 'Talina';
-          src: url('/Talina-Regular.ttf') format('truetype');
+          font-family: 'SquidBoy';
+          src: url('/Fonts/SquidBoy.otf') format('opentype');
           font-weight: normal;
           font-style: normal;
           font-display: swap;
         }
 
         @font-face {
-          font-family: 'HelveticaNeue';
-          src: url('/fonts/HelveticaNeueRoman.otf') format('opentype');
-          font-weight: normal;
-          font-style: normal;
-          font-display: swap;
-        }
-
-        @font-face {
-          font-family: 'HelveticaNeueBold';
-          src: url('/fonts/HelveticaNeueBold.otf') format('opentype');
+          font-family: 'SquidBoy';
+          src: url('/Fonts/SquidBoy-Bold.otf') format('opentype');
           font-weight: bold;
+          font-style: normal;
+          font-display: swap;
+        }
+
+        @font-face {
+          font-family: 'GroteskFont';
+          src: url('/grotesk.woff2') format('woff2');
+          font-weight: normal;
           font-style: normal;
           font-display: swap;
         }
@@ -391,17 +391,17 @@ export default function Direction() {
       {/* 🎬 HERO BANNER */}
       <div className="relative w-full h-[60vh] sm:h-screen bg-[#14120e] flex flex-col justify-center items-center overflow-hidden m-0 p-0 editing-cutout-mask"> 
         <video 
-  ref={heroVideoRef}
-  poster="https://akshayshrivastava.com/images/DirectionMain.png"
-  autoPlay 
-  loop 
-  muted={isMuted} 
-  playsInline 
-  preload="metadata"
-  className="absolute top-0 left-0 w-full h-full object-cover z-0 filter brightness-[0.55] contrast-105"
->
-  <source src="https://akshayshrivastava.com/videos/DirectionMain.mp4" />
-</video>
+          ref={heroVideoRef}
+          poster="https://akshayshrivastava.com/images/DirectionMain.png"
+          autoPlay 
+          loop 
+          muted={isMuted} 
+          playsInline 
+          preload="metadata"
+          className="absolute top-0 left-0 w-full h-full object-cover z-0 filter brightness-[0.55] contrast-105"
+        >
+          <source src="https://akshayshrivastava.com/videos/DirectionMain.mp4" />
+        </video>
 
         <div className="absolute inset-0 bg-gradient-to-t from-[#14120e]/80 via-transparent to-[#14120e]/60 z-[1] pointer-events-none" />
 
@@ -424,22 +424,13 @@ export default function Direction() {
 
         <div className="relative z-10 flex flex-col justify-center items-center px-4">
           <h1 
-            style={{ fontFamily: "'Talina', sans-serif", letterSpacing: '-0.5px', fontWeight: 300 }}
-            className="text-[2.5rem] sm:text-[4.2rem] font-light text-[#ffffff] m-0 text-center leading-none"
+            style={{ fontFamily: "'SquidBoy', sans-serif", letterSpacing: '1px' }}
+            className="text-[3rem] sm:text-[5.5rem] text-[#FFFCFB] m-0 text-center leading-none drop-shadow-lg capitalize"
           >
             Direction Work
           </h1>
 
-         <p 
-  style={{ fontFamily: "'HelveticaNeue', sans-serif", fontWeight: 800, letterSpacing : '-0.5px' }}
-  className="flex items-center justify-center gap-1.5 sm:gap-2 mt-3 sm:mt-4 text-[#D42C2C] text-xs sm:text-lg tracking-widest text-center drop-shadow-[0_2px_10px_rgba(0,0,0,0.95)]"
->
-            <span>Storyboarding</span> 
-            <span className="text-[#FFC822] mx-1">•</span> 
-            <span>Filmaking</span> 
-            <span className="text-[#FFC822] mx-1">•</span> 
-            <span>Creative Direction</span>
-          </p>
+          
         </div>
       </div>
 
@@ -447,8 +438,8 @@ export default function Direction() {
       <div ref={featuredSectionRef} className="w-full mx-auto pt-10 sm:pt-16 pb-6 px-4 flex flex-col items-center relative z-20 text-center overflow-hidden">
         <div className="inline-flex flex-col items-center z-20 px-4">
           <h2 
-            style={{ fontFamily: "'Talina', sans-serif", letterSpacing: '-0.5px', fontWeight: 400 }}
-            className="text-2xl sm:text-4xl m-0 text-[#D42C2C] leading-tight"
+            style={{ fontFamily: "'SquidBoy', sans-serif", letterSpacing: '1px' }}
+            className="text-2xl sm:text-4xl m-0 text-[#D42C2C] leading-tight capitalize"
           >
             Welcome to Direction section
           </h2>
@@ -456,8 +447,8 @@ export default function Direction() {
 
         <div ref={paragraphRef} className="relative z-10 mt-3 mb-6 max-w-[700px] px-4">
           <p 
-            style={{ fontFamily: "'HelveticaNeue', sans-serif", letterSpacing: '-0.2px', fontWeight: 600 }}
-            className="text-[#14120e] text-xs sm:text-lg leading-relaxed font-light text-center"
+            style={{ fontFamily: "'GroteskFont', sans-serif", letterSpacing: '-0.2px', fontWeight: 400 }}
+            className="text-[#3b352e] text-xs sm:text-lg leading-relaxed font-light text-center"
           >
             I craft compelling visual narratives, combining script analysis, intentional blocking, and precise post-direction to build high-converting brand stories.
           </p>

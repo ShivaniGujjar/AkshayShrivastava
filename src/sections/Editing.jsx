@@ -4,6 +4,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import SocialProof from '../components/SocialProof';
 import Footer from './Footer';
 import CustomVideoPlayer from '../components/CustomVideoPlayer';
+import StatsCounter from '../components/StatsCounter';
 
 if (typeof window !== 'undefined') {
   gsap.registerPlugin(ScrollTrigger);
@@ -491,14 +492,6 @@ export default function Editing() {
           >
             Editing Work
           </h1>
-          
-          <a
-            href="#long-forms"
-            className="mt-6 sm:mt-8 bg-[#D42C2C] hover:bg-[#b02222] text-[#FFFCFB] px-8 py-3.5 rounded-lg font-bold capitalize tracking-wider text-sm transition-all duration-300 hover:scale-105 no-underline"
-            style={{ fontFamily: "'SquidBoy', sans-serif" }}
-          >
-            Explore Work
-          </a>
         </div>
       </div>
 
@@ -542,6 +535,9 @@ export default function Editing() {
           </div>
         </div>
       </div>
+
+      {/* 📊 STATS COUNTER */}
+      <StatsCounter />
 
       {/* LONG FORMS */}
       <div id="long-forms" className="w-full max-w-full relative overflow-hidden my-8 sm:my-16">
