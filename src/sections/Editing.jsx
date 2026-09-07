@@ -4,7 +4,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import SocialProof from '../components/SocialProof';
 import Footer from './Footer';
 import CustomVideoPlayer from '../components/CustomVideoPlayer';
-import StatsCounter from '../components/StatsCounter';
+
 
 if (typeof window !== 'undefined') {
   gsap.registerPlugin(ScrollTrigger);
@@ -530,8 +530,7 @@ export default function Editing() {
         </div>
       </div>
 
-      {/* 📊 STATS COUNTER */}
-      <StatsCounter />
+      
 
       {/* LONG FORMS */}
       <div id="long-forms" className="w-full max-w-full relative overflow-hidden my-6 sm:my-16">

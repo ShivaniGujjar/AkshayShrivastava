@@ -4,7 +4,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import SocialProof from '../components/SocialProof';
 import Footer from './Footer';
 import CustomVideoPlayer from '../components/CustomVideoPlayer';
-import StatsCounter from '../components/StatsCounter';
+
 
 if (typeof window !== 'undefined') {
   gsap.registerPlugin(ScrollTrigger);
@@ -471,8 +471,7 @@ export default function Direction() {
         <ScrapbookGallery />
       </div>
 
-      <StatsCounter/>
-
+      
       {/* 📱 9:16 SHORT FORM PROJECT ROWS */}
       <div className="max-w-[1100px] w-full mx-auto px-4 sm:px-6 flex flex-col gap-10 md:gap-24 my-8 sm:my-20">
         {DIRECTION_PROJECTS.map((project, idx) => (

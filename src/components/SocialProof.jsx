@@ -1,4 +1,5 @@
 import React from 'react';
+import StatsCounter from './StatsCounter';
 
 const DEFAULT_BRANDS = [
   "/waywen.webp",
@@ -110,6 +111,9 @@ export default function SocialProof({ brands = DEFAULT_BRANDS, testimonials = DE
           </div>
         </div>
       </div>
+
+      {/* 📊 STATS COUNTER */}
+      <StatsCounter />
 
       {/* ────────────────── 2. TESTIMONIALS SECTION (AVATAR STYLE) ────────────────── */}
       <div className="relative w-full -mt-6 sm:-mt-20 pt-14 pb-20 sm:pt-20 sm:pb-40 flex flex-col items-center justify-center overflow-hidden">

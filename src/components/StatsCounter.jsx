@@ -42,10 +42,7 @@ function CountUpNumber({ value, suffix = '', duration = 1800, startWhenVisible }
   );
 }
 
-// 📊 STATS COUNTER SECTION — a row of animated stats, triggered once when
-// scrolled into view. Styled to match the rest of the site: same card
-// shadow/hover-lift as the video cards, same section-heading treatment as
-// "Long Forms" / "Short Forms".
+// 📊 STATS COUNTER SECTION
 const DEFAULT_STATS = [
   { value: 200, suffix: '+', label: 'Videos Edited' },
   { value: 50, suffix: 'M+', label: 'Views Generated' },
@@ -77,15 +74,15 @@ export default function StatsCounter({ stats = DEFAULT_STATS }) {
   return (
     <div
       ref={sectionRef}
-      className="w-full max-w-[1100px] mx-auto px-6 my-14 sm:my-20"
+      className="w-full max-w-[1100px] mx-auto px-6 my-14 sm:my-20 pb-8 sm:pb-12"
     >
-      {/* Section heading — same treatment as "Long Forms" / "Short Forms" */}
+      {/* Section heading */}
       <div className="flex flex-col items-center text-center mb-8 sm:mb-10">
         <h3
           style={{ fontFamily: "'SquidBoy', sans-serif", letterSpacing: '1px' }}
           className="text-2xl sm:text-4xl m-0 text-[#D42C2C] leading-tight capitalize"
         >
-          The Numbers Don't Lie
+          Numbers Don't Lie
         </h3>
       </div>
 

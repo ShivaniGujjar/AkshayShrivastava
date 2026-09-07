@@ -128,6 +128,14 @@ export default function Hero({ onColumnClick }) {
           font-display: swap;
         }
 
+        @font-face {
+          font-family: 'ParaFont';
+          src: url('/ParaFont.ttf') format('woff2');
+          font-weight: normal;
+          font-style: normal;
+          font-display: swap;
+        }
+
         /* DESKTOP TORN PAPER MASK */
         .organic-torn-mask {
           mask-image: url('/home-mask-desktop.svg');
@@ -179,7 +187,7 @@ export default function Hero({ onColumnClick }) {
           
           {/* CENTER: DESKTOP CAPSULE NAVIGATION */}
           <div className="hidden md:flex absolute left-1/2 -translate-x-1/2 items-center justify-center pointer-events-auto">
-            <div className="relative bg-[#08080a] clean-pill pt-3 pb-3 px-6 rounded-lg overflow-hidden flex items-center justify-center shadow-lg border-0 outline-none">
+            <div className="relative bg-[#08080a] clean-pill pt-3 pb-3 px-5 rounded-lg overflow-hidden flex items-center justify-center shadow-lg border-0 outline-none">
               <div 
                 className="absolute inset-0 pointer-events-none z-[1] bg-[url('/noise.gif')] bg-repeat"
                 style={{ opacity: 0.08, mixBlendMode: 'overlay' }}
@@ -344,7 +352,7 @@ export default function Hero({ onColumnClick }) {
                   </h1>
 
                   <p 
-                    style={{ fontFamily: "'HelveticaNeue', sans-serif", fontWeight: 'normal' }}
+                    style={{ fontFamily: "'ParaFont', sans-serif", fontWeight: 'normal' }}
                     className={`text-xs sm:text-sm max-w-[160px] sm:max-w-[200px] leading-tight transition-colors duration-300 ${
                       isHovered ? 'text-[#FFFFFF]' : 'text-neutral-300'
                     }`}

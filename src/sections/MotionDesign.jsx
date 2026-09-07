@@ -4,7 +4,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import SocialProof from '../components/SocialProof';
 import Footer from './Footer';
 import CustomVideoPlayer from '../components/CustomVideoPlayer';
-import StatsCounter from '../components/StatsCounter';
+
 
 if (typeof window !== 'undefined') {
   gsap.registerPlugin(ScrollTrigger);
@@ -531,8 +531,7 @@ export default function MotionDesign() {
         </div>
       </div>
 
-      {/* 📊 STATS COUNTER */}
-      <StatsCounter/>
+      
 
       {/* SHORT FORMS */}
       <div className="w-full max-w-full relative overflow-hidden my-4 sm:my-20">
