@@ -417,14 +417,13 @@ export default function MotionDesign() {
           font-display: swap;
         }
 
-        @font-face {
+         @font-face {
           font-family: 'ParaFont';
-          src: url('/ParaFont.ttf') format('woff2');
+          src: url('/ParaFont.ttf') format('truetype');
           font-weight: normal;
           font-style: normal;
           font-display: swap;
         }
-
         .editing-cutout-mask {
           mask-image: url('/editingcutout.svg');
           -webkit-mask-image: url('/editingcutout.svg');

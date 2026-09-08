@@ -4,29 +4,29 @@ const COLUMNS = [
   { 
     id: 'editing', 
     title: 'Editing', 
-    subtitle: 'Visual storytelling & retention pacing',
+    subtitle: 'Because someone has to fix it in post.',
     videoUrl: 'https://akshayshrivastava.com/videos/EditingMain.mp4',
     poster: 'https://akshayshrivastava.com/images/EditingHome.png'
   },
   { 
     id: 'motion', 
     title: 'Motion Design', 
-    subtitle: '2D/3D graphics & kinetic type',
-    videoUrl: 'https://akshayshrivastava.com/videos/MotionMain.mp4',
+    subtitle: 'Making rectangles do interesting things.',
+    videoUrl: 'https://akshayshrivastava.com/videos/MotionHome.mp4',
     poster: 'https://akshayshrivastava.com/images/MotionHome.png'
   },
   { 
     id: 'direction', 
     title: 'Direction', 
-    subtitle: 'Commercials & narrative vision',
-    videoUrl: 'https://akshayshrivastava.com/videos/DirectionMain.mp4',
+    subtitle: 'Making ‘trust me’ look good. ',
+    videoUrl: 'https://akshayshrivastava.com/videos/DirectionHome.mp4',
     poster: 'https://akshayshrivastava.com/images/DirectionHome.png'
   },
   { 
     id: 'about', 
     title: 'About Me', 
-    subtitle: 'Creative director & editor profile',
-    videoUrl: 'https://akshayshrivastava.com/videos/AboutMain.mp4',
+    subtitle: 'I have too many ideas and a Premiere Pro subscription.',
+    videoUrl: 'https://akshayshrivastava.com/videos/AboutHome.mp4',
     poster: 'https://akshayshrivastava.com/images/AboutHome.png'
   }
 ];
@@ -119,7 +119,7 @@ export default function Hero({ onColumnClick }) {
 
         @font-face {
           font-family: 'ParaFont';
-          src: url('/ParaFont.ttf') format('woff2');
+          src: url('/ParaFont.ttf') format('truetype');
           font-weight: normal;
           font-style: normal;
           font-display: swap;
@@ -174,7 +174,7 @@ export default function Hero({ onColumnClick }) {
           
           {/* CENTER: DESKTOP CAPSULE NAVIGATION */}
           <div className="hidden md:flex absolute left-1/2 -translate-x-1/2 items-center justify-center pointer-events-auto">
-            <div className="relative bg-[#08080a] clean-pill pt-3 pb-3 px-5 rounded-lg overflow-hidden flex items-center justify-center shadow-lg border-0 outline-none">
+            <div className="relative bg-[#08080a] clean-pill pt-4 pb-3 px-4 rounded-lg overflow-hidden flex items-center justify-center shadow-lg border-0 outline-none">
               <div 
                 className="absolute inset-0 pointer-events-none z-[1] bg-[url('/noise.gif')] bg-repeat"
                 style={{ opacity: 0.08, mixBlendMode: 'overlay' }}
@@ -320,14 +320,14 @@ export default function Hero({ onColumnClick }) {
                 <div className={`absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent pointer-events-none z-10 transition-opacity duration-500 ${isHovered ? 'opacity-40' : ''}`} />
                 
                 <div 
-                  className={`absolute inset-x-0 top-[58%] z-20 flex flex-col items-center justify-start text-center pointer-events-none mx-auto max-w-[90%] px-2 ${
+                  className={`absolute inset-x-0 top-[52%] z-20 flex flex-col items-center justify-start text-center pointer-events-none mx-auto max-w-[90%] px-2 ${
                     index === 0 ? '-translate-x-3' : ''
                   } ${index === 3 ? '-translate-x-4' : ''}`}
                 >
                   <h1 
                     style={{ 
                       fontFamily: "'SquidBoy', sans-serif", 
-                      fontSize: 'clamp(1.8rem, 3.4vw, 3.6rem)',
+                      fontSize: 'clamp(2.0rem, 3.8vw, 4.0rem)',
                       letterSpacing: '0.01em',
                       lineHeight: '1.1'
                     }}
@@ -383,7 +383,7 @@ export default function Hero({ onColumnClick }) {
                 <h1 
                   style={{ 
                     fontFamily: "'SquidBoy', sans-serif",
-                    fontSize: 'clamp(1rem, 4.5vw, 1.4rem)',
+                    fontSize: 'clamp(2.8rem, 5vw, 5.6rem)',
                     letterSpacing: '0.01em',
                     lineHeight: '1.1'
                   }}
@@ -409,7 +409,7 @@ export default function Hero({ onColumnClick }) {
      {/* ================= CLEAN CENTERED FOOTER ================= */}
       <footer className="fixed bottom-6 left-1/2 -translate-x-1/2 pointer-events-none z-[999] flex justify-center items-center">
         <div 
-          className="relative pointer-events-auto bg-[#08080a] text-[#FFC300] pt-2.5 pb-2.5 px-4 rounded-lg flex items-center justify-center shadow-lg overflow-hidden border-0 outline-none"
+          className="relative pointer-events-auto bg-[#08080a] text-[#FFC300] pt-4 pb-3 px-4 rounded-lg flex items-center justify-center shadow-lg overflow-hidden border-0 outline-none"
         >
           <div 
             className="absolute inset-0 pointer-events-none z-[1] bg-[url('/noise.gif')] bg-repeat"
