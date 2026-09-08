@@ -4,30 +4,30 @@ const COLUMNS = [
   { 
     id: 'editing', 
     title: 'Editing', 
-    subtitle: 'Because someone has to fix it in post.',
+    subtitle: 'Because someone has to fix it in post',
     videoUrl: 'https://akshayshrivastava.com/videos/EditingMain.mp4',
-    poster: 'https://akshayshrivastava.com/images/EditingHome.png'
+    poster: 'https://akshayshrivastava.com/images/EditingHome.jpeg'
   },
   { 
     id: 'motion', 
     title: 'Motion Design', 
-    subtitle: 'Making rectangles do interesting things.',
+    subtitle: 'Making rectangles do interesting things',
     videoUrl: 'https://akshayshrivastava.com/videos/MotionHome.mp4',
-    poster: 'https://akshayshrivastava.com/images/MotionHome.png'
+    poster: 'https://akshayshrivastava.com/images/MotionHome.jpeg'
   },
   { 
     id: 'direction', 
     title: 'Direction', 
-    subtitle: 'Making ‘trust me’ look good. ',
+    subtitle: 'I love questionable ideas look intentional',
     videoUrl: 'https://akshayshrivastava.com/videos/DirectionHome.mp4',
-    poster: 'https://akshayshrivastava.com/images/DirectionHome.png'
+    poster: 'https://akshayshrivastava.com/images/DirectionHome.jpeg'
   },
   { 
     id: 'about', 
     title: 'About Me', 
-    subtitle: 'I have too many ideas and a Premiere Pro subscription.',
+    subtitle: 'I have too many ideas and a Premiere Pro subscription',
     videoUrl: 'https://akshayshrivastava.com/videos/AboutHome.mp4',
-    poster: 'https://akshayshrivastava.com/images/AboutHome.png'
+    poster: 'https://akshayshrivastava.com/images/AboutHome.jpeg'
   }
 ];
 
@@ -269,7 +269,7 @@ export default function Hero({ onColumnClick }) {
         )}
       </header>
       
-      {/* ================= DESKTOP LAYOUT ================= */}
+      {/* ================= DESKTOP LAYOUT (EQUAL & FLAWLESS MASK) ================= */}
       <div className="hidden md:block w-full h-full overflow-hidden relative">
         <div className="flex flex-row items-stretch w-[calc(100vw+180px)] h-full relative z-[1]">
           {COLUMNS.map((col, index) => {
@@ -280,7 +280,8 @@ export default function Hero({ onColumnClick }) {
             return (
               <div
                 key={col.id}
-                className={`group relative h-full w-[25%] shrink-0 min-w-0 cursor-pointer overflow-hidden ${zIndices[index]} ${
+                style={{ width: 'calc((100vw + 180px) / 4)' }}
+                className={`group relative h-full shrink-0 cursor-pointer overflow-hidden ${zIndices[index]} ${
                   isTornCol ? 'organic-torn-mask pr-[50px] -mr-[50px] [filter:drop-shadow(-15px_0_20px_rgba(0,0,0,0.6))]' : ''
                 }`}
                 onMouseEnter={() => handleMouseEnter(index)}
@@ -320,9 +321,7 @@ export default function Hero({ onColumnClick }) {
                 <div className={`absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent pointer-events-none z-10 transition-opacity duration-500 ${isHovered ? 'opacity-40' : ''}`} />
                 
                 <div 
-                  className={`absolute inset-x-0 top-[52%] z-20 flex flex-col items-center justify-start text-center pointer-events-none mx-auto max-w-[90%] px-2 ${
-                    index === 0 ? '-translate-x-3' : ''
-                  } ${index === 3 ? '-translate-x-4' : ''}`}
+                  className="absolute inset-x-0 top-[52%] z-20 flex flex-col items-center justify-start text-center pointer-events-none mx-auto max-w-[85%] px-2"
                 >
                   <h1 
                     style={{ 
@@ -352,7 +351,6 @@ export default function Hero({ onColumnClick }) {
           })}
         </div>
       </div>
-      
       {/* ================= MOBILE STACKED LAYOUT ================= */}
       <div className="md:hidden flex flex-col w-full h-dvh overflow-hidden relative z-[1]">
         {COLUMNS.map((col, index) => {
