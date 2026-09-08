@@ -340,7 +340,7 @@ export default function Hero({ onColumnClick }) {
 
                   <p 
                     style={{ fontFamily: "'ParaFont', sans-serif", fontWeight: 'normal' }}
-                    className={`text-xs sm:text-sm max-w-[160px] sm:max-w-[200px] leading-tight transition-colors duration-300 ${
+                    className={`text-md sm:text-md max-w-[160px] sm:max-w-[200px] leading-tight transition-colors duration-300 ${
                       isHovered ? 'text-[#FFFFFF]' : 'text-neutral-300'
                     }`}
                   >
