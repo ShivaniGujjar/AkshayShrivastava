@@ -4,7 +4,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import SocialProof from '../components/SocialProof';
 import Footer from './Footer';
 import CustomVideoPlayer from '../components/CustomVideoPlayer';
-
+import StatsCounter from '../components/StatsCounter';
 
 if (typeof window !== 'undefined') {
   gsap.registerPlugin(ScrollTrigger);
@@ -15,33 +15,30 @@ const DIRECTION_PROJECTS = [
   {
     id: 'dp1',
     num: '01',
-    title: 'Brand Commercial Direction',
-    description: 'A high-impact brand campaign focusing on narrative pacing, emotional resonance, and high retention.',
-    videoUrl: 'https://akshayshrivastava.com/videos/DirectionMain.mp4',
-    poster: 'https://akshayshrivastava.com/images/DirectionHome.png',
-    tag: 'Commercial'
+    title: 'The Introduction Video',
+    description: 'This intro video was my attempt to show who I really am, instead of just going through the motions like every other intro. I poured effort into the story and visuals and somehow, it struck a chord: 200K+ views from an account with only 256 followers.',
+    videoUrl: 'https://akshayshrivastava.com/videos/AboutMain.mp4',
+    poster: 'https://akshayshrivastava.com/images/AboutMain.png',
   },
   {
     id: 'dp2',
     num: '02',
-    title: 'Short Film Narrative',
+    title: 'Perfectionism',
     description: 'Exploratory visual storytelling with structured lighting, precise camera movement, and cinematic color grading.',
-    videoUrl: 'https://akshayshrivastava.com/videos/short18.mp4',
-    poster: 'https://akshayshrivastava.com/images/short18.png',
-    tag: 'Narrative'
+    videoUrl: 'https://akshayshrivastava.com/videos/MotionMain.mp4',
+    poster: 'https://akshayshrivastava.com/images/MotionMain.png',
   },
   {
     id: 'dp3',
     num: '03',
-    title: 'Startup Launch Film',
+    title: 'folder wallet',
     description: 'Directing on-set talent and seamless motion graphics integration for modern tech positioning.',
-    videoUrl: 'https://akshayshrivastava.com/videos/short2.mp4',
-    poster: 'https://akshayshrivastava.com/images/short2.png',
-    tag: 'Promo'
+    videoUrl: 'https://akshayshrivastava.com/videos/DirectionMain.mp4',
+    poster: 'https://akshayshrivastava.com/images/DirectionMain.png',
   }
 ];
 
-// 📸 SCRAPBOOK POLAROID GALLERY (Optimized for Mobile & Desktop)
+// 📸 SCRAPBOOK POLAROID GALLERY (Optimized for Autoplay & Hover Isolation)
 function ScrapbookGallery() {
   const videoRefs = useRef([]);
   const containerRefs = useRef([]);
@@ -100,7 +97,7 @@ function ScrapbookGallery() {
     {
       title: 'On-Set BTS',
       src: 'https://akshayshrivastava.com/videos/AboutMain.mp4',
-      poster: 'https://akshayshrivastava.com/images/AboutHome.png',
+      poster: 'https://akshayshrivastava.com/images/AboutMain.png',
       rotation: 'rotate-[-3deg] sm:rotate-[-6deg]',
       textColor: 'text-white'
     },
@@ -114,7 +111,7 @@ function ScrapbookGallery() {
     {
       title: 'Cam Cut',
       src: 'https://akshayshrivastava.com/videos/MotionMain.mp4',
-      poster: 'https://akshayshrivastava.com/images/MotionHome.png',
+      poster: 'https://akshayshrivastava.com/images/MotionMain.png',
       rotation: 'rotate-[3deg] sm:rotate-[6deg]',
       textColor: 'text-white'
     }
@@ -122,16 +119,6 @@ function ScrapbookGallery() {
 
   return (
     <div className="w-full max-w-[950px] my-6 sm:my-16 flex flex-col items-center justify-center relative select-none px-2 sm:px-4">
-      
-      {/* 🏷️ TOP BADGE */}
-      <div 
-        style={{ fontFamily: "'GroteskFont', sans-serif", fontWeight: 400, letterSpacing: '1px' }}
-        className="relative z-40 mb-4 sm:mb-5 px-3 sm:px-6 py-1.5 sm:py-2 bg-[#D42C2C] text-white text-[10px] sm:text-sm capitalize shadow-md rounded-[4px] rotate-[-1deg] border border-white/20 text-center"
-      >
-        🎬 Director's Cut • BTS & Storyboard
-      </div>
-
-      {/* 🎞️ 3 POLAROID FRAMES CONTAINER */}
       <div className="flex flex-wrap sm:flex-nowrap items-center justify-center gap-3 sm:gap-6 md:gap-8 w-full pt-1 pb-4">
         {cardsData.map((card, idx) => (
           <div 
@@ -142,10 +129,8 @@ function ScrapbookGallery() {
             onMouseLeave={() => setHoveredIdx(null)}
             className={`relative w-[105px] xs:w-[125px] sm:w-[240px] md:w-[260px] ${card.rotation} hover:rotate-0 hover:scale-105 transition-all duration-300 z-10 cursor-pointer group filter drop-shadow-[0_10px_20px_rgba(0,0,0,0.15)] shrink-0`}
           >
-            {/* Tape Accent */}
             <div className="absolute -top-2 left-1/2 -translate-x-1/2 w-8 sm:w-16 h-2.5 sm:h-5 bg-[#E8DCB8]/90 border border-amber-900/10 rotate-[-2deg] z-30 shadow-xs pointer-events-none" />
 
-            {/* White Polaroid Card with Ripped Bottom Edge */}
             <div 
               className="w-full bg-[#FFFFFF] p-1.5 sm:p-3 pb-4 sm:pb-10 rounded-t-lg relative overflow-hidden"
               style={{
@@ -153,7 +138,6 @@ function ScrapbookGallery() {
                 WebkitMaskImage: 'linear-gradient(to bottom, black 85%, transparent 100%)',
               }}
             >
-              {/* Inner Video Container */}
               <div className="w-full aspect-[3/4] bg-black rounded-[4px] overflow-hidden relative shadow-inner">
                 <video 
                   ref={(el) => (videoRefs.current[idx] = el)}
@@ -173,7 +157,6 @@ function ScrapbookGallery() {
                 </span>
               </div>
 
-              {/* Visual Paper Texture Bottom Edge */}
               <div 
                 className="absolute bottom-0 left-0 right-0 h-4 sm:h-10 w-full z-20 pointer-events-none bg-repeat-x bg-bottom bg-contain opacity-90"
                 style={{
@@ -189,8 +172,7 @@ function ScrapbookGallery() {
   );
 }
 
-
-// 📱 SHORT FORM (VERTICAL 9:16) DIRECTION VIDEO CARD WITH CUSTOM PLAYER
+// 📱 SHORT FORM DIRECTION VIDEO CARD
 function DirectionShortCard({ project, isHovered, onHover, onLeave }) {
   return (
     <div 
@@ -209,7 +191,7 @@ function DirectionShortCard({ project, isHovered, onHover, onLeave }) {
   );
 }
 
-// 🚀 ANIMATED DIRECTION ROW WITH SPLIT ANIMATION
+// 🚀 ANIMATED DIRECTION ROW
 function DirectionProjectRow({ project, index, activeHoverId, setActiveHoverId }) {
   const rowRef = useRef(null);
   const videoWrapperRef = useRef(null);
@@ -271,7 +253,6 @@ function DirectionProjectRow({ project, index, activeHoverId, setActiveHoverId }
       ref={rowRef}
       className={`flex flex-col ${isReverse ? 'md:flex-row-reverse' : 'md:flex-row'} items-center justify-center gap-6 md:gap-12 w-full group py-4 relative min-h-[350px] sm:min-h-[550px]`}
     >
-      {/* 📱 9:16 Vertical Short Form Video Card */}
       <div ref={videoWrapperRef} className="shrink-0 relative z-20">
         <DirectionShortCard 
           project={project} 
@@ -281,14 +262,13 @@ function DirectionProjectRow({ project, index, activeHoverId, setActiveHoverId }
         />
       </div>
 
-      {/* 📝 Text Content Side */}
       <div 
         ref={textColRef} 
         className="w-full md:max-w-[480px] flex flex-col justify-center text-center md:text-left shrink-0 relative z-10 px-4"
       >
         <h3 
           style={{ fontFamily: "'SquidBoy', sans-serif", letterSpacing: '0.5px' }}
-          className={`text-[#D42C2C] text-lg sm:text-3xl md:text-[2.2rem] m-0 leading-tight capitalize relative md:px-4 ${isReverse ? 'md:border-r-4' : 'md:border-l-4'} md:border-[#D42C2C]`}
+          className="text-[#D42C2C] text-lg sm:text-3xl md:text-[2.2rem] m-0 leading-tight capitalize relative md:px-4"
         >
           {project.title}
         </h3>
@@ -309,7 +289,6 @@ export default function Direction() {
   const paragraphRef = useRef(null);
   const [activeProjectHoverId, setActiveProjectHoverId] = useState(null);
 
-  // 🔊 HERO VIDEO SOUND STATE & REF
   const heroVideoRef = useRef(null);
   const [isMuted, setIsMuted] = useState(true);
 
@@ -352,7 +331,6 @@ export default function Direction() {
   return (
     <div className="w-full min-h-screen bg-[#FFFCFB] relative overflow-x-hidden pb-12 sm:pb-24 m-0 text-[#14120e]">
       
-      {/* 🎞️ NOISE GIF OVERLAY */}
       <div 
         className="fixed inset-0 pointer-events-none z-[999] bg-[url('/noise.gif')] bg-repeat"
         style={{ opacity: 0.03, mixBlendMode: 'multiply' }}
@@ -383,7 +361,7 @@ export default function Direction() {
           font-display: swap;
         }
 
-       @font-face {
+        @font-face {
           font-family: 'ParaFont';
           src: url('/ParaFont.ttf') format('truetype');
           font-weight: normal;
@@ -403,8 +381,8 @@ export default function Direction() {
         }
       `}</style>
 
-      {/* 🎬 HERO BANNER */}
-      <div className="relative w-full h-[55vh] sm:h-screen bg-[#14120e] flex flex-col justify-center items-center overflow-hidden m-0 p-0 editing-cutout-mask"> 
+      {/* HERO BANNER */}
+      <div className="relative w-full h-[60vh] sm:h-screen bg-[#14120e] flex flex-col justify-center items-center overflow-hidden m-0 p-0 editing-cutout-mask"> 
         <video 
           ref={heroVideoRef}
           poster="https://akshayshrivastava.com/images/DirectionMain.png"
@@ -420,7 +398,6 @@ export default function Direction() {
 
         <div className="absolute inset-0 bg-gradient-to-t from-[#14120e]/80 via-transparent to-[#14120e]/60 z-[1] pointer-events-none" />
 
-        {/* 🔊 MINIMAL SOUND TOGGLE BUTTON */}
         <button
           onClick={toggleAudio}
           className="absolute bottom-8 left-4 sm:bottom-12 sm:left-10 z-30 flex items-center justify-center w-8 h-8 sm:w-11 sm:h-11 bg-black/60 hover:bg-[#D42C2C] backdrop-blur-md text-[#FFFFFF] border border-white/20 rounded-full transition-all duration-300 shadow-xl group cursor-pointer hover:scale-110"
@@ -437,17 +414,24 @@ export default function Direction() {
           )}
         </button>
 
-        <div className="relative z-10 flex flex-col justify-center items-center px-4 mt-4">
+        <div className="relative z-10 flex flex-col justify-center items-center px-4 mt-4 text-center">
           <h1 
             style={{ fontFamily: "'SquidBoy', sans-serif", letterSpacing: '1px' }}
-            className="text-[2.5rem] sm:text-[5.5rem] text-[#FFFCFB] m-0 text-center leading-none drop-shadow-lg capitalize"
+            className="text-[2.5rem] sm:text-[5.5rem] text-[#FFFCFB] m-0 leading-none drop-shadow-lg capitalize mb-4 sm:mb-6"
           >
             Direction Work
           </h1>
+
+          <p 
+            style={{ fontFamily: "'ParaFont', sans-serif", fontWeight: 200, letterSpacing: '-0.3px' }}
+            className="text-[#FFFCFB] text-xs sm:text-base md:text-lg max-w-[850px] leading-relaxed font-light drop-shadow-[0_2px_10px_rgba(0,0,0,0.95)] px-4"
+          >
+            Editing teaches me how to shape a story. Motion teaches me how to push it further. Together, they help me think beyond the expected, because every good idea starts with “what if?” Direction is figuring out what comes next.
+          </p>
         </div>
       </div>
 
-      {/* 🏛️ HEADER & FEATURED ANIMATION SECTION */}
+      {/* HEADER & FEATURED SECTION */}
       <div ref={featuredSectionRef} className="w-full mx-auto pt-6 sm:pt-16 pb-4 px-4 flex flex-col items-center relative z-20 text-center overflow-hidden">
         <div className="inline-flex flex-col items-center z-20 px-4">
           <h2 
@@ -458,21 +442,19 @@ export default function Direction() {
           </h2>
         </div>
 
-        <div ref={paragraphRef} className="relative z-10 mt-2 mb-4 max-w-[700px] px-4">
+        <div ref={paragraphRef} className="relative z-10 mt-3 mb-4 max-w-[750px] px-4 flex flex-col gap-3">
           <p 
             style={{ fontFamily: "'ParaFont', sans-serif", letterSpacing: '-0.2px', fontWeight: 400 }}
-            className="text-[#3b352e] text-[11px] sm:text-lg leading-relaxed font-light text-center"
+            className="text-[#3b352e] text-xs sm:text-lg leading-relaxed font-light text-center"
           >
-            I craft compelling visual narratives, combining script analysis, intentional blocking, and precise post-direction to build high-converting brand stories.
+            I’ve always had a head full of random, unhinged ideas, and at some point, I thought, why not actually make them? That’s how I started learning this craft. That curiosity slowly turned into a craft, and the appreciation I received kept me going pushing me deeper into storytelling, motion, and direction.
           </p>
         </div>
 
-        {/* 📸 Scrapbook gallery */}
         <ScrapbookGallery />
       </div>
 
-      
-      {/* 📱 9:16 SHORT FORM PROJECT ROWS */}
+      {/* PROJECT ROWS */}
       <div className="max-w-[1100px] w-full mx-auto px-4 sm:px-6 flex flex-col gap-10 md:gap-24 my-8 sm:my-20">
         {DIRECTION_PROJECTS.map((project, idx) => (
           <DirectionProjectRow 
@@ -485,12 +467,12 @@ export default function Direction() {
         ))}
       </div>
 
-      {/* 🚀 SOCIAL PROOF */}
+      <StatsCounter/>
+
       <div className="m-0 p-0 mb-6 sm:mb-20">
         <SocialProof />
       </div>
 
-      {/* 🚀 FOOTER */}
       <Footer />
     </div>
   );

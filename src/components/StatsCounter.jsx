@@ -45,8 +45,8 @@ function CountUpNumber({ value, suffix = '', duration = 1800, startWhenVisible }
 // 📊 STATS COUNTER SECTION
 const DEFAULT_STATS = [
   { value: 200, suffix: '+', label: 'Videos Edited' },
-  { value: 50, suffix: 'M+', label: 'Views Generated' },
-  { value: 2, suffix: '+', label: 'Years Experience' },
+  { value: 60, suffix: 'M+', label: 'Views Generated' },
+  { value: 3, suffix: '+', label: 'Years Experience' },
 ];
 
 export default function StatsCounter({ stats = DEFAULT_STATS }) {

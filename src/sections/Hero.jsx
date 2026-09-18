@@ -46,9 +46,11 @@ const SOCIAL_LINKS = [
 
 export default function Hero({ onColumnClick }) {
   const videoRefs = useRef([]);
+  const sectionRef = useRef(null);
   const [hoveredIndex, setHoveredIndex] = useState(null);
   const [hasInteracted, setHasInteracted] = useState({});
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isHeroInView, setIsHeroInView] = useState(true);
 
   useEffect(() => {
     if (isMobileMenuOpen) {
@@ -57,6 +59,30 @@ export default function Hero({ onColumnClick }) {
       return () => { document.body.style.overflow = prevOverflow; };
     }
   }, [isMobileMenuOpen]);
+
+  // Hero keeps its own fixed navbar (no logo). Because it's `position: fixed`,
+  // it stays pinned to the viewport even after scrolling/navigating away,
+  // unless something tells it the Hero section is no longer in view. This
+  // watches the section with an IntersectionObserver and hides/unmounts its
+  // navbar the moment Hero scrolls out of view, so it hands off cleanly to
+  // the other Navbar (with logo) instead of sitting on top of it forever.
+  useEffect(() => {
+    const el = sectionRef.current;
+    if (!el) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => setIsHeroInView(entry.isIntersecting),
+      { threshold: 0.15 }
+    );
+
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
+  // Close the mobile menu automatically if Hero scrolls out of view while it's open
+  useEffect(() => {
+    if (!isHeroInView && isMobileMenuOpen) setIsMobileMenuOpen(false);
+  }, [isHeroInView, isMobileMenuOpen]);
 
   const handleMouseEnter = (index) => {
     setHoveredIndex(index);
@@ -74,7 +100,7 @@ export default function Hero({ onColumnClick }) {
   };
 
   return (
-    <section className="w-full h-dvh md:h-screen bg-[#08080a] overflow-hidden relative m-0 p-0 select-none">
+    <section ref={sectionRef} className="w-full h-dvh md:h-screen bg-[#08080a] overflow-hidden relative m-0 p-0 select-none">
       
       <style>{`
         @font-face {
@@ -166,108 +192,112 @@ export default function Hero({ onColumnClick }) {
         style={{ opacity: 0.012, mixBlendMode: 'overlay' }}
       />
 
-      {/* 📌 RENDERED NAVBAR (FIXED, WON'T DISAPPEAR) */}
-      <header 
-        className="absolute md:fixed top-6 md:top-12 left-0 w-screen max-w-full box-border z-[9999] px-4 sm:px-8 md:px-12 pointer-events-none border-0 outline-none"
-      >
-        <div className="w-full flex items-center justify-center relative min-h-[1px]">
-          
-          {/* CENTER: DESKTOP CAPSULE NAVIGATION */}
-          <div className="hidden md:flex absolute left-1/2 -translate-x-1/2 items-center justify-center pointer-events-auto">
-            <div className="relative bg-[#08080a] clean-pill pt-4 pb-3 px-4 rounded-lg overflow-hidden flex items-center justify-center shadow-lg border-0 outline-none">
+      {/* 📌 HERO'S OWN NAVBAR (FIXED, NO LOGO) — only rendered while Hero is
+          actually in view. Unmounts on scroll/navigate-away so it doesn't
+          sit on top of the other Navbar (with logo) elsewhere on the page. */}
+      {isHeroInView && (
+        <header 
+          className="absolute md:fixed top-6 md:top-12 left-0 w-screen max-w-full box-border z-[9999] px-4 sm:px-8 md:px-12 pointer-events-none border-0 outline-none transition-opacity duration-300"
+        >
+          <div className="w-full flex items-center justify-center relative min-h-[1px]">
+            
+            {/* CENTER: DESKTOP CAPSULE NAVIGATION */}
+            <div className="hidden md:flex absolute left-1/2 -translate-x-1/2 items-center justify-center pointer-events-auto">
+              <div className="relative bg-[#08080a] clean-pill pt-4 pb-3 px-4 rounded-lg overflow-hidden flex items-center justify-center shadow-lg border-0 outline-none">
+                <div 
+                  className="absolute inset-0 pointer-events-none z-[1] bg-[url('/noise.gif')] bg-repeat"
+                  style={{ opacity: 0.08, mixBlendMode: 'overlay' }}
+                />
+
+                <div className="relative z-[2] flex items-center justify-center">
+                  {NAV_ITEMS.map((item, idx) => {
+                    const isActive = hoveredIndex === COLUMNS.findIndex(c => c.id === item.id);
+
+                    return (
+                      <React.Fragment key={item.id}>
+                        <a 
+                          href={`#${item.id}`} 
+                          onClick={(e) => {
+                            e.preventDefault();
+                            if (onColumnClick) onColumnClick(item.id);
+                          }}
+                          onMouseEnter={() => handleMouseEnter(COLUMNS.findIndex(c => c.id === item.id))}
+                          onMouseLeave={() => handleMouseLeave(COLUMNS.findIndex(c => c.id === item.id))}
+                          style={{ fontFamily: "GourmetEatery, cursive, sans-serif" }}
+                          className={`relative inline-flex items-center text-sm sm:text-base tracking-wide transition-all duration-200 cursor-pointer hover:text-[#FFC300] whitespace-nowrap px-1.5 ${
+                            isActive ? 'text-[#FFC300]' : 'text-white'
+                          }`}
+                        >
+                          <span className="leading-none pt-0.5">{item.label}</span>
+                        </a>
+                        {idx < NAV_ITEMS.length - 1 && (
+                          <span className="w-1.5 h-1.5 rounded-full bg-[#D42C2C] inline-block select-none shrink-0 mx-0.5" />
+                        )}
+                      </React.Fragment>
+                    );
+                  })}
+                </div>
+              </div>
+            </div>
+
+            {/* MOBILE MENU TOGGLE */}
+            <button 
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+              aria-label="Toggle Menu"
+              aria-expanded={isMobileMenuOpen}
+              className="md:hidden absolute left-0 top-1/2 -translate-y-1/2 bg-[#08080a] clean-pill text-[#D42C2C] w-10 h-10 rounded-[6px] overflow-hidden flex items-center justify-center shadow-xl cursor-pointer active:scale-95 transition-transform duration-150 touch-manipulation [-webkit-tap-highlight-color:transparent] pointer-events-auto border-0 outline-none"
+            >
               <div 
                 className="absolute inset-0 pointer-events-none z-[1] bg-[url('/noise.gif')] bg-repeat"
                 style={{ opacity: 0.08, mixBlendMode: 'overlay' }}
               />
+              <svg className="relative z-[2] w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                {isMobileMenuOpen ? (
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
+                ) : (
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16" />
+                )}
+              </svg>
+            </button>
 
-              <div className="relative z-[2] flex items-center justify-center">
-                {NAV_ITEMS.map((item, idx) => {
-                  const isActive = hoveredIndex === COLUMNS.findIndex(c => c.id === item.id);
-
-                  return (
-                    <React.Fragment key={item.id}>
-                      <a 
-                        href={`#${item.id}`} 
-                        onClick={(e) => {
-                          e.preventDefault();
-                          if (onColumnClick) onColumnClick(item.id);
-                        }}
-                        onMouseEnter={() => handleMouseEnter(COLUMNS.findIndex(c => c.id === item.id))}
-                        onMouseLeave={() => handleMouseLeave(COLUMNS.findIndex(c => c.id === item.id))}
-                        style={{ fontFamily: "GourmetEatery, cursive, sans-serif" }}
-                        className={`relative inline-flex items-center text-sm sm:text-base tracking-wide transition-all duration-200 cursor-pointer hover:text-[#FFC300] whitespace-nowrap px-1.5 ${
-                          isActive ? 'text-[#FFC300]' : 'text-white'
-                        }`}
-                      >
-                        <span className="leading-none pt-0.5">{item.label}</span>
-                      </a>
-                      {idx < NAV_ITEMS.length - 1 && (
-                        <span className="w-1.5 h-1.5 rounded-full bg-[#D42C2C] inline-block select-none shrink-0 mx-0.5" />
-                      )}
-                    </React.Fragment>
-                  );
-                })}
-              </div>
-            </div>
           </div>
 
-          {/* MOBILE MENU TOGGLE */}
-          <button 
-            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            aria-label="Toggle Menu"
-            aria-expanded={isMobileMenuOpen}
-            className="md:hidden absolute left-0 top-1/2 -translate-y-1/2 bg-[#08080a] clean-pill text-[#D42C2C] w-10 h-10 rounded-[6px] overflow-hidden flex items-center justify-center shadow-xl cursor-pointer active:scale-95 transition-transform duration-150 touch-manipulation [-webkit-tap-highlight-color:transparent] pointer-events-auto border-0 outline-none"
-          >
-            <div 
-              className="absolute inset-0 pointer-events-none z-[1] bg-[url('/noise.gif')] bg-repeat"
-              style={{ opacity: 0.08, mixBlendMode: 'overlay' }}
-            />
-            <svg className="relative z-[2] w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              {isMobileMenuOpen ? (
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
-              ) : (
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16" />
-              )}
-            </svg>
-          </button>
-
-        </div>
-
-        {/* MOBILE MENU */}
-        {isMobileMenuOpen && (
-          <>
-            <div
-              className="md:hidden fixed inset-0 z-[1] bg-black/50 backdrop-blur-sm pointer-events-auto"
-              onClick={() => setIsMobileMenuOpen(false)}
-              aria-hidden="true"
-            />
-
-            <div className="md:hidden pointer-events-auto absolute top-14 left-4 right-4 z-[2] bg-[#08080a] clean-pill rounded-[8px] overflow-hidden p-6 shadow-2xl flex flex-col items-center justify-center text-center gap-4 animate-in fade-in slide-in-from-top-4 duration-200 max-h-[75vh] overflow-y-auto border-0 outline-none">
-              <div 
-                className="absolute inset-0 pointer-events-none z-[1] bg-[url('/noise.gif')] bg-repeat"
-                style={{ opacity: 0.08, mixBlendMode: 'overlay' }}
+          {/* MOBILE MENU */}
+          {isMobileMenuOpen && (
+            <>
+              <div
+                className="md:hidden fixed inset-0 z-[1] bg-black/50 backdrop-blur-sm pointer-events-auto"
+                onClick={() => setIsMobileMenuOpen(false)}
+                aria-hidden="true"
               />
-              <div className="relative z-[2] w-full flex flex-col items-center gap-4">
-                {NAV_ITEMS.map((item) => (
-                  <a 
-                    key={item.id}
-                    href={`#${item.id}`}
-                    onClick={(e) => {
-                      e.preventDefault();
-                      setIsMobileMenuOpen(false);
-                      if (onColumnClick) onColumnClick(item.id);
-                    }}
-                    style={{ fontFamily: "GourmetEatery, cursive, sans-serif" }}
-                    className="text-lg sm:text-xl tracking-wider text-white hover:text-[#FFC300] transition-colors py-2 w-full no-underline active:text-[#FFC300] touch-manipulation [-webkit-tap-highlight-color:transparent]"
-                  >
-                    {item.label}
-                  </a>
-                ))}
+
+              <div className="md:hidden pointer-events-auto absolute top-14 left-4 right-4 z-[2] bg-[#08080a] clean-pill rounded-[8px] overflow-hidden p-6 shadow-2xl flex flex-col items-center justify-center text-center gap-4 animate-in fade-in slide-in-from-top-4 duration-200 max-h-[75vh] overflow-y-auto border-0 outline-none">
+                <div 
+                  className="absolute inset-0 pointer-events-none z-[1] bg-[url('/noise.gif')] bg-repeat"
+                  style={{ opacity: 0.08, mixBlendMode: 'overlay' }}
+                />
+                <div className="relative z-[2] w-full flex flex-col items-center gap-4">
+                  {NAV_ITEMS.map((item) => (
+                    <a 
+                      key={item.id}
+                      href={`#${item.id}`}
+                      onClick={(e) => {
+                        e.preventDefault();
+                        setIsMobileMenuOpen(false);
+                        if (onColumnClick) onColumnClick(item.id);
+                      }}
+                      style={{ fontFamily: "GourmetEatery, cursive, sans-serif" }}
+                      className="text-lg sm:text-xl tracking-wider text-white hover:text-[#FFC300] transition-colors py-2 w-full no-underline active:text-[#FFC300] touch-manipulation [-webkit-tap-highlight-color:transparent]"
+                    >
+                      {item.label}
+                    </a>
+                  ))}
+                </div>
               </div>
-            </div>
-          </>
-        )}
-      </header>
+            </>
+          )}
+        </header>
+      )}
       
       {/* ================= DESKTOP LAYOUT (EQUAL & FLAWLESS MASK) ================= */}
       <div className="hidden md:block w-full h-full overflow-hidden relative">

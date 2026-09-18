@@ -51,6 +51,46 @@ export default function Navbar({ onNavigate, activeSection = 'editing' }) {
             (or nothing) sits to its left/right. */}
         <div className="w-full flex items-center justify-center relative min-h-[1px]">
 
+          {/* TOP-LEFT: LOGO + MOBILE MENU TOGGLE, grouped so they never overlap */}
+          <div className="absolute left-0 top-1/2 -translate-y-1/2 flex items-center gap-3 pointer-events-auto">
+            <a
+              href="#hero"
+              onClick={(e) => {
+                e.preventDefault();
+                if (onNavigate) onNavigate('hero');
+              }}
+              className="flex items-center shrink-0 cursor-pointer"
+              aria-label="Home"
+            >
+              <img
+                src="/logo.png"
+                alt="Logo"
+                className="h-9 sm:h-11 md:h-12 w-auto select-none pointer-events-none"
+                draggable="false"
+              />
+            </a>
+
+            {/* MOBILE MENU TOGGLE */}
+            <button 
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+              aria-label="Toggle Menu"
+              aria-expanded={isMobileMenuOpen}
+              className="md:hidden bg-[#D42C2C] clean-pill text-white w-10 h-10 rounded-[6px] overflow-hidden flex items-center justify-center shadow-xl cursor-pointer active:scale-95 transition-transform duration-150 touch-manipulation [-webkit-tap-highlight-color:transparent] border-none outline-none relative shrink-0"
+            >
+              <div 
+                className="absolute inset-0 pointer-events-none z-[1] bg-[url('/noise.gif')] bg-repeat"
+                style={{ opacity: 0.08, mixBlendMode: 'overlay' }}
+              />
+              <svg className="relative z-[2] w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                {isMobileMenuOpen ? (
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
+                ) : (
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16" />
+                )}
+              </svg>
+            </button>
+          </div>
+
           {/* CENTER: DESKTOP CAPSULE NAVIGATION — true horizontal center */}
           <div className="hidden md:flex absolute left-1/2 -translate-x-1/2 items-center justify-center pointer-events-auto">
             <div className="relative bg-[#D42C2C] clean-pill pt-3 pb-3 px-6 rounded-lg overflow-hidden flex items-center justify-center shadow-lg border-none outline-none">
@@ -89,26 +129,6 @@ export default function Navbar({ onNavigate, activeSection = 'editing' }) {
               </div>
             </div>
           </div>
-
-          {/* MOBILE MENU TOGGLE — pinned to the left on mobile only */}
-          <button 
-            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            aria-label="Toggle Menu"
-            aria-expanded={isMobileMenuOpen}
-            className="md:hidden absolute left-0 top-1/2 -translate-y-1/2 bg-[#D42C2C] clean-pill text-white w-10 h-10 rounded-[6px] overflow-hidden flex items-center justify-center shadow-xl cursor-pointer active:scale-95 transition-transform duration-150 touch-manipulation [-webkit-tap-highlight-color:transparent] pointer-events-auto border-none outline-none"
-          >
-            <div 
-              className="absolute inset-0 pointer-events-none z-[1] bg-[url('/noise.gif')] bg-repeat"
-              style={{ opacity: 0.08, mixBlendMode: 'overlay' }}
-            />
-            <svg className="relative z-[2] w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              {isMobileMenuOpen ? (
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
-              ) : (
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16" />
-              )}
-            </svg>
-          </button>
 
         </div>
 

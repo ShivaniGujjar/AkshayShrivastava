@@ -121,7 +121,7 @@ export default function AboutMe() {
       <div className="relative w-full h-[55vh] sm:h-screen bg-[#14120e] flex flex-col justify-center items-center overflow-hidden m-0 p-0 editing-cutout-mask"> 
         <video 
           ref={heroVideoRef}
-          poster="https://akshayshrivastava.com/images/AboutHome.png"
+          poster="https://akshayshrivastava.com/images/AboutMain.png"
           autoPlay 
           loop 
           muted={isMuted} 

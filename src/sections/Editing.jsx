@@ -4,7 +4,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import SocialProof from '../components/SocialProof';
 import Footer from './Footer';
 import CustomVideoPlayer from '../components/CustomVideoPlayer';
-
+import StatsCounter from '../components/StatsCounter';
 
 if (typeof window !== 'undefined') {
   gsap.registerPlugin(ScrollTrigger);
@@ -12,9 +12,9 @@ if (typeof window !== 'undefined') {
 
 // 🎬 REAL SHOWCASE DATA WITH HOSTINGER LINKS
 const LONG_FORMS = [
-  { id: 'lf1', title: '1', category: 'Podcast', videoUrl: 'https://akshayshrivastava.com/videos/long1.mp4', poster: 'https://akshayshrivastava.com/images/long1.png' },
-  { id: 'lf2', title: '2', category: 'Edutainment', videoUrl: 'https://akshayshrivastava.com/videos/long2.mp4', poster: 'https://akshayshrivastava.com/images/long2.png' },
-  { id: 'lf3', title: '3', category: 'Documentary', videoUrl: 'https://akshayshrivastava.com/videos/long3.mp4', poster: 'https://akshayshrivastava.com/images/long3.png' },
+  { id: 'lf1', title: 'Podcast Episode 1', category: 'Podcast', videoUrl: 'https://akshayshrivastava.com/videos/long1.mp4', poster: 'https://akshayshrivastava.com/images/long1.png' },
+  { id: 'lf2', title: 'Edutainment Masterclass', category: 'Edutainment', videoUrl: 'https://akshayshrivastava.com/videos/long2.mp4', poster: 'https://akshayshrivastava.com/images/long2.png' },
+  { id: 'lf3', title: 'Documentary Feature', category: 'Documentary', videoUrl: 'https://akshayshrivastava.com/videos/long3.mp4', poster: 'https://akshayshrivastava.com/images/long3.png' },
   { id: 'lf4', title: 'Talking Head Masterclass', category: 'Vlog', videoUrl: 'https://akshayshrivastava.com/videos/long4.mp4', poster: 'https://akshayshrivastava.com/images/long4.png' },
   { id: 'lf5', title: 'Talking Head Masterclass', category: 'Vlog', videoUrl: 'https://akshayshrivastava.com/videos/long5.mp4', poster: 'https://akshayshrivastava.com/images/long5.png' },
   { id: 'lf6', title: 'Talking Head Masterclass', category: 'Vlog', videoUrl: 'https://akshayshrivastava.com/videos/long6.mp4', poster: 'https://akshayshrivastava.com/images/long6.png' },
@@ -45,21 +45,20 @@ const duplicateList = (arr, count = 2) => {
   return output;
 };
 
-// 🎥 SINGLE VIDEO CARD WITH HOVER PREVIEW
+// 🎥 SINGLE VIDEO CARD WITH AUTOPLAY & ISOLATED HOVER PLAY
 function VideoCard({ item, aspectRatio = "wide", hoveredId, setHoveredId, onOpenModal }) {
   const cardRef = useRef(null);
   const videoRef = useRef(null);
   const [isVisible, setIsVisible] = useState(false);
   const isHovered = hoveredId === item.id;
   const isAnyHovered = hoveredId !== null;
-  const isShort = aspectRatio === "tall";
 
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => {
         setIsVisible(entry.isIntersecting);
       },
-      { threshold: 0.1 }
+      { threshold: 0.15 }
     );
 
     if (cardRef.current) {
@@ -79,6 +78,7 @@ function VideoCard({ item, aspectRatio = "wide", hoveredId, setHoveredId, onOpen
       return;
     }
 
+    // Logic: If any card is hovered, ONLY play the hovered one. Otherwise, autoplay all visible cards.
     const shouldPlay = isAnyHovered ? isHovered : true;
 
     if (shouldPlay) {
@@ -91,9 +91,8 @@ function VideoCard({ item, aspectRatio = "wide", hoveredId, setHoveredId, onOpen
     }
   }, [isVisible, isHovered, isAnyHovered, item.videoUrl]);
 
-  // Responsive Card Dimensions optimized for mobile & desktop
   const cardDimensions = aspectRatio === "wide" 
-    ? "w-[240px] xs:w-[280px] sm:w-[420px] h-[140px] xs:h-[160px] sm:h-[260px]" 
+    ? "w-[240px] xs:w-[280px] sm:w-[420px] h-[140px] xs:h-[160px] sm:h-[240px]" 
     : "w-[160px] xs:w-[200px] sm:w-[300px] aspect-[9/16]";
 
   return (
@@ -102,66 +101,52 @@ function VideoCard({ item, aspectRatio = "wide", hoveredId, setHoveredId, onOpen
       onMouseEnter={() => setHoveredId(item.id)}
       onMouseLeave={() => setHoveredId(null)}
       onClick={() => onOpenModal(item)}
-      className={`relative group overflow-hidden cursor-pointer bg-[#0f0e0c] shadow-[0_8px_30px_rgba(0,0,0,0.06)] transition-all duration-500 ease-out hover:-translate-y-1 hover:shadow-[0_16px_40px_rgba(212,44,44,0.15)] ${cardDimensions} shrink-0 outline-none focus:outline-none select-none rounded-[8px]`}
+      className={`relative inline-flex flex-col cursor-group shrink-0 cursor-pointer select-none group overflow-hidden bg-[#0f0e0c] shadow-[0_8px_30px_rgba(0,0,0,0.08)] transition-all duration-500 ease-out hover:-translate-y-1 hover:shadow-[0_16px_40px_rgba(212,44,44,0.2)] rounded-[12px] ${cardDimensions}`}
     >
+      {/* Background Video */}
       <video
         ref={videoRef}
         poster={item.poster}
         muted
         loop
         playsInline
-        preload="none"
+        preload="metadata"
         draggable={false}
-        className="absolute inset-0 w-full h-full object-cover transition-all duration-700 filter brightness-[0.85] group-hover:brightness-100 group-hover:scale-105 outline-none focus:outline-none pointer-events-none"
+        className="absolute inset-0 w-full h-full object-cover transition-all duration-700 filter brightness-[0.85] group-hover:brightness-100 group-hover:scale-105 outline-none pointer-events-none"
       />
 
-      <div className="absolute inset-0 bg-gradient-to-t from-[#0f0e0c]/90 via-[#0f0e0c]/25 to-transparent transition-opacity duration-300 group-hover:opacity-80" />
+      {/* Dark Gradient Overlay */}
+      <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent pointer-events-none" />
 
-      {/* Subtle bottom fade to blend with page lighting */}
-      <div className="absolute bottom-0 left-0 right-0 h-12 bg-gradient-to-t from-[#0f0e0c]/60 to-transparent pointer-events-none" />
-
-      {/* Badge / Category for Long forms */}
-      {!isShort && item.category && (
-        <div 
-          style={{ fontFamily: "'SquidBoy', sans-serif", letterSpacing: '0.5px' }}
-          className="absolute top-2.5 left-2.5 sm:top-4 sm:left-4 bg-[#D42C2C]/90 backdrop-blur-md px-2 sm:px-3 py-0.5 sm:py-1 rounded-[4px] text-[#FFFCFB] text-[9px] sm:text-xs capitalize shadow-sm"
-        >
-          {item.category}
-        </div>
-      )}
-
-      <div className={`absolute top-2.5 right-2.5 sm:top-4 sm:right-4 w-6 h-6 sm:w-9 sm:h-9 rounded-[4px] backdrop-blur-md flex items-center justify-center transition-all duration-300 ${isHovered ? 'scale-110 bg-[#D42C2C] text-[#FFFCFB] shadow-[0_0_20px_rgba(212,44,44,0.6)]' : 'bg-black/40 text-[#FFFCFB]'}`}>
+      {/* Hover Play Indicator Badge */}
+      <div className={`absolute top-3 right-3 w-7 h-7 sm:w-9 sm:h-9 rounded-full backdrop-blur-md flex items-center justify-center transition-all duration-300 z-10 ${isHovered ? 'scale-110 bg-[#14120e] text-[#FFFCFB] shadow-lg' : 'bg-black/40 text-[#FFFCFB]'}`}>
         {isHovered ? (
-          <span className="w-1.5 h-1.5 sm:w-2.5 sm:h-2.5 bg-[#FFFCFB] rounded-[2px] animate-pulse" />
+          <span className="w-2 h-2 bg-[#FFFCFB] rounded-full animate-pulse" />
         ) : (
-          <svg className="w-3 h-3 sm:w-4 sm:h-4 fill-current ml-0.5" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+          <svg className="w-3.5 h-3.5 fill-current ml-0.5" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
         )}
       </div>
 
-      <div className="absolute bottom-0 left-0 right-0 p-3 sm:p-6 transform transition-transform duration-300">
-        {!isShort && (
-          <h4 
-            style={{ fontFamily: "'SquidBoy', sans-serif", letterSpacing: '0.5px' }}
-            className="text-[#FFFCFB] text-sm sm:text-2xl leading-snug drop-shadow-md mb-1 capitalize"
-          >
-            {item.title}
-          </h4>
-        )}
-        {item.brand && (
-          <p 
-            style={{ fontFamily: "'GroteskFont', sans-serif", letterSpacing: '-0.3px', fontWeight: 400 }}
-            className="text-[#FFFCFB] text-[9px] sm:text-xs capitalize bg-[#D42C2C] px-2 py-0.5 sm:px-2.5 sm:py-1 rounded-[4px] inline-block shadow-md"
-          >
-            {item.brand}
-          </p>
-        )}
+      {/* Title & Category/Brand Overlay */}
+      <div className="absolute bottom-0 left-0 right-0 p-3.5 sm:p-5 flex flex-col items-start text-left z-10">
+        <h4 
+          style={{ fontFamily: "'SquidBoy', sans-serif", letterSpacing: '0.5px' }}
+          className="text-[#FFFCFB] text-sm sm:text-lg leading-tight capitalize drop-shadow-md group-hover:text-[#FFC300] transition-colors duration-300"
+        >
+          {item.title}
+        </h4>
+        <p 
+          style={{ fontFamily: "'GroteskFont', sans-serif", letterSpacing: '-0.2px' }}
+          className="text-[#d1cbc5] text-[11px] sm:text-xs capitalize mt-0.5 font-normal drop-shadow-sm"
+        >
+          {item.category || item.brand}
+        </p>
       </div>
     </div>
   );
 }
 
-// 🎠 MARQUEE ROW — autoplay/autoscroll, pauses on hover (only hovered video plays),
-// resumes on mouse leave, and supports manual drag/swipe.
+// 🎠 MARQUEE ROW
 function MarqueeRow({ items, aspectRatio, direction = 'left', hoveredId, setHoveredId, onOpenModal, speed = 45 }) {
   const containerRef = useRef(null);
   const hoveredIdRef = useRef(hoveredId);
@@ -194,16 +179,19 @@ function MarqueeRow({ items, aspectRatio, direction = 'left', hoveredId, setHove
       const delta = timestamp - lastTimeRef.current;
       lastTimeRef.current = timestamp;
 
+      // Pause marquee movement when any item is hovered or dragging
       if (hoveredIdRef.current == null && !isDraggingRef.current) {
         const half = el.scrollWidth / 2;
         const dir = direction === 'left' ? 1 : -1;
 
         el.scrollLeft += dir * speed * (delta / 1000);
 
-        if (el.scrollLeft >= half) {
-          el.scrollLeft -= half;
-        } else if (el.scrollLeft <= 0) {
-          el.scrollLeft += half;
+        if (half > 0) {
+          if (el.scrollLeft >= half) {
+            el.scrollLeft -= half;
+          } else if (el.scrollLeft <= 0) {
+            el.scrollLeft += half;
+          }
         }
       }
 
@@ -321,7 +309,7 @@ function MarqueeRow({ items, aspectRatio, direction = 'left', hoveredId, setHove
       className="w-full max-w-full overflow-x-scroll overflow-y-hidden pt-2 pb-6 cursor-grab select-none [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden px-4 sm:px-8"
       style={{ touchAction: 'pan-y' }}
     >
-      <div className="inline-flex whitespace-nowrap gap-4 sm:gap-8 w-max">
+      <div className="inline-flex whitespace-nowrap gap-6 sm:gap-10 w-max items-start">
         {items.map((item, idx) => (
           <VideoCard
             key={`${item.id}-${idx}`}
@@ -445,7 +433,7 @@ export default function Editing() {
         <video 
           ref={heroVideoRef}
           src="https://akshayshrivastava.com/videos/EditingMain.mp4" 
-          poster="https://akshayshrivastava.com/images/EditingHome.png"
+          poster= 'https://akshayshrivastava.com/images/EditingMain.png'
           autoPlay 
           loop 
           muted={isHeroMuted} 
@@ -454,12 +442,11 @@ export default function Editing() {
           className="absolute top-0 left-0 w-full h-full object-cover z-0 filter brightness-[0.75] contrast-100"
         />
 
-        {/* Noise opacity bilkul halki (0.015) */}
         <div className="absolute inset-0 pointer-events-none z-[1] bg-[url('/noise.gif')] bg-repeat opacity-[0.015] mix-blend-overlay" />
 
         <button
           onClick={toggleHeroSound}
-          className="absolute bottom-10 left-4 sm:bottom-16 sm:left-10 z-20 w-8 h-8 sm:w-11 sm:h-11 rounded-full bg-black/60 hover:bg-black/80 backdrop-blur-md border border-white/10 flex items-center justify-center text-[#FFC300] hover:scale-110 transition-all duration-300 shadow-xl cursor-pointer group"
+          className="absolute bottom-10 left-4 sm:bottom-16 sm:left-10 z-20 w-8 h-8 sm:w-11 sm:h-11 rounded-full bg-black/60 hover:bg-black/85 backdrop-blur-md border border-white/10 flex items-center justify-center text-[#FFC300] hover:scale-110 transition-all duration-300 shadow-xl cursor-pointer group"
           title={isHeroMuted ? "Unmute Sound" : "Mute Sound"}
         >
           {isHeroMuted ? (
@@ -473,30 +460,37 @@ export default function Editing() {
           )}
         </button>
 
-        <div className="absolute inset-0 bg-gradient-to-t from-[#14120e]/50 via-transparent to-[#14120e]/30 z-[2] pointer-events-none" />
+        <div className="absolute inset-0 bg-gradient-to-b from-[#14120e]/70 via-[#14120e]/20 to-[#14120e]/80 z-[2] pointer-events-none" />
 
         <div className="relative z-10 flex flex-col justify-center items-center px-4 text-center mt-6">
           <h1 
-            style={{ 
-              fontFamily: "'SquidBoy', sans-serif", 
-              letterSpacing: '1px'
-            }}
-            className="text-[2.8rem] sm:text-[5.5rem] text-[#FFFCFB] m-0 leading-none drop-shadow-lg capitalize"
+            style={{ fontFamily: "'SquidBoy', sans-serif", letterSpacing: '1px' }}
+            className="text-[2.8rem] sm:text-[5.5rem] text-[#FFFCFB] m-0 leading-none drop-shadow-lg capitalize mb-4 sm:mb-6"
           >
             Editing Work
           </h1>
+
+          <p 
+            style={{ fontFamily: "'ParaFont', sans-serif", fontWeight: 200, letterSpacing: '-0.3px' }}
+            className="text-[#FFFCFB] text-xs sm:text-base md:text-lg max-w-[850px] leading-relaxed font-light drop-shadow-[0_2px_10px_rgba(0,0,0,0.95)] px-4 mb-3"
+          >
+            The camera captures everything. Editing decides what matters. Through pacing, rhythm, sound, and restraint, an edit can turn the same footage into completely different stories. That’s what makes editing less of a technical process and more of a storytelling language.
+          </p>
+
+          <p 
+            style={{ fontFamily: "'ParaFont', sans-serif", fontWeight: 200, letterSpacing: '0.2px' }}
+            className="text-[#FFC300] text-xs sm:text-sm md:text-base drop-shadow-[0_2px_8px_rgba(0,0,0,0.95)]"
+          >
+            Here are a few stories I've helped shape. Scroll on.
+          </p>
         </div>
       </div>
 
-      {/* HEADER & FEATURED MASTERPIECE SECTION */}
+      {/* FEATURED MASTERPIECE SECTION */}
       <div ref={featuredSectionRef} className="w-full mx-auto pt-8 sm:pt-16 pb-4 px-4 flex flex-col items-center relative z-20 text-center overflow-hidden">
-        
         <div className="inline-flex flex-col items-center z-20 px-4">
           <h2 
-            style={{ 
-              fontFamily: "'SquidBoy', sans-serif", 
-              letterSpacing:'1px'
-            }}
+            style={{ fontFamily: "'SquidBoy', sans-serif", letterSpacing:'1px' }}
             className="text-xl sm:text-4xl m-0 text-[#D42C2C] leading-tight capitalize"
           >
             Welcome To Editing Section
@@ -505,24 +499,18 @@ export default function Editing() {
 
         <div ref={paragraphRef} className="relative z-10 mt-2 sm:mt-3 mb-6 max-w-[700px] px-4">
           <p 
-            style={{ 
-              fontFamily: "'ParaFont', sans-serif", 
-              fontWeight: 400,
-              letterSpacing : '-0.5px'
-            }}
+            style={{ fontFamily: "ParaFont, sans-serif", fontWeight: 200, letterSpacing : '-0.5px' }}
             className="text-[#3b352e] text-xs sm:text-lg leading-relaxed text-center font-light tracking-wide"
           >
-            I have worked with multiple startups and influencers on various kind of edit like UGC ads
+            A collection of some of my best work across UGC ads, brand films, podcasts, documentaries, YouTube videos, reels, shorts, social media campaigns, and more.
           </p>
         </div>
 
-        {/* 🍿 FULL WIDE FEATURED MASTERPIECE */}
         <div className="max-w-[950px] w-full px-2 sm:px-6 mb-8 sm:mb-10 relative z-20">
           <div className="w-full aspect-video rounded-[8px] overflow-hidden shadow-[0_18px_50px_rgba(0,0,0,0.15)] bg-[#0f0e0c]">
             <CustomVideoPlayer 
               src="https://akshayshrivastava.com/videos/EditingFull.mp4"
-              poster="https://akshayshrivastava.com/images/EditingHome.png"
-              badgeText="Featured Masterpiece"
+              poster= 'https://akshayshrivastava.com/images/EditingMain.png'
               className="w-full h-full"
               muted={true}
             />
@@ -530,16 +518,11 @@ export default function Editing() {
         </div>
       </div>
 
-      
-
       {/* LONG FORMS */}
       <div id="long-forms" className="w-full max-w-full relative overflow-hidden my-6 sm:my-16">
         <div className="max-w-[1100px] w-full mx-auto px-4 sm:px-6 flex flex-col items-center text-center mb-6 sm:mb-8">
           <h3 
-            style={{ 
-              fontFamily: "'SquidBoy', sans-serif", 
-              letterSpacing : '1px'
-            }}
+            style={{ fontFamily: "'SquidBoy', sans-serif", letterSpacing : '1px' }}
             className="text-xl sm:text-4xl m-0 text-[#D42C2C] leading-tight capitalize"
           >
             Long Forms
@@ -574,10 +557,7 @@ export default function Editing() {
       <div className="w-full max-w-full relative overflow-hidden my-6 sm:my-20">
         <div className="max-w-[1100px] w-full mx-auto px-4 sm:px-6 flex flex-col items-center text-center mb-6 sm:mb-8">
           <h3 
-            style={{ 
-              fontFamily: "'SquidBoy', sans-serif", 
-              letterSpacing : '1px'
-            }}
+            style={{ fontFamily: "'SquidBoy', sans-serif", letterSpacing : '1px' }}
             className="text-xl sm:text-4xl m-0 text-[#D42C2C] leading-tight capitalize"
           >
             Short Forms
@@ -620,12 +600,15 @@ export default function Editing() {
         />
       </div>
 
-      {/* 🚀 SOCIAL PROOF */}
+      {/* STATS COUNTER */}
+      <StatsCounter />
+
+      {/* SOCIAL PROOF */}
       <div className="m-0 p-0 mb-8 sm:mb-20">
         <SocialProof />
       </div>
 
-      {/* FULLSCREEN PREVIEW */}
+      {/* FULLSCREEN PREVIEW MODAL */}
       {selectedVideo && (
         <div 
           onClick={() => setSelectedVideo(null)}
@@ -686,7 +669,7 @@ export default function Editing() {
         </div>
       )}
 
-      {/* 🚀 FOOTER */}
+      {/* FOOTER */}
       <Footer />
     </div>
   );
