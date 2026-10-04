@@ -47,14 +47,14 @@ export default function Navbar({ onNavigate, activeSection = 'editing' }) {
       `}</style>
 
       <header 
-        className={`absolute md:fixed top-8 sm:top-12 md:top-12 left-0 w-screen max-w-full box-border z-[9999] px-4 sm:px-8 md:px-12 pointer-events-none transition-all duration-400 ease-out border-none outline-none ${
+        className={`fixed top-6 sm:top-10 md:top-12 left-0 w-full box-border z-[9999] px-4 sm:px-8 md:px-12 pointer-events-none transition-all duration-400 ease-out border-none outline-none bg-transparent ${
           isVisible ? 'translate-y-0 opacity-100' : '-translate-y-[200%] opacity-0'
         }`}
       >
-        <div className="w-full flex items-center justify-center relative min-h-[1px]">
+        <div className="w-full flex items-center justify-between md:justify-center relative min-h-[44px]">
 
-          {/* TOP-LEFT: LOGO + MOBILE MENU TOGGLE */}
-          <div className="absolute left-0 top-1/2 -translate-y-1/2 flex items-center gap-3 pointer-events-auto">
+          {/* MOBILE / LEFT: LOGO */}
+          <div className="flex items-center pointer-events-auto md:absolute md:left-0 md:top-1/2 md:-translate-y-1/2">
             <a
               href="#hero"
               onClick={(e) => {
@@ -67,30 +67,10 @@ export default function Navbar({ onNavigate, activeSection = 'editing' }) {
               <img
                 src="/logo.png"
                 alt="Logo"
-                className="h-9 sm:h-11 md:h-12 w-auto select-none pointer-events-none"
+                className="h-8 sm:h-10 md:h-12 w-auto select-none pointer-events-none"
                 draggable="false"
               />
             </a>
-
-            {/* MOBILE MENU TOGGLE */}
-            <button 
-              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              aria-label="Toggle Menu"
-              aria-expanded={isMobileMenuOpen}
-              className="md:hidden bg-[#D42C2C] clean-pill text-white w-10 h-10 rounded-[6px] overflow-hidden flex items-center justify-center shadow-xl cursor-pointer active:scale-95 transition-transform duration-150 touch-manipulation [-webkit-tap-highlight-color:transparent] border-none outline-none relative shrink-0"
-            >
-              <div 
-                className="absolute inset-0 pointer-events-none z-[1] bg-[url('/noise.gif')] bg-repeat"
-                style={{ opacity: 0.08, mixBlendMode: 'overlay' }}
-              />
-              <svg className="relative z-[2] w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                {isMobileMenuOpen ? (
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
-                ) : (
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16" />
-                )}
-              </svg>
-            </button>
           </div>
 
           {/* CENTER: DESKTOP CAPSULE NAVIGATION */}
@@ -114,14 +94,14 @@ export default function Navbar({ onNavigate, activeSection = 'editing' }) {
                           if (onNavigate) onNavigate(item.id);
                         }}
                         style={{ fontFamily: "GourmetEatery, cursive, sans-serif" }}
-                        className={`relative inline-flex items-center text-sm sm:text-base tracking-wide transition-all duration-200 cursor-pointer text-[#FFFFFF] hover:text-[#FFC822] whitespace-nowrap capitalize px-1 ${
+                        className={`relative inline-flex items-center text-sm sm:text-base tracking-wide transition-all duration-200 cursor-pointer text-[#FFFFFF] hover:text-[#FFC822] whitespace-nowrap capitalize px-1.5 ${
                           isActive ? 'text-[#FFC822] font-bold' : ''
                         }`}
                       >
                         <span className="leading-none pt-0.5">{item.label}</span>
                       </a>
                       {idx < NAV_ITEMS.length - 1 && (
-                        <span className="w-1.5 h-1.5 rounded-full bg-[#FFC822] inline-block select-none shrink-0 mx-0.5" />
+                        <span className="w-1.5 h-1.5 rounded-full bg-[#FFC822] inline-block select-none shrink-0 mx-1" />
                       )}
                     </React.Fragment>
                   );
@@ -130,13 +110,35 @@ export default function Navbar({ onNavigate, activeSection = 'editing' }) {
             </div>
           </div>
 
+          {/* MOBILE / RIGHT: HAMBURGER MENU TOGGLE */}
+          <div className="flex items-center pointer-events-auto md:hidden">
+            <button 
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+              aria-label="Toggle Menu"
+              aria-expanded={isMobileMenuOpen}
+              className="bg-[#D42C2C] clean-pill text-white w-10 h-10 rounded-[6px] overflow-hidden flex items-center justify-center shadow-xl cursor-pointer active:scale-95 transition-transform duration-150 touch-manipulation [-webkit-tap-highlight-color:transparent] border-none outline-none relative shrink-0"
+            >
+              <div 
+                className="absolute inset-0 pointer-events-none z-[1] bg-[url('/noise.gif')] bg-repeat"
+                style={{ opacity: 0.08, mixBlendMode: 'overlay' }}
+              />
+              <svg className="relative z-[2] w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                {isMobileMenuOpen ? (
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
+                ) : (
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16" />
+                )}
+              </svg>
+            </button>
+          </div>
+
         </div>
 
         {/* MOBILE MENU DROPDOWN */}
         {isMobileMenuOpen && (
           <>
             <div
-              className="md:hidden fixed inset-0 z-[1] bg-black/50 backdrop-blur-sm pointer-events-auto"
+              className="md:hidden fixed inset-0 z-[1] bg-black/70 backdrop-blur-md pointer-events-auto"
               onClick={() => setIsMobileMenuOpen(false)}
               aria-hidden="true"
             />

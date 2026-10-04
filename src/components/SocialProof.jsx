@@ -146,7 +146,7 @@ export default function SocialProof({ brands = DEFAULT_BRANDS, testimonials = DE
         <div className="relative z-[15] text-center mb-4 sm:mb-6 pt-14 sm:pt-24 pb-1 sm:pb-2 px-4">
           <h2
             style={{ fontFamily: "GenericFont, sans-serif", letterSpacing: '0.3px', fontWeight: 300 }}
-            className="text-xl sm:text-[42px] mt-2 sm:mt-4 m-0 text-[#FFFFFF] leading-tight drop-shadow-md"
+            className="text-xl sm:text-[42px] pt-4 mt-2 sm:mt-4 m-0 text-[#FFFFFF] leading-tight drop-shadow-md"
           >
             Testimonial
           </h2>
