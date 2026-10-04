@@ -442,19 +442,7 @@ export default function AboutMe() {
           ))}
         </h2>
 
-        {/* Skill tags */}
-        <div className="flex flex-wrap justify-center gap-2.5 sm:gap-3 mb-10 sm:mb-14">
-          {SKILLS.map((label) => (
-            <span
-              key={label}
-              style={{ fontFamily: "'GroteskFont', sans-serif" }}
-              className="skill-tag inline-flex items-center gap-2 px-4 sm:px-5 py-1.5 sm:py-2 rounded-full border border-[#14120e]/80 text-[#14120e] text-[11px] sm:text-xs uppercase tracking-[0.14em] cursor-default hover:bg-[#14120e] hover:text-[#FFFCFB] transition-colors duration-300"
-            >
-              <span className="w-1.5 h-1.5 rounded-full bg-[#D42C2C]" />
-              {label}
-            </span>
-          ))}
-        </div>
+        
 
         {/* Numbers */}
         <div className="stats-row w-full grid grid-cols-1 sm:grid-cols-3 gap-6 sm:gap-8 mb-12 sm:mb-20">
