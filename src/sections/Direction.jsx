@@ -38,135 +38,329 @@ const DIRECTION_PROJECTS = [
   }
 ];
 
-// 📸 SCRAPBOOK POLAROID GALLERY (Optimized for Autoplay & Hover Isolation)
+// 📸 FRAME GALLERY: videos are auto-fitted into the gray windows of directionFrames.png
+const FRAME_SRC = '/directionFrames.png';
+const GALLERY_MAX_WIDTH = 760; // 👈 gallery size in px: chota karna ho to kam karo, bada karna ho to badhao
+
+const FRAME_VIDEOS = [
+  {
+    title: 'On-Set BTS',
+    src: 'https://akshayshrivastava.com/videos/AboutMain.mp4',
+    poster: 'https://akshayshrivastava.com/images/AboutMain.png',
+    textColor: 'text-white',
+  },
+  {
+    title: 'Storyboard',
+    src: 'https://akshayshrivastava.com/videos/short18.mp4',
+    poster: 'https://akshayshrivastava.com/images/short18.png',
+    textColor: 'text-[#FFC822]',
+  },
+  {
+    title: 'Cam Cut',
+    src: 'https://akshayshrivastava.com/videos/MotionMain.mp4',
+    poster: 'https://akshayshrivastava.com/images/MotionMain.png',
+    textColor: 'text-white',
+  },
+];
+
+// Finds the 3 gray "window" regions in the PNG and returns a mask + corner points for each.
+function detectWindows(img) {
+  const W = Math.min(img.naturalWidth, 1000);
+  const H = Math.round((img.naturalHeight * W) / img.naturalWidth);
+  const canvas = document.createElement('canvas');
+  canvas.width = W;
+  canvas.height = H;
+  const ctx = canvas.getContext('2d', { willReadFrequently: true });
+  ctx.drawImage(img, 0, 0, W, H);
+  const { data } = ctx.getImageData(0, 0, W, H);
+
+  // 1. flag solid mid-gray pixels (the placeholder windows)
+  const flag = new Uint8Array(W * H);
+  for (let i = 0; i < W * H; i++) {
+    const r = data[i * 4], g = data[i * 4 + 1], b = data[i * 4 + 2], a = data[i * 4 + 3];
+    if (a > 200 && r > 55 && r < 140 && Math.abs(r - g) < 10 && Math.abs(g - b) < 10) flag[i] = 1;
+  }
+
+  // 1b. visible bounding box of the whole PNG (to auto-crop transparent padding)
+  let minX = W, minY = H, maxX = 0, maxY = 0;
+  for (let y = 0; y < H; y++) {
+    for (let x = 0; x < W; x++) {
+      if (data[(y * W + x) * 4 + 3] > 30) {
+        if (x < minX) minX = x;
+        if (x > maxX) maxX = x;
+        if (y < minY) minY = y;
+        if (y > maxY) maxY = y;
+      }
+    }
+  }
+  const pad = 4;
+  minX = Math.max(0, minX - pad);
+  minY = Math.max(0, minY - pad);
+  maxX = Math.min(W - 1, maxX + pad);
+  maxY = Math.min(H - 1, maxY + pad);
+  const crop = { x: minX, y: minY, w: maxX - minX + 1, h: maxY - minY + 1 };
+
+  // 1c. find the beige torn strip (for the "Direction Work" title)
+  const stripFlag = new Uint8Array(W * H);
+  for (let i = 0; i < W * H; i++) {
+    const r = data[i * 4], g = data[i * 4 + 1], b = data[i * 4 + 2], a = data[i * 4 + 3];
+    if (a > 200 && g > 215 && r - g < 14 && r - b > 25 && b > 150 && b < 215) stripFlag[i] = 1;
+  }
+  const stripSeen = new Uint8Array(W * H);
+  let strip = null, stripCount = 0;
+  for (let start = 0; start < W * H; start++) {
+    if (!stripFlag[start] || stripSeen[start]) continue;
+    const st = [start];
+    stripSeen[start] = 1;
+    let count = 0, x0 = W, y0 = H, x1 = 0, y1 = 0;
+    while (st.length) {
+      const q = st.pop();
+      count++;
+      const x = q % W, y = (q - x) / W;
+      if (x < x0) x0 = x;
+      if (x > x1) x1 = x;
+      if (y < y0) y0 = y;
+      if (y > y1) y1 = y;
+      if (x > 0 && stripFlag[q - 1] && !stripSeen[q - 1]) { stripSeen[q - 1] = 1; st.push(q - 1); }
+      if (x < W - 1 && stripFlag[q + 1] && !stripSeen[q + 1]) { stripSeen[q + 1] = 1; st.push(q + 1); }
+      if (y > 0 && stripFlag[q - W] && !stripSeen[q - W]) { stripSeen[q - W] = 1; st.push(q - W); }
+      if (y < H - 1 && stripFlag[q + W] && !stripSeen[q + W]) { stripSeen[q + W] = 1; st.push(q + W); }
+    }
+    if (count > stripCount) { stripCount = count; strip = { x0, y0, x1, y1 }; }
+  }
+  if (stripCount < W * H * 0.005) strip = null;
+
+  // 2. connected components (flood fill)
+  const seen = new Uint8Array(W * H);
+  const comps = [];
+  for (let start = 0; start < W * H; start++) {
+    if (!flag[start] || seen[start]) continue;
+    const stack = [start];
+    seen[start] = 1;
+    const pixels = [];
+    let tl = null, tr = null, br = null, bl = null;
+    let sumX = 0;
+    while (stack.length) {
+      const p = stack.pop();
+      pixels.push(p);
+      const x = p % W, y = (p - x) / W;
+      sumX += x;
+      if (!tl || x + y < tl[0] + tl[1]) tl = [x, y];
+      if (!br || x + y > br[0] + br[1]) br = [x, y];
+      if (!tr || x - y > tr[0] - tr[1]) tr = [x, y];
+      if (!bl || x - y < bl[0] - bl[1]) bl = [x, y];
+      if (x > 0 && flag[p - 1] && !seen[p - 1]) { seen[p - 1] = 1; stack.push(p - 1); }
+      if (x < W - 1 && flag[p + 1] && !seen[p + 1]) { seen[p + 1] = 1; stack.push(p + 1); }
+      if (y > 0 && flag[p - W] && !seen[p - W]) { seen[p - W] = 1; stack.push(p - W); }
+      if (y < H - 1 && flag[p + W] && !seen[p + W]) { seen[p + W] = 1; stack.push(p + W); }
+    }
+    comps.push({ pixels, tl, tr, br, bl, cx: sumX / pixels.length });
+  }
+
+  // 3. keep the 3 biggest, ordered left to right
+  const top3 = comps
+    .filter((c) => c.pixels.length > W * H * 0.01)
+    .sort((a, b) => b.pixels.length - a.pixels.length)
+    .slice(0, 3)
+    .sort((a, b) => a.cx - b.cx);
+
+  // 4. build a mask image per window (grown by 1px to hide the gray fringe)
+  const windows = top3.map((c) => {
+    const mc = document.createElement('canvas');
+    mc.width = W;
+    mc.height = H;
+    const mctx = mc.getContext('2d');
+    const imgData = mctx.createImageData(W, H);
+    const out = imgData.data;
+    c.pixels.forEach((p) => {
+      const x = p % W, y = (p - x) / W;
+      for (let dy = -1; dy <= 1; dy++) {
+        for (let dx = -1; dx <= 1; dx++) {
+          const nx = x + dx, ny = y + dy;
+          if (nx < 0 || ny < 0 || nx >= W || ny >= H) continue;
+          const o = (ny * W + nx) * 4;
+          out[o] = out[o + 1] = out[o + 2] = 0;
+          out[o + 3] = 255;
+        }
+      }
+    });
+    mctx.putImageData(imgData, 0, 0);
+    return { mask: mc.toDataURL('image/png'), tl: c.tl, tr: c.tr, br: c.br, bl: c.bl };
+  });
+
+  return { W, H, windows, crop, strip };
+}
+
 function ScrapbookGallery() {
+  const wrapRef = useRef(null);
   const videoRefs = useRef([]);
-  const containerRefs = useRef([]);
-  
-  const [visibleIndices, setVisibleIndices] = useState(new Set());
+  const [layout, setLayout] = useState(null);
+  const [isVisible, setIsVisible] = useState(false);
   const [hoveredIdx, setHoveredIdx] = useState(null);
+
+  // read the PNG and locate the windows
+  useEffect(() => {
+    const img = new Image();
+    img.onload = () => {
+      try {
+        const result = detectWindows(img);
+        if (result.windows.length < 3) {
+          console.warn('ScrapbookGallery: found', result.windows.length, 'windows. Are the gray windows still in the PNG?');
+        }
+        setLayout(result);
+      } catch (e) {
+        console.error('ScrapbookGallery: could not read frame image', e);
+      }
+    };
+    img.src = FRAME_SRC;
+  }, []);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
-      (entries) => {
-        setVisibleIndices((prev) => {
-          const updated = new Set(prev);
-          entries.forEach((entry) => {
-            const index = Number(entry.target.getAttribute('data-index'));
-            if (entry.isIntersecting) {
-              updated.add(index);
-            } else {
-              updated.delete(index);
-            }
-          });
-          return updated;
-        });
-      },
+      ([entry]) => setIsVisible(entry.isIntersecting),
       { threshold: 0.25 }
     );
-
-    containerRefs.current.forEach((el) => {
-      if (el) observer.observe(el);
-    });
-
+    if (wrapRef.current) observer.observe(wrapRef.current);
     return () => observer.disconnect();
   }, []);
 
   useEffect(() => {
-    videoRefs.current.forEach((videoEl, idx) => {
-      if (!videoEl) return;
-      const isVisible = visibleIndices.has(idx);
-
-      if (hoveredIdx !== null) {
-        if (idx === hoveredIdx && isVisible) {
-          videoEl.play().catch(() => {});
-        } else {
-          videoEl.pause();
-        }
-      } else {
-        if (isVisible) {
-          videoEl.play().catch(() => {});
-        } else {
-          videoEl.pause();
-        }
-      }
+    videoRefs.current.forEach((v, idx) => {
+      if (!v) return;
+      const shouldPlay = isVisible && (hoveredIdx === null || hoveredIdx === idx);
+      if (shouldPlay) v.play().catch(() => {});
+      else v.pause();
     });
-  }, [visibleIndices, hoveredIdx]);
+  }, [isVisible, hoveredIdx, layout]);
 
-  const cardsData = [
-    {
-      title: 'On-Set BTS',
-      src: 'https://akshayshrivastava.com/videos/AboutMain.mp4',
-      poster: 'https://akshayshrivastava.com/images/AboutMain.png',
-      rotation: 'rotate-[-3deg] sm:rotate-[-6deg]',
-      textColor: 'text-white'
-    },
-    {
-      title: 'Storyboard',
-      src: 'https://akshayshrivastava.com/videos/short18.mp4',
-      poster: 'https://akshayshrivastava.com/images/short18.png',
-      rotation: 'rotate-[0deg] sm:-translate-y-4',
-      textColor: 'text-[#FFC822]'
-    },
-    {
-      title: 'Cam Cut',
-      src: 'https://akshayshrivastava.com/videos/MotionMain.mp4',
-      poster: 'https://akshayshrivastava.com/images/MotionMain.png',
-      rotation: 'rotate-[3deg] sm:rotate-[6deg]',
-      textColor: 'text-white'
-    }
-  ];
+  const crop = layout ? layout.crop : null;
+  const strip = layout ? layout.strip : null;
 
   return (
-    <div className="w-full max-w-[950px] my-6 sm:my-16 flex flex-col items-center justify-center relative select-none px-2 sm:px-4">
-      <div className="flex flex-wrap sm:flex-nowrap items-center justify-center gap-3 sm:gap-6 md:gap-8 w-full pt-1 pb-4">
-        {cardsData.map((card, idx) => (
-          <div 
-            key={idx}
-            data-index={idx}
-            ref={(el) => (containerRefs.current[idx] = el)}
-            onMouseEnter={() => setHoveredIdx(idx)}
-            onMouseLeave={() => setHoveredIdx(null)}
-            className={`relative w-[105px] xs:w-[125px] sm:w-[240px] md:w-[260px] ${card.rotation} hover:rotate-0 hover:scale-105 transition-all duration-300 z-10 cursor-pointer group filter drop-shadow-[0_10px_20px_rgba(0,0,0,0.15)] shrink-0`}
+    <div
+      className="w-full mx-auto my-2 sm:my-8 flex justify-center select-none px-2 sm:px-4"
+      style={{ maxWidth: GALLERY_MAX_WIDTH }}
+    >
+      <div
+        ref={wrapRef}
+        className="relative w-full overflow-hidden"
+        style={
+          layout
+            ? { aspectRatio: `${crop.w} / ${crop.h}`, containerType: 'inline-size' }
+            : { minHeight: 300 }
+        }
+      >
+        {layout && (
+          /* Inner layer = the full PNG, shifted so only the visible (cropped) area shows */
+          <div
+            className="absolute"
+            style={{
+              left: `${(-crop.x / crop.w) * 100}%`,
+              top: `${(-crop.y / crop.h) * 100}%`,
+              width: `${(layout.W / crop.w) * 100}%`,
+              height: `${(layout.H / crop.h) * 100}%`,
+            }}
           >
-            <div className="absolute -top-2 left-1/2 -translate-x-1/2 w-8 sm:w-16 h-2.5 sm:h-5 bg-[#E8DCB8]/90 border border-amber-900/10 rotate-[-2deg] z-30 shadow-xs pointer-events-none" />
+            <img src={FRAME_SRC} alt="" draggable={false} className="block w-full h-full pointer-events-none" />
 
-            <div 
-              className="w-full bg-[#FFFFFF] p-1.5 sm:p-3 pb-4 sm:pb-10 rounded-t-lg relative overflow-hidden"
-              style={{
-                maskImage: 'linear-gradient(to bottom, black 88%, transparent 100%), url("/bottom.png")',
-                WebkitMaskImage: 'linear-gradient(to bottom, black 85%, transparent 100%)',
-              }}
-            >
-              <div className="w-full aspect-[3/4] bg-black rounded-[4px] overflow-hidden relative shadow-inner">
-                <video 
-                  ref={(el) => (videoRefs.current[idx] = el)}
-                  src={card.src} 
-                  poster={card.poster}
-                  loop 
-                  muted 
-                  playsInline 
-                  preload="metadata"
-                  className="w-full h-full object-cover filter brightness-95 group-hover:brightness-100 transition-all pointer-events-none"
-                />
-                <span 
-                  style={{ fontFamily: "'GroteskFont', sans-serif", fontWeight: 400 }}
-                  className={`absolute bottom-1 left-1 bg-black/80 ${card.textColor} px-1 py-0.5 rounded-[4px] text-[8px] sm:text-xs capitalize z-30`}
-                >
-                  {card.title}
-                </span>
-              </div>
-
-              <div 
-                className="absolute bottom-0 left-0 right-0 h-4 sm:h-10 w-full z-20 pointer-events-none bg-repeat-x bg-bottom bg-contain opacity-90"
+            {/* Title on the torn strip */}
+            {strip && (
+              <h2
                 style={{
-                  backgroundImage: "url('/bottom.png')",
-                  filter: "drop-shadow(0px -2px 2px rgba(0,0,0,0.15))"
+                  fontFamily: "'SquidBoy', sans-serif",
+                  letterSpacing: '0.5px',
+                  left: `${(((strip.x0 + strip.x1) / 2) / layout.W) * 100}%`,
+                  top: `${(((strip.y0 + strip.y1) / 2) / layout.H) * 100}%`,
+                  transform: 'translate(-50%, -50%) rotate(-1deg)',
+                  fontSize: `${(((strip.y1 - strip.y0) * 0.5) / crop.w) * 100}cqw`,
                 }}
-              />
-            </div>
+                className="absolute z-20 m-0 text-[#D42C2C] leading-none whitespace-nowrap capitalize pointer-events-none"
+              >
+                Direction Work
+              </h2>
+            )}
+
+            {layout.windows.map((w, idx) => {
+              const v = FRAME_VIDEOS[idx];
+              if (!v) return null;
+              const { W, H } = layout;
+              const { tl, tr, br, bl } = w;
+
+              const cx = (tl[0] + tr[0] + br[0] + bl[0]) / 4;
+              const cy = (tl[1] + tr[1] + br[1] + bl[1]) / 4;
+              const angle = Math.atan2(tr[1] - tl[1], tr[0] - tl[0]);
+              const vw = Math.hypot(tr[0] - tl[0], tr[1] - tl[1]) * 1.12;
+              const vh = Math.hypot(bl[0] - tl[0], bl[1] - tl[1]) * 1.12;
+
+              const polygon = [tl, tr, br, bl]
+                .map(([x, y]) => `${(x / W) * 100}% ${(y / H) * 100}%`)
+                .join(',');
+
+              return (
+                <React.Fragment key={idx}>
+                  {/* video, masked to the exact window shape and rotated with the frame */}
+                  <div
+                    className="absolute inset-0 z-10 pointer-events-none"
+                    style={{
+                      maskImage: `url(${w.mask})`,
+                      WebkitMaskImage: `url(${w.mask})`,
+                      maskSize: '100% 100%',
+                      WebkitMaskSize: '100% 100%',
+                      maskRepeat: 'no-repeat',
+                      WebkitMaskRepeat: 'no-repeat',
+                    }}
+                  >
+                    <div
+                      className="absolute bg-black overflow-hidden"
+                      style={{
+                        left: `${((cx - vw / 2) / W) * 100}%`,
+                        top: `${((cy - vh / 2) / H) * 100}%`,
+                        width: `${(vw / W) * 100}%`,
+                        height: `${(vh / H) * 100}%`,
+                        transform: `rotate(${angle}rad)`,
+                      }}
+                    >
+                      <video
+                        ref={(el) => (videoRefs.current[idx] = el)}
+                        src={v.src}
+                        poster={v.poster}
+                        loop
+                        muted
+                        playsInline
+                        preload="metadata"
+                        className={`w-full h-full object-cover transition-all duration-300 ${
+                          hoveredIdx === idx ? 'brightness-110' : 'brightness-95'
+                        }`}
+                      />
+                    </div>
+                  </div>
+
+                  {/* caption near the bottom-left of each window */}
+                  <span
+                    style={{
+                      fontFamily: "'GroteskFont', sans-serif",
+                      fontWeight: 400,
+                      left: `${(bl[0] / W) * 100 + 1.5}%`,
+                      top: `${(bl[1] / H) * 100 - 1.5}%`,
+                      transform: 'translateY(-100%)',
+                    }}
+                    className={`absolute z-20 pointer-events-none bg-black/80 ${v.textColor} px-1 py-0.5 rounded-[4px] text-[8px] sm:text-xs capitalize`}
+                  >
+                    {v.title}
+                  </span>
+
+                  {/* hover target, clipped to the window's four corners */}
+                  <div
+                    className="absolute inset-0 z-30 cursor-pointer"
+                    style={{ clipPath: `polygon(${polygon})` }}
+                    onMouseEnter={() => setHoveredIdx(idx)}
+                    onMouseLeave={() => setHoveredIdx(null)}
+                  />
+                </React.Fragment>
+              );
+            })}
           </div>
-        ))}
+        )}
       </div>
     </div>
   );

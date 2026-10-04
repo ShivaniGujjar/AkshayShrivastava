@@ -5,33 +5,35 @@ const DEFAULT_BRANDS = [
   "/MastersUnion.jpg",
   "/frido.avif",
   "/webveda.avif",
-  "/kraftobench.webp"
+  "/kraftobench.webp",
+  "/Monotech.png",
+  "/ambrane.avif"
 ];
 
 const DEFAULT_TESTIMONIALS = [
   {
-    quote: "Retention graphs spiked by 42% after Akshay redid our video pacing! Absolute editing wizard.",
-    handle: "@waywen_official",
+    quote: "I had the pleasure of working with Akshay on editing two crucial videos, and I couldn't be happier with the results. He was professional, attentive to detail, and delivered high-quality work on time. His creativity and ability to bring my vision to life were truly impressive!",
+    handle: "Aditya Verma",
+    role: "CONTENT STRATEGY & PRODUCTION",
+    avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=150&q=80"
+  },
+  {
+    quote: "Akshay just gets content. You don't have to explain every little thing to him, which honestly makes the process so much easier.",
+    handle: "Client Review",
     role: "FOUNDER",
     avatar: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=150&q=80"
   },
   {
-    quote: "Brought our podcast clips to viral tier status with incredible visual energy and pacing.",
-    handle: "@mastersunion",
+    quote: "I've worked with quite a few editors and Akshay is definitely one of the more creative ones. He understands content, not just the editing part, which makes a big difference.",
+    handle: "Client Review",
     role: "MEDIA LEAD",
-    avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=150&q=80"
+    avatar: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=150&q=80"
   },
   {
-    quote: "High-energy cuts, slick animation overlays, sound design on point, and super fast turnarounds.",
-    handle: "@edutainmenthub",
+    quote: "Been working with Akshay for some time now and he's been great. He understands the content, doesn't need much handholding and actually brings his own ideas in.",
+    handle: "Client Review",
     role: "CREATOR",
     avatar: "https://images.unsplash.com/photo-1492562080023-ab3db95bfbce?auto=format&fit=crop&w=150&q=80"
-  },
-  {
-    quote: "Remarkable directional clarity on set and top-tier execution in post-production.",
-    handle: "@medianetwork",
-    role: "EXECUTIVE PRODUCER",
-    avatar: "https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=150&q=80"
   }
 ];
 
@@ -194,7 +196,6 @@ export default function SocialProof({ brands = DEFAULT_BRANDS, testimonials = DE
                   {testi.quote}
                 </p>
 
-                
               </div>
             ))}
           </div>
