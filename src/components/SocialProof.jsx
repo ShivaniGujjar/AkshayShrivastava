@@ -14,26 +14,22 @@ const DEFAULT_TESTIMONIALS = [
   {
     quote: "I had the pleasure of working with Akshay on editing two crucial videos, and I couldn't be happier with the results. He was professional, attentive to detail, and delivered high-quality work on time. His creativity and ability to bring my vision to life were truly impressive!",
     handle: "Aditya Verma",
-    role: "CONTENT STRATEGY & PRODUCTION",
-    avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=150&q=80"
+    role: "CONTENT STRATEGY & PRODUCTION"
   },
   {
     quote: "Akshay just gets content. You don't have to explain every little thing to him, which honestly makes the process so much easier.",
     handle: "Client Review",
-    role: "FOUNDER",
-    avatar: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=150&q=80"
+    role: "FOUNDER"
   },
   {
     quote: "I've worked with quite a few editors and Akshay is definitely one of the more creative ones. He understands content, not just the editing part, which makes a big difference.",
     handle: "Client Review",
-    role: "MEDIA LEAD",
-    avatar: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=150&q=80"
+    role: "MEDIA LEAD"
   },
   {
     quote: "Been working with Akshay for some time now and he's been great. He understands the content, doesn't need much handholding and actually brings his own ideas in.",
     handle: "Client Review",
-    role: "CREATOR",
-    avatar: "https://images.unsplash.com/photo-1492562080023-ab3db95bfbce?auto=format&fit=crop&w=150&q=80"
+    role: "CREATOR"
   }
 ];
 
@@ -68,7 +64,7 @@ export default function SocialProof({ brands = DEFAULT_BRANDS, testimonials = DE
         .animate-marquee-slow-right {
           display: inline-flex;
           white-space: nowrap;
-          animation: slowSmoothMarqueeRight 70s linear infinite;
+          animation: slowSmoothMarqueeRight 75s linear infinite;
         }
         .animate-marquee-slow-left:hover,
         .animate-marquee-slow-right:hover {
@@ -91,7 +87,7 @@ export default function SocialProof({ brands = DEFAULT_BRANDS, testimonials = DE
           transition: transform 0.25s ease;
         }
         .testi-card:hover {
-          transform: translateY(-3px);
+          transform: translateY(-4px);
         }
 
         @font-face {
@@ -136,17 +132,25 @@ export default function SocialProof({ brands = DEFAULT_BRANDS, testimonials = DE
       </div>
 
       {/* ────────────────── 2. TESTIMONIALS SECTION ────────────────── */}
-      <div className="relative w-full -mt-4 sm:-mt-16 pt-16 pb-24 sm:pt-24 sm:pb-40 flex flex-col items-center justify-center overflow-hidden">
+      {/* FIX: padding adjusted so cards stay clear of the torn top/bottom edges */}
+      <div className="relative w-full -mt-4 sm:-mt-16 pt-14 pb-36 sm:pt-20 sm:pb-60 flex flex-col items-center justify-center overflow-hidden">
 
+        {/* FIX: stretch image to the exact container size so torn edges always sit at top/bottom */}
+        {/* PNG has transparent padding on all sides, so the bg layer is oversized
+            (negative inset) and the container's overflow-hidden crops that padding.
+            Tune: -left/-right-[3.5%] for sides, -top/-bottom for the torn edges. */}
         <div
-          className="absolute inset-0 w-full h-full bg-no-repeat bg-center bg-cover pointer-events-none z-0"
-          style={{ backgroundImage: `url('/testimonialRed.png')` }}
+          className="absolute -left-[4.5%] -right-[4.5%] -top-6 -bottom-6 sm:-top-12 sm:-bottom-12 bg-no-repeat bg-center pointer-events-none z-0"
+          style={{
+            backgroundImage: `url('/testimonialRed.png')`,
+            backgroundSize: '100% 100%',
+          }}
         />
 
         <div className="relative z-[15] text-center mb-4 sm:mb-6 pt-14 sm:pt-24 pb-1 sm:pb-2 px-4">
           <h2
             style={{ fontFamily: "GenericFont, sans-serif", letterSpacing: '0.3px', fontWeight: 300 }}
-            className="text-xl sm:text-[42px] pt-4 mt-2 sm:mt-4 m-0 text-[#FFFFFF] leading-tight drop-shadow-md"
+            className="text-xl sm:text-[42px] pt-8 mt-2 sm:mt-4 m-0 text-[#FFFFFF] leading-tight drop-shadow-md"
           >
             Testimonial
           </h2>
@@ -160,41 +164,41 @@ export default function SocialProof({ brands = DEFAULT_BRANDS, testimonials = DE
         </div>
 
         {/* TICKER CARDS WRAPPER */}
-        <div className="w-full overflow-hidden mb-4 sm:mb-10 pb-1 sm:pb-4 py-1 sm:py-3 relative z-[15] testi-fade">
-          <div className="animate-marquee-slow-right gap-8 sm:gap-20 w-max items-start">
+        {/* FIX: removed extra bottom margin; section padding handles spacing now */}
+        <div className="w-full overflow-hidden mb-0 py-2 sm:py-4 relative z-[15] testi-fade">
+          <div className="animate-marquee-slow-right gap-6 sm:gap-10 w-max items-stretch">
             {duplicateList(testimonials).map((testi, idx) => (
               <div
                 key={`testi-${idx}`}
-                className="testi-card relative text-[#FFFFFF] w-[190px] sm:w-[340px] px-3 sm:px-6 inline-flex flex-col items-center text-center shrink-0 whitespace-normal"
+                className="testi-card relative text-[#FFFFFF] w-[240px] sm:w-[360px] sm:min-h-[300px] p-5 sm:p-7 rounded-[14px] bg-black/20 backdrop-blur-xs border border-white/10 inline-flex flex-col justify-between text-left shrink-0 whitespace-normal"
+                style={{ minHeight: '220px' }}
               >
-                {/* Avatar */}
-                <img
-                  src={testi.avatar}
-                  alt={testi.handle}
-                  className="w-11 h-11 sm:w-[72px] sm:h-[72px] rounded-full object-cover shadow-md mb-2.5 sm:mb-4"
-                />
-
-                {/* Handle & Role */}
-                <h4
-                  style={{ letterSpacing: '0.3px', fontWeight: 800 }}
-                  className="text-white text-[11px] sm:text-lg m-0 uppercase leading-tight"
-                >
-                  {testi.handle}
-                </h4>
-                <p
-                  style={{ fontFamily: "'Talina', sans-serif", letterSpacing: '0.5px' }}
-                  className="text-white/85 text-[10px] sm:text-base m-0 mt-0.5 mb-3 sm:mb-5"
-                >
-                  {testi.role}
-                </p>
-
-                {/* Quote Text */}
+                {/* Statement / Quote */}
                 <p
                   style={{ letterSpacing: '-0.1px', fontWeight: 300 }}
-                  className="text-white/90 text-[10px] sm:text-base leading-relaxed m-0 mb-3 sm:mb-6 line-clamp-4"
+                  className="text-white/95 text-xs sm:text-base leading-relaxed m-0 mb-4 sm:mb-6"
                 >
-                  {testi.quote}
+                  "{testi.quote}"
                 </p>
+
+                {/* Bottom Info Group */}
+                <div className="w-full mt-auto">
+                  <div className="w-full h-[1px] bg-white/20 mb-3 sm:mb-4" />
+                  <div className="w-full flex flex-col">
+                    <h4
+                      style={{ letterSpacing: '0.5px', fontWeight: 800, color: '#FFD84D' }}
+                      className="text-xs sm:text-sm m-0 uppercase leading-tight"
+                    >
+                      {testi.handle}
+                    </h4>
+                    <span
+                      style={{ fontFamily: "'Talina', sans-serif", letterSpacing: '0.5px' }}
+                      className="text-white/70 text-[10px] sm:text-xs m-0 mt-0.5 tracking-wider uppercase"
+                    >
+                      {testi.role}
+                    </span>
+                  </div>
+                </div>
 
               </div>
             ))}
