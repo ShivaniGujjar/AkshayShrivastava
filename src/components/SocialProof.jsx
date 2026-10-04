@@ -48,7 +48,7 @@ const duplicateList = (arr, count = 6) => {
 export default function SocialProof({ brands = DEFAULT_BRANDS, testimonials = DEFAULT_TESTIMONIALS }) {
   return (
     <section
-      className="w-full relative overflow-hidden pt-6 pb-10 sm:pt-10 sm:pb-24 select-none bg-[#FFFCFB]"
+      className="w-full relative overflow-hidden pt-6 pb-20 sm:pt-10 sm:pb-32 select-none bg-[#FFFCFB]"
       style={{ fontFamily: "'HelveticaNeue', 'Helvetica Neue', Helvetica, Arial, sans-serif" }}
     >
       <style>{`
@@ -136,7 +136,7 @@ export default function SocialProof({ brands = DEFAULT_BRANDS, testimonials = DE
       </div>
 
       {/* ────────────────── 2. TESTIMONIALS SECTION ────────────────── */}
-      <div className="relative w-full -mt-4 sm:-mt-16 pt-16 pb-20 sm:pt-24 sm:pb-40 flex flex-col items-center justify-center overflow-hidden">
+      <div className="relative w-full -mt-4 sm:-mt-16 pt-16 pb-24 sm:pt-24 sm:pb-40 flex flex-col items-center justify-center overflow-hidden">
 
         <div
           className="absolute inset-0 w-full h-full bg-no-repeat bg-center bg-cover pointer-events-none z-0"

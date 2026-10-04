@@ -29,6 +29,11 @@ export default function Navbar({ onNavigate, activeSection = 'editing' }) {
     }
   }, [isMobileMenuOpen]);
 
+  // 🚫 Do not render this Navbar if we are currently on the homepage/hero section
+  if (activeSection === 'hero') {
+    return null;
+  }
+
   return (
     <>
       <style>{`
@@ -46,12 +51,9 @@ export default function Navbar({ onNavigate, activeSection = 'editing' }) {
           isVisible ? 'translate-y-0 opacity-100' : '-translate-y-[200%] opacity-0'
         }`}
       >
-        {/* RELATIVE WRAPPER — the center pill is absolutely centered inside
-            this, so it stays perfectly aligned regardless of whatever else
-            (or nothing) sits to its left/right. */}
         <div className="w-full flex items-center justify-center relative min-h-[1px]">
 
-          {/* TOP-LEFT: LOGO + MOBILE MENU TOGGLE, grouped so they never overlap */}
+          {/* TOP-LEFT: LOGO + MOBILE MENU TOGGLE */}
           <div className="absolute left-0 top-1/2 -translate-y-1/2 flex items-center gap-3 pointer-events-auto">
             <a
               href="#hero"
@@ -91,16 +93,14 @@ export default function Navbar({ onNavigate, activeSection = 'editing' }) {
             </button>
           </div>
 
-          {/* CENTER: DESKTOP CAPSULE NAVIGATION — true horizontal center */}
+          {/* CENTER: DESKTOP CAPSULE NAVIGATION */}
           <div className="hidden md:flex absolute left-1/2 -translate-x-1/2 items-center justify-center pointer-events-auto">
             <div className="relative bg-[#D42C2C] clean-pill pt-3 pb-3 px-6 rounded-lg overflow-hidden flex items-center justify-center shadow-lg border-none outline-none">
-              {/* NOISE OVERLAY */}
               <div 
                 className="absolute inset-0 pointer-events-none z-[1] bg-[url('/noise.gif')] bg-repeat"
                 style={{ opacity: 0.08, mixBlendMode: 'overlay' }}
               />
 
-              {/* GAP ZEROED OUT */}
               <div className="relative z-[2] flex items-center justify-center">
                 {NAV_ITEMS.map((item, idx) => {
                   const isActive = activeSection === item.id;

@@ -29,7 +29,7 @@ const SKILLS = ['Video Editing', 'Motion Design', 'Storytelling', 'Direction'];
 // 🔢 QUICK NUMBERS (taken from the story below)
 const STATS = [
   { to: 200, suffix: 'K+', label: 'views on my very first After Effects video', tilt: 'rotate-[-2deg]', paper: 'bg-white', tape: 'rotate-[-3deg]' },
-  { to: 27, suffix: ' days', label: 'to land a full-time video editor job', tilt: 'rotate-[1.5deg]', paper: 'bg-[#FFF3C9]', tape: 'rotate-[2deg]' },
+  { to: 27, suffix: ' days', label: 'to land a full-time video editor job', tilt: 'rotate-[1.5deg]', paper: 'bg-[#FFF9DB]', tape: 'rotate-[2deg]' },
   { to: 253, suffix: '', label: 'followers when that video took off', tilt: 'rotate-[-1deg]', paper: 'bg-white', tape: 'rotate-[-1deg]' },
 ];
 
@@ -370,7 +370,7 @@ export default function AboutMe() {
 
         /* Fixed seamless yellow highlighter marker */
         .about-hl {
-          background-color: #FFC822;
+          background-color: #FFC300;
           color: #14120e;
           padding: 0.1em 0.3em;
           margin: 0 0.05em;
@@ -405,7 +405,7 @@ export default function AboutMe() {
           aria-label="Toggle Sound"
         >
           {isMuted ? (
-            <svg className="w-3.5 h-3.5 sm:w-5 sm:h-5 fill-current text-[#FFC822] group-hover:text-white transition-colors" viewBox="0 0 24 24">
+            <svg className="w-3.5 h-3.5 sm:w-5 sm:h-5 fill-current text-[#FFC300] group-hover:text-white transition-colors" viewBox="0 0 24 24">
               <path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v2.21l2.45 2.45c.03-.2.05-.41.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51C20.63 14.91 21 13.5 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06c1.38-.31 2.63-.95 3.69-1.81L19.73 21 21 19.73l-9-9L4.27 3zM12 4L9.91 6.09 12 8.18V4z"/>
             </svg>
           ) : (
@@ -528,7 +528,7 @@ export default function AboutMe() {
                   <h3
                     style={{ fontFamily: "'SquidBoy', sans-serif", letterSpacing: '0.5px' }}
                     className={`m-0 mb-3 text-xl sm:text-3xl leading-tight capitalize ${
-                      c.finale ? 'text-[#FFC822]' : 'text-[#D42C2C]'
+                      c.finale ? 'text-[#FFC300]' : 'text-[#D42C2C]'
                     }`}
                   >
                     {c.title}
