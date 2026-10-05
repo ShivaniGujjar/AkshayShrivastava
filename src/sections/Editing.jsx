@@ -11,30 +11,42 @@ if (typeof window !== 'undefined') {
 }
 
 // 🎬 REAL SHOWCASE DATA WITH HOSTINGER LINKS
+// LONG FORMS: YouTube videos from the client. `title` is the bold line, `category` the line below.
+// Card image = the YouTube thumbnail. Click opens the video from YouTube inside the popup.
+// To go back to an autoplay preview on a card, add: videoUrl: '.../videos/longX.mp4'
+const ytThumb = (id) => `https://i.ytimg.com/vi/${id}/maxresdefault.jpg`;
+const ytThumbFallback = (id) => `https://i.ytimg.com/vi/${id}/hqdefault.jpg`;
+
 const LONG_FORMS = [
-  { id: 'lf1', title: 'Podcast Episode 1', category: 'Podcast', videoUrl: 'https://akshayshrivastava.com/videos/long1.mp4', poster: 'https://akshayshrivastava.com/images/long1.png' },
-  { id: 'lf2', title: 'Edutainment Masterclass', category: 'Edutainment', videoUrl: 'https://akshayshrivastava.com/videos/long2.mp4', poster: 'https://akshayshrivastava.com/images/long2.png' },
-  { id: 'lf3', title: 'Documentary Feature', category: 'Documentary', videoUrl: 'https://akshayshrivastava.com/videos/long3.mp4', poster: 'https://akshayshrivastava.com/images/long3.png' },
-  { id: 'lf4', title: 'Talking Head Masterclass', category: 'Vlog', videoUrl: 'https://akshayshrivastava.com/videos/long4.mp4', poster: 'https://akshayshrivastava.com/images/long4.png' },
-  { id: 'lf5', title: 'Talking Head Masterclass', category: 'Vlog', videoUrl: 'https://akshayshrivastava.com/videos/long5.mp4', poster: 'https://akshayshrivastava.com/images/long5.png' },
-  { id: 'lf6', title: 'Talking Head Masterclass', category: 'Vlog', videoUrl: 'https://akshayshrivastava.com/videos/long6.mp4', poster: 'https://akshayshrivastava.com/images/long6.png' },
+  { id: 'lf1', title: 'Moradabad - The brass city', category: 'Documentary', youtubeId: 'VIzWHj8FrXA' },
+  { id: 'lf2', title: 'Samsara - The gin', category: 'Documentary', youtubeId: 'JUCnkdyVsGI' },
+  { id: 'lf3', title: 'Shamik - The comic', category: 'Podcast', youtubeId: 'On0S3Ym4FfA' },
+  { id: 'lf4', title: 'Clovia - The lingerie brand', category: 'Edutainment', youtubeId: 'PTxuqvWqhu0' },
+  { id: 'lf5', title: 'Biturbo', category: 'Edutainment', youtubeId: 'MfOuSuKKzdI' },
 ];
 
+// SHORT FORMS: the card text shows the `name` in bold and the `type` on the next line (e.g. "Frido" / "UGC Ad's").
+// ✏️ Edit `name` and `type` on each item. Items without them fall back to `brand - title`.
+// ⚠️ The first 4 below use the client's list in order. Check each one matches its video.
 const SHORT_FORMS_ROW1 = [
-  { id: 'sf1', title: 'Retention Hook 1', brand: 'Waywen', videoUrl: 'https://akshayshrivastava.com/videos/short3.mp4', poster: 'https://akshayshrivastava.com/images/short3.png' },
-  { id: 'sf2', title: 'Viral Podcast Clip 2', brand: 'Edutainment', videoUrl: 'https://akshayshrivastava.com/videos/short19.mp4', poster: 'https://akshayshrivastava.com/images/short19.png' },
-  { id: 'sf3', title: 'Brand Story Reel 3', brand: 'Kolkata Media', videoUrl: 'https://akshayshrivastava.com/videos/short5.mp4', poster: 'https://akshayshrivastava.com/images/short5.png' },
-  { id: 'sf4', title: 'Fitness Campaign 4', brand: 'Fit Tribe', videoUrl: 'https://akshayshrivastava.com/videos/short10.mp4', poster: 'https://akshayshrivastava.com/images/short10.png' },
-  { id: 'sf5', title: 'Short Clip 5', brand: 'Brand Y', videoUrl: 'https://akshayshrivastava.com/videos/short17.mp4', poster: 'https://akshayshrivastava.com/images/short17.png' },
+
+  { id: 'sf7', title: 'Shorts', brand: 'Scratch', videoUrl: 'https://akshayshrivastava.com/videos/short1.mp4', poster: 'https://akshayshrivastava.com/images/short1.png' },
+  
+  { id: 'sf1', name: "Masters' Union", type: 'Instagram Reel', title: 'Retention Hook 1', brand: 'Waywen', videoUrl: 'https://akshayshrivastava.com/videos/short3.mp4', poster: 'https://akshayshrivastava.com/images/short3.png' },
+  { id: 'sf2', name: 'Ankit_sr', type: "Instagram Reel", title: 'Viral Podcast Clip 2', brand: 'Edutainment', videoUrl: 'https://akshayshrivastava.com/videos/short19.mp4', poster: 'https://akshayshrivastava.com/images/short19.png' },
+  { id: 'sf3', name: 'Vishwmitra', type: 'Performance Reel', title: 'Brand Story Reel 3', brand: 'Kolkata Media', videoUrl: 'https://akshayshrivastava.com/videos/short5.mp4', poster: 'https://akshayshrivastava.com/images/short5.png' },
+  { id: 'sf5', title: 'Instagram Reel', brand: 'Ankit_sr', videoUrl: 'https://akshayshrivastava.com/videos/short17.mp4', poster: 'https://akshayshrivastava.com/images/short17.png' },
 ];
 
 const SHORT_FORMS_ROW2 = [
-  { id: 'sf11', title: 'Short Clip 11', brand: 'Brand Z', videoUrl: 'https://akshayshrivastava.com/videos/short8.mp4', poster: 'https://akshayshrivastava.com/images/short8.png' },
-  { id: 'sf10', title: 'Short Clip 10', brand: 'Startup A', videoUrl: 'https://akshayshrivastava.com/videos/short11.mp4', poster: 'https://akshayshrivastava.com/images/short11.png' },
-  { id: 'sf9', title: 'Short Clip 9', brand: 'Creator E', videoUrl: 'https://akshayshrivastava.com/videos/short16.mp4', poster: 'https://akshayshrivastava.com/images/short16.png' },
-  { id: 'sf8', title: 'Short Clip 8', brand: 'Creator F', videoUrl: 'https://akshayshrivastava.com/videos/short12.mp4', poster: 'https://akshayshrivastava.com/images/short12.png' },
-  { id: 'sf7', title: 'Short Clip 7', brand: 'Media G', videoUrl: 'https://akshayshrivastava.com/videos/short1.mp4', poster: 'https://akshayshrivastava.com/images/short1.png' },
-  { id: 'sf6', title: 'Short Clip 6', brand: 'Media H', videoUrl: 'https://akshayshrivastava.com/videos/short18.mp4', poster: 'https://akshayshrivastava.com/images/short18.png' },
+
+  { id: 'sf6', title: 'Personal Instagram Reel', brand: 'Akshay Shrivastava', videoUrl: 'https://akshayshrivastava.com/videos/short18.mp4', poster: 'https://akshayshrivastava.com/images/short18.png' },
+  { id: 'sf11', title: 'Instagram Reel', brand: 'Ankit_sr', videoUrl: 'https://akshayshrivastava.com/videos/short8.mp4', poster: 'https://akshayshrivastava.com/images/short8.png' },
+  { id: 'sf10', title: "UGC Ad's", brand: 'Frido', videoUrl: 'https://akshayshrivastava.com/videos/short11.mp4', poster: 'https://akshayshrivastava.com/images/short11.png' },
+  { id: 'sf9', title: 'Instagram Reel', brand: 'Ankit_sr', videoUrl: 'https://akshayshrivastava.com/videos/short16.mp4', poster: 'https://akshayshrivastava.com/images/short16.png' },
+  { id: 'sf8', title: "UGC Ad's", brand: 'Frido', videoUrl: 'https://akshayshrivastava.com/videos/short12.mp4', poster: 'https://akshayshrivastava.com/images/short12.png' },
+  { id: 'sf4', name: 'Ankit_sr', type: 'Instagram Reel', title: 'Instagram Reel', brand: 'Fit Tribe', videoUrl: 'https://akshayshrivastava.com/videos/short10.mp4', poster: 'https://akshayshrivastava.com/images/short10.png' },
+  
 ];
 
 const duplicateList = (arr, count = 2) => {
@@ -91,9 +103,31 @@ function VideoCard({ item, aspectRatio = "wide", hoveredId, setHoveredId, onOpen
     }
   }, [isVisible, isHovered, isAnyHovered, item.videoUrl]);
 
+  // YouTube cards: after hovering for a moment, play a muted preview straight from YouTube
+  const [previewOn, setPreviewOn] = useState(false);
+  const [previewReady, setPreviewReady] = useState(false);
+  const wantsPreview = Boolean(item.youtubeId && !item.videoUrl) && isHovered && isVisible;
+
+  useEffect(() => {
+    if (!wantsPreview) {
+      setPreviewOn(false);
+      setPreviewReady(false);
+      return;
+    }
+    const t = setTimeout(() => setPreviewOn(true), 300);
+    return () => clearTimeout(t);
+  }, [wantsPreview]);
+
   const cardDimensions = aspectRatio === "wide" 
     ? "w-[240px] xs:w-[280px] sm:w-[420px] h-[140px] xs:h-[160px] sm:h-[240px]" 
     : "w-[160px] xs:w-[200px] sm:w-[300px] aspect-[9/16]";
+
+  const isShort = aspectRatio === "tall";
+  // bold line + type on the next line.
+  // short: name / type (falls back to brand / title). long: title / category.
+  const lineName = isShort ? (item.name || item.brand) : item.title;
+  const lineType = isShort ? (item.type || item.title) : item.category;
+  const isYoutubeOnly = item.youtubeId && !item.videoUrl;
 
   return (
     <div 
@@ -103,17 +137,42 @@ function VideoCard({ item, aspectRatio = "wide", hoveredId, setHoveredId, onOpen
       onClick={() => onOpenModal(item)}
       className={`relative inline-flex flex-col cursor-group shrink-0 cursor-pointer select-none group overflow-hidden bg-[#0f0e0c] shadow-[0_8px_30px_rgba(0,0,0,0.08)] transition-all duration-500 ease-out hover:-translate-y-1 hover:shadow-[0_16px_40px_rgba(212,44,44,0.2)] rounded-[12px] ${cardDimensions}`}
     >
-      {/* Background Video */}
-      <video
-        ref={videoRef}
-        poster={item.poster}
-        muted
-        loop
-        playsInline
-        preload="metadata"
-        draggable={false}
-        className="absolute inset-0 w-full h-full object-cover transition-all duration-700 filter brightness-[0.85] group-hover:brightness-100 group-hover:scale-105 outline-none pointer-events-none"
-      />
+      {/* Background media: YouTube thumbnail (+ hover preview), or a muted autoplay preview if videoUrl is set */}
+      {isYoutubeOnly ? (
+        <>
+          <img
+            src={ytThumb(item.youtubeId)}
+            alt={item.title}
+            draggable={false}
+            onError={(e) => {
+              const fb = ytThumbFallback(item.youtubeId);
+              if (e.currentTarget.src !== fb) e.currentTarget.src = fb;
+            }}
+            className="absolute inset-0 w-full h-full object-cover transition-all duration-700 filter brightness-[0.85] group-hover:brightness-100 group-hover:scale-105 pointer-events-none"
+          />
+          {previewOn && (
+            <iframe
+              src={`https://www.youtube.com/embed/${item.youtubeId}?autoplay=1&mute=1&controls=0&loop=1&playlist=${item.youtubeId}&playsinline=1&rel=0&modestbranding=1&disablekb=1&iv_load_policy=3&fs=0`}
+              title={`${item.title} preview`}
+              allow="autoplay; encrypted-media"
+              tabIndex={-1}
+              onLoad={() => setPreviewReady(true)}
+              className={`absolute inset-0 w-full h-full border-0 pointer-events-none transition-opacity duration-500 ${previewReady ? 'opacity-100' : 'opacity-0'}`}
+            />
+          )}
+        </>
+      ) : (
+        <video
+          ref={videoRef}
+          poster={item.poster}
+          muted
+          loop
+          playsInline
+          preload="metadata"
+          draggable={false}
+          className="absolute inset-0 w-full h-full object-cover transition-all duration-700 filter brightness-[0.85] group-hover:brightness-100 group-hover:scale-105 outline-none pointer-events-none"
+        />
+      )}
 
       {/* Dark Gradient Overlay */}
       <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent pointer-events-none" />
@@ -127,20 +186,19 @@ function VideoCard({ item, aspectRatio = "wide", hoveredId, setHoveredId, onOpen
         )}
       </div>
 
-      {/* Title & Category/Brand Overlay */}
+      {/* Text overlay: name in bold, type on the next line (normal font) */}
       <div className="absolute bottom-0 left-0 right-0 p-3.5 sm:p-5 flex flex-col items-start text-left z-10">
-        <h4 
-          style={{ fontFamily: "'SquidBoy', sans-serif", letterSpacing: '0.5px' }}
-          className="text-[#FFFCFB] text-sm sm:text-lg leading-tight capitalize drop-shadow-md group-hover:text-[#FFC300] transition-colors duration-300"
+        <div
+          style={{ fontFamily: "'GroteskFont', 'Helvetica Neue', Helvetica, Arial, sans-serif" }}
+          className="whitespace-normal drop-shadow-md"
         >
-          {item.title}
-        </h4>
-        <p 
-          style={{ fontFamily: "'GroteskFont', sans-serif", letterSpacing: '-0.2px' }}
-          className="text-[#d1cbc5] text-[11px] sm:text-xs capitalize mt-0.5 font-normal drop-shadow-sm"
-        >
-          {item.category || item.brand}
-        </p>
+          <p className="m-0 text-sm sm:text-base font-bold leading-tight text-[#FFFCFB]">
+            {lineName}
+          </p>
+          <p className="m-0 mt-0.5 text-[11px] sm:text-sm font-normal leading-tight text-[#FFFCFB]/80">
+            {lineType}
+          </p>
+        </div>
       </div>
     </div>
   );
@@ -465,20 +523,20 @@ export default function Editing() {
         <div className="relative z-10 flex flex-col justify-center items-center px-4 text-center mt-6">
           <h1 
             style={{ fontFamily: "'SquidBoy', sans-serif", letterSpacing: '1px' }}
-            className="text-[2.8rem] sm:text-[5.5rem] text-[#FFFCFB] m-0 leading-none drop-shadow-lg capitalize mb-4 sm:mb-6"
+            className="text-[2.8rem] sm:text-[5.5rem] text-[#FFC300] m-0 leading-none drop-shadow-lg capitalize mb-4 sm:mb-6"
           >
             Editing Work
           </h1>
 
           <p 
-            style={{ fontFamily: "'ParaFont', sans-serif", fontWeight: 200, letterSpacing: '-0.3px' }}
+            style={{ fontFamily: "'ParaFont', sans-serif", fontWeight: 100, letterSpacing: '-0.3px' }}
             className="text-[#FFFCFB] text-xs sm:text-base md:text-lg max-w-[850px] leading-relaxed font-light drop-shadow-[0_2px_10px_rgba(0,0,0,0.95)] px-4 mb-3"
           >
             The camera captures everything. Editing decides what matters. Through pacing, rhythm, sound, and restraint, an edit can turn the same footage into completely different stories. That’s what makes editing less of a technical process and more of a storytelling language.
           </p>
 
           <p 
-            style={{ fontFamily: "'ParaFont', sans-serif", fontWeight: 200, letterSpacing: '0.2px' }}
+            style={{ fontFamily: "'ParaFont', sans-serif", fontWeight: 100, letterSpacing: '0.2px' }}
             className="text-[#FFC300] text-xs sm:text-sm md:text-base drop-shadow-[0_2px_8px_rgba(0,0,0,0.95)]"
           >
             Here are a few stories I've helped shape. Scroll on.
@@ -569,7 +627,7 @@ export default function Editing() {
           >
             <span>UGC Ads</span>
             <span className="text-[#FFC300]">•</span>
-            <span>Retention Hooks</span>
+            <span>Talking Head</span>
             <span className="text-[#FFC300]">•</span>
             <span>Podcast Shorts</span>
             <span className="text-[#FFC300]">•</span>
@@ -639,29 +697,52 @@ export default function Editing() {
             ) : (
               <>
                 <div className="aspect-video w-full bg-black">
-                  <CustomVideoPlayer 
-                    src={selectedVideo.videoUrl} 
-                    badgeText={selectedVideo.category || selectedVideo.brand || "Preview"} 
-                    className="w-full h-full"
-                    autoPlay={true}
-                    muted={false}
-                  />
+                  {selectedVideo.youtubeId ? (
+                    <iframe
+                      src={`https://www.youtube.com/embed/${selectedVideo.youtubeId}?autoplay=1&rel=0`}
+                      title={selectedVideo.title}
+                      className="w-full h-full border-0"
+                      allow="autoplay; encrypted-media; picture-in-picture; fullscreen"
+                      allowFullScreen
+                    />
+                  ) : (
+                    <CustomVideoPlayer 
+                      src={selectedVideo.videoUrl} 
+                      badgeText={selectedVideo.category || selectedVideo.brand || "Preview"} 
+                      className="w-full h-full"
+                      autoPlay={true}
+                      muted={false}
+                    />
+                  )}
                 </div>
                 <div className="p-3 sm:p-6 bg-[#FFFCFB] text-[#14120e] flex items-center justify-between border-t border-black/5">
                   <h3 
-                    style={{ fontFamily: "'SquidBoy', sans-serif", letterSpacing: '0.5px' }}
-                    className="text-base sm:text-2xl text-[#D42C2C] capitalize"
+                    style={{ fontFamily: "'GroteskFont', 'Helvetica Neue', Helvetica, Arial, sans-serif" }}
+                    className="m-0 text-base sm:text-xl font-bold text-[#14120e]"
                   >
                     {selectedVideo.title}
                   </h3>
-                  {selectedVideo.brand && (
-                    <span 
-                      style={{ fontFamily: "'GroteskFont', sans-serif", letterSpacing: '-0.3px', fontWeight: 300 }}
-                      className="text-[9px] sm:text-xs capitalize text-[#554f46] bg-[#f0eae1] px-2 py-0.5 sm:px-2.5 sm:py-1 rounded-[4px]"
-                    >
-                      {selectedVideo.brand}
-                    </span>
-                  )}
+                  <div className="flex items-center gap-3 shrink-0 ml-3">
+                    {(selectedVideo.category || selectedVideo.brand) && (
+                      <span 
+                        style={{ fontFamily: "'GroteskFont', sans-serif", letterSpacing: '-0.3px', fontWeight: 300 }}
+                        className="text-[9px] sm:text-xs text-[#554f46] bg-[#f0eae1] px-2 py-0.5 sm:px-2.5 sm:py-1 rounded-[4px]"
+                      >
+                        {selectedVideo.category || selectedVideo.brand}
+                      </span>
+                    )}
+                    {selectedVideo.youtubeId && (
+                      <a
+                        href={`https://youtu.be/${selectedVideo.youtubeId}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        style={{ fontFamily: "'GroteskFont', sans-serif" }}
+                        className="text-[10px] sm:text-xs text-[#D42C2C] hover:underline whitespace-nowrap"
+                      >
+                        Watch on YouTube ↗
+                      </a>
+                    )}
+                  </div>
                 </div>
               </>
             )}

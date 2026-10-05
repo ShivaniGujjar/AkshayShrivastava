@@ -6,10 +6,10 @@ const SOCIAL_LINKS = [
   { id: 'LinkedIn', name: 'Linkedin', url: 'https://www.linkedin.com/in/your-profile-here' }
 ];
 
-// 👈 Gap control: pulls the footer up towards the torn edge above it.
-// Gap bada lage to number badhao (e.g. 240), upar wale section par chadhne lage to kam karo.
-const PULL_UP_DESKTOP = 190; // px, screens >= 640px
-const PULL_UP_MOBILE = 40;   // px, small screens
+// 👈 Gap control: pulls the footer up so "Contact Now" sits in the visual centre.
+// Aur upar chahiye to number badhao (e.g. 250), zyada upar chala jaye to kam karo.
+const PULL_UP_DESKTOP = 225; // px, screens >= 640px
+const PULL_UP_MOBILE = 55;   // px, small screens
 
 export default function Footer() {
   const footerRef = useRef(null);
@@ -84,7 +84,7 @@ export default function Footer() {
 
         {/* Social handles */}
         <div className="ft-pill-wrap flex justify-center items-center px-3">
-          <div className="relative bg-[#D42C2C] text-white py-2 px-4 sm:py-3 sm:px-8 rounded-lg flex items-center justify-center shadow-lg overflow-hidden">
+          <div className="relative bg-[#D42C2C] text-white py-2.5 px-4 sm:py-3.5 sm:px-8 rounded-lg flex items-center justify-center shadow-lg overflow-hidden">
             <div
               className="absolute inset-0 pointer-events-none z-[1] bg-[url('/noise.gif')] bg-repeat"
               style={{ opacity: 0.08, mixBlendMode: 'overlay' }}
@@ -100,7 +100,8 @@ export default function Footer() {
                     className="text-white hover:text-[#FFC822] transition-colors text-[0.95rem] sm:text-[1.4rem] capitalize tracking-wide leading-none flex items-center px-0.5 sm:px-1"
                     style={{ fontFamily: "GourmetEatery, cursive, sans-serif" }}
                   >
-                    <span className="leading-none pt-0.5">{link.name}</span>
+                    {/* this font sits high in its line box, so nudge it down to the true centre */}
+                    <span className="leading-none relative top-[2px] sm:top-[4px]">{link.name}</span>
                   </a>
                   {idx < SOCIAL_LINKS.length - 1 && (
                     <span className="w-1.5 h-1.5 sm:w-[9px] sm:h-[9px] rounded-full bg-[#FFC822] inline-block select-none shrink-0" />

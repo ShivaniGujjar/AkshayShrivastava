@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useLayoutEffect } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import SocialProof from '../components/SocialProof';
@@ -7,6 +7,20 @@ import Footer from './Footer';
 if (typeof window !== 'undefined') {
   gsap.registerPlugin(ScrollTrigger);
 }
+
+// ✨ SMOOTH: layout effect = initial hidden states are applied BEFORE the first paint (no flash)
+const useIsoLayoutEffect = typeof window !== 'undefined' ? useLayoutEffect : useEffect;
+
+// ✨ SMOOTH: waits for a font to load (or gives up after `timeout` ms) so text doesn't jump mid-animation
+const whenFontsReady = (family, timeout = 1200) => {
+  if (typeof document === 'undefined' || !document.fonts || !document.fonts.load) {
+    return Promise.resolve();
+  }
+  return Promise.race([
+    document.fonts.load(`1em ${family}`).catch(() => {}),
+    new Promise((resolve) => setTimeout(resolve, timeout)),
+  ]);
+};
 
 const prefersReducedMotion = () =>
   typeof window !== 'undefined' &&
@@ -37,7 +51,7 @@ const STATS = [
 const CHAPTERS = [
   {
     num: '01',
-    title: 'The Math Exam',
+    title: 'Where It Started',
     body: [
       `After failing my math exam, my teacher told me, "`,
       { hl: `Akshay, I know you have more potential. You just have to put in more effort.` },
@@ -46,7 +60,7 @@ const CHAPTERS = [
   },
   {
     num: '02',
-    title: 'Pixels To Premiere',
+    title: 'The First Brake',
     body: [
       `Right after school, I started working as a graphic designer, and then one day my employer told me, "Akshay, you're killing it with graphic design. I love it. Please make some videos for us too." That hit me, so once again, I put all my effort into learning Premiere Pro and cracked a completely new job as a full-time video editor in just `,
       { hl: `27 days` },
@@ -55,7 +69,7 @@ const CHAPTERS = [
   },
   {
     num: '03',
-    title: 'The After Effects Comment',
+    title: 'Then Things Changed',
     body: [
       `Life was pretty chill because I genuinely loved what I was doing, until one random comment said, "`,
       { hl: `This could be better in After Effects.` },
@@ -66,7 +80,7 @@ const CHAPTERS = [
   },
   {
     num: '04',
-    title: 'Plot Twist',
+    title: 'The Realisation',
     body: [
       `That day, I realised my teacher was right - `,
       { hl: `I did have more potential` },
@@ -75,7 +89,7 @@ const CHAPTERS = [
   },
   {
     num: '05',
-    title: 'Storytelling Kicks In',
+    title: 'Beyond Editing',
     body: [
       `Video after video, thousands of views, countless likes, comments and messages followed, and then people started saying, "Akshay, you're killing it with your motion design and storytelling." And I was like, wait... they actually love my storytelling. So along with all the editing, motion design and visual skills, `,
       { hl: `writing and direction` },
@@ -84,7 +98,7 @@ const CHAPTERS = [
   },
   {
     num: '06',
-    title: 'Still Learning',
+    title: 'Where I Am Now',
     finale: true,
     body: [
       `In short, I was learning when I had nothing to do; I'm still learning when I have a hundred things to do, and I'll probably keep learning while doing some crazy, crazy work. Because I've realised that the most real and visible results come when `,
@@ -146,50 +160,64 @@ export default function AboutMe() {
   const mouseTiltRef = useRef(null);
   const archRef = useRef(null);
 
-  // 🔊 HERO VIDEO SOUND STATE & REF
-  const heroVideoRef = useRef(null);
-  const [isMuted, setIsMuted] = useState(true);
+  // ✨ SMOOTH: always open the page from the top so triggers are measured from a clean state
+  useIsoLayoutEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
-  const toggleAudio = () => {
-    if (heroVideoRef.current) {
-      heroVideoRef.current.muted = !isMuted;
-      setIsMuted(!isMuted);
-    }
-  };
-
-  useEffect(() => {
+  // ✨ SMOOTH: layout effect, so every "hidden" start state exists before the first paint
+  useIsoLayoutEffect(() => {
     if (prefersReducedMotion()) return;
 
+    let cancelled = false;
+
     const ctx = gsap.context(() => {
-      // 1. name words slide up + skill tags pop in
-      gsap.set('.name-word', { yPercent: 115 });
-      gsap.set('.skill-tag', { opacity: 0, y: 16, scale: 0.9 });
-      gsap.timeline({
-        scrollTrigger: { trigger: bioSectionRef.current, start: 'top 75%' },
-      })
-        .to('.name-word', { yPercent: 0, duration: 0.9, ease: 'power3.out', stagger: 0.12 })
-        .to('.skill-tag', { opacity: 1, y: 0, scale: 1, duration: 0.6, ease: 'back.out(1.8)', stagger: 0.1, clearProps: 'transform' }, '-=0.4');
+      // 1. name words slide up. It sits at the very top of the page, so it just plays
+      //    once the heading font is ready (no jump when the font swaps in).
+      gsap.set('.name-word', { yPercent: 115, force3D: true });
+      const nameTl = gsap.timeline({ paused: true }).to('.name-word', {
+        yPercent: 0,
+        duration: 0.9,
+        ease: 'power3.out',
+        stagger: 0.12,
+      });
+      whenFontsReady('SquidBoy').then(() => {
+        if (!cancelled) nameTl.play();
+      });
 
       // 2. stat cards rise
+      // ✨ SMOOTH: the cards have a CSS `transition-transform`. If it is left on while GSAP moves them,
+      //    the two fight every frame (that was the jitter). Turn it off during the intro only.
+      gsap.set('.stat-card', { transition: 'none' });
       gsap.from('.stat-card', {
         y: 40,
         opacity: 0,
         duration: 0.8,
         ease: 'power3.out',
         stagger: 0.12,
-        clearProps: 'transform,opacity',
-        scrollTrigger: { trigger: '.stats-row', start: 'top 85%' },
+        force3D: true,
+        clearProps: 'transform,opacity,transition',
+        scrollTrigger: { trigger: '.stats-row', start: 'top 88%', once: true },
       });
 
       // 3. portrait slides in
-      gsap.from(imageRef.current, {
+      // ✨ SMOOTH: opacity on a 3D-preserving element flattens it, then it "pops" back to 3D at the end.
+      //    So: fade the outer wrapper, move/scale the inner 3D one.
+      gsap.from(portraitRef.current, {
         opacity: 0,
+        duration: 1.1,
+        ease: 'power2.out',
+        clearProps: 'opacity',
+        scrollTrigger: { trigger: imageRef.current, start: 'top 88%', once: true },
+      });
+      gsap.from(imageRef.current, {
         x: 50,
         scale: 0.95,
         duration: 1.1,
         ease: 'power3.out',
-        clearProps: 'transform,opacity',
-        scrollTrigger: { trigger: imageRef.current, start: 'top 85%' },
+        force3D: true,
+        clearProps: 'transform',
+        scrollTrigger: { trigger: imageRef.current, start: 'top 88%', once: true },
       });
 
       // 4. timeline line fills as you scroll
@@ -210,13 +238,18 @@ export default function AboutMe() {
 
       // 5. each chapter: card rises, dot pops, highlighter swipes
       gsap.utils.toArray('.chapter').forEach((el) => {
-        const trigger = { trigger: el, start: 'top 82%' };
-        gsap.from(el.querySelector('.chapter-card'), {
+        const trigger = { trigger: el, start: 'top 85%', once: true };
+        const card = el.querySelector('.chapter-card');
+
+        // same CSS-transition vs GSAP fix as the stat cards
+        gsap.set(card, { transition: 'none' });
+        gsap.from(card, {
           y: 50,
           opacity: 0,
           duration: 0.9,
           ease: 'power3.out',
-          clearProps: 'transform,opacity',
+          force3D: true,
+          clearProps: 'transform,opacity,transition',
           scrollTrigger: trigger,
         });
         gsap.from(el.querySelector('.chapter-dot'), {
@@ -241,11 +274,14 @@ export default function AboutMe() {
       });
     }, rootRef);
 
-    return () => ctx.revert();
+    return () => {
+      cancelled = true;
+      ctx.revert();
+    };
   }, []);
 
   // 📌 Pin portrait + 3D motion
-  useEffect(() => {
+  useIsoLayoutEffect(() => {
     const mm = gsap.matchMedia();
 
     mm.add('(min-width: 1024px)', () => {
@@ -313,15 +349,28 @@ export default function AboutMe() {
     return () => mm.revert();
   }, []);
 
+  // ✨ SMOOTH: re-measure all scroll triggers once fonts / images have settled
+  useEffect(() => {
+    const refresh = () => ScrollTrigger.refresh();
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(refresh);
+    window.addEventListener('load', refresh);
+    const t = setTimeout(refresh, 600);
+    return () => {
+      window.removeEventListener('load', refresh);
+      clearTimeout(t);
+    };
+  }, []);
+
   return (
     <div
       ref={rootRef}
       className="w-full min-h-screen bg-[#FFFCFB] relative overflow-x-clip pb-0 m-0 text-[#14120e]"
     >
       {/* 🎞️ NOISE GIF OVERLAY */}
+      {/* ✨ SMOOTH: blend-mode removed (it forced an expensive full-screen composite on every frame) */}
       <div
         className="fixed inset-0 pointer-events-none z-[999] bg-[url('/noise.gif')] bg-repeat"
-        style={{ opacity: 0.03, mixBlendMode: 'multiply' }}
+        style={{ opacity: 0.03 }}
       />
 
       <style>{`
@@ -330,7 +379,7 @@ export default function AboutMe() {
           src: url('/Fonts/SquidBoy.otf') format('opentype');
           font-weight: normal;
           font-style: normal;
-          font-display: swap;
+          font-display: block;
         }
 
         @font-face {
@@ -338,7 +387,7 @@ export default function AboutMe() {
           src: url('/Fonts/SquidBoy-Bold.otf') format('opentype');
           font-weight: bold;
           font-style: normal;
-          font-display: swap;
+          font-display: block;
         }
 
         @font-face {
@@ -357,17 +406,6 @@ export default function AboutMe() {
           font-display: swap;
         }
 
-        .editing-cutout-mask {
-          mask-image: url('/editingcutout.svg');
-          -webkit-mask-image: url('/editingcutout.svg');
-          mask-size: 100% 100%;
-          -webkit-mask-size: 100% 100%;
-          mask-repeat: no-repeat;
-          -webkit-mask-repeat: no-repeat;
-          mask-position: bottom center;
-          -webkit-mask-position: bottom center;
-        }
-
         /* Fixed seamless yellow highlighter marker */
         .about-hl {
           background-color: #FFC300;
@@ -381,54 +419,11 @@ export default function AboutMe() {
         }
       `}</style>
 
-      {/* 🎬 HERO BANNER WITH HOSTINGER VIDEO */}
-      <div className="relative w-full h-[55vh] sm:h-screen bg-[#14120e] flex flex-col justify-center items-center overflow-hidden m-0 p-0 editing-cutout-mask">
-        <video
-          ref={heroVideoRef}
-          poster="https://akshayshrivastava.com/images/AboutMain.png"
-          autoPlay
-          loop
-          muted={isMuted}
-          playsInline
-          preload="metadata"
-          className="absolute top-0 left-0 w-full h-full object-cover z-0 filter brightness-[0.55] contrast-105"
-        >
-          <source src="https://akshayshrivastava.com/videos/AboutMain.mp4" />
-        </video>
-
-        <div className="absolute inset-0 bg-gradient-to-t from-[#14120e]/80 via-transparent to-[#14120e]/60 z-[1] pointer-events-none" />
-
-        {/* 🔊 MINIMAL SOUND TOGGLE BUTTON */}
-        <button
-          onClick={toggleAudio}
-          className="absolute bottom-8 left-4 sm:bottom-12 sm:left-10 z-30 flex items-center justify-center w-8 h-8 sm:w-11 sm:h-11 bg-black/60 hover:bg-[#D42C2C] backdrop-blur-md text-[#FFFFFF] border border-white/20 rounded-full transition-all duration-300 shadow-xl group cursor-pointer hover:scale-110"
-          aria-label="Toggle Sound"
-        >
-          {isMuted ? (
-            <svg className="w-3.5 h-3.5 sm:w-5 sm:h-5 fill-current text-[#FFC300] group-hover:text-white transition-colors" viewBox="0 0 24 24">
-              <path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v2.21l2.45 2.45c.03-.2.05-.41.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51C20.63 14.91 21 13.5 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06c1.38-.31 2.63-.95 3.69-1.81L19.73 21 21 19.73l-9-9L4.27 3zM12 4L9.91 6.09 12 8.18V4z"/>
-            </svg>
-          ) : (
-            <svg className="w-3.5 h-3.5 sm:w-5 sm:h-5 fill-current text-[#FFFFFF] animate-pulse" viewBox="0 0 24 24">
-              <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/>
-            </svg>
-          )}
-        </button>
-
-        <div className="relative z-10 flex flex-col justify-center items-center px-4 mt-4">
-          <h1
-            style={{ fontFamily: "'SquidBoy', sans-serif", letterSpacing: '1px' }}
-            className="text-[2.5rem] sm:text-[5.5rem] text-[#FFFCFB] m-0 text-center leading-none drop-shadow-lg capitalize"
-          >
-            About Me
-          </h1>
-        </div>
-      </div>
-
       {/* 🏛️ STORY SECTION */}
+      {/* pt-28 / sm:pt-36 keeps the name clear of the navbar now that the hero is gone */}
       <div
         ref={bioSectionRef}
-        className="max-w-[1150px] w-full mx-auto pt-10 sm:pt-20 pb-8 px-4 sm:px-8 flex flex-col items-center relative z-20"
+        className="max-w-[1150px] w-full mx-auto pt-28 sm:pt-36 pb-8 px-4 sm:px-8 flex flex-col items-center relative z-20"
       >
         {/* Name */}
         <h2
@@ -437,7 +432,7 @@ export default function AboutMe() {
         >
           {['Akshay', 'Shrivastava'].map((w, i) => (
             <span key={w} className="inline-block overflow-hidden align-bottom pb-[0.14em] mr-[0.25em] last:mr-0">
-              <span className={`name-word inline-block ${i === 1 ? 'text-[#14120e]' : ''}`}>{w}</span>
+              <span className={`name-word inline-block will-change-transform ${i === 1 ? 'text-[#14120e]' : ''}`}>{w}</span>
             </span>
           ))}
         </h2>

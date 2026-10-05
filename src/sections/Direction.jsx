@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useLayoutEffect, useCallback } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import SocialProof from '../components/SocialProof';
@@ -9,6 +9,9 @@ import StatsCounter from '../components/StatsCounter';
 if (typeof window !== 'undefined') {
   gsap.registerPlugin(ScrollTrigger);
 }
+
+// ✨ SMOOTH: layout effect = initial hidden states are applied BEFORE the first paint (no flash)
+const useIsoLayoutEffect = typeof window !== 'undefined' ? useLayoutEffect : useEffect;
 
 // 🎬 DIRECTION PROJECTS DATA WITH HOSTINGER LINKS
 const DIRECTION_PROJECTS = [
@@ -191,29 +194,74 @@ function detectWindows(img) {
   return { W, H, windows, crop, strip };
 }
 
-function ScrapbookGallery() {
+// ✨ SMOOTH: the pixel scan is heavy, so it runs only once per session (cached) and is deferred
+// until the browser is idle. This keeps the page transition from stuttering.
+let layoutCache = null;
+let layoutPromise = null;
+
+const loadLayout = () => {
+  if (layoutCache) return Promise.resolve(layoutCache);
+  if (layoutPromise) return layoutPromise;
+
+  layoutPromise = new Promise((resolve, reject) => {
+    const img = new Image();
+    img.onload = () => {
+      const run = () => {
+        try {
+          const result = detectWindows(img);
+          if (result.windows.length < 3) {
+            console.warn('ScrapbookGallery: found', result.windows.length, 'windows. Are the gray windows still in the PNG?');
+          }
+          layoutCache = result;
+          resolve(result);
+        } catch (e) {
+          reject(e);
+        }
+      };
+      if ('requestIdleCallback' in window) window.requestIdleCallback(run, { timeout: 600 });
+      else setTimeout(run, 60);
+    };
+    img.onerror = reject;
+    img.src = FRAME_SRC;
+  }).catch((e) => {
+    layoutPromise = null;
+    throw e;
+  });
+
+  return layoutPromise;
+};
+
+function ScrapbookGallery({ onReady }) {
   const wrapRef = useRef(null);
   const videoRefs = useRef([]);
-  const [layout, setLayout] = useState(null);
+  const [layout, setLayout] = useState(layoutCache);
   const [isVisible, setIsVisible] = useState(false);
   const [hoveredIdx, setHoveredIdx] = useState(null);
 
-  // read the PNG and locate the windows
+  // read the PNG and locate the windows (cached after the first visit)
   useEffect(() => {
-    const img = new Image();
-    img.onload = () => {
-      try {
-        const result = detectWindows(img);
-        if (result.windows.length < 3) {
-          console.warn('ScrapbookGallery: found', result.windows.length, 'windows. Are the gray windows still in the PNG?');
-        }
-        setLayout(result);
-      } catch (e) {
+    let cancelled = false;
+    loadLayout()
+      .then((result) => {
+        if (!cancelled) setLayout(result);
+      })
+      .catch((e) => {
         console.error('ScrapbookGallery: could not read frame image', e);
-      }
+        if (!cancelled && onReady) onReady();
+      });
+    return () => {
+      cancelled = true;
     };
-    img.src = FRAME_SRC;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  // tell the page the gallery is on screen (after one frame so its size has applied)
+  useEffect(() => {
+    if (!layout || !onReady) return;
+    const id = requestAnimationFrame(() => onReady());
+    return () => cancelAnimationFrame(id);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [layout]);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -238,7 +286,9 @@ function ScrapbookGallery() {
 
   return (
     <div
-      className="w-full mx-auto my-2 sm:my-8 flex justify-center select-none px-2 sm:px-4"
+      className={`w-full mx-auto my-2 sm:my-8 flex justify-center select-none px-2 sm:px-4 transition-opacity duration-700 ease-out ${
+        layout ? 'opacity-100' : 'opacity-0'
+      }`}
       style={{ maxWidth: GALLERY_MAX_WIDTH }}
     >
       <div
@@ -276,7 +326,7 @@ function ScrapbookGallery() {
                 }}
                 className="absolute z-20 m-0 text-[#D42C2C] leading-none whitespace-nowrap capitalize pointer-events-none"
               >
-                Direction Work
+                Direction <span className='text-[#14120e]'>Work</span>
               </h2>
             )}
 
@@ -336,7 +386,7 @@ function ScrapbookGallery() {
                   </div>
 
                   {/* caption near the bottom-left of each window */}
-                  <span
+                  {/* <span
                     style={{
                       fontFamily: "'GroteskFont', sans-serif",
                       fontWeight: 400,
@@ -347,7 +397,7 @@ function ScrapbookGallery() {
                     className={`absolute z-20 pointer-events-none bg-black/80 ${v.textColor} px-1 py-0.5 rounded-[4px] text-[8px] sm:text-xs capitalize`}
                   >
                     {v.title}
-                  </span>
+                  </span> */}
 
                   {/* hover target, clipped to the window's four corners */}
                   <div
@@ -394,7 +444,8 @@ function DirectionProjectRow({ project, index, activeHoverId, setActiveHoverId }
 
   const isHovered = activeHoverId === project.id;
 
-  useEffect(() => {
+  // ✨ SMOOTH: layout effect (no flash), autoAlpha on the video too, GPU transforms, plays once
+  useIsoLayoutEffect(() => {
     const ctx = gsap.context(() => {
       const isMobile = window.innerWidth < 768;
       
@@ -406,30 +457,34 @@ function DirectionProjectRow({ project, index, activeHoverId, setActiveHoverId }
 
       gsap.set(videoWrapperRef.current, {
         x: videoInitialX,
+        autoAlpha: 0,
+        force3D: true,
       });
 
       gsap.set(textColRef.current, {
-        opacity: 0,
+        autoAlpha: 0,
         x: textInitialX,
         y: isMobile ? 20 : 0,
         scale: 0.95,
+        force3D: true,
       });
 
       const tl = gsap.timeline({
         scrollTrigger: {
           trigger: rowRef.current,
-          start: 'top 75%',
-          toggleActions: 'play none none reverse',
+          start: 'top 80%',
+          once: true,
         },
       });
 
       tl.to(videoWrapperRef.current, {
         x: videoFinalX,
+        autoAlpha: 1,
         duration: 1.1,
         ease: 'power3.inOut',
       })
       .to(textColRef.current, {
-        opacity: 1,
+        autoAlpha: 1,
         x: textFinalX,
         y: 0,
         scale: 1,
@@ -447,7 +502,7 @@ function DirectionProjectRow({ project, index, activeHoverId, setActiveHoverId }
       ref={rowRef}
       className={`flex flex-col ${isReverse ? 'md:flex-row-reverse' : 'md:flex-row'} items-center justify-center gap-6 md:gap-12 w-full group py-4 relative min-h-[350px] sm:min-h-[550px]`}
     >
-      <div ref={videoWrapperRef} className="shrink-0 relative z-20">
+      <div ref={videoWrapperRef} className="shrink-0 relative z-20 will-change-transform">
         <DirectionShortCard 
           project={project} 
           isHovered={isHovered}
@@ -458,7 +513,7 @@ function DirectionProjectRow({ project, index, activeHoverId, setActiveHoverId }
 
       <div 
         ref={textColRef} 
-        className="w-full md:max-w-[480px] flex flex-col justify-center text-center md:text-left shrink-0 relative z-10 px-4"
+        className="w-full md:max-w-[480px] flex flex-col justify-center text-center md:text-left shrink-0 relative z-10 px-4 will-change-transform"
       >
         <h3 
           style={{ fontFamily: "'SquidBoy', sans-serif", letterSpacing: '0.5px' }}
@@ -482,52 +537,74 @@ export default function Direction() {
   const featuredSectionRef = useRef(null);
   const paragraphRef = useRef(null);
   const [activeProjectHoverId, setActiveProjectHoverId] = useState(null);
+  const [galleryReady, setGalleryReady] = useState(Boolean(layoutCache));
 
-  const heroVideoRef = useRef(null);
-  const [isMuted, setIsMuted] = useState(true);
+  const handleGalleryReady = useCallback(() => setGalleryReady(true), []);
 
-  const toggleAudio = () => {
-    if (heroVideoRef.current) {
-      heroVideoRef.current.muted = !isMuted;
-      setIsMuted(!isMuted);
-    }
-  };
+  // ✨ SMOOTH: always open the page from the top so triggers are measured from a clean state
+  useIsoLayoutEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
+  // ✨ SMOOTH: hide the intro text before the first paint (no flash)
+  useIsoLayoutEffect(() => {
+    gsap.set(paragraphRef.current, {
+      autoAlpha: 0,
+      y: 60,
+      scale: 0.95,
+      force3D: true,
+    });
+  }, []);
+
+  // safety net: never leave the text hidden if the gallery takes too long
   useEffect(() => {
+    const t = setTimeout(() => setGalleryReady(true), 2500);
+    return () => clearTimeout(t);
+  }, []);
+
+  // ✨ SMOOTH: reveal the text only AFTER the gallery has its final size (nothing shifts under it)
+  useEffect(() => {
+    if (!galleryReady) return;
+
     const ctx = gsap.context(() => {
-      gsap.set(paragraphRef.current, {
-        opacity: 0,
-        y: 60,
-        scale: 0.95,
-      });
-
-      const tl = gsap.timeline({
-        scrollTrigger: {
-          trigger: featuredSectionRef.current,
-          start: 'top 75%',
-          toggleActions: 'play none none reverse',
-        },
-      });
-
-      tl.to(paragraphRef.current, {
-        opacity: 1,
+      gsap.to(paragraphRef.current, {
+        autoAlpha: 1,
         y: 0,
         scale: 1,
         duration: 1,
         ease: 'power3.out',
+        scrollTrigger: {
+          trigger: paragraphRef.current,
+          start: 'top 92%',
+          once: true,
+        },
       });
-
     }, featuredSectionRef);
 
+    ScrollTrigger.refresh();
+
     return () => ctx.revert();
+  }, [galleryReady]);
+
+  // ✨ SMOOTH: re-measure all scroll triggers once fonts / images have settled
+  useEffect(() => {
+    const refresh = () => ScrollTrigger.refresh();
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(refresh);
+    window.addEventListener('load', refresh);
+    const t = setTimeout(refresh, 600);
+    return () => {
+      window.removeEventListener('load', refresh);
+      clearTimeout(t);
+    };
   }, []);
 
   return (
     <div className="w-full min-h-screen bg-[#FFFCFB] relative overflow-x-hidden pb-12 sm:pb-24 m-0 text-[#14120e]">
       
+      {/* ✨ SMOOTH: blend-mode removed (it forced an expensive full-screen composite on every frame) */}
       <div 
         className="fixed inset-0 pointer-events-none z-[999] bg-[url('/noise.gif')] bg-repeat"
-        style={{ opacity: 0.03, mixBlendMode: 'multiply' }}
+        style={{ opacity: 0.03 }}
       />
 
       <style>{`
@@ -536,7 +613,7 @@ export default function Direction() {
           src: url('/Fonts/SquidBoy.otf') format('opentype');
           font-weight: normal;
           font-style: normal;
-          font-display: swap;
+          font-display: block;
         }
 
         @font-face {
@@ -544,7 +621,7 @@ export default function Direction() {
           src: url('/Fonts/SquidBoy-Bold.otf') format('opentype');
           font-weight: bold;
           font-style: normal;
-          font-display: swap;
+          font-display: block;
         }
 
         @font-face {
@@ -562,94 +639,30 @@ export default function Direction() {
           font-style: normal;
           font-display: swap;
         }
-
-        .editing-cutout-mask {
-          mask-image: url('/editingcutout.svg');
-          -webkit-mask-image: url('/editingcutout.svg');
-          mask-size: 100% 100%;
-          -webkit-mask-size: 100% 100%;
-          mask-repeat: no-repeat;
-          -webkit-mask-repeat: no-repeat;
-          mask-position: bottom center;
-          -webkit-mask-position: bottom center;
-        }
       `}</style>
 
-      {/* HERO BANNER */}
-      <div className="relative w-full h-[60vh] sm:h-screen bg-[#14120e] flex flex-col justify-center items-center overflow-hidden m-0 p-0 editing-cutout-mask"> 
-        <video 
-          ref={heroVideoRef}
-          poster="https://akshayshrivastava.com/images/DirectionMain.png"
-          autoPlay 
-          loop 
-          muted={isMuted} 
-          playsInline 
-          preload="metadata"
-          className="absolute top-0 left-0 w-full h-full object-cover z-0 filter brightness-[0.55] contrast-105"
-        >
-          <source src="https://akshayshrivastava.com/videos/DirectionMain.mp4" />
-        </video>
+      {/* FRAMES + INTRO TEXT */}
+      {/* pt-24 / sm:pt-32 keeps the frames clear of the navbar now that the hero is gone */}
+      <div ref={featuredSectionRef} className="w-full mx-auto pt-24 sm:pt-32 pb-4 px-4 flex flex-col items-center relative z-20 text-center overflow-hidden">
+        <ScrapbookGallery onReady={handleGalleryReady} />
 
-        <div className="absolute inset-0 bg-gradient-to-t from-[#14120e]/80 via-transparent to-[#14120e]/60 z-[1] pointer-events-none" />
-
-        <button
-          onClick={toggleAudio}
-          className="absolute bottom-8 left-4 sm:bottom-12 sm:left-10 z-30 flex items-center justify-center w-8 h-8 sm:w-11 sm:h-11 bg-black/60 hover:bg-[#D42C2C] backdrop-blur-md text-[#FFFFFF] border border-white/20 rounded-full transition-all duration-300 shadow-xl group cursor-pointer hover:scale-110"
-          aria-label="Toggle Sound"
-        >
-          {isMuted ? (
-            <svg className="w-3.5 h-3.5 sm:w-5 sm:h-5 fill-current text-[#FFC822] group-hover:text-white transition-colors" viewBox="0 0 24 24">
-              <path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v2.21l2.45 2.45c.03-.2.05-.41.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51C20.63 14.91 21 13.5 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06c1.38-.31 2.63-.95 3.69-1.81L19.73 21 21 19.73l-9-9L4.27 3zM12 4L9.91 6.09 12 8.18V4z"/>
-            </svg>
-          ) : (
-            <svg className="w-3.5 h-3.5 sm:w-5 sm:h-5 fill-current text-[#FFFFFF] animate-pulse" viewBox="0 0 24 24">
-              <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/>
-            </svg>
-          )}
-        </button>
-
-        <div className="relative z-10 flex flex-col justify-center items-center px-4 mt-4 text-center">
-          <h1 
-            style={{ fontFamily: "'SquidBoy', sans-serif", letterSpacing: '1px' }}
-            className="text-[2.5rem] sm:text-[5.5rem] text-[#FFFCFB] m-0 leading-none drop-shadow-lg capitalize mb-4 sm:mb-6"
-          >
-            Direction Work
-          </h1>
-
-          <p 
-            style={{ fontFamily: "'ParaFont', sans-serif", fontWeight: 200, letterSpacing: '-0.3px' }}
-            className="text-[#FFFCFB] text-xs sm:text-base md:text-lg max-w-[850px] leading-relaxed font-light drop-shadow-[0_2px_10px_rgba(0,0,0,0.95)] px-4"
-          >
-            Editing teaches me how to shape a story. Motion teaches me how to push it further. Together, they help me think beyond the expected, because every good idea starts with “what if?” Direction is figuring out what comes next.
-          </p>
-        </div>
-      </div>
-
-      {/* HEADER & FEATURED SECTION */}
-      <div ref={featuredSectionRef} className="w-full mx-auto pt-6 sm:pt-16 pb-4 px-4 flex flex-col items-center relative z-20 text-center overflow-hidden">
-        <div className="inline-flex flex-col items-center z-20 px-4">
-          <h2 
-            style={{ fontFamily: "'SquidBoy', sans-serif", letterSpacing: '1px' }}
-            className="text-lg sm:text-4xl m-0 text-[#D42C2C] leading-tight capitalize"
-          >
-            Welcome to Direction section
-          </h2>
-        </div>
-
-        <div ref={paragraphRef} className="relative z-10 mt-3 mb-4 max-w-[750px] px-4 flex flex-col gap-3">
+        <div ref={paragraphRef} className="relative z-10 mt-3 mb-4 max-w-[750px] px-4 flex flex-col gap-3 will-change-transform">
           <p 
             style={{ fontFamily: "'ParaFont', sans-serif", letterSpacing: '-0.2px', fontWeight: 400 }}
             className="text-[#3b352e] text-xs sm:text-lg leading-relaxed font-light text-center"
           >
             I’ve always had a head full of random, unhinged ideas, and at some point, I thought, why not actually make them? That’s how I started learning this craft. That curiosity slowly turned into a craft, and the appreciation I received kept me going pushing me deeper into storytelling, motion, and direction.
           </p>
+          
         </div>
 
-        <ScrapbookGallery />
+        
       </div>
 
-      {/* PROJECT ROWS */}
+      {/* PROJECT ROWS (3 videos) */}
+      
       <div className="max-w-[1100px] w-full mx-auto px-4 sm:px-6 flex flex-col gap-10 md:gap-24 my-8 sm:my-20">
+        
         {DIRECTION_PROJECTS.map((project, idx) => (
           <DirectionProjectRow 
             key={project.id} 

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 const DEFAULT_BRANDS = [
   "/waywen.webp",
@@ -14,7 +14,7 @@ const DEFAULT_TESTIMONIALS = [
   {
     quote: "I had the pleasure of working with Akshay on editing two crucial videos, and I couldn't be happier with the results. He was professional, attentive to detail, and delivered high-quality work on time. His creativity and ability to bring my vision to life were truly impressive!",
     handle: "Aditya Verma",
-    role: "CONTENT STRATEGY & PRODUCTION"
+    role: "CONTENT STRATEGY AND PRODUCTION"
   },
   {
     quote: "Akshay just gets content. You don't have to explain every little thing to him, which honestly makes the process so much easier.",
@@ -32,6 +32,120 @@ const DEFAULT_TESTIMONIALS = [
     role: "CREATOR"
   }
 ];
+
+// 🔍 LOGO SIZE EQUALISER
+// Every logo file has a different amount of empty space around it, so "same height" still
+// looks uneven (Monotech / Ambrane looked small). This measures the VISIBLE part of each
+// logo and scales it so all logos have the same visible height.
+// MAX_ASPECT keeps wide wordmarks (like Waywen) from looking bigger than the rest:
+// no logo is wider than MAX_ASPECT x the row height, so every logo fits the same small box.
+const MAX_ASPECT = 3.2;
+const logoCache = new Map();
+
+function measureLogo(src) {
+  if (!logoCache.has(src)) {
+    logoCache.set(
+      src,
+      new Promise((resolve) => {
+        const img = new Image();
+        img.onload = () => {
+          const natW = img.naturalWidth || 1;
+          const natH = img.naturalHeight || 1;
+          const full = { natW, natH, bx0: 0, by0: 0, bx1: 1, by1: 1 };
+          try {
+            const k = 240 / Math.max(natW, natH);
+            const w = Math.max(1, Math.round(natW * k));
+            const h = Math.max(1, Math.round(natH * k));
+            const c = document.createElement('canvas');
+            c.width = w;
+            c.height = h;
+            const ctx = c.getContext('2d', { willReadFrequently: true });
+            ctx.drawImage(img, 0, 0, w, h);
+            const { data } = ctx.getImageData(0, 0, w, h);
+            // if the 4 corners are the same solid colour, treat that colour as the background
+            const at = (x, y) => { const i = (y * w + x) * 4; return [data[i], data[i + 1], data[i + 2], data[i + 3]]; };
+            const corners = [at(0, 0), at(w - 1, 0), at(0, h - 1), at(w - 1, h - 1)];
+            const solidBg =
+              corners.every((c) => c[3] > 200) &&
+              corners.every((c) => Math.max(Math.abs(c[0] - corners[0][0]), Math.abs(c[1] - corners[0][1]), Math.abs(c[2] - corners[0][2])) < 12);
+            const bg = corners[0];
+
+            let minX = w, minY = h, maxX = -1, maxY = -1;
+            for (let y = 0; y < h; y++) {
+              for (let x = 0; x < w; x++) {
+                const i = (y * w + x) * 4;
+                const visible = solidBg
+                  ? data[i + 3] > 30 &&
+                    Math.max(Math.abs(data[i] - bg[0]), Math.abs(data[i + 1] - bg[1]), Math.abs(data[i + 2] - bg[2])) > 28
+                  : data[i + 3] > 30 && !(data[i] > 245 && data[i + 1] > 245 && data[i + 2] > 245);
+                if (visible) {
+                  if (x < minX) minX = x;
+                  if (x > maxX) maxX = x;
+                  if (y < minY) minY = y;
+                  if (y > maxY) maxY = y;
+                }
+              }
+            }
+            if (maxX < 0) return resolve(full);
+            resolve({
+              natW,
+              natH,
+              bx0: minX / w,
+              by0: minY / h,
+              bx1: (maxX + 1) / w,
+              by1: (maxY + 1) / h,
+            });
+          } catch (e) {
+            resolve(full);
+          }
+        };
+        img.onerror = () => resolve(null);
+        img.src = src;
+      })
+    );
+  }
+  return logoCache.get(src);
+}
+
+function BrandLogo({ src }) {
+  const [m, setM] = useState(null);
+
+  useEffect(() => {
+    let alive = true;
+    measureLogo(src).then((r) => alive && setM(r));
+    return () => { alive = false; };
+  }, [src]);
+
+  // until measured (or if it fails) show the logo the old way
+  if (!m) {
+    return <img src={src} alt="Brand Logo" className="h-full w-auto object-contain" />;
+  }
+
+  const vw = m.bx1 - m.bx0;
+  const vh = m.by1 - m.by0;
+  const A = (vw * m.natW) / (vh * m.natH);        // visible aspect ratio
+  const f = Math.min(1, MAX_ASPECT / A);           // visible height as a share of the row height
+  const K = f / vh;                                // image height in row-height units
+  const imgW = K * (m.natW / m.natH);
+
+  return (
+    <div className="relative shrink-0 overflow-hidden" style={{ height: 'var(--lh)', width: `calc(var(--lh) * ${f * A})` }}>
+      <img
+        src={src}
+        alt="Brand Logo"
+        draggable={false}
+        style={{
+          position: 'absolute',
+          maxWidth: 'none',
+          height: `calc(var(--lh) * ${K})`,
+          width: `calc(var(--lh) * ${imgW})`,
+          left: `calc(var(--lh) * ${-m.bx0 * imgW})`,
+          top: `calc(var(--lh) * ${(1 - f) / 2 - m.by0 * K})`,
+        }}
+      />
+    </div>
+  );
+}
 
 const duplicateList = (arr, count = 6) => {
   let output = [];
@@ -118,13 +232,9 @@ export default function SocialProof({ brands = DEFAULT_BRANDS, testimonials = DE
             {duplicateList(brands).map((logoUrl, idx) => (
               <div
                 key={`brand-logo-${idx}`}
-                className="inline-flex items-center justify-center shrink-0 h-6 sm:h-14 opacity-90 hover:opacity-100 transition-opacity"
+                className="inline-flex items-center justify-center shrink-0 h-6 sm:h-[46px] [--lh:24px] sm:[--lh:46px] opacity-90 hover:opacity-100 transition-opacity"
               >
-                <img
-                  src={logoUrl}
-                  alt="Brand Logo"
-                  className="h-full w-auto object-contain"
-                />
+                <BrandLogo src={logoUrl} />
               </div>
             ))}
           </div>
@@ -132,10 +242,12 @@ export default function SocialProof({ brands = DEFAULT_BRANDS, testimonials = DE
       </div>
 
       {/* ────────────────── 2. TESTIMONIALS SECTION ────────────────── */}
-      {/* FIX: padding adjusted so cards stay clear of the torn top/bottom edges */}
-      <div className="relative w-full -mt-4 sm:-mt-16 pt-14 pb-36 sm:pt-20 sm:pb-60 flex flex-col items-center justify-center overflow-hidden">
+      {/* Heading removed: only the sliding cards remain, centred in the red band.
+          Padding is now SYMMETRIC (same top and bottom) so the cards sit in the middle.
+          Total height is kept the same as before, so the red band does not change size.
+          Tune: py-44 / sm:py-72 (more = taller band, less = tighter band). */}
+      <div className="relative w-full -mt-4 sm:-mt-16 py-44 sm:py-72 flex flex-col items-center justify-center overflow-hidden">
 
-        {/* FIX: stretch image to the exact container size so torn edges always sit at top/bottom */}
         {/* PNG has transparent padding on all sides, so the bg layer is oversized
             (negative inset) and the container's overflow-hidden crops that padding.
             Tune: -left/-right-[3.5%] for sides, -top/-bottom for the torn edges. */}
@@ -147,24 +259,7 @@ export default function SocialProof({ brands = DEFAULT_BRANDS, testimonials = DE
           }}
         />
 
-        <div className="relative z-[15] text-center mb-4 sm:mb-6 pt-14 sm:pt-24 pb-1 sm:pb-2 px-4">
-          <h2
-            style={{ fontFamily: "GenericFont, sans-serif", letterSpacing: '0.3px', fontWeight: 300 }}
-            className="text-xl sm:text-[42px] pt-8 mt-2 sm:mt-4 m-0 text-[#FFFFFF] leading-tight drop-shadow-md"
-          >
-            Testimonial
-          </h2>
-
-          <p
-            style={{ color: '#FFD84D' }}
-            className="text-[11px] sm:text-base mt-2 sm:mt-3 font-medium"
-          >
-            What clients say about my work
-          </p>
-        </div>
-
         {/* TICKER CARDS WRAPPER */}
-        {/* FIX: removed extra bottom margin; section padding handles spacing now */}
         <div className="w-full overflow-hidden mb-0 py-2 sm:py-4 relative z-[15] testi-fade">
           <div className="animate-marquee-slow-right gap-6 sm:gap-10 w-max items-stretch">
             {duplicateList(testimonials).map((testi, idx) => (
