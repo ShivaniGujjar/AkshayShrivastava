@@ -715,10 +715,10 @@ export default function Editing() {
                     />
                   )}
                 </div>
-                <div className="p-3 sm:p-6 bg-[#FFFCFB] text-[#14120e] flex items-center justify-between border-t border-black/5">
+                <div className="p-3 sm:p-6 bg-[#111] text-[#14120e] flex items-center justify-between border-t border-black/5">
                   <h3 
                     style={{ fontFamily: "'GroteskFont', 'Helvetica Neue', Helvetica, Arial, sans-serif" }}
-                    className="m-0 text-base sm:text-xl font-bold text-[#14120e]"
+                    className="m-0 text-base sm:text-xl font-bold text-white"
                   >
                     {selectedVideo.title}
                   </h3>
@@ -726,7 +726,7 @@ export default function Editing() {
                     {(selectedVideo.category || selectedVideo.brand) && (
                       <span 
                         style={{ fontFamily: "'GroteskFont', sans-serif", letterSpacing: '-0.3px', fontWeight: 300 }}
-                        className="text-[9px] sm:text-xs text-[#554f46] bg-[#f0eae1] px-2 py-0.5 sm:px-2.5 sm:py-1 rounded-[4px]"
+                        className="text-[9px] sm:text-xs text-white bg-[#333] px-2 py-0.5 sm:px-2.5 sm:py-1 rounded-[4px]"
                       >
                         {selectedVideo.category || selectedVideo.brand}
                       </span>
