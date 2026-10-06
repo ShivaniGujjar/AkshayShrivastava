@@ -12,14 +12,14 @@ const COLUMNS = [
     id: 'motion', 
     title: 'Motion Design', 
     subtitle: 'Making rectangles do interesting things',
-    videoUrl: 'https://akshayshrivastava.com/videos/MotionHome.mp4',
+    videoUrl: 'https://akshayshrivastava.com/videos/MotionMain.mp4',
     poster: 'https://akshayshrivastava.com/images/MotionHome.jpeg'
   },
   { 
     id: 'direction', 
     title: 'Direction', 
     subtitle: 'I love questionable ideas look intentional',
-    videoUrl: 'https://akshayshrivastava.com/videos/DirectionHome.mp4',
+    videoUrl: 'https://akshayshrivastava.com/videos/DirectionMain.mp4',
     poster: 'https://akshayshrivastava.com/images/DirectionHome.jpeg'
   },
   { 
@@ -60,12 +60,6 @@ export default function Hero({ onColumnClick }) {
     }
   }, [isMobileMenuOpen]);
 
-  // Hero keeps its own fixed navbar (no logo). Because it's `position: fixed`,
-  // it stays pinned to the viewport even after scrolling/navigating away,
-  // unless something tells it the Hero section is no longer in view. This
-  // watches the section with an IntersectionObserver and hides/unmounts its
-  // navbar the moment Hero scrolls out of view, so it hands off cleanly to
-  // the other Navbar (with logo) instead of sitting on top of it forever.
   useEffect(() => {
     const el = sectionRef.current;
     if (!el) return;
@@ -79,7 +73,6 @@ export default function Hero({ onColumnClick }) {
     return () => observer.disconnect();
   }, []);
 
-  // Close the mobile menu automatically if Hero scrolls out of view while it's open
   useEffect(() => {
     if (!isHeroInView && isMobileMenuOpen) setIsMobileMenuOpen(false);
   }, [isHeroInView, isMobileMenuOpen]);
@@ -192,9 +185,7 @@ export default function Hero({ onColumnClick }) {
         style={{ opacity: 0.012, mixBlendMode: 'overlay' }}
       />
 
-      {/* 📌 HERO'S OWN NAVBAR (FIXED, NO LOGO) — only rendered while Hero is
-          actually in view. Unmounts on scroll/navigate-away so it doesn't
-          sit on top of the other Navbar (with logo) elsewhere on the page. */}
+      {/* 📌 HERO'S OWN NAVBAR */}
       {isHeroInView && (
         <header 
           className="absolute md:fixed top-6 md:top-12 left-0 w-screen max-w-full box-border z-[9999] px-4 sm:px-8 md:px-12 pointer-events-none border-0 outline-none transition-opacity duration-300"
@@ -266,7 +257,7 @@ export default function Hero({ onColumnClick }) {
           {isMobileMenuOpen && (
             <>
               <div
-                className="md:hidden fixed inset-0 z-[1] bg-black/50 backdrop-blur-sm pointer-events-auto"
+                className="md:hidden fixed inset-0 z-[1] bg-black/70 backdrop-blur-md pointer-events-auto"
                 onClick={() => setIsMobileMenuOpen(false)}
                 aria-hidden="true"
               />
@@ -299,7 +290,7 @@ export default function Hero({ onColumnClick }) {
         </header>
       )}
       
-      {/* ================= DESKTOP LAYOUT (EQUAL & FLAWLESS MASK) ================= */}
+      {/* ================= DESKTOP LAYOUT ================= */}
       <div className="hidden md:block w-full h-full overflow-hidden relative">
         <div className="flex flex-row items-stretch w-[calc(100vw+180px)] h-full relative z-[1]">
           {COLUMNS.map((col, index) => {
@@ -381,6 +372,7 @@ export default function Hero({ onColumnClick }) {
           })}
         </div>
       </div>
+
       {/* ================= MOBILE STACKED LAYOUT ================= */}
       <div className="md:hidden flex flex-col w-full h-dvh overflow-hidden relative z-[1]">
         {COLUMNS.map((col, index) => {
@@ -411,18 +403,18 @@ export default function Hero({ onColumnClick }) {
                 <h1 
                   style={{ 
                     fontFamily: "'SquidBoy', sans-serif",
-                    fontSize: 'clamp(2.8rem, 5vw, 5.6rem)',
+                    fontSize: 'clamp(2.4rem, 4.5vw, 4.8rem)',
                     letterSpacing: '0.01em',
                     lineHeight: '1.1'
                   }}
-                  className="text-[#FFFFFF] mb-0.5 drop-shadow-[0_4px_8px_rgba(0,0,0,0.8)] text-center w-full font-normal"
+                  className="text-[#FFFFFF] mb-1 drop-shadow-[0_4px_8px_rgba(0,0,0,0.8)] text-center w-full font-normal"
                 >
                   {col.title}
                 </h1>
                 <p 
                   style={{ 
                     fontFamily: "'HelveticaNeue', sans-serif",
-                    fontSize: 'clamp(0.62rem, 2.6vw, 0.78rem)'
+                    fontSize: 'clamp(0.65rem, 2.5vw, 0.8rem)'
                   }}
                   className="text-neutral-300 max-w-[85%] leading-tight drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]"
                 >
@@ -435,9 +427,9 @@ export default function Hero({ onColumnClick }) {
       </div>
 
      {/* ================= CLEAN CENTERED FOOTER ================= */}
-      <footer className="fixed bottom-6 left-1/2 -translate-x-1/2 pointer-events-none z-[999] flex justify-center items-center">
+     <footer className="fixed bottom-6 left-1/2 -translate-x-1/2 pointer-events-none z-[999] flex justify-center items-center">
         <div 
-          className="relative pointer-events-auto bg-[#08080a] text-[#FFC300] pt-4 pb-3 px-4 rounded-lg flex items-center justify-center shadow-lg overflow-hidden border-0 outline-none"
+          className="relative pointer-events-auto bg-[#08080a] text-[#FFC300] pt-3 pb-2.5 px-4 rounded-lg flex items-center justify-center shadow-lg overflow-hidden border-0 outline-none"
         >
           <div 
             className="absolute inset-0 pointer-events-none z-[1] bg-[url('/noise.gif')] bg-repeat"

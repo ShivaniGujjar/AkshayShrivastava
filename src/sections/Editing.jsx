@@ -10,10 +10,6 @@ if (typeof window !== 'undefined') {
   gsap.registerPlugin(ScrollTrigger);
 }
 
-// 🎬 REAL SHOWCASE DATA WITH HOSTINGER LINKS
-// LONG FORMS: YouTube videos from the client. `title` is the bold line, `category` the line below.
-// Card image = the YouTube thumbnail. Click opens the video from YouTube inside the popup.
-// To go back to an autoplay preview on a card, add: videoUrl: '.../videos/longX.mp4'
 const ytThumb = (id) => `https://i.ytimg.com/vi/${id}/maxresdefault.jpg`;
 const ytThumbFallback = (id) => `https://i.ytimg.com/vi/${id}/hqdefault.jpg`;
 
@@ -25,13 +21,8 @@ const LONG_FORMS = [
   { id: 'lf5', title: 'Biturbo', category: 'Edutainment', youtubeId: 'MfOuSuKKzdI' },
 ];
 
-// SHORT FORMS: the card text shows the `name` in bold and the `type` on the next line (e.g. "Frido" / "UGC Ad's").
-// ✏️ Edit `name` and `type` on each item. Items without them fall back to `brand - title`.
-// ⚠️ The first 4 below use the client's list in order. Check each one matches its video.
 const SHORT_FORMS_ROW1 = [
-
   { id: 'sf7', title: 'Shorts', brand: 'Scratch', videoUrl: 'https://akshayshrivastava.com/videos/short1.mp4', poster: 'https://akshayshrivastava.com/images/short1.png' },
-  
   { id: 'sf1', name: "Masters' Union", type: 'Instagram Reel', title: 'Retention Hook 1', brand: 'Waywen', videoUrl: 'https://akshayshrivastava.com/videos/short3.mp4', poster: 'https://akshayshrivastava.com/images/short3.png' },
   { id: 'sf2', name: 'Ankit_sr', type: "Instagram Reel", title: 'Viral Podcast Clip 2', brand: 'Edutainment', videoUrl: 'https://akshayshrivastava.com/videos/short19.mp4', poster: 'https://akshayshrivastava.com/images/short19.png' },
   { id: 'sf3', name: 'Vishwmitra', type: 'Performance Reel', title: 'Brand Story Reel 3', brand: 'Kolkata Media', videoUrl: 'https://akshayshrivastava.com/videos/short5.mp4', poster: 'https://akshayshrivastava.com/images/short5.png' },
@@ -39,14 +30,12 @@ const SHORT_FORMS_ROW1 = [
 ];
 
 const SHORT_FORMS_ROW2 = [
-
   { id: 'sf6', title: 'Personal Instagram Reel', brand: 'Akshay Shrivastava', videoUrl: 'https://akshayshrivastava.com/videos/short18.mp4', poster: 'https://akshayshrivastava.com/images/short18.png' },
   { id: 'sf11', title: 'Instagram Reel', brand: 'Ankit_sr', videoUrl: 'https://akshayshrivastava.com/videos/short8.mp4', poster: 'https://akshayshrivastava.com/images/short8.png' },
   { id: 'sf10', title: "UGC Ad's", brand: 'Frido', videoUrl: 'https://akshayshrivastava.com/videos/short11.mp4', poster: 'https://akshayshrivastava.com/images/short11.png' },
   { id: 'sf9', title: 'Instagram Reel', brand: 'Ankit_sr', videoUrl: 'https://akshayshrivastava.com/videos/short16.mp4', poster: 'https://akshayshrivastava.com/images/short16.png' },
   { id: 'sf8', title: "UGC Ad's", brand: 'Frido', videoUrl: 'https://akshayshrivastava.com/videos/short12.mp4', poster: 'https://akshayshrivastava.com/images/short12.png' },
   { id: 'sf4', name: 'Ankit_sr', type: 'Instagram Reel', title: 'Instagram Reel', brand: 'Fit Tribe', videoUrl: 'https://akshayshrivastava.com/videos/short10.mp4', poster: 'https://akshayshrivastava.com/images/short10.png' },
-  
 ];
 
 const duplicateList = (arr, count = 2) => {
@@ -57,7 +46,6 @@ const duplicateList = (arr, count = 2) => {
   return output;
 };
 
-// 🎥 SINGLE VIDEO CARD WITH AUTOPLAY & ISOLATED HOVER PLAY
 function VideoCard({ item, aspectRatio = "wide", hoveredId, setHoveredId, onOpenModal }) {
   const cardRef = useRef(null);
   const videoRef = useRef(null);
@@ -67,43 +55,28 @@ function VideoCard({ item, aspectRatio = "wide", hoveredId, setHoveredId, onOpen
 
   useEffect(() => {
     const observer = new IntersectionObserver(
-      ([entry]) => {
-        setIsVisible(entry.isIntersecting);
-      },
+      ([entry]) => setIsVisible(entry.isIntersecting),
       { threshold: 0.15 }
     );
-
-    if (cardRef.current) {
-      observer.observe(cardRef.current);
-    }
-
-    return () => {
-      if (cardRef.current) observer.unobserve(cardRef.current);
-    };
+    if (cardRef.current) observer.observe(cardRef.current);
+    return () => { if (cardRef.current) observer.unobserve(cardRef.current); };
   }, []);
 
   useEffect(() => {
     if (!videoRef.current) return;
-
     if (!isVisible) {
       videoRef.current.pause();
       return;
     }
-
-    // Logic: If any card is hovered, ONLY play the hovered one. Otherwise, autoplay all visible cards.
     const shouldPlay = isAnyHovered ? isHovered : true;
-
     if (shouldPlay) {
-      if (!videoRef.current.src) {
-        videoRef.current.src = item.videoUrl;
-      }
+      if (!videoRef.current.src) videoRef.current.src = item.videoUrl;
       videoRef.current.play().catch(() => {});
     } else {
       videoRef.current.pause();
     }
   }, [isVisible, isHovered, isAnyHovered, item.videoUrl]);
 
-  // YouTube cards: after hovering for a moment, play a muted preview straight from YouTube
   const [previewOn, setPreviewOn] = useState(false);
   const [previewReady, setPreviewReady] = useState(false);
   const wantsPreview = Boolean(item.youtubeId && !item.videoUrl) && isHovered && isVisible;
@@ -119,12 +92,10 @@ function VideoCard({ item, aspectRatio = "wide", hoveredId, setHoveredId, onOpen
   }, [wantsPreview]);
 
   const cardDimensions = aspectRatio === "wide" 
-    ? "w-[240px] xs:w-[280px] sm:w-[420px] h-[140px] xs:h-[160px] sm:h-[240px]" 
-    : "w-[160px] xs:w-[200px] sm:w-[300px] aspect-[9/16]";
+    ? "w-[220px] xs:w-[260px] sm:w-[420px] h-[124px] xs:h-[146px] sm:h-[240px]" 
+    : "w-[140px] xs:w-[170px] sm:w-[300px] aspect-[9/16]";
 
   const isShort = aspectRatio === "tall";
-  // bold line + type on the next line.
-  // short: name / type (falls back to brand / title). long: title / category.
   const lineName = isShort ? (item.name || item.brand) : item.title;
   const lineType = isShort ? (item.type || item.title) : item.category;
   const isYoutubeOnly = item.youtubeId && !item.videoUrl;
@@ -137,7 +108,6 @@ function VideoCard({ item, aspectRatio = "wide", hoveredId, setHoveredId, onOpen
       onClick={() => onOpenModal(item)}
       className={`relative inline-flex flex-col cursor-group shrink-0 cursor-pointer select-none group overflow-hidden bg-[#0f0e0c] shadow-[0_8px_30px_rgba(0,0,0,0.08)] transition-all duration-500 ease-out hover:-translate-y-1 hover:shadow-[0_16px_40px_rgba(212,44,44,0.2)] rounded-[12px] ${cardDimensions}`}
     >
-      {/* Background media: YouTube thumbnail (+ hover preview), or a muted autoplay preview if videoUrl is set */}
       {isYoutubeOnly ? (
         <>
           <img
@@ -174,28 +144,25 @@ function VideoCard({ item, aspectRatio = "wide", hoveredId, setHoveredId, onOpen
         />
       )}
 
-      {/* Dark Gradient Overlay */}
       <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent pointer-events-none" />
 
-      {/* Hover Play Indicator Badge */}
-      <div className={`absolute top-3 right-3 w-7 h-7 sm:w-9 sm:h-9 rounded-full backdrop-blur-md flex items-center justify-center transition-all duration-300 z-10 ${isHovered ? 'scale-110 bg-[#14120e] text-[#FFFCFB] shadow-lg' : 'bg-black/40 text-[#FFFCFB]'}`}>
+      <div className={`absolute top-2.5 right-2.5 sm:top-3 sm:right-3 w-6 h-6 sm:w-9 sm:h-9 rounded-full backdrop-blur-md flex items-center justify-center transition-all duration-300 z-10 ${isHovered ? 'scale-110 bg-[#14120e] text-[#FFFCFB] shadow-lg' : 'bg-black/40 text-[#FFFCFB]'}`}>
         {isHovered ? (
           <span className="w-2 h-2 bg-[#FFFCFB] rounded-full animate-pulse" />
         ) : (
-          <svg className="w-3.5 h-3.5 fill-current ml-0.5" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+          <svg className="w-3 h-3 sm:w-3.5 sm:h-3.5 fill-current ml-0.5" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
         )}
       </div>
 
-      {/* Text overlay: name in bold, type on the next line (normal font) */}
-      <div className="absolute bottom-0 left-0 right-0 p-3.5 sm:p-5 flex flex-col items-start text-left z-10">
+      <div className="absolute bottom-0 left-0 right-0 p-2 sm:p-5 flex flex-col items-start text-left z-10">
         <div
           style={{ fontFamily: "'GroteskFont', 'Helvetica Neue', Helvetica, Arial, sans-serif" }}
           className="whitespace-normal drop-shadow-md"
         >
-          <p className="m-0 text-sm sm:text-base font-bold leading-tight text-[#FFFCFB]">
+          <p className="m-0 text-xs sm:text-base font-bold leading-tight text-[#FFFCFB]">
             {lineName}
           </p>
-          <p className="m-0 mt-0.5 text-[11px] sm:text-sm font-normal leading-tight text-[#FFFCFB]/80">
+          <p className="m-0 mt-0.5 text-[9px] sm:text-sm font-normal leading-tight text-[#FFFCFB]/80">
             {lineType}
           </p>
         </div>
@@ -204,7 +171,6 @@ function VideoCard({ item, aspectRatio = "wide", hoveredId, setHoveredId, onOpen
   );
 }
 
-// 🎠 MARQUEE ROW
 function MarqueeRow({ items, aspectRatio, direction = 'left', hoveredId, setHoveredId, onOpenModal, speed = 45 }) {
   const containerRef = useRef(null);
   const hoveredIdRef = useRef(hoveredId);
@@ -219,9 +185,7 @@ function MarqueeRow({ items, aspectRatio, direction = 'left', hoveredId, setHove
   }, [hoveredId]);
 
   useEffect(() => {
-    return () => {
-      if (momentumRafRef.current) cancelAnimationFrame(momentumRafRef.current);
-    };
+    return () => { if (momentumRafRef.current) cancelAnimationFrame(momentumRafRef.current); };
   }, []);
 
   useEffect(() => {
@@ -237,7 +201,6 @@ function MarqueeRow({ items, aspectRatio, direction = 'left', hoveredId, setHove
       const delta = timestamp - lastTimeRef.current;
       lastTimeRef.current = timestamp;
 
-      // Pause marquee movement when any item is hovered or dragging
       if (hoveredIdRef.current == null && !isDraggingRef.current) {
         const half = el.scrollWidth / 2;
         const dir = direction === 'left' ? 1 : -1;
@@ -296,9 +259,7 @@ function MarqueeRow({ items, aspectRatio, direction = 'left', hoveredId, setHove
 
       const now = performance.now();
       const dt = now - lastTime;
-      if (dt > 0) {
-        velocity = (moveEvent.clientX - lastX) / dt;
-      }
+      if (dt > 0) velocity = (moveEvent.clientX - lastX) / dt;
       lastX = moveEvent.clientX;
       lastTime = now;
     };
@@ -344,9 +305,7 @@ function MarqueeRow({ items, aspectRatio, direction = 'left', hoveredId, setHove
     window.addEventListener('mouseup', handleMouseUp);
   };
 
-  const handleContainerMouseLeave = () => {
-    setHoveredId(null);
-  };
+  const handleContainerMouseLeave = () => setHoveredId(null);
 
   const handleClickCapture = (e) => {
     if (draggedRef.current) {
@@ -364,10 +323,10 @@ function MarqueeRow({ items, aspectRatio, direction = 'left', hoveredId, setHove
       onTouchStart={() => { isDraggingRef.current = true; }}
       onTouchEnd={() => { isDraggingRef.current = false; }}
       onClickCapture={handleClickCapture}
-      className="w-full max-w-full overflow-x-scroll overflow-y-hidden pt-2 pb-6 cursor-grab select-none [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden px-4 sm:px-8"
+      className="w-full max-w-full overflow-x-scroll overflow-y-hidden pt-2 pb-6 cursor-grab select-none [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden px-3 sm:px-8"
       style={{ touchAction: 'pan-y' }}
     >
-      <div className="inline-flex whitespace-nowrap gap-6 sm:gap-10 w-max items-start">
+      <div className="inline-flex whitespace-nowrap gap-3 sm:gap-10 w-max items-start">
         {items.map((item, idx) => (
           <VideoCard
             key={`${item.id}-${idx}`}
@@ -487,7 +446,7 @@ export default function Editing() {
       `}</style>
 
       {/* HERO BANNER */}
-      <div className="relative w-full h-[60vh] sm:h-screen bg-[#14120e] flex flex-col justify-center items-center overflow-hidden m-0 p-0 editing-cutout-mask"> 
+      <div className="relative w-full h-[55vh] sm:h-screen bg-[#14120e] flex flex-col justify-center items-center overflow-hidden m-0 p-0 editing-cutout-mask"> 
         <video 
           ref={heroVideoRef}
           src="https://akshayshrivastava.com/videos/EditingMain.mp4" 
@@ -504,7 +463,7 @@ export default function Editing() {
 
         <button
           onClick={toggleHeroSound}
-          className="absolute bottom-10 left-4 sm:bottom-16 sm:left-10 z-20 w-8 h-8 sm:w-11 sm:h-11 rounded-full bg-black/60 hover:bg-black/85 backdrop-blur-md border border-white/10 flex items-center justify-center text-[#FFC300] hover:scale-110 transition-all duration-300 shadow-xl cursor-pointer group"
+          className="absolute bottom-6 left-4 sm:bottom-16 sm:left-10 z-20 w-8 h-8 sm:w-11 sm:h-11 rounded-full bg-black/60 hover:bg-black/85 backdrop-blur-md border border-white/10 flex items-center justify-center text-[#FFC300] hover:scale-110 transition-all duration-300 shadow-xl cursor-pointer group"
           title={isHeroMuted ? "Unmute Sound" : "Mute Sound"}
         >
           {isHeroMuted ? (
@@ -520,24 +479,24 @@ export default function Editing() {
 
         <div className="absolute inset-0 bg-gradient-to-b from-[#14120e]/70 via-[#14120e]/20 to-[#14120e]/80 z-[2] pointer-events-none" />
 
-        <div className="relative z-10 flex flex-col justify-center items-center px-4 text-center mt-6">
+        <div className="relative z-10 flex flex-col justify-center items-center px-4 text-center max-w-[850px] mx-auto">
           <h1 
             style={{ fontFamily: "'SquidBoy', sans-serif", letterSpacing: '1px' }}
-            className="text-[2.8rem] sm:text-[5.5rem] text-[#FFC300] m-0 leading-none drop-shadow-lg capitalize mb-4 sm:mb-6"
+            className="text-[2.2rem] sm:text-[5.5rem] text-[#FFC300] m-0 leading-none drop-shadow-lg capitalize mb-3 sm:mb-6"
           >
             Editing Work
           </h1>
 
           <p 
             style={{ fontFamily: "'ParaFont', sans-serif", fontWeight: 100, letterSpacing: '-0.3px' }}
-            className="text-[#FFFCFB] text-xs sm:text-base md:text-lg max-w-[850px] leading-relaxed font-light drop-shadow-[0_2px_10px_rgba(0,0,0,0.95)] px-4 mb-3"
+            className="text-[#FFFCFB] text-[11px] sm:text-base md:text-lg max-w-[750px] leading-relaxed font-light drop-shadow-[0_2px_10px_rgba(0,0,0,0.95)] px-2 mb-2 sm:mb-3"
           >
             The camera captures everything. Editing decides what matters. Through pacing, rhythm, sound, and restraint, an edit can turn the same footage into completely different stories. That’s what makes editing less of a technical process and more of a storytelling language.
           </p>
 
           <p 
             style={{ fontFamily: "'ParaFont', sans-serif", fontWeight: 100, letterSpacing: '0.2px' }}
-            className="text-[#FFC300] text-xs sm:text-sm md:text-base drop-shadow-[0_2px_8px_rgba(0,0,0,0.95)]"
+            className="text-[#FFC300] text-[11px] sm:text-sm md:text-base drop-shadow-[0_2px_8px_rgba(0,0,0,0.95)]"
           >
             Here are a few stories I've helped shape. Scroll on.
           </p>
@@ -545,17 +504,17 @@ export default function Editing() {
       </div>
 
       {/* FEATURED MASTERPIECE SECTION */}
-      <div ref={featuredSectionRef} className="w-full mx-auto pt-8 sm:pt-16 pb-4 px-4 flex flex-col items-center relative z-20 text-center overflow-hidden">
+      <div ref={featuredSectionRef} className="w-full mx-auto pt-6 sm:pt-16 pb-4 px-4 flex flex-col items-center relative z-20 text-center overflow-hidden">
         <div className="inline-flex flex-col items-center z-20 px-4">
           <h2 
             style={{ fontFamily: "'SquidBoy', sans-serif", letterSpacing:'1px' }}
-            className="text-xl sm:text-4xl m-0 text-[#D42C2C] leading-tight capitalize"
+            className="text-lg sm:text-4xl m-0 text-[#D42C2C] leading-tight capitalize"
           >
             Welcome To Editing Section
           </h2>
         </div>
 
-        <div ref={paragraphRef} className="relative z-10 mt-2 sm:mt-3 mb-6 max-w-[700px] px-4">
+        <div ref={paragraphRef} className="relative z-10 mt-2 sm:mt-3 mb-4 sm:mb-6 max-w-[700px] px-4">
           <p 
             style={{ fontFamily: "ParaFont, sans-serif", fontWeight: 200, letterSpacing : '-0.5px' }}
             className="text-[#3b352e] text-xs sm:text-lg leading-relaxed text-center font-light tracking-wide"
@@ -564,7 +523,7 @@ export default function Editing() {
           </p>
         </div>
 
-        <div className="max-w-[950px] w-full px-2 sm:px-6 mb-8 sm:mb-10 relative z-20">
+        <div className="max-w-[950px] w-full px-2 sm:px-6 mb-6 sm:mb-10 relative z-20">
           <div className="w-full aspect-video rounded-[8px] overflow-hidden shadow-[0_18px_50px_rgba(0,0,0,0.15)] bg-[#0f0e0c]">
             <CustomVideoPlayer 
               src="https://akshayshrivastava.com/videos/EditingFull.mp4"
@@ -577,18 +536,18 @@ export default function Editing() {
       </div>
 
       {/* LONG FORMS */}
-      <div id="long-forms" className="w-full max-w-full relative overflow-hidden my-6 sm:my-16">
-        <div className="max-w-[1100px] w-full mx-auto px-4 sm:px-6 flex flex-col items-center text-center mb-6 sm:mb-8">
+      <div id="long-forms" className="w-full max-w-full relative overflow-hidden my-4 sm:my-16">
+        <div className="max-w-[1100px] w-full mx-auto px-4 sm:px-6 flex flex-col items-center text-center mb-4 sm:mb-8">
           <h3 
             style={{ fontFamily: "'SquidBoy', sans-serif", letterSpacing : '1px' }}
-            className="text-xl sm:text-4xl m-0 text-[#D42C2C] leading-tight capitalize"
+            className="text-lg sm:text-4xl m-0 text-[#D42C2C] leading-tight capitalize"
           >
             Long Forms
           </h3>
 
           <div 
             style={{ fontFamily: "'ParaFont', sans-serif", letterSpacing: '0.5px' }}
-            className="flex flex-wrap items-center justify-center gap-1.5 sm:gap-3 mt-2 sm:mt-3 text-[#3b352e] text-[11px] sm:text-base tracking-wider text-center capitalize"
+            className="flex flex-wrap items-center justify-center gap-1.5 sm:gap-3 mt-2 sm:mt-3 text-[#3b352e] text-[10px] sm:text-base tracking-wider text-center capitalize"
           >
             <span>Podcasts</span>
             <span className="text-[#FFC300]">•</span>
@@ -612,18 +571,18 @@ export default function Editing() {
       </div>
 
       {/* SHORT FORMS */}
-      <div className="w-full max-w-full relative overflow-hidden my-6 sm:my-20">
-        <div className="max-w-[1100px] w-full mx-auto px-4 sm:px-6 flex flex-col items-center text-center mb-6 sm:mb-8">
+      <div className="w-full max-w-full relative overflow-hidden my-4 sm:my-20">
+        <div className="max-w-[1100px] w-full mx-auto px-4 sm:px-6 flex flex-col items-center text-center mb-4 sm:mb-8">
           <h3 
             style={{ fontFamily: "'SquidBoy', sans-serif", letterSpacing : '1px' }}
-            className="text-xl sm:text-4xl m-0 text-[#D42C2C] leading-tight capitalize"
+            className="text-lg sm:text-4xl m-0 text-[#D42C2C] leading-tight capitalize"
           >
             Short Forms
           </h3>
 
           <div 
             style={{ fontFamily: "'ParaFont', sans-serif", letterSpacing: '0.5px' }}
-            className="flex flex-wrap items-center justify-center gap-1.5 sm:gap-3 mt-2 sm:mt-3 text-[#3b352e] text-[11px] sm:text-base tracking-wider text-center capitalize"
+            className="flex flex-wrap items-center justify-center gap-1.5 sm:gap-3 mt-2 sm:mt-3 text-[#3b352e] text-[10px] sm:text-base tracking-wider text-center capitalize"
           >
             <span>UGC Ads</span>
             <span className="text-[#FFC300]">•</span>
@@ -635,7 +594,7 @@ export default function Editing() {
           </div>
         </div>
         
-        <div className="mb-4 sm:mb-8">
+        <div className="mb-3 sm:mb-8">
           <MarqueeRow
             items={duplicateList(SHORT_FORMS_ROW1)}
             aspectRatio="tall"
@@ -662,7 +621,7 @@ export default function Editing() {
       <StatsCounter />
 
       {/* SOCIAL PROOF */}
-      <div className="m-0 p-0 mb-8 sm:mb-20">
+      <div className="m-0 p-0 mb-6 sm:mb-20">
         <SocialProof />
       </div>
 
@@ -674,7 +633,7 @@ export default function Editing() {
         >
           <div 
             onClick={(e) => e.stopPropagation()}
-            className={`relative w-full ${isShortForm ? 'max-w-[320px] sm:max-w-[380px] aspect-[9/16] rounded-[8px] bg-black' : 'max-w-5xl rounded-[8px] bg-[#FFFCFB]'} overflow-hidden shadow-2xl cursor-default flex flex-col`}
+            className={`relative w-full ${isShortForm ? 'max-w-[300px] sm:max-w-[380px] aspect-[9/16] rounded-[8px] bg-black' : 'max-w-5xl rounded-[8px] bg-[#FFFCFB]'} overflow-hidden shadow-2xl cursor-default flex flex-col`}
           >
             <button 
               onClick={() => setSelectedVideo(null)}
@@ -718,11 +677,11 @@ export default function Editing() {
                 <div className="p-3 sm:p-6 bg-[#111] text-[#14120e] flex items-center justify-between border-t border-black/5">
                   <h3 
                     style={{ fontFamily: "'GroteskFont', 'Helvetica Neue', Helvetica, Arial, sans-serif" }}
-                    className="m-0 text-base sm:text-xl font-bold text-white"
+                    className="m-0 text-sm sm:text-xl font-bold text-white"
                   >
                     {selectedVideo.title}
                   </h3>
-                  <div className="flex items-center gap-3 shrink-0 ml-3">
+                  <div className="flex items-center gap-2 sm:gap-3 shrink-0 ml-2">
                     {(selectedVideo.category || selectedVideo.brand) && (
                       <span 
                         style={{ fontFamily: "'GroteskFont', sans-serif", letterSpacing: '-0.3px', fontWeight: 300 }}

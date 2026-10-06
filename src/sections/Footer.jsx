@@ -6,10 +6,9 @@ const SOCIAL_LINKS = [
   { id: 'LinkedIn', name: 'Linkedin', url: 'https://www.linkedin.com/in/your-profile-here' }
 ];
 
-// 👈 Gap control: pulls the footer up so "Contact Now" sits in the visual centre.
-// Aur upar chahiye to number badhao (e.g. 250), zyada upar chala jaye to kam karo.
-const PULL_UP_DESKTOP = 225; // px, screens >= 640px
-const PULL_UP_MOBILE = 55;   // px, small screens
+// 👈 Gap control: pulls the footer up so it hugs the red torn edge perfectly.
+const PULL_UP_DESKTOP = 160; // px, screens >= 640px
+const PULL_UP_MOBILE = 25;   // px, small screens
 
 export default function Footer() {
   const footerRef = useRef(null);

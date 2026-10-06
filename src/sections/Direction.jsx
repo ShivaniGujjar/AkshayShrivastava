@@ -10,10 +10,8 @@ if (typeof window !== 'undefined') {
   gsap.registerPlugin(ScrollTrigger);
 }
 
-// ✨ SMOOTH: layout effect = initial hidden states are applied BEFORE the first paint (no flash)
 const useIsoLayoutEffect = typeof window !== 'undefined' ? useLayoutEffect : useEffect;
 
-// 🎬 DIRECTION PROJECTS DATA WITH HOSTINGER LINKS
 const DIRECTION_PROJECTS = [
   {
     id: 'dp1',
@@ -41,9 +39,8 @@ const DIRECTION_PROJECTS = [
   }
 ];
 
-// 📸 FRAME GALLERY: videos are auto-fitted into the gray windows of directionFrames.png
 const FRAME_SRC = '/directionFrames.png';
-const GALLERY_MAX_WIDTH = 760; // 👈 gallery size in px: chota karna ho to kam karo, bada karna ho to badhao
+const GALLERY_MAX_WIDTH = 760;
 
 const FRAME_VIDEOS = [
   {
@@ -66,7 +63,6 @@ const FRAME_VIDEOS = [
   },
 ];
 
-// Finds the 3 gray "window" regions in the PNG and returns a mask + corner points for each.
 function detectWindows(img) {
   const W = Math.min(img.naturalWidth, 1000);
   const H = Math.round((img.naturalHeight * W) / img.naturalWidth);
@@ -77,14 +73,12 @@ function detectWindows(img) {
   ctx.drawImage(img, 0, 0, W, H);
   const { data } = ctx.getImageData(0, 0, W, H);
 
-  // 1. flag solid mid-gray pixels (the placeholder windows)
   const flag = new Uint8Array(W * H);
   for (let i = 0; i < W * H; i++) {
     const r = data[i * 4], g = data[i * 4 + 1], b = data[i * 4 + 2], a = data[i * 4 + 3];
     if (a > 200 && r > 55 && r < 140 && Math.abs(r - g) < 10 && Math.abs(g - b) < 10) flag[i] = 1;
   }
 
-  // 1b. visible bounding box of the whole PNG (to auto-crop transparent padding)
   let minX = W, minY = H, maxX = 0, maxY = 0;
   for (let y = 0; y < H; y++) {
     for (let x = 0; x < W; x++) {
@@ -103,7 +97,6 @@ function detectWindows(img) {
   maxY = Math.min(H - 1, maxY + pad);
   const crop = { x: minX, y: minY, w: maxX - minX + 1, h: maxY - minY + 1 };
 
-  // 1c. find the beige torn strip (for the "Direction Work" title)
   const stripFlag = new Uint8Array(W * H);
   for (let i = 0; i < W * H; i++) {
     const r = data[i * 4], g = data[i * 4 + 1], b = data[i * 4 + 2], a = data[i * 4 + 3];
@@ -133,7 +126,6 @@ function detectWindows(img) {
   }
   if (stripCount < W * H * 0.005) strip = null;
 
-  // 2. connected components (flood fill)
   const seen = new Uint8Array(W * H);
   const comps = [];
   for (let start = 0; start < W * H; start++) {
@@ -160,14 +152,12 @@ function detectWindows(img) {
     comps.push({ pixels, tl, tr, br, bl, cx: sumX / pixels.length });
   }
 
-  // 3. keep the 3 biggest, ordered left to right
   const top3 = comps
     .filter((c) => c.pixels.length > W * H * 0.01)
     .sort((a, b) => b.pixels.length - a.pixels.length)
     .slice(0, 3)
     .sort((a, b) => a.cx - b.cx);
 
-  // 4. build a mask image per window (grown by 1px to hide the gray fringe)
   const windows = top3.map((c) => {
     const mc = document.createElement('canvas');
     mc.width = W;
@@ -194,8 +184,6 @@ function detectWindows(img) {
   return { W, H, windows, crop, strip };
 }
 
-// ✨ SMOOTH: the pixel scan is heavy, so it runs only once per session (cached) and is deferred
-// until the browser is idle. This keeps the page transition from stuttering.
 let layoutCache = null;
 let layoutPromise = null;
 
@@ -209,9 +197,6 @@ const loadLayout = () => {
       const run = () => {
         try {
           const result = detectWindows(img);
-          if (result.windows.length < 3) {
-            console.warn('ScrapbookGallery: found', result.windows.length, 'windows. Are the gray windows still in the PNG?');
-          }
           layoutCache = result;
           resolve(result);
         } catch (e) {
@@ -238,29 +223,18 @@ function ScrapbookGallery({ onReady }) {
   const [isVisible, setIsVisible] = useState(false);
   const [hoveredIdx, setHoveredIdx] = useState(null);
 
-  // read the PNG and locate the windows (cached after the first visit)
   useEffect(() => {
     let cancelled = false;
     loadLayout()
-      .then((result) => {
-        if (!cancelled) setLayout(result);
-      })
-      .catch((e) => {
-        console.error('ScrapbookGallery: could not read frame image', e);
-        if (!cancelled && onReady) onReady();
-      });
-    return () => {
-      cancelled = true;
-    };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+      .then((result) => { if (!cancelled) setLayout(result); })
+      .catch((e) => { if (!cancelled && onReady) onReady(); });
+    return () => { cancelled = true; };
   }, []);
 
-  // tell the page the gallery is on screen (after one frame so its size has applied)
   useEffect(() => {
     if (!layout || !onReady) return;
     const id = requestAnimationFrame(() => onReady());
     return () => cancelAnimationFrame(id);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [layout]);
 
   useEffect(() => {
@@ -294,14 +268,9 @@ function ScrapbookGallery({ onReady }) {
       <div
         ref={wrapRef}
         className="relative w-full overflow-hidden"
-        style={
-          layout
-            ? { aspectRatio: `${crop.w} / ${crop.h}`, containerType: 'inline-size' }
-            : { minHeight: 300 }
-        }
+        style={layout ? { aspectRatio: `${crop.w} / ${crop.h}`, containerType: 'inline-size' } : { minHeight: 300 }}
       >
         {layout && (
-          /* Inner layer = the full PNG, shifted so only the visible (cropped) area shows */
           <div
             className="absolute"
             style={{
@@ -313,7 +282,6 @@ function ScrapbookGallery({ onReady }) {
           >
             <img src={FRAME_SRC} alt="" draggable={false} className="block w-full h-full pointer-events-none" />
 
-            {/* Title on the torn strip */}
             {strip && (
               <h2
                 style={{
@@ -348,7 +316,6 @@ function ScrapbookGallery({ onReady }) {
 
               return (
                 <React.Fragment key={idx}>
-                  {/* video, masked to the exact window shape and rotated with the frame */}
                   <div
                     className="absolute inset-0 z-10 pointer-events-none"
                     style={{
@@ -385,21 +352,6 @@ function ScrapbookGallery({ onReady }) {
                     </div>
                   </div>
 
-                  {/* caption near the bottom-left of each window */}
-                  {/* <span
-                    style={{
-                      fontFamily: "'GroteskFont', sans-serif",
-                      fontWeight: 400,
-                      left: `${(bl[0] / W) * 100 + 1.5}%`,
-                      top: `${(bl[1] / H) * 100 - 1.5}%`,
-                      transform: 'translateY(-100%)',
-                    }}
-                    className={`absolute z-20 pointer-events-none bg-black/80 ${v.textColor} px-1 py-0.5 rounded-[4px] text-[8px] sm:text-xs capitalize`}
-                  >
-                    {v.title}
-                  </span> */}
-
-                  {/* hover target, clipped to the window's four corners */}
                   <div
                     className="absolute inset-0 z-30 cursor-pointer"
                     style={{ clipPath: `polygon(${polygon})` }}
@@ -416,14 +368,9 @@ function ScrapbookGallery({ onReady }) {
   );
 }
 
-// 📱 SHORT FORM DIRECTION VIDEO CARD
-function DirectionShortCard({ project, isHovered, onHover, onLeave }) {
+function DirectionShortCard({ project }) {
   return (
-    <div 
-      onMouseEnter={onHover}
-      onMouseLeave={onLeave}
-      className="w-[180px] xs:w-[210px] sm:w-[300px] aspect-[9/16] bg-[#14120e] rounded-[8px] overflow-hidden shadow-2xl relative transition-transform duration-500 hover:scale-[1.02] shrink-0 cursor-pointer"
-    >
+    <div className="w-[180px] xs:w-[210px] sm:w-[300px] aspect-[9/16] bg-[#14120e] rounded-[8px] overflow-hidden shadow-2xl relative transition-transform duration-500 hover:scale-[1.02] shrink-0 cursor-pointer">
       <CustomVideoPlayer 
         src={project.videoUrl} 
         poster={project.poster}
@@ -435,16 +382,12 @@ function DirectionShortCard({ project, isHovered, onHover, onLeave }) {
   );
 }
 
-// 🚀 ANIMATED DIRECTION ROW
 function DirectionProjectRow({ project, index, activeHoverId, setActiveHoverId }) {
   const rowRef = useRef(null);
   const videoWrapperRef = useRef(null);
   const textColRef = useRef(null);
   const isReverse = index % 2 !== 0;
 
-  const isHovered = activeHoverId === project.id;
-
-  // ✨ SMOOTH: layout effect (no flash), autoAlpha on the video too, GPU transforms, plays once
   useIsoLayoutEffect(() => {
     const ctx = gsap.context(() => {
       const isMobile = window.innerWidth < 768;
@@ -500,15 +443,10 @@ function DirectionProjectRow({ project, index, activeHoverId, setActiveHoverId }
   return (
     <div 
       ref={rowRef}
-      className={`flex flex-col ${isReverse ? 'md:flex-row-reverse' : 'md:flex-row'} items-center justify-center gap-6 md:gap-12 w-full group py-4 relative min-h-[350px] sm:min-h-[550px]`}
+      className={`flex flex-col ${isReverse ? 'md:flex-row-reverse' : 'md:flex-row'} items-center justify-center gap-6 md:gap-12 w-full group py-4 relative min-h-[300px] sm:min-h-[500px]`}
     >
       <div ref={videoWrapperRef} className="shrink-0 relative z-20 will-change-transform">
-        <DirectionShortCard 
-          project={project} 
-          isHovered={isHovered}
-          onHover={() => setActiveHoverId(project.id)}
-          onLeave={() => setActiveHoverId(null)}
-        />
+        <DirectionShortCard project={project} />
       </div>
 
       <div 
@@ -541,12 +479,10 @@ export default function Direction() {
 
   const handleGalleryReady = useCallback(() => setGalleryReady(true), []);
 
-  // ✨ SMOOTH: always open the page from the top so triggers are measured from a clean state
   useIsoLayoutEffect(() => {
     window.scrollTo(0, 0);
   }, []);
 
-  // ✨ SMOOTH: hide the intro text before the first paint (no flash)
   useIsoLayoutEffect(() => {
     gsap.set(paragraphRef.current, {
       autoAlpha: 0,
@@ -556,13 +492,11 @@ export default function Direction() {
     });
   }, []);
 
-  // safety net: never leave the text hidden if the gallery takes too long
   useEffect(() => {
     const t = setTimeout(() => setGalleryReady(true), 2500);
     return () => clearTimeout(t);
   }, []);
 
-  // ✨ SMOOTH: reveal the text only AFTER the gallery has its final size (nothing shifts under it)
   useEffect(() => {
     if (!galleryReady) return;
 
@@ -586,7 +520,6 @@ export default function Direction() {
     return () => ctx.revert();
   }, [galleryReady]);
 
-  // ✨ SMOOTH: re-measure all scroll triggers once fonts / images have settled
   useEffect(() => {
     const refresh = () => ScrollTrigger.refresh();
     if (document.fonts && document.fonts.ready) document.fonts.ready.then(refresh);
@@ -601,7 +534,6 @@ export default function Direction() {
   return (
     <div className="w-full min-h-screen bg-[#FFFCFB] relative overflow-x-hidden pb-12 sm:pb-24 m-0 text-[#14120e]">
       
-      {/* ✨ SMOOTH: blend-mode removed (it forced an expensive full-screen composite on every frame) */}
       <div 
         className="fixed inset-0 pointer-events-none z-[999] bg-[url('/noise.gif')] bg-repeat"
         style={{ opacity: 0.03 }}
@@ -641,9 +573,7 @@ export default function Direction() {
         }
       `}</style>
 
-      {/* FRAMES + INTRO TEXT */}
-      {/* pt-24 / sm:pt-32 keeps the frames clear of the navbar now that the hero is gone */}
-      <div ref={featuredSectionRef} className="w-full mx-auto pt-24 sm:pt-32 pb-4 px-4 flex flex-col items-center relative z-20 text-center overflow-hidden">
+      <div ref={featuredSectionRef} className="w-full mx-auto pt-20 sm:pt-32 pb-4 px-4 flex flex-col items-center relative z-20 text-center overflow-hidden">
         <ScrapbookGallery onReady={handleGalleryReady} />
 
         <div ref={paragraphRef} className="relative z-10 mt-3 mb-4 max-w-[750px] px-4 flex flex-col gap-3 will-change-transform">
@@ -653,16 +583,10 @@ export default function Direction() {
           >
             I’ve always had a head full of random, unhinged ideas, and at some point, I thought, why not actually make them? That’s how I started learning this craft. That curiosity slowly turned into a craft, and the appreciation I received kept me going pushing me deeper into storytelling, motion, and direction.
           </p>
-          
         </div>
-
-        
       </div>
 
-      {/* PROJECT ROWS (3 videos) */}
-      
-      <div className="max-w-[1100px] w-full mx-auto px-4 sm:px-6 flex flex-col gap-10 md:gap-24 my-8 sm:my-20">
-        
+      <div className="max-w-[1100px] w-full mx-auto px-4 sm:px-6 flex flex-col gap-8 md:gap-24 my-6 sm:my-20">
         {DIRECTION_PROJECTS.map((project, idx) => (
           <DirectionProjectRow 
             key={project.id} 
@@ -674,7 +598,7 @@ export default function Direction() {
         ))}
       </div>
 
-      <StatsCounter/>
+      <StatsCounter />
 
       <div className="m-0 p-0 mb-6 sm:mb-20">
         <SocialProof />
