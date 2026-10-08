@@ -108,7 +108,6 @@ function VideoCard({ item, aspectRatio = "wide", hoveredId, setHoveredId, onOpen
       onClick={() => onOpenModal(item)}
       className={`relative inline-flex flex-col cursor-group shrink-0 cursor-pointer select-none group overflow-hidden bg-[#0f0e0c] shadow-[0_8px_30px_rgba(0,0,0,0.08)] transition-all duration-500 ease-out hover:-translate-y-1 hover:shadow-[0_16px_40px_rgba(212,44,44,0.2)] rounded-[12px] ${cardDimensions}`}
     >
-      {/* 📱 MOBILE MEIN SIRF STATIC THUMBNAIL/POSTER (NO VIDEO/AUTOPLAY) */}
       <div className="absolute inset-0 block md:hidden z-[2]">
         <img
           src={isYoutubeOnly ? ytThumb(item.youtubeId) : (item.poster || item.videoUrl)}
@@ -118,7 +117,6 @@ function VideoCard({ item, aspectRatio = "wide", hoveredId, setHoveredId, onOpen
         />
       </div>
 
-      {/* 💻 DESKTOP MEIN VIDEO / YOUTUBE PREVIEW */}
       <div className="absolute inset-0 hidden md:block z-[2]">
         {isYoutubeOnly ? (
           <>
@@ -377,7 +375,6 @@ export default function Editing() {
   useEffect(() => {
     const ctx = gsap.matchMedia();
 
-    // 💻 Desktop par animations chalti rahengi
     ctx.add("(min-width: 768px)", () => {
       gsap.fromTo(paragraphRef.current, {
         opacity: 0,
@@ -397,7 +394,6 @@ export default function Editing() {
       });
     });
 
-    // 📱 Mobile par animations bilkul hata di hain (direct visible state)
     ctx.add("(max-width: 767px)", () => {
       gsap.set(paragraphRef.current, { opacity: 1, y: 0, scale: 1 });
     });
@@ -471,8 +467,6 @@ export default function Editing() {
           preload="auto"
           className="absolute top-0 left-0 w-full h-full object-cover z-0 filter brightness-[0.75] contrast-100"
         />
-
-        <div className="absolute inset-0 pointer-events-none z-[1] bg-[url('/noise.gif')] bg-repeat opacity-[0.015] mix-blend-overlay" />
 
         <button
           onClick={toggleHeroSound}

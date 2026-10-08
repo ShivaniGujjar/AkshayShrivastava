@@ -567,11 +567,6 @@ export default function Direction() {
   return (
     <div className="w-full min-h-screen bg-[#FFFCFB] relative overflow-x-hidden pb-12 sm:pb-24 m-0 text-[#14120e]">
       
-      <div 
-        className="fixed inset-0 pointer-events-none z-[999] bg-[url('/noise.gif')] bg-repeat"
-        style={{ opacity: 0.03 }}
-      />
-
       <style>{`
         @font-face {
           font-family: 'SquidBoy';

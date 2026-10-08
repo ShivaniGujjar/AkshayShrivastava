@@ -45,16 +45,6 @@ const ID_TO_PATH = {
   about: '/about'
 };
 
-const SOCIAL_LINKS = [
-  { id: 'Instagram', name: 'Instagram', url: 'https://www.instagram.com/akshay__shri/?hl=en' },
-  {
-    id: 'Gmail',
-    name: 'Gmail',
-    url: 'https://mail.google.com/mail/?view=cm&to=Connectwithakshayshri@gmail.com&su=Project%20inquiry',
-  },
-  { id: 'LinkedIn', name: 'Linkedin', url: 'https://www.linkedin.com/in/akshay-shrivastava-735210210/?isSelfProfile=false' }
-];
-
 export default function Hero({ onColumnClick }) {
   const videoRefs = useRef([]);
   const sectionRef = useRef(null);
@@ -207,18 +197,13 @@ export default function Hero({ onColumnClick }) {
       {/* 📌 HERO'S OWN NAVBAR */}
       {isHeroInView && (
         <header 
-          className="absolute md:fixed top-[max(1.2rem,calc(env(safe-area-inset-top)+0.5rem))] md:top-12 left-0 w-screen max-w-full box-border z-[9999] px-4 sm:px-8 md:px-12 pointer-events-none border-0 outline-none transition-opacity duration-300"
+          className="absolute md:fixed top-[max(1.2rem,calc(env(safe-area-inset-top)+0.5rem))] md:top-12 left-0 w-screen max-w-full box-border z-[9999] px-2 sm:px-8 md:px-12 pointer-events-none border-0 outline-none transition-opacity duration-300"
         >
           <div className="w-full flex items-center justify-center relative min-h-11 md:min-h-[1px]">
             
             {/* CENTER: DESKTOP CAPSULE NAVIGATION */}
             <div className="hidden md:flex absolute left-1/2 -translate-x-1/2 items-center justify-center pointer-events-auto">
               <div className="relative bg-[#08080a] clean-pill pt-4 pb-3 px-4 rounded-lg overflow-hidden flex items-center justify-center shadow-lg border-0 outline-none">
-                <div 
-                  className="absolute inset-0 pointer-events-none z-[1] bg-[url('/noise.gif')] bg-repeat"
-                  style={{ opacity: 0.08, mixBlendMode: 'overlay' }}
-                />
-
                 <div className="relative z-[2] flex items-center justify-center">
                   {NAV_ITEMS.map((item, idx) => {
                     const isActive = hoveredIndex === COLUMNS.findIndex(c => c.id === item.id);
@@ -250,22 +235,18 @@ export default function Hero({ onColumnClick }) {
               </div>
             </div>
 
-            {/* MOBILE MENU TOGGLE */}
+            {/* MOBILE MENU TOGGLE - Shifted more to the left */}
             <button 
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
               aria-label="Toggle Menu"
               aria-expanded={isMobileMenuOpen}
-              className="md:hidden absolute left-0 top-1/2 -translate-y-1/2 bg-[#08080a] clean-pill text-[#D42C2C] w-10 h-10 rounded-[8px] overflow-hidden flex items-center justify-center shadow-xl cursor-pointer active:scale-95 transition-transform duration-150 touch-manipulation [-webkit-tap-highlight-color:transparent] pointer-events-auto border-0 outline-none ring-1 ring-white/10"
+              className="md:hidden absolute left-1 sm:left-2 top-1/2 -translate-y-1/2 text-white bg-transparent p-2 cursor-pointer active:scale-90 transition-transform duration-150 touch-manipulation [-webkit-tap-highlight-color:transparent] pointer-events-auto border-0 outline-none"
             >
-              <div 
-                className="absolute inset-0 pointer-events-none z-[1] bg-[url('/noise.gif')] bg-repeat"
-                style={{ opacity: 0.08, mixBlendMode: 'overlay' }}
-              />
-              <svg className="relative z-[2] w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 {isMobileMenuOpen ? (
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.2" d="M6 18L18 6M6 6l12 12" />
                 ) : (
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16" />
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.2" d="M4 6h16M4 12h16M4 18h16" />
                 )}
               </svg>
             </button>
@@ -282,10 +263,6 @@ export default function Hero({ onColumnClick }) {
               />
 
               <div className="md:hidden pointer-events-auto absolute top-12 left-4 right-4 z-[2] bg-[#08080a] clean-pill rounded-[12px] overflow-hidden shadow-2xl animate-in fade-in slide-in-from-top-4 duration-200 max-h-[75dvh] overflow-y-auto border-0 outline-none ring-1 ring-white/10">
-                <div 
-                  className="absolute inset-0 pointer-events-none z-[1] bg-[url('/noise.gif')] bg-repeat"
-                  style={{ opacity: 0.08, mixBlendMode: 'overlay' }}
-                />
                 <nav className="relative z-[2] flex flex-col divide-y divide-white/10 px-2 py-1">
                   {NAV_ITEMS.map((item) => (
                     <a 
@@ -393,10 +370,9 @@ export default function Hero({ onColumnClick }) {
         </div>
       </div>
 
-      {/* ================= MOBILE STACKED LAYOUT ================= */}
+      {/* ================= MOBILE STACKED LAYOUT (COLORFUL THUMBNAILS) ================= */}
       <div
         className="md:hidden flex flex-col w-full h-dvh overflow-hidden relative z-[1] box-border"
-        style={{ paddingBottom: 'calc(76px + env(safe-area-inset-bottom))' }}
       >
         {COLUMNS.map((col, index) => {
           return (
@@ -406,19 +382,15 @@ export default function Hero({ onColumnClick }) {
               className={`group mobile-tap-card relative w-full flex-1 min-h-0 cursor-pointer overflow-hidden shadow-xl my-[-5px] first:mt-0 last:mb-0 ${index < 3 ? 'mobile-torn-svg-mask' : ''}`}
               style={{ zIndex: 4 - index }}
             >
+              {/* Colorful thumbnail with subtle brightness/contrast */}
               <img 
                 src={col.poster} 
                 alt={col.title}
                 decoding="async"
-                className="absolute inset-0 w-full h-full object-cover object-center brightness-[0.72] contrast-[1.0] grayscale z-[1] pointer-events-none transition-[filter,transform] duration-500 group-active:grayscale-0 group-active:brightness-[0.9] group-active:scale-[1.03]"
+                className="absolute inset-0 w-full h-full object-cover object-center brightness-[0.88] contrast-[1.05] z-[1] pointer-events-none transition-transform duration-500 group-active:scale-[1.03]"
               />
 
-              <div 
-                className="absolute inset-0 pointer-events-none z-[2]"
-                style={{ backgroundColor: '#2a0d0d', mixBlendMode: 'multiply', opacity: 0.18 }}
-              />
-
-              <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-black/30 pointer-events-none z-10" />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/15 to-black/20 pointer-events-none z-10" />
               
               <div
                 className="mobile-rise absolute inset-0 flex flex-col items-center justify-center text-center z-20 px-4"
@@ -431,7 +403,7 @@ export default function Hero({ onColumnClick }) {
                     letterSpacing: '0.01em',
                     lineHeight: '1.1'
                   }}
-                  className="text-[#FFFFFF] mb-0.5 drop-shadow-[0_4px_8px_rgba(0,0,0,0.9)] text-center w-full font-normal transition-colors duration-300 group-active:text-[#FFC300]"
+                  className="text-[#FFC300] mb-0.5 drop-shadow-[0_4px_8px_rgba(0,0,0,0.9)] text-center w-full font-normal"
                 >
                   {col.title}
                 </h1>
@@ -449,37 +421,6 @@ export default function Hero({ onColumnClick }) {
           );
         })}
       </div>
-
-     {/* ================= CLEAN CENTERED FOOTER ================= */}
-     <footer className="fixed bottom-[calc(12px+env(safe-area-inset-bottom))] md:bottom-6 left-1/2 -translate-x-1/2 pointer-events-none z-[999] flex justify-center items-center">
-        <div 
-          className="relative pointer-events-auto bg-[#08080a] text-[#FFC300] pt-3 pb-2 px-3 md:pt-4 md:pb-3 md:px-4 rounded-lg flex items-center justify-center shadow-lg overflow-hidden border-0 outline-none ring-1 ring-white/10 md:ring-0"
-        >
-          <div 
-            className="absolute inset-0 pointer-events-none z-[1] bg-[url('/noise.gif')] bg-repeat"
-            style={{ opacity: 0.08, mixBlendMode: 'overlay' }}
-          />
-
-          <div className="relative z-[2] flex items-center justify-center">
-            {SOCIAL_LINKS.map((link, idx) => (
-              <React.Fragment key={link.id}>
-                <a 
-                  href={link.url} 
-                  target="_blank" 
-                  rel="noopener noreferrer" 
-                  className="text-white hover:text-[#FFC300] active:text-[#FFC300] transition-colors text-xs sm:text-base capitalize tracking-wide leading-none flex items-center px-2 py-1 md:px-1 md:py-0 touch-manipulation [-webkit-tap-highlight-color:transparent]"
-                  style={{ fontFamily: "GourmetEatery, cursive, sans-serif" }}
-                >
-                  <span className="leading-none pt-0.5">{link.name}</span>
-                </a>
-                {idx < SOCIAL_LINKS.length - 1 && (
-                  <span className="w-1.5 h-1.5 rounded-full bg-[#D42C2C] inline-block select-none shrink-0 mx-0.5" />
-                )}
-              </React.Fragment>
-            ))}
-          </div>
-        </div>
-      </footer>
 
     </section>
   );

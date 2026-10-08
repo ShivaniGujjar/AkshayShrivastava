@@ -355,11 +355,6 @@ export default function AboutMe() {
       ref={rootRef}
       className="w-full min-h-screen bg-[#FFFCFB] relative overflow-x-clip pb-0 m-0 text-[#14120e]"
     >
-      <div
-        className="fixed inset-0 pointer-events-none z-[999] bg-[url('/noise.gif')] bg-repeat"
-        style={{ opacity: 0.03 }}
-      />
-
       <style>{`
         @font-face {
           font-family: 'SquidBoy';
@@ -542,10 +537,6 @@ export default function AboutMe() {
                         'radial-gradient(circle at var(--mx, 30%) var(--my, 20%), rgba(255,255,255,0.22), transparent 55%), #D42C2C',
                     }}
                   >
-                    <div
-                      className="absolute inset-0 bg-[url('/noise.gif')] bg-repeat pointer-events-none"
-                      style={{ opacity: 0.1, mixBlendMode: 'multiply' }}
-                    />
                     <div className="absolute inset-3 rounded-t-[999px] border border-white/35 pointer-events-none" />
                   </div>
 

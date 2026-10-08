@@ -17,14 +17,12 @@ import NotFound from './sections/NotFound';
 import Privacy from './sections/Privacy';
 import Analytics from './components/Analytics';
 import ConsentBanner from './components/ConsentBanner';
-   
 
 if (typeof window !== 'undefined') {
   gsap.registerPlugin(ScrollTrigger);
 }
 
 // 🔗 One real URL per section.
-// If you change a path here, change it in public/sitemap.xml and the launch-kit siteConfig.js too.
 const ROUTES = {
   home: '/',
   editing: '/editing',
@@ -42,7 +40,6 @@ function AppShell() {
   const navigate = useNavigate();
   const { pathname } = useLocation();
 
-  // which section is open now, taken from the URL (ignores a trailing slash)
   const cleanPath = pathname.replace(/\/+$/, '') || '/';
   const activeSection = PATH_TO_SECTION[cleanPath] || 'home';
 
@@ -73,8 +70,6 @@ function AppShell() {
     };
   }, []);
 
-  // Every time the URL changes (link click, back, forward) start from the top,
-  // for Lenis and the window, so a page never opens mid-way.
   useEffect(() => {
     if (lenisRef.current) {
       lenisRef.current.scrollTo(0, { immediate: true });
@@ -91,12 +86,6 @@ function AppShell() {
   return (
     <div className="min-h-screen w-full bg-[#08080a] text-slate-100 flex flex-col selection:bg-red-500 selection:text-white relative">
       
-      {/* 🎞️ GLOBAL CINEMATIC NOISE OVERLAY */}
-      <div 
-        className="fixed inset-0 pointer-events-none z-[999999] bg-[url('/noise.gif')] bg-repeat"
-        style={{ opacity: 0.01, mixBlendMode: 'overlay' }}
-      />
-
       {/* Navbar */}
       {activeSection !== 'home' && (
         <Navbar onNavigate={handleNavigate} activeSection={activeSection} />
@@ -112,7 +101,6 @@ function AppShell() {
 
           <Route path="/privacy" element={<><Seo page="privacy" /><Privacy /></>} />
 
-          {/* any other URL shows the 404 page */}
           <Route path="*" element={<NotFound />} />
         </Routes>
       </main>

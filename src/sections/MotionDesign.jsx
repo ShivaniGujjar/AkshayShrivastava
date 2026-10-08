@@ -105,7 +105,6 @@ function VideoCard({ item, aspectRatio = "wide", hoveredId, setHoveredId, onOpen
       onClick={() => onOpenModal(item)}
       className={`relative group overflow-hidden cursor-pointer bg-[#14120e] shadow-[0_8px_30px_rgba(0,0,0,0.06)] transition-all duration-500 ease-out hover:-translate-y-1 hover:shadow-[0_16px_40px_rgba(212,44,44,0.15)] ${cardDimensions} shrink-0 outline-none focus:outline-none select-none rounded-[8px]`}
     >
-      {/* 📱 MOBILE MEIN SIRF STATIC THUMBNAIL/POSTER */}
       <div className="absolute inset-0 block md:hidden z-[2]">
         <img
           src={isYoutubeOnly ? ytThumb(item.youtubeId) : (item.poster || item.videoUrl)}
@@ -115,7 +114,6 @@ function VideoCard({ item, aspectRatio = "wide", hoveredId, setHoveredId, onOpen
         />
       </div>
 
-      {/* 💻 DESKTOP MEIN VIDEO / YOUTUBE PREVIEW */}
       <div className="absolute inset-0 hidden md:block z-[2]">
         {isYoutubeOnly ? (
           <>
@@ -376,7 +374,6 @@ export default function MotionDesign() {
   useEffect(() => {
     const ctx = gsap.matchMedia();
 
-    // 💻 Desktop animations
     ctx.add("(min-width: 768px)", () => {
       const isMobile = window.innerWidth < 1024;
 
@@ -405,7 +402,6 @@ export default function MotionDesign() {
       }, "<0.15");
     });
 
-    // 📱 Mobile animations removed (instant visibility)
     ctx.add("(max-width: 767px)", () => {
       gsap.set(reelRef.current, { opacity: 1, x: 0 });
       gsap.set(textContentRef.current, { opacity: 1, x: 0 });
@@ -419,11 +415,6 @@ export default function MotionDesign() {
   return (
     <div className="w-full min-h-screen bg-[#FFFCFB] relative overflow-x-hidden pb-12 sm:pb-24 m-0 text-[#14120e]">
       
-      <div 
-        className="fixed inset-0 pointer-events-none z-[999] bg-[url('/noise.gif')] bg-repeat"
-        style={{ opacity: 0.03, mixBlendMode: 'multiply' }}
-      />
-
       <style>{`
         @font-face {
           font-family: 'SquidBoy';

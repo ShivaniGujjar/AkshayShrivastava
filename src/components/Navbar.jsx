@@ -29,7 +29,6 @@ export default function Navbar({ onNavigate, activeSection = 'editing' }) {
     }
   }, [isMobileMenuOpen]);
 
-  // 🚫 Do not render this Navbar if we are currently on the homepage/hero section
   if (activeSection === 'hero') {
     return null;
   }
@@ -47,7 +46,7 @@ export default function Navbar({ onNavigate, activeSection = 'editing' }) {
       `}</style>
 
       <header 
-        className={`fixed top-6 sm:top-10 md:top-12 left-0 w-full box-border z-[9999] px-4 sm:px-8 md:px-12 pointer-events-none transition-all duration-400 ease-out border-none outline-none bg-transparent ${
+        className={`fixed top-4 sm:top-8 md:top-12 left-0 w-full box-border z-[9999] px-3 sm:px-8 md:px-12 pointer-events-none transition-all duration-400 ease-out border-none outline-none bg-transparent ${
           isVisible ? 'translate-y-0 opacity-100' : '-translate-y-[200%] opacity-0'
         }`}
       >
@@ -76,11 +75,6 @@ export default function Navbar({ onNavigate, activeSection = 'editing' }) {
           {/* CENTER: DESKTOP CAPSULE NAVIGATION */}
           <div className="hidden md:flex absolute left-1/2 -translate-x-1/2 items-center justify-center pointer-events-auto">
             <div className="relative bg-[#D42C2C] clean-pill pt-3 pb-3 px-6 rounded-lg overflow-hidden flex items-center justify-center shadow-lg border-none outline-none">
-              <div 
-                className="absolute inset-0 pointer-events-none z-[1] bg-[url('/noise.gif')] bg-repeat"
-                style={{ opacity: 0.08, mixBlendMode: 'overlay' }}
-              />
-
               <div className="relative z-[2] flex items-center justify-center">
                 {NAV_ITEMS.map((item, idx) => {
                   const isActive = activeSection === item.id;
@@ -110,23 +104,19 @@ export default function Navbar({ onNavigate, activeSection = 'editing' }) {
             </div>
           </div>
 
-          {/* MOBILE / RIGHT: HAMBURGER MENU TOGGLE */}
+          {/* MOBILE / RIGHT: SIMPLE CLEAN HAMBURGER TOGGLE */}
           <div className="flex items-center pointer-events-auto md:hidden">
             <button 
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
               aria-label="Toggle Menu"
               aria-expanded={isMobileMenuOpen}
-              className="bg-[#D42C2C] clean-pill text-white w-10 h-10 rounded-[6px] overflow-hidden flex items-center justify-center shadow-xl cursor-pointer active:scale-95 transition-transform duration-150 touch-manipulation [-webkit-tap-highlight-color:transparent] border-none outline-none relative shrink-0"
+              className="text-white bg-transparent p-2 cursor-pointer active:scale-90 transition-transform duration-150 touch-manipulation [-webkit-tap-highlight-color:transparent] pointer-events-auto border-0 outline-none"
             >
-              <div 
-                className="absolute inset-0 pointer-events-none z-[1] bg-[url('/noise.gif')] bg-repeat"
-                style={{ opacity: 0.08, mixBlendMode: 'overlay' }}
-              />
-              <svg className="relative z-[2] w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 {isMobileMenuOpen ? (
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.2" d="M6 18L18 6M6 6l12 12" />
                 ) : (
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16" />
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.2" d="M4 6h16M4 12h16M4 18h16" />
                 )}
               </svg>
             </button>
@@ -144,10 +134,6 @@ export default function Navbar({ onNavigate, activeSection = 'editing' }) {
             />
 
             <div className="md:hidden pointer-events-auto absolute top-16 left-4 right-4 z-[2] bg-[#D42C2C] clean-pill rounded-[8px] overflow-hidden p-6 shadow-2xl flex flex-col items-center justify-center text-center gap-4 animate-in fade-in slide-in-from-top-4 duration-200 max-h-[75vh] overflow-y-auto border-none outline-none">
-              <div 
-                className="absolute inset-0 pointer-events-none z-[1] bg-[url('/noise.gif')] bg-repeat"
-                style={{ opacity: 0.08, mixBlendMode: 'overlay' }}
-              />
               <div className="relative z-[2] w-full flex flex-col items-center gap-4">
                 {NAV_ITEMS.map((item) => (
                   <a 
