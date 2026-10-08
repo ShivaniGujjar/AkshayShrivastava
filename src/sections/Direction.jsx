@@ -316,8 +316,34 @@ function ScrapbookGallery({ onReady }) {
 
               return (
                 <React.Fragment key={idx}>
+                  {/* 📱 MOBILE THUMBNAIL */}
+                  <div className="absolute inset-0 block md:hidden z-10 pointer-events-none"
+                    style={{
+                      maskImage: `url(${w.mask})`,
+                      WebkitMaskImage: `url(${w.mask})`,
+                      maskSize: '100% 100%',
+                      WebkitMaskSize: '100% 100%',
+                      maskRepeat: 'no-repeat',
+                      WebkitMaskRepeat: 'no-repeat',
+                    }}
+                  >
+                    <div
+                      className="absolute bg-black overflow-hidden"
+                      style={{
+                        left: `${((cx - vw / 2) / W) * 100}%`,
+                        top: `${((cy - vh / 2) / H) * 100}%`,
+                        width: `${(vw / W) * 100}%`,
+                        height: `${(vh / H) * 100}%`,
+                        transform: `rotate(${angle}rad)`,
+                      }}
+                    >
+                      <img src={v.poster} alt="" className="w-full h-full object-cover filter brightness-[0.9]" />
+                    </div>
+                  </div>
+
+                  {/* 💻 DESKTOP VIDEO */}
                   <div
-                    className="absolute inset-0 z-10 pointer-events-none"
+                    className="absolute inset-0 hidden md:block z-10 pointer-events-none"
                     style={{
                       maskImage: `url(${w.mask})`,
                       WebkitMaskImage: `url(${w.mask})`,
@@ -371,13 +397,18 @@ function ScrapbookGallery({ onReady }) {
 function DirectionShortCard({ project }) {
   return (
     <div className="w-[180px] xs:w-[210px] sm:w-[300px] aspect-[9/16] bg-[#14120e] rounded-[8px] overflow-hidden shadow-2xl relative transition-transform duration-500 hover:scale-[1.02] shrink-0 cursor-pointer">
-      <CustomVideoPlayer 
-        src={project.videoUrl} 
-        poster={project.poster}
-        badgeText={project.tag}
-        className="w-full h-full"
-        muted={true}
-      />
+      <div className="absolute inset-0 block md:hidden z-10">
+        <img src={project.poster} alt={project.title} className="w-full h-full object-cover" />
+      </div>
+      <div className="absolute inset-0 hidden md:block z-10">
+        <CustomVideoPlayer 
+          src={project.videoUrl} 
+          poster={project.poster}
+          badgeText={project.tag}
+          className="w-full h-full"
+          muted={true}
+        />
+      </div>
     </div>
   );
 }
@@ -389,28 +420,16 @@ function DirectionProjectRow({ project, index, activeHoverId, setActiveHoverId }
   const isReverse = index % 2 !== 0;
 
   useIsoLayoutEffect(() => {
-    const ctx = gsap.context(() => {
-      const isMobile = window.innerWidth < 768;
-      
-      const videoInitialX = isMobile ? 0 : (isReverse ? -120 : 120);
-      const textInitialX = isMobile ? 0 : (isReverse ? 80 : -80);
-      
-      const videoFinalX = isMobile ? 0 : (isReverse ? 60 : -60);
-      const textFinalX = isMobile ? 0 : (isReverse ? -40 : 40);
+    const ctx = gsap.matchMedia();
 
-      gsap.set(videoWrapperRef.current, {
-        x: videoInitialX,
-        autoAlpha: 0,
-        force3D: true,
-      });
+    ctx.add("(min-width: 768px)", () => {
+      const videoInitialX = isReverse ? -120 : 120;
+      const textInitialX = isReverse ? 80 : -80;
+      const videoFinalX = isReverse ? 60 : -60;
+      const textFinalX = isReverse ? -40 : 40;
 
-      gsap.set(textColRef.current, {
-        autoAlpha: 0,
-        x: textInitialX,
-        y: isMobile ? 20 : 0,
-        scale: 0.95,
-        force3D: true,
-      });
+      gsap.set(videoWrapperRef.current, { x: videoInitialX, autoAlpha: 0, force3D: true });
+      gsap.set(textColRef.current, { autoAlpha: 0, x: textInitialX, y: 0, scale: 0.95, force3D: true });
 
       const tl = gsap.timeline({
         scrollTrigger: {
@@ -420,22 +439,14 @@ function DirectionProjectRow({ project, index, activeHoverId, setActiveHoverId }
         },
       });
 
-      tl.to(videoWrapperRef.current, {
-        x: videoFinalX,
-        autoAlpha: 1,
-        duration: 1.1,
-        ease: 'power3.inOut',
-      })
-      .to(textColRef.current, {
-        autoAlpha: 1,
-        x: textFinalX,
-        y: 0,
-        scale: 1,
-        duration: 1,
-        ease: 'power3.out',
-      }, '-=0.8');
+      tl.to(videoWrapperRef.current, { x: videoFinalX, autoAlpha: 1, duration: 1.1, ease: 'power3.inOut' })
+        .to(textColRef.current, { autoAlpha: 1, x: textFinalX, y: 0, scale: 1, duration: 1, ease: 'power3.out' }, '-=0.8');
+    });
 
-    }, rowRef);
+    ctx.add("(max-width: 767px)", () => {
+      gsap.set(videoWrapperRef.current, { x: 0, autoAlpha: 1 });
+      gsap.set(textColRef.current, { autoAlpha: 1, x: 0, y: 0, scale: 1 });
+    });
 
     return () => ctx.revert();
   }, [isReverse]);
@@ -474,6 +485,7 @@ function DirectionProjectRow({ project, index, activeHoverId, setActiveHoverId }
 export default function Direction() {
   const featuredSectionRef = useRef(null);
   const paragraphRef = useRef(null);
+  const headingRef = useRef(null);
   const [activeProjectHoverId, setActiveProjectHoverId] = useState(null);
   const [galleryReady, setGalleryReady] = useState(Boolean(layoutCache));
 
@@ -483,13 +495,20 @@ export default function Direction() {
     window.scrollTo(0, 0);
   }, []);
 
-  useIsoLayoutEffect(() => {
-    gsap.set(paragraphRef.current, {
-      autoAlpha: 0,
-      y: 60,
-      scale: 0.95,
-      force3D: true,
+  useEffect(() => {
+    const ctx = gsap.matchMedia();
+
+    ctx.add("(min-width: 768px)", () => {
+      gsap.set(paragraphRef.current, { autoAlpha: 0, y: 60, scale: 0.95, force3D: true });
+      gsap.set(headingRef.current, { autoAlpha: 0, y: 40, force3D: true });
     });
+
+    ctx.add("(max-width: 767px)", () => {
+      gsap.set(paragraphRef.current, { autoAlpha: 1, y: 0, scale: 1 });
+      gsap.set(headingRef.current, { autoAlpha: 1, y: 0 });
+    });
+
+    return () => ctx.revert();
   }, []);
 
   useEffect(() => {
@@ -500,7 +519,9 @@ export default function Direction() {
   useEffect(() => {
     if (!galleryReady) return;
 
-    const ctx = gsap.context(() => {
+    const ctx = gsap.matchMedia();
+
+    ctx.add("(min-width: 768px)", () => {
       gsap.to(paragraphRef.current, {
         autoAlpha: 1,
         y: 0,
@@ -513,7 +534,19 @@ export default function Direction() {
           once: true,
         },
       });
-    }, featuredSectionRef);
+
+      gsap.to(headingRef.current, {
+        autoAlpha: 1,
+        y: 0,
+        duration: 1,
+        ease: 'power3.out',
+        scrollTrigger: {
+          trigger: headingRef.current,
+          start: 'top 95%',
+          once: true,
+        },
+      });
+    });
 
     ScrollTrigger.refresh();
 
@@ -576,13 +609,23 @@ export default function Direction() {
       <div ref={featuredSectionRef} className="w-full mx-auto pt-20 sm:pt-32 pb-4 px-4 flex flex-col items-center relative z-20 text-center overflow-hidden">
         <ScrapbookGallery onReady={handleGalleryReady} />
 
-        <div ref={paragraphRef} className="relative z-10 mt-3 mb-4 max-w-[750px] px-4 flex flex-col gap-3 will-change-transform">
+        <div ref={paragraphRef} className="relative z-10 mt-3 mb-6 max-w-[750px] px-4 flex flex-col gap-3 will-change-transform">
           <p 
             style={{ fontFamily: "'ParaFont', sans-serif", letterSpacing: '-0.2px', fontWeight: 400 }}
             className="text-[#3b352e] text-xs sm:text-lg leading-relaxed font-light text-center"
           >
             I’ve always had a head full of random, unhinged ideas, and at some point, I thought, why not actually make them? That’s how I started learning this craft. That curiosity slowly turned into a craft, and the appreciation I received kept me going pushing me deeper into storytelling, motion, and direction.
           </p>
+        </div>
+
+        {/* Welcome Heading added right after the paragraph */}
+        <div ref={headingRef} className="inline-flex flex-col items-center z-20 px-4 mb-4 will-change-transform">
+          <h2 
+            style={{ fontFamily: "'SquidBoy', sans-serif", letterSpacing: '1px' }}
+            className="text-lg sm:text-4xl m-0 text-[#D42C2C] leading-tight capitalize"
+          >
+            Welcome to Direction section
+          </h2>
         </div>
       </div>
 

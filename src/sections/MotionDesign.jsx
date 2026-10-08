@@ -105,45 +105,58 @@ function VideoCard({ item, aspectRatio = "wide", hoveredId, setHoveredId, onOpen
       onClick={() => onOpenModal(item)}
       className={`relative group overflow-hidden cursor-pointer bg-[#14120e] shadow-[0_8px_30px_rgba(0,0,0,0.06)] transition-all duration-500 ease-out hover:-translate-y-1 hover:shadow-[0_16px_40px_rgba(212,44,44,0.15)] ${cardDimensions} shrink-0 outline-none focus:outline-none select-none rounded-[8px]`}
     >
-      {isYoutubeOnly ? (
-        <>
-          <img
-            src={ytThumb(item.youtubeId)}
-            alt={item.title}
-            draggable={false}
-            onError={(e) => {
-              const fb = ytThumbFallback(item.youtubeId);
-              if (e.currentTarget.src !== fb) e.currentTarget.src = fb;
-            }}
-            className="absolute inset-0 w-full h-full object-cover transition-all duration-700 filter brightness-[0.85] group-hover:brightness-100 group-hover:scale-105 pointer-events-none"
-          />
-          {previewOn && (
-            <iframe
-              src={`https://www.youtube.com/embed/${item.youtubeId}?autoplay=1&mute=1&controls=0&loop=1&playlist=${item.youtubeId}&playsinline=1&rel=0&modestbranding=1&disablekb=1&iv_load_policy=3&fs=0`}
-              title={`${item.title} preview`}
-              allow="autoplay; encrypted-media"
-              tabIndex={-1}
-              onLoad={() => setPreviewReady(true)}
-              className={`absolute inset-0 w-full h-full border-0 pointer-events-none transition-opacity duration-500 ${previewReady ? 'opacity-100' : 'opacity-0'}`}
-            />
-          )}
-        </>
-      ) : (
-        <video
-          ref={videoRef}
-          poster={item.poster}
-          muted
-          loop
-          playsInline
-          preload="metadata"
+      {/* 📱 MOBILE MEIN SIRF STATIC THUMBNAIL/POSTER */}
+      <div className="absolute inset-0 block md:hidden z-[2]">
+        <img
+          src={isYoutubeOnly ? ytThumb(item.youtubeId) : (item.poster || item.videoUrl)}
+          alt={lineName}
           draggable={false}
-          className="absolute inset-0 w-full h-full object-cover transition-all duration-700 filter brightness-[0.85] group-hover:brightness-100 group-hover:scale-105 outline-none focus:outline-none pointer-events-none"
+          className="w-full h-full object-cover filter brightness-[0.88]"
         />
-      )}
+      </div>
 
-      <div className="absolute bottom-0 left-0 right-0 h-1/3 bg-gradient-to-t from-black/70 via-black/25 to-transparent pointer-events-none" />
+      {/* 💻 DESKTOP MEIN VIDEO / YOUTUBE PREVIEW */}
+      <div className="absolute inset-0 hidden md:block z-[2]">
+        {isYoutubeOnly ? (
+          <>
+            <img
+              src={ytThumb(item.youtubeId)}
+              alt={item.title}
+              draggable={false}
+              onError={(e) => {
+                const fb = ytThumbFallback(item.youtubeId);
+                if (e.currentTarget.src !== fb) e.currentTarget.src = fb;
+              }}
+              className="absolute inset-0 w-full h-full object-cover transition-all duration-700 filter brightness-[0.85] group-hover:brightness-100 group-hover:scale-105 pointer-events-none"
+            />
+            {previewOn && (
+              <iframe
+                src={`https://www.youtube.com/embed/${item.youtubeId}?autoplay=1&mute=1&controls=0&loop=1&playlist=${item.youtubeId}&playsinline=1&rel=0&modestbranding=1&disablekb=1&iv_load_policy=3&fs=0`}
+                title={`${item.title} preview`}
+                allow="autoplay; encrypted-media"
+                tabIndex={-1}
+                onLoad={() => setPreviewReady(true)}
+                className={`absolute inset-0 w-full h-full border-0 pointer-events-none transition-opacity duration-500 ${previewReady ? 'opacity-100' : 'opacity-0'}`}
+              />
+            )}
+          </>
+        ) : (
+          <video
+            ref={videoRef}
+            poster={item.poster}
+            muted
+            loop
+            playsInline
+            preload="metadata"
+            draggable={false}
+            className="absolute inset-0 w-full h-full object-cover transition-all duration-700 filter brightness-[0.85] group-hover:brightness-100 group-hover:scale-105 outline-none focus:outline-none pointer-events-none"
+          />
+        )}
+      </div>
 
-      <div className="absolute bottom-0 left-0 right-0 p-2 sm:p-5 pointer-events-none">
+      <div className="absolute bottom-0 left-0 right-0 h-1/3 bg-gradient-to-t from-black/70 via-black/25 to-transparent pointer-events-none z-[3]" />
+
+      <div className="absolute bottom-0 left-0 right-0 p-2 sm:p-5 pointer-events-none z-10">
         <div
           style={{ fontFamily: "'GroteskFont', 'Helvetica Neue', Helvetica, Arial, sans-serif" }}
           className="whitespace-normal drop-shadow-[0_2px_6px_rgba(0,0,0,0.9)]"
@@ -361,7 +374,10 @@ export default function MotionDesign() {
   }, []);
 
   useEffect(() => {
-    const ctx = gsap.context(() => {
+    const ctx = gsap.matchMedia();
+
+    // 💻 Desktop animations
+    ctx.add("(min-width: 768px)", () => {
       const isMobile = window.innerWidth < 1024;
 
       gsap.set(reelRef.current, { x: isMobile ? 0 : -50, opacity: 0 });
@@ -387,7 +403,13 @@ export default function MotionDesign() {
         duration: 1.1,
         ease: 'power3.out',
       }, "<0.15");
-    }, featuredSectionRef);
+    });
+
+    // 📱 Mobile animations removed (instant visibility)
+    ctx.add("(max-width: 767px)", () => {
+      gsap.set(reelRef.current, { opacity: 1, x: 0 });
+      gsap.set(textContentRef.current, { opacity: 1, x: 0 });
+    });
 
     return () => ctx.revert();
   }, []);
@@ -452,7 +474,7 @@ export default function MotionDesign() {
         <video 
           ref={heroVideoRef}
           src="https://akshayshrivastava.com/videos/MotionMain.mp4" 
-          poster="https://akshayshrivastava.com/images/MotionMain.png"
+          poster="https://akshayshrivastava.com/images/MotionHome.jpeg"
           autoPlay 
           loop 
           muted={isHeroMuted} 

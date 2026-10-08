@@ -8,10 +8,8 @@ if (typeof window !== 'undefined') {
   gsap.registerPlugin(ScrollTrigger);
 }
 
-// ✨ SMOOTH: layout effect = initial hidden states are applied BEFORE the first paint (no flash)
 const useIsoLayoutEffect = typeof window !== 'undefined' ? useLayoutEffect : useEffect;
 
-// ✨ SMOOTH: waits for a font to load (or gives up after `timeout` ms) so text doesn't jump mid-animation
 const whenFontsReady = (family, timeout = 1200) => {
   if (typeof document === 'undefined' || !document.fonts || !document.fonts.load) {
     return Promise.resolve();
@@ -26,7 +24,6 @@ const prefersReducedMotion = () =>
   typeof window !== 'undefined' &&
   window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-// ✂️ torn-paper bottom edge (used as a mask on the photo and the stat cards)
 const TORN_BOTTOM = `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100' preserveAspectRatio='none'%3E%3Cpolygon points='0,0 100,0 100,97 96,99 92,96.5 88,99 84,97 80,99.5 75,96.5 71,98.5 66,96 61,99 57,97 52,99.5 47,96.5 42,98.5 37,96 33,99 28,97 23,99.5 18,96.5 13,98.5 8,96 4,98.5 0,97'/%3E%3C/svg%3E")`;
 const tornMask = {
   maskImage: TORN_BOTTOM,
@@ -37,17 +34,12 @@ const tornMask = {
   WebkitMaskRepeat: 'no-repeat',
 };
 
-// 🏷️ SKILL TAGS UNDER THE NAME
-const SKILLS = ['Video Editing', 'Motion Design', 'Storytelling', 'Direction'];
-
-// 🔢 QUICK NUMBERS (taken from the story below)
 const STATS = [
   { to: 200, suffix: 'K+', label: 'views on my very first After Effects video', tilt: 'rotate-[-2deg]', paper: 'bg-white', tape: 'rotate-[-3deg]' },
   { to: 27, suffix: ' days', label: 'to land a full-time video editor job', tilt: 'rotate-[1.5deg]', paper: 'bg-[#FFF9DB]', tape: 'rotate-[2deg]' },
   { to: 253, suffix: '', label: 'followers when that video took off', tilt: 'rotate-[-1deg]', paper: 'bg-white', tape: 'rotate-[-1deg]' },
 ];
 
-// 📖 STORY BROKEN INTO CHAPTERS
 const CHAPTERS = [
   {
     num: '01',
@@ -117,7 +109,6 @@ const renderBody = (segs) =>
     )
   );
 
-// 🔢 NUMBER THAT COUNTS UP WHEN IT SCROLLS INTO VIEW
 function CountUp({ to, suffix = '' }) {
   const ref = useRef(null);
   const [val, setVal] = useState(prefersReducedMotion() ? to : 0);
@@ -160,118 +151,118 @@ export default function AboutMe() {
   const mouseTiltRef = useRef(null);
   const archRef = useRef(null);
 
-  // ✨ SMOOTH: always open the page from the top so triggers are measured from a clean state
   useIsoLayoutEffect(() => {
     window.scrollTo(0, 0);
   }, []);
 
-  // ✨ SMOOTH: layout effect, so every "hidden" start state exists before the first paint
   useIsoLayoutEffect(() => {
     if (prefersReducedMotion()) return;
 
     let cancelled = false;
 
     const ctx = gsap.context(() => {
-      // 1. name words slide up. It sits at the very top of the page, so it just plays
-      //    once the heading font is ready (no jump when the font swaps in).
-      gsap.set('.name-word', { yPercent: 115, force3D: true });
-      const nameTl = gsap.timeline({ paused: true }).to('.name-word', {
-        yPercent: 0,
-        duration: 0.9,
-        ease: 'power3.out',
-        stagger: 0.12,
-      });
-      whenFontsReady('SquidBoy').then(() => {
-        if (!cancelled) nameTl.play();
-      });
+      const mm = gsap.matchMedia();
 
-      // 2. stat cards rise
-      // ✨ SMOOTH: the cards have a CSS `transition-transform`. If it is left on while GSAP moves them,
-      //    the two fight every frame (that was the jitter). Turn it off during the intro only.
-      gsap.set('.stat-card', { transition: 'none' });
-      gsap.from('.stat-card', {
-        y: 40,
-        opacity: 0,
-        duration: 0.8,
-        ease: 'power3.out',
-        stagger: 0.12,
-        force3D: true,
-        clearProps: 'transform,opacity,transition',
-        scrollTrigger: { trigger: '.stats-row', start: 'top 88%', once: true },
-      });
-
-      // 3. portrait slides in
-      // ✨ SMOOTH: opacity on a 3D-preserving element flattens it, then it "pops" back to 3D at the end.
-      //    So: fade the outer wrapper, move/scale the inner 3D one.
-      gsap.from(portraitRef.current, {
-        opacity: 0,
-        duration: 1.1,
-        ease: 'power2.out',
-        clearProps: 'opacity',
-        scrollTrigger: { trigger: imageRef.current, start: 'top 88%', once: true },
-      });
-      gsap.from(imageRef.current, {
-        x: 50,
-        scale: 0.95,
-        duration: 1.1,
-        ease: 'power3.out',
-        force3D: true,
-        clearProps: 'transform',
-        scrollTrigger: { trigger: imageRef.current, start: 'top 88%', once: true },
-      });
-
-      // 4. timeline line fills as you scroll
-      gsap.fromTo(
-        progressRef.current,
-        { scaleY: 0 },
-        {
-          scaleY: 1,
-          ease: 'none',
-          scrollTrigger: {
-            trigger: timelineRef.current,
-            start: 'top 65%',
-            end: 'bottom 75%',
-            scrub: true,
-          },
-        }
-      );
-
-      // 5. each chapter: card rises, dot pops, highlighter swipes
-      gsap.utils.toArray('.chapter').forEach((el) => {
-        const trigger = { trigger: el, start: 'top 85%', once: true };
-        const card = el.querySelector('.chapter-card');
-
-        // same CSS-transition vs GSAP fix as the stat cards
-        gsap.set(card, { transition: 'none' });
-        gsap.from(card, {
-          y: 50,
-          opacity: 0,
+      mm.add("(min-width: 768px)", () => {
+        gsap.set('.name-word', { yPercent: 115, force3D: true });
+        const nameTl = gsap.timeline({ paused: true }).to('.name-word', {
+          yPercent: 0,
           duration: 0.9,
           ease: 'power3.out',
+          stagger: 0.12,
+        });
+        whenFontsReady('SquidBoy').then(() => {
+          if (!cancelled) nameTl.play();
+        });
+
+        gsap.set('.stat-card', { transition: 'none' });
+        gsap.from('.stat-card', {
+          y: 40,
+          opacity: 0,
+          duration: 0.8,
+          ease: 'power3.out',
+          stagger: 0.12,
           force3D: true,
           clearProps: 'transform,opacity,transition',
-          scrollTrigger: trigger,
+          scrollTrigger: { trigger: '.stats-row', start: 'top 88%', once: true },
         });
-        gsap.from(el.querySelector('.chapter-dot'), {
-          scale: 0,
-          duration: 0.5,
-          ease: 'back.out(2.2)',
-          scrollTrigger: trigger,
+
+        gsap.from(portraitRef.current, {
+          opacity: 0,
+          duration: 1.1,
+          ease: 'power2.out',
+          clearProps: 'opacity',
+          scrollTrigger: { trigger: imageRef.current, start: 'top 88%', once: true },
         });
-        el.querySelectorAll('.about-hl').forEach((mark) => {
-          gsap.fromTo(
-            mark,
-            { backgroundSize: '0% 100%' },
-            {
-              backgroundSize: '100% 100%',
-              duration: 0.8,
-              delay: 0.3,
-              ease: 'power2.out',
-              scrollTrigger: trigger,
-            }
-          );
+        gsap.from(imageRef.current, {
+          x: 50,
+          scale: 0.95,
+          duration: 1.1,
+          ease: 'power3.out',
+          force3D: true,
+          clearProps: 'transform',
+          scrollTrigger: { trigger: imageRef.current, start: 'top 88%', once: true },
+        });
+
+        gsap.fromTo(
+          progressRef.current,
+          { scaleY: 0 },
+          {
+            scaleY: 1,
+            ease: 'none',
+            scrollTrigger: {
+              trigger: timelineRef.current,
+              start: 'top 65%',
+              end: 'bottom 75%',
+              scrub: true,
+            },
+          }
+        );
+
+        gsap.utils.toArray('.chapter').forEach((el) => {
+          const trigger = { trigger: el, start: 'top 85%', once: true };
+          const card = el.querySelector('.chapter-card');
+
+          gsap.set(card, { transition: 'none' });
+          gsap.from(card, {
+            y: 50,
+            opacity: 0,
+            duration: 0.9,
+            ease: 'power3.out',
+            force3D: true,
+            clearProps: 'transform,opacity,transition',
+            scrollTrigger: trigger,
+          });
+          gsap.from(el.querySelector('.chapter-dot'), {
+            scale: 0,
+            duration: 0.5,
+            ease: 'back.out(2.2)',
+            scrollTrigger: trigger,
+          });
+          el.querySelectorAll('.about-hl').forEach((mark) => {
+            gsap.fromTo(
+              mark,
+              { backgroundSize: '0% 100%' },
+              {
+                backgroundSize: '100% 100%',
+                duration: 0.8,
+                delay: 0.3,
+                ease: 'power2.out',
+                scrollTrigger: trigger,
+              }
+            );
+          });
         });
       });
+
+      mm.add("(max-width: 767px)", () => {
+        gsap.set('.name-word', { yPercent: 0 });
+        gsap.set('.stat-card', { opacity: 1, y: 0 });
+        gsap.set(portraitRef.current, { opacity: 1 });
+        gsap.set(imageRef.current, { x: 0, scale: 1 });
+        gsap.set(progressRef.current, { scaleY: 1 });
+      });
+
     }, rootRef);
 
     return () => {
@@ -280,7 +271,6 @@ export default function AboutMe() {
     };
   }, []);
 
-  // 📌 Pin portrait + 3D motion
   useIsoLayoutEffect(() => {
     const mm = gsap.matchMedia();
 
@@ -349,7 +339,6 @@ export default function AboutMe() {
     return () => mm.revert();
   }, []);
 
-  // ✨ SMOOTH: re-measure all scroll triggers once fonts / images have settled
   useEffect(() => {
     const refresh = () => ScrollTrigger.refresh();
     if (document.fonts && document.fonts.ready) document.fonts.ready.then(refresh);
@@ -366,8 +355,6 @@ export default function AboutMe() {
       ref={rootRef}
       className="w-full min-h-screen bg-[#FFFCFB] relative overflow-x-clip pb-0 m-0 text-[#14120e]"
     >
-      {/* 🎞️ NOISE GIF OVERLAY */}
-      {/* ✨ SMOOTH: blend-mode removed (it forced an expensive full-screen composite on every frame) */}
       <div
         className="fixed inset-0 pointer-events-none z-[999] bg-[url('/noise.gif')] bg-repeat"
         style={{ opacity: 0.03 }}
@@ -406,7 +393,6 @@ export default function AboutMe() {
           font-display: swap;
         }
 
-        /* Fixed seamless yellow highlighter marker */
         .about-hl {
           background-color: #FFC300;
           color: #14120e;
@@ -419,16 +405,14 @@ export default function AboutMe() {
         }
       `}</style>
 
-      {/* 🏛️ STORY SECTION */}
-      {/* pt-28 / sm:pt-36 keeps the name clear of the navbar now that the hero is gone */}
       <div
         ref={bioSectionRef}
-        className="max-w-[1150px] w-full mx-auto pt-28 sm:pt-36 pb-8 px-4 sm:px-8 flex flex-col items-center relative z-20"
+        className="max-w-[1150px] w-full mx-auto pt-20 sm:pt-36 pb-6 px-4 sm:px-8 flex flex-col items-center relative z-20"
       >
         {/* Name */}
         <h2
           style={{ fontFamily: "'SquidBoy', sans-serif", letterSpacing: '0.5px' }}
-          className="w-full text-center text-[#D42C2C] text-3xl sm:text-6xl md:text-[5rem] leading-[1.1] mb-4 sm:mb-6 capitalize"
+          className="w-full text-center text-[#D42C2C] text-2xl sm:text-6xl md:text-[5rem] leading-[1.1] mb-3 sm:mb-6 capitalize"
         >
           {['Akshay', 'Shrivastava'].map((w, i) => (
             <span key={w} className="inline-block overflow-hidden align-bottom pb-[0.14em] mr-[0.25em] last:mr-0">
@@ -437,31 +421,29 @@ export default function AboutMe() {
           ))}
         </h2>
 
-        
-
         {/* Numbers */}
-        <div className="stats-row w-full grid grid-cols-1 sm:grid-cols-3 gap-6 sm:gap-8 mb-12 sm:mb-20">
+        <div className="stats-row w-full grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-8 mb-8 sm:mb-20">
           {STATS.map((st) => (
             <div
               key={st.label}
               className={`stat-card relative ${st.tilt} hover:rotate-0 hover:-translate-y-1 transition-transform duration-300 drop-shadow-[0_10px_18px_rgba(0,0,0,0.12)]`}
             >
               <div
-                className={`absolute -top-2.5 left-1/2 -translate-x-1/2 ${st.tape} w-14 sm:w-16 h-4 sm:h-5 bg-[#E8DCB8]/90 border border-amber-900/10 z-10 pointer-events-none`}
+                className={`absolute -top-2.5 left-1/2 -translate-x-1/2 ${st.tape} w-12 sm:w-16 h-3.5 sm:h-5 bg-[#E8DCB8]/90 border border-amber-900/10 z-10 pointer-events-none`}
               />
               <div
-                className={`${st.paper} px-5 pt-8 pb-9 sm:pt-9 sm:pb-11 text-center`}
+                className={`${st.paper} px-4 pt-6 pb-7 sm:pt-9 sm:pb-11 text-center`}
                 style={tornMask}
               >
                 <div
                   style={{ fontFamily: "'SquidBoy', sans-serif" }}
-                  className="text-[#D42C2C] text-4xl sm:text-5xl leading-none"
+                  className="text-[#D42C2C] text-3xl sm:text-5xl leading-none"
                 >
                   <CountUp to={st.to} suffix={st.suffix} />
                 </div>
                 <p
                   style={{ fontFamily: "'ParaFont', sans-serif", letterSpacing: '-0.2px' }}
-                  className="m-0 mt-2 text-xs sm:text-sm text-[#3b352e] leading-snug"
+                  className="m-0 mt-1.5 sm:mt-2 text-[11px] sm:text-sm text-[#3b352e] leading-snug"
                 >
                   {st.label}
                 </p>
@@ -473,28 +455,27 @@ export default function AboutMe() {
         {/* Timeline + portrait */}
         <div
           ref={rowRef}
-          className="w-full flex flex-col lg:flex-row items-center lg:items-start justify-between gap-10 lg:gap-16 relative z-10"
+          className="w-full flex flex-col lg:flex-row items-center lg:items-start justify-between gap-8 lg:gap-16 relative z-10"
         >
-
           {/* TIMELINE */}
-          <div ref={timelineRef} className="flex-1 w-full relative pl-10 sm:pl-14">
-            <div className="absolute left-[11px] sm:left-[15px] top-2 bottom-2 w-[3px] rounded bg-black/10" />
+          <div ref={timelineRef} className="flex-1 w-full relative pl-8 sm:pl-14">
+            <div className="absolute left-[9px] sm:left-[15px] top-2 bottom-2 w-[3px] rounded bg-black/10" />
             <div
               ref={progressRef}
-              className="absolute left-[11px] sm:left-[15px] top-2 bottom-2 w-[3px] rounded bg-[#D42C2C] origin-top"
+              className="absolute left-[9px] sm:left-[15px] top-2 bottom-2 w-[3px] rounded bg-[#D42C2C] origin-top"
             />
 
             {CHAPTERS.map((c) => (
-              <article key={c.num} className="chapter relative mb-8 sm:mb-12 last:mb-0">
+              <article key={c.num} className="chapter relative mb-6 sm:mb-12 last:mb-0">
                 <span
                   style={{ fontFamily: "'SquidBoy', sans-serif" }}
-                  className="chapter-dot absolute -left-10 sm:-left-14 top-3 w-6 h-6 sm:w-8 sm:h-8 rounded-full bg-[#FFFCFB] border-[3px] border-[#D42C2C] flex items-center justify-center text-[9px] sm:text-xs text-[#D42C2C] z-10"
+                  className="chapter-dot absolute -left-8 sm:-left-14 top-2.5 sm:top-3 w-5 h-5 sm:w-8 sm:h-8 rounded-full bg-[#FFFCFB] border-[2px] sm:border-[3px] border-[#D42C2C] flex items-center justify-center text-[8px] sm:text-xs text-[#D42C2C] z-10"
                 >
                   {c.num}
                 </span>
 
                 <div
-                  className={`chapter-card p-5 sm:p-8 rounded-[16px] border shadow-[0_15px_35px_rgba(0,0,0,0.06)] hover:-translate-y-1 transition-transform duration-300 ${
+                  className={`chapter-card p-4 sm:p-8 rounded-[12px] sm:rounded-[16px] border shadow-[0_15px_35px_rgba(0,0,0,0.06)] hover:-translate-y-1 transition-transform duration-300 ${
                     c.finale
                       ? 'bg-[#D42C2C] border-[#D42C2C] text-white'
                       : 'bg-white/70 backdrop-blur-md border-black/10 text-[#14120e]'
@@ -502,7 +483,7 @@ export default function AboutMe() {
                 >
                   <span
                     style={{ fontFamily: "'GroteskFont', sans-serif" }}
-                    className={`block text-[10px] sm:text-xs uppercase tracking-[0.2em] mb-1 ${
+                    className={`block text-[9px] sm:text-xs uppercase tracking-[0.2em] mb-1 ${
                       c.finale ? 'text-white/70' : 'text-[#14120e]/50'
                     }`}
                   >
@@ -510,7 +491,7 @@ export default function AboutMe() {
                   </span>
                   <h3
                     style={{ fontFamily: "'SquidBoy', sans-serif", letterSpacing: '0.5px' }}
-                    className={`m-0 mb-3 text-xl sm:text-3xl leading-tight capitalize ${
+                    className={`m-0 mb-2 sm:mb-3 text-lg sm:text-3xl leading-tight capitalize ${
                       c.finale ? 'text-[#FFC300]' : 'text-[#D42C2C]'
                     }`}
                   >
@@ -518,7 +499,7 @@ export default function AboutMe() {
                   </h3>
                   <p
                     style={{ fontFamily: "'ParaFont', sans-serif", letterSpacing: '-0.2px', fontWeight: 400 }}
-                    className="m-0 text-xs sm:text-base md:text-lg leading-relaxed font-light"
+                    className="m-0 text-[11px] sm:text-base md:text-lg leading-relaxed font-light"
                   >
                     {renderBody(c.body)}
                   </p>
@@ -530,19 +511,19 @@ export default function AboutMe() {
           {/* PORTRAIT */}
           <div
             ref={portraitRef}
-            className="order-first lg:order-last relative w-[240px] xs:w-[280px] sm:w-[340px] lg:w-[360px] shrink-0"
+            className="order-first lg:order-last relative w-[200px] xs:w-[240px] sm:w-[340px] lg:w-[360px] shrink-0 mb-4 lg:mb-0"
             style={{ perspective: '1100px' }}
           >
             <div ref={imageRef} style={{ transformStyle: 'preserve-3d' }}>
               <div ref={scrollTiltRef} style={{ transformStyle: 'preserve-3d' }}>
                 <div ref={mouseTiltRef} className="relative" style={{ transformStyle: 'preserve-3d' }}>
                   <div
-                    className="absolute -bottom-7 left-[8%] right-[8%] h-6 rounded-full bg-black/25 blur-xl pointer-events-none"
+                    className="absolute -bottom-5 sm:-bottom-7 left-[8%] right-[8%] h-5 sm:h-6 rounded-full bg-black/25 blur-xl pointer-events-none"
                     style={{ transform: 'translateZ(-60px)' }}
                   />
 
                   <div
-                    className="absolute -top-4 -right-6 sm:-right-10 w-[62%] aspect-square pointer-events-none"
+                    className="absolute -top-3 -right-4 sm:-top-4 sm:-right-10 w-[62%] aspect-square pointer-events-none"
                     style={{ transform: 'translateZ(-70px)' }}
                   >
                     <div className="w-full h-full rounded-full border-2 border-dashed border-[#14120e]/35 animate-[spin_40s_linear_infinite] motion-reduce:animate-none" />
@@ -579,16 +560,13 @@ export default function AboutMe() {
               </div>
             </div>
           </div>
-
         </div>
       </div>
 
-      {/* 🚀 SOCIAL PROOF */}
       <div className="m-0 p-0 mb-0">
         <SocialProof />
       </div>
 
-      {/* 🚀 FOOTER */}
       <Footer />
     </div>
   );

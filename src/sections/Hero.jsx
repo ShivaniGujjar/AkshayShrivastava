@@ -12,14 +12,14 @@ const COLUMNS = [
     id: 'motion', 
     title: 'Motion Design', 
     subtitle: 'Making rectangles do interesting things',
-    videoUrl: 'https://akshayshrivastava.com/videos/MotionMain.mp4',
+    videoUrl: 'https://akshayshrivastava.com/videos/MotionHome.mp4',
     poster: 'https://akshayshrivastava.com/images/MotionHome.jpeg'
   },
   { 
     id: 'direction', 
     title: 'Direction', 
     subtitle: 'I love questionable ideas look intentional',
-    videoUrl: 'https://akshayshrivastava.com/videos/DirectionMain.mp4',
+    videoUrl: 'https://akshayshrivastava.com/videos/DirectionHome.mp4',
     poster: 'https://akshayshrivastava.com/images/DirectionHome.jpeg'
   },
   { 
@@ -38,10 +38,21 @@ const NAV_ITEMS = [
   { label: 'About Me', id: 'about' }
 ];
 
+const ID_TO_PATH = {
+  editing: '/editing',
+  motion: '/motion-design',
+  direction: '/direction',
+  about: '/about'
+};
+
 const SOCIAL_LINKS = [
   { id: 'Instagram', name: 'Instagram', url: 'https://www.instagram.com/akshay__shri/?hl=en' },
-  { id: 'Gmail', name: 'Gmail', url: 'mailto:client@email.com' },
-  { id: 'LinkedIn', name: 'Linkedin', url: 'https://www.linkedin.com/in/your-profile-here' }
+  {
+    id: 'Gmail',
+    name: 'Gmail',
+    url: 'https://mail.google.com/mail/?view=cm&to=Connectwithakshayshri@gmail.com&su=Project%20inquiry',
+  },
+  { id: 'LinkedIn', name: 'Linkedin', url: 'https://www.linkedin.com/in/akshay-shrivastava-735210210/?isSelfProfile=false' }
 ];
 
 export default function Hero({ onColumnClick }) {
@@ -168,29 +179,37 @@ export default function Hero({ onColumnClick }) {
           -webkit-mask-position: center bottom;
         }
 
+        @keyframes mobileRise {
+          from { opacity: 0; transform: translate3d(0, 12px, 0); }
+          to { opacity: 1; transform: translate3d(0, 0, 0); }
+        }
+
         @media (max-width: 767px) {
           .mobile-tap-card {
             -webkit-tap-highlight-color: transparent;
             touch-action: manipulation;
           }
+
+          .mobile-rise {
+            animation: mobileRise 0.6s cubic-bezier(0.22, 1, 0.36, 1) both;
+            animation-delay: calc(var(--i, 0) * 80ms + 60ms);
+          }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+          .mobile-rise { animation: none; }
         }
       `}</style>
 
       {/* 🎬 GLOBAL CORNER VIGNETTE SHADOW */}
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_transparent_55%,_rgba(0,0,0,0.3)_100%)] pointer-events-none z-[12]" />
 
-      {/* 🎞️ NOISE GIF OVERLAY */}
-      <div 
-        className="absolute inset-0 pointer-events-none z-[16] bg-[url('/noise.gif')] bg-repeat"
-        style={{ opacity: 0.012, mixBlendMode: 'overlay' }}
-      />
-
       {/* 📌 HERO'S OWN NAVBAR */}
       {isHeroInView && (
         <header 
-          className="absolute md:fixed top-6 md:top-12 left-0 w-screen max-w-full box-border z-[9999] px-4 sm:px-8 md:px-12 pointer-events-none border-0 outline-none transition-opacity duration-300"
+          className="absolute md:fixed top-[max(1.2rem,calc(env(safe-area-inset-top)+0.5rem))] md:top-12 left-0 w-screen max-w-full box-border z-[9999] px-4 sm:px-8 md:px-12 pointer-events-none border-0 outline-none transition-opacity duration-300"
         >
-          <div className="w-full flex items-center justify-center relative min-h-[1px]">
+          <div className="w-full flex items-center justify-center relative min-h-11 md:min-h-[1px]">
             
             {/* CENTER: DESKTOP CAPSULE NAVIGATION */}
             <div className="hidden md:flex absolute left-1/2 -translate-x-1/2 items-center justify-center pointer-events-auto">
@@ -207,7 +226,7 @@ export default function Hero({ onColumnClick }) {
                     return (
                       <React.Fragment key={item.id}>
                         <a 
-                          href={`#${item.id}`} 
+                          href={ID_TO_PATH[item.id]} 
                           onClick={(e) => {
                             e.preventDefault();
                             if (onColumnClick) onColumnClick(item.id);
@@ -236,7 +255,7 @@ export default function Hero({ onColumnClick }) {
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
               aria-label="Toggle Menu"
               aria-expanded={isMobileMenuOpen}
-              className="md:hidden absolute left-0 top-1/2 -translate-y-1/2 bg-[#08080a] clean-pill text-[#D42C2C] w-10 h-10 rounded-[6px] overflow-hidden flex items-center justify-center shadow-xl cursor-pointer active:scale-95 transition-transform duration-150 touch-manipulation [-webkit-tap-highlight-color:transparent] pointer-events-auto border-0 outline-none"
+              className="md:hidden absolute left-0 top-1/2 -translate-y-1/2 bg-[#08080a] clean-pill text-[#D42C2C] w-10 h-10 rounded-[8px] overflow-hidden flex items-center justify-center shadow-xl cursor-pointer active:scale-95 transition-transform duration-150 touch-manipulation [-webkit-tap-highlight-color:transparent] pointer-events-auto border-0 outline-none ring-1 ring-white/10"
             >
               <div 
                 className="absolute inset-0 pointer-events-none z-[1] bg-[url('/noise.gif')] bg-repeat"
@@ -257,33 +276,34 @@ export default function Hero({ onColumnClick }) {
           {isMobileMenuOpen && (
             <>
               <div
-                className="md:hidden fixed inset-0 z-[1] bg-black/70 backdrop-blur-md pointer-events-auto"
+                className="md:hidden fixed inset-0 z-[1] bg-black/60 backdrop-blur-sm pointer-events-auto"
                 onClick={() => setIsMobileMenuOpen(false)}
                 aria-hidden="true"
               />
 
-              <div className="md:hidden pointer-events-auto absolute top-14 left-4 right-4 z-[2] bg-[#08080a] clean-pill rounded-[8px] overflow-hidden p-6 shadow-2xl flex flex-col items-center justify-center text-center gap-4 animate-in fade-in slide-in-from-top-4 duration-200 max-h-[75vh] overflow-y-auto border-0 outline-none">
+              <div className="md:hidden pointer-events-auto absolute top-12 left-4 right-4 z-[2] bg-[#08080a] clean-pill rounded-[12px] overflow-hidden shadow-2xl animate-in fade-in slide-in-from-top-4 duration-200 max-h-[75dvh] overflow-y-auto border-0 outline-none ring-1 ring-white/10">
                 <div 
                   className="absolute inset-0 pointer-events-none z-[1] bg-[url('/noise.gif')] bg-repeat"
                   style={{ opacity: 0.08, mixBlendMode: 'overlay' }}
                 />
-                <div className="relative z-[2] w-full flex flex-col items-center gap-4">
+                <nav className="relative z-[2] flex flex-col divide-y divide-white/10 px-2 py-1">
                   {NAV_ITEMS.map((item) => (
                     <a 
                       key={item.id}
-                      href={`#${item.id}`}
+                      href={ID_TO_PATH[item.id]}
                       onClick={(e) => {
                         e.preventDefault();
                         setIsMobileMenuOpen(false);
                         if (onColumnClick) onColumnClick(item.id);
                       }}
                       style={{ fontFamily: "GourmetEatery, cursive, sans-serif" }}
-                      className="text-lg sm:text-xl tracking-wider text-white hover:text-[#FFC300] transition-colors py-2 w-full no-underline active:text-[#FFC300] touch-manipulation [-webkit-tap-highlight-color:transparent]"
+                      className="flex items-center justify-between min-h-[50px] px-4 text-lg tracking-wider text-white transition-colors no-underline active:text-[#FFC300] touch-manipulation [-webkit-tap-highlight-color:transparent]"
                     >
-                      {item.label}
+                      <span className="leading-none pt-0.5">{item.label}</span>
+                      <span className="w-1.5 h-1.5 rounded-full bg-[#D42C2C] shrink-0" />
                     </a>
                   ))}
-                </div>
+                </nav>
               </div>
             </>
           )}
@@ -374,22 +394,23 @@ export default function Hero({ onColumnClick }) {
       </div>
 
       {/* ================= MOBILE STACKED LAYOUT ================= */}
-      <div className="md:hidden flex flex-col w-full h-dvh overflow-hidden relative z-[1]">
+      <div
+        className="md:hidden flex flex-col w-full h-dvh overflow-hidden relative z-[1] box-border"
+        style={{ paddingBottom: 'calc(76px + env(safe-area-inset-bottom))' }}
+      >
         {COLUMNS.map((col, index) => {
           return (
             <div
               key={col.id}
               onClick={() => onColumnClick && onColumnClick(col.id)}
-              className={`mobile-tap-card active:brightness-90 relative w-full h-[25dvh] cursor-pointer overflow-hidden shadow-xl my-[-6px] first:mt-0 ${index < 3 ? 'mobile-torn-svg-mask' : ''}`}
-              style={{
-                zIndex: 4 - index,
-                paddingBottom: index === COLUMNS.length - 1 ? 'env(safe-area-inset-bottom)' : undefined
-              }}
+              className={`group mobile-tap-card relative w-full flex-1 min-h-0 cursor-pointer overflow-hidden shadow-xl my-[-5px] first:mt-0 last:mb-0 ${index < 3 ? 'mobile-torn-svg-mask' : ''}`}
+              style={{ zIndex: 4 - index }}
             >
               <img 
                 src={col.poster} 
                 alt={col.title}
-                className="absolute inset-0 w-full h-full object-cover object-center brightness-[0.75] contrast-[1.0] grayscale z-[1] pointer-events-none"
+                decoding="async"
+                className="absolute inset-0 w-full h-full object-cover object-center brightness-[0.72] contrast-[1.0] grayscale z-[1] pointer-events-none transition-[filter,transform] duration-500 group-active:grayscale-0 group-active:brightness-[0.9] group-active:scale-[1.03]"
               />
 
               <div 
@@ -397,26 +418,29 @@ export default function Hero({ onColumnClick }) {
                 style={{ backgroundColor: '#2a0d0d', mixBlendMode: 'multiply', opacity: 0.18 }}
               />
 
-              <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-black/15 to-black/25 pointer-events-none z-10" />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-black/30 pointer-events-none z-10" />
               
-              <div className="absolute inset-0 flex flex-col items-center justify-center text-center z-20 px-4">
+              <div
+                className="mobile-rise absolute inset-0 flex flex-col items-center justify-center text-center z-20 px-4"
+                style={{ '--i': index }}
+              >
                 <h1 
                   style={{ 
                     fontFamily: "'SquidBoy', sans-serif",
-                    fontSize: 'clamp(2.4rem, 4.5vw, 4.8rem)',
+                    fontSize: 'clamp(2.2rem, 10vw, 3.2rem)',
                     letterSpacing: '0.01em',
                     lineHeight: '1.1'
                   }}
-                  className="text-[#FFFFFF] mb-1 drop-shadow-[0_4px_8px_rgba(0,0,0,0.8)] text-center w-full font-normal"
+                  className="text-[#FFFFFF] mb-0.5 drop-shadow-[0_4px_8px_rgba(0,0,0,0.9)] text-center w-full font-normal transition-colors duration-300 group-active:text-[#FFC300]"
                 >
                   {col.title}
                 </h1>
                 <p 
                   style={{ 
                     fontFamily: "'HelveticaNeue', sans-serif",
-                    fontSize: 'clamp(0.65rem, 2.5vw, 0.8rem)'
+                    fontSize: 'clamp(0.75rem, 3.2vw, 0.9rem)'
                   }}
-                  className="text-neutral-300 max-w-[85%] leading-tight drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]"
+                  className="text-neutral-200 max-w-[85%] leading-snug drop-shadow-[0_2px_6px_rgba(0,0,0,0.9)]"
                 >
                   {col.subtitle}
                 </p>
@@ -427,9 +451,9 @@ export default function Hero({ onColumnClick }) {
       </div>
 
      {/* ================= CLEAN CENTERED FOOTER ================= */}
-     <footer className="fixed bottom-6 left-1/2 -translate-x-1/2 pointer-events-none z-[999] flex justify-center items-center">
+     <footer className="fixed bottom-[calc(12px+env(safe-area-inset-bottom))] md:bottom-6 left-1/2 -translate-x-1/2 pointer-events-none z-[999] flex justify-center items-center">
         <div 
-          className="relative pointer-events-auto bg-[#08080a] text-[#FFC300] pt-3 pb-2.5 px-4 rounded-lg flex items-center justify-center shadow-lg overflow-hidden border-0 outline-none"
+          className="relative pointer-events-auto bg-[#08080a] text-[#FFC300] pt-3 pb-2 px-3 md:pt-4 md:pb-3 md:px-4 rounded-lg flex items-center justify-center shadow-lg overflow-hidden border-0 outline-none ring-1 ring-white/10 md:ring-0"
         >
           <div 
             className="absolute inset-0 pointer-events-none z-[1] bg-[url('/noise.gif')] bg-repeat"
@@ -443,7 +467,7 @@ export default function Hero({ onColumnClick }) {
                   href={link.url} 
                   target="_blank" 
                   rel="noopener noreferrer" 
-                  className="text-white hover:text-[#FFC300] transition-colors text-xs sm:text-base capitalize tracking-wide leading-none flex items-center px-1"
+                  className="text-white hover:text-[#FFC300] active:text-[#FFC300] transition-colors text-xs sm:text-base capitalize tracking-wide leading-none flex items-center px-2 py-1 md:px-1 md:py-0 touch-manipulation [-webkit-tap-highlight-color:transparent]"
                   style={{ fontFamily: "GourmetEatery, cursive, sans-serif" }}
                 >
                   <span className="leading-none pt-0.5">{link.name}</span>

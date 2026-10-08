@@ -2,13 +2,17 @@ import React, { useEffect, useRef, useState } from 'react';
 
 const SOCIAL_LINKS = [
   { id: 'Instagram', name: 'Instagram', url: 'https://www.instagram.com/akshay__shri/?hl=en' },
-  { id: 'Gmail', name: 'GMail', url: 'mailto:client@email.com' },
-  { id: 'LinkedIn', name: 'Linkedin', url: 'https://www.linkedin.com/in/your-profile-here' }
+  {
+    id: 'Gmail',
+    name: 'Gmail',
+    url: 'https://mail.google.com/mail/?view=cm&to=Connectwithakshayshri@gmail.com&su=Project%20inquiry',
+  },
+  { id: 'LinkedIn', name: 'Linkedin', url: 'https://www.linkedin.com/in/akshay-shrivastava-735210210/?isSelfProfile=false' }
 ];
 
 // 👈 Gap control: pulls the footer up so it hugs the red torn edge perfectly.
-const PULL_UP_DESKTOP = 160; // px, screens >= 640px
-const PULL_UP_MOBILE = 25;   // px, small screens
+const PULL_UP_DESKTOP = 240; // px, screens >= 640px
+const PULL_UP_MOBILE = 130;  // px, small screens
 
 export default function Footer() {
   const footerRef = useRef(null);
@@ -73,7 +77,9 @@ export default function Footer() {
         {/* Contact Now */}
         <div className="mb-3 sm:mb-4 w-full px-4">
           <a
-            href="mailto:client@email.com"
+            href="https://mail.google.com/mail/?view=cm&to=Connectwithakshayshri@gmail.com&su=Project%20inquiry"
+            target="_blank"
+            rel="noopener noreferrer"
             style={{ fontFamily: "'SquidBoy', sans-serif", letterSpacing: '0.5px' }}
             className="text-[#D42C2C] hover:text-[#b02222] transition-colors text-2xl sm:text-5xl leading-none cursor-pointer no-underline whitespace-nowrap"
           >

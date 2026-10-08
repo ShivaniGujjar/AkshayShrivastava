@@ -33,12 +33,6 @@ const DEFAULT_TESTIMONIALS = [
   }
 ];
 
-// 🔍 LOGO SIZE EQUALISER
-// Every logo file has a different amount of empty space around it, so "same height" still
-// looks uneven (Monotech / Ambrane looked small). This measures the VISIBLE part of each
-// logo and scales it so all logos have the same visible height.
-// MAX_ASPECT keeps wide wordmarks (like Waywen) from looking bigger than the rest:
-// no logo is wider than MAX_ASPECT x the row height, so every logo fits the same small box.
 const MAX_ASPECT = 3.2;
 const logoCache = new Map();
 
@@ -62,7 +56,6 @@ function measureLogo(src) {
             const ctx = c.getContext('2d', { willReadFrequently: true });
             ctx.drawImage(img, 0, 0, w, h);
             const { data } = ctx.getImageData(0, 0, w, h);
-            // if the 4 corners are the same solid colour, treat that colour as the background
             const at = (x, y) => { const i = (y * w + x) * 4; return [data[i], data[i + 1], data[i + 2], data[i + 3]]; };
             const corners = [at(0, 0), at(w - 1, 0), at(0, h - 1), at(w - 1, h - 1)];
             const solidBg =
@@ -116,16 +109,15 @@ function BrandLogo({ src }) {
     return () => { alive = false; };
   }, [src]);
 
-  // until measured (or if it fails) show the logo the old way
   if (!m) {
     return <img src={src} alt="Brand Logo" className="h-full w-auto object-contain" />;
   }
 
   const vw = m.bx1 - m.bx0;
   const vh = m.by1 - m.by0;
-  const A = (vw * m.natW) / (vh * m.natH);        // visible aspect ratio
-  const f = Math.min(1, MAX_ASPECT / A);           // visible height as a share of the row height
-  const K = f / vh;                                // image height in row-height units
+  const A = (vw * m.natW) / (vh * m.natH);
+  const f = Math.min(1, MAX_ASPECT / A);
+  const K = f / vh;
   const imgW = K * (m.natW / m.natH);
 
   return (
@@ -158,7 +150,7 @@ const duplicateList = (arr, count = 6) => {
 export default function SocialProof({ brands = DEFAULT_BRANDS, testimonials = DEFAULT_TESTIMONIALS }) {
   return (
     <section
-      className="w-full relative overflow-hidden pt-6 pb-20 sm:pt-10 sm:pb-32 select-none bg-[#FFFCFB]"
+      className="w-full relative overflow-hidden pt-4 pb-12 sm:pt-10 sm:pb-32 select-none bg-[#FFFCFB]"
       style={{ fontFamily: "'HelveticaNeue', 'Helvetica Neue', Helvetica, Arial, sans-serif" }}
     >
       <style>{`
@@ -218,21 +210,21 @@ export default function SocialProof({ brands = DEFAULT_BRANDS, testimonials = DE
 
       {/* ────────────────── 1. WORKED WITH SECTION ────────────────── */}
       <div className="w-full relative overflow-hidden mb-0 text-center z-10">
-        <div className="inline-flex flex-col items-center mb-4 sm:mb-8 px-4">
+        <div className="inline-flex flex-col items-center mb-3 sm:mb-8 px-4">
           <h3
             style={{ fontFamily: "GenericFont, sans-serif", letterSpacing: '0.3px', fontWeight: 400 }}
-            className="text-base sm:text-4xl m-0 text-[#D42C2C] leading-tight"
+            className="text-sm sm:text-4xl m-0 text-[#D42C2C] leading-tight"
           >
             Worked With
           </h3>
         </div>
 
-        <div className="w-full overflow-hidden py-1.5 mt-1 sm:py-3 brand-fade">
-          <div className="animate-marquee-slow-left gap-8 sm:gap-20 w-max items-center">
+        <div className="w-full overflow-hidden py-1 sm:py-3 brand-fade">
+          <div className="animate-marquee-slow-left gap-6 sm:gap-20 w-max items-center">
             {duplicateList(brands).map((logoUrl, idx) => (
               <div
                 key={`brand-logo-${idx}`}
-                className="inline-flex items-center justify-center shrink-0 h-6 sm:h-[46px] [--lh:24px] sm:[--lh:46px] opacity-90 hover:opacity-100 transition-opacity"
+                className="inline-flex items-center justify-center shrink-0 h-5 sm:h-[46px] [--lh:20px] sm:[--lh:46px] opacity-90 hover:opacity-100 transition-opacity"
               >
                 <BrandLogo src={logoUrl} />
               </div>
@@ -242,17 +234,9 @@ export default function SocialProof({ brands = DEFAULT_BRANDS, testimonials = DE
       </div>
 
       {/* ────────────────── 2. TESTIMONIALS SECTION ────────────────── */}
-      {/* Heading removed: only the sliding cards remain, centred in the red band.
-          Padding is now SYMMETRIC (same top and bottom) so the cards sit in the middle.
-          Total height is kept the same as before, so the red band does not change size.
-          Tune: py-44 / sm:py-72 (more = taller band, less = tighter band). */}
-      <div className="relative w-full -mt-4 sm:-mt-16 py-44 sm:py-72 flex flex-col items-center justify-center overflow-hidden">
-
-        {/* PNG has transparent padding on all sides, so the bg layer is oversized
-            (negative inset) and the container's overflow-hidden crops that padding.
-            Tune: -left/-right-[3.5%] for sides, -top/-bottom for the torn edges. */}
+      <div className="relative w-full -mt-2 sm:-mt-16 py-32 sm:py-72 flex flex-col items-center justify-center overflow-hidden">
         <div
-          className="absolute -left-[4.5%] -right-[4.5%] -top-6 -bottom-6 sm:-top-12 sm:-bottom-12 bg-no-repeat bg-center pointer-events-none z-0"
+          className="absolute -left-[4.5%] -right-[4.5%] -top-4 -bottom-4 sm:-top-12 sm:-bottom-12 bg-no-repeat bg-center pointer-events-none z-0"
           style={{
             backgroundImage: `url('/testimonialRed.png')`,
             backgroundSize: '100% 100%',
@@ -261,34 +245,34 @@ export default function SocialProof({ brands = DEFAULT_BRANDS, testimonials = DE
 
         {/* TICKER CARDS WRAPPER */}
         <div className="w-full overflow-hidden mb-0 py-2 sm:py-4 relative z-[15] testi-fade">
-          <div className="animate-marquee-slow-right gap-6 sm:gap-10 w-max items-stretch">
+          <div className="animate-marquee-slow-right gap-4 sm:gap-10 w-max items-stretch">
             {duplicateList(testimonials).map((testi, idx) => (
               <div
                 key={`testi-${idx}`}
-                className="testi-card relative text-[#FFFFFF] w-[240px] sm:w-[360px] sm:min-h-[300px] p-5 sm:p-7 rounded-[14px] bg-black/20 backdrop-blur-xs border border-white/10 inline-flex flex-col justify-between text-left shrink-0 whitespace-normal"
-                style={{ minHeight: '220px' }}
+                className="testi-card relative text-[#FFFFFF] w-[220px] sm:w-[360px] p-4 sm:p-7 rounded-[12px] sm:rounded-[14px] bg-black/20 backdrop-blur-xs border border-white/10 inline-flex flex-col justify-between text-left shrink-0 whitespace-normal"
+                style={{ minHeight: '190px' }}
               >
                 {/* Statement / Quote */}
                 <p
                   style={{ letterSpacing: '-0.1px', fontWeight: 300 }}
-                  className="text-white/95 text-xs sm:text-base leading-relaxed m-0 mb-4 sm:mb-6"
+                  className="text-white/95 text-[11px] sm:text-base leading-relaxed m-0 mb-3 sm:mb-6"
                 >
                   "{testi.quote}"
                 </p>
 
                 {/* Bottom Info Group */}
                 <div className="w-full mt-auto">
-                  <div className="w-full h-[1px] bg-white/20 mb-3 sm:mb-4" />
+                  <div className="w-full h-[1px] bg-white/20 mb-2.5 sm:mb-4" />
                   <div className="w-full flex flex-col">
                     <h4
                       style={{ letterSpacing: '0.5px', fontWeight: 800, color: '#FFD84D' }}
-                      className="text-xs sm:text-sm m-0 uppercase leading-tight"
+                      className="text-[11px] sm:text-sm m-0 uppercase leading-tight"
                     >
                       {testi.handle}
                     </h4>
                     <span
                       style={{ fontFamily: "'Talina', sans-serif", letterSpacing: '0.5px' }}
-                      className="text-white/70 text-[10px] sm:text-xs m-0 mt-0.5 tracking-wider uppercase"
+                      className="text-white/70 text-[9px] sm:text-xs m-0 mt-0.5 tracking-wider uppercase"
                     >
                       {testi.role}
                     </span>

@@ -108,51 +108,56 @@ function VideoCard({ item, aspectRatio = "wide", hoveredId, setHoveredId, onOpen
       onClick={() => onOpenModal(item)}
       className={`relative inline-flex flex-col cursor-group shrink-0 cursor-pointer select-none group overflow-hidden bg-[#0f0e0c] shadow-[0_8px_30px_rgba(0,0,0,0.08)] transition-all duration-500 ease-out hover:-translate-y-1 hover:shadow-[0_16px_40px_rgba(212,44,44,0.2)] rounded-[12px] ${cardDimensions}`}
     >
-      {isYoutubeOnly ? (
-        <>
-          <img
-            src={ytThumb(item.youtubeId)}
-            alt={item.title}
-            draggable={false}
-            onError={(e) => {
-              const fb = ytThumbFallback(item.youtubeId);
-              if (e.currentTarget.src !== fb) e.currentTarget.src = fb;
-            }}
-            className="absolute inset-0 w-full h-full object-cover transition-all duration-700 filter brightness-[0.85] group-hover:brightness-100 group-hover:scale-105 pointer-events-none"
-          />
-          {previewOn && (
-            <iframe
-              src={`https://www.youtube.com/embed/${item.youtubeId}?autoplay=1&mute=1&controls=0&loop=1&playlist=${item.youtubeId}&playsinline=1&rel=0&modestbranding=1&disablekb=1&iv_load_policy=3&fs=0`}
-              title={`${item.title} preview`}
-              allow="autoplay; encrypted-media"
-              tabIndex={-1}
-              onLoad={() => setPreviewReady(true)}
-              className={`absolute inset-0 w-full h-full border-0 pointer-events-none transition-opacity duration-500 ${previewReady ? 'opacity-100' : 'opacity-0'}`}
-            />
-          )}
-        </>
-      ) : (
-        <video
-          ref={videoRef}
-          poster={item.poster}
-          muted
-          loop
-          playsInline
-          preload="metadata"
+      {/* 📱 MOBILE MEIN SIRF STATIC THUMBNAIL/POSTER (NO VIDEO/AUTOPLAY) */}
+      <div className="absolute inset-0 block md:hidden z-[2]">
+        <img
+          src={isYoutubeOnly ? ytThumb(item.youtubeId) : (item.poster || item.videoUrl)}
+          alt={lineName}
           draggable={false}
-          className="absolute inset-0 w-full h-full object-cover transition-all duration-700 filter brightness-[0.85] group-hover:brightness-100 group-hover:scale-105 outline-none pointer-events-none"
+          className="w-full h-full object-cover filter brightness-[0.88]"
         />
-      )}
+      </div>
 
-      <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent pointer-events-none" />
-
-      <div className={`absolute top-2.5 right-2.5 sm:top-3 sm:right-3 w-6 h-6 sm:w-9 sm:h-9 rounded-full backdrop-blur-md flex items-center justify-center transition-all duration-300 z-10 ${isHovered ? 'scale-110 bg-[#14120e] text-[#FFFCFB] shadow-lg' : 'bg-black/40 text-[#FFFCFB]'}`}>
-        {isHovered ? (
-          <span className="w-2 h-2 bg-[#FFFCFB] rounded-full animate-pulse" />
+      {/* 💻 DESKTOP MEIN VIDEO / YOUTUBE PREVIEW */}
+      <div className="absolute inset-0 hidden md:block z-[2]">
+        {isYoutubeOnly ? (
+          <>
+            <img
+              src={ytThumb(item.youtubeId)}
+              alt={item.title}
+              draggable={false}
+              onError={(e) => {
+                const fb = ytThumbFallback(item.youtubeId);
+                if (e.currentTarget.src !== fb) e.currentTarget.src = fb;
+              }}
+              className="absolute inset-0 w-full h-full object-cover transition-all duration-700 filter brightness-[0.85] group-hover:brightness-100 group-hover:scale-105 pointer-events-none"
+            />
+            {previewOn && (
+              <iframe
+                src={`https://www.youtube.com/embed/${item.youtubeId}?autoplay=1&mute=1&controls=0&loop=1&playlist=${item.youtubeId}&playsinline=1&rel=0&modestbranding=1&disablekb=1&iv_load_policy=3&fs=0`}
+                title={`${item.title} preview`}
+                allow="autoplay; encrypted-media"
+                tabIndex={-1}
+                onLoad={() => setPreviewReady(true)}
+                className={`absolute inset-0 w-full h-full border-0 pointer-events-none transition-opacity duration-500 ${previewReady ? 'opacity-100' : 'opacity-0'}`}
+              />
+            )}
+          </>
         ) : (
-          <svg className="w-3 h-3 sm:w-3.5 sm:h-3.5 fill-current ml-0.5" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+          <video
+            ref={videoRef}
+            poster={item.poster}
+            muted
+            loop
+            playsInline
+            preload="metadata"
+            draggable={false}
+            className="absolute inset-0 w-full h-full object-cover transition-all duration-700 filter brightness-[0.85] group-hover:brightness-100 group-hover:scale-105 outline-none pointer-events-none"
+          />
         )}
       </div>
+
+      <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent pointer-events-none z-[3]" />
 
       <div className="absolute bottom-0 left-0 right-0 p-2 sm:p-5 flex flex-col items-start text-left z-10">
         <div
@@ -370,7 +375,10 @@ export default function Editing() {
   }, []);
 
   useEffect(() => {
-    const ctx = gsap.context(() => {
+    const ctx = gsap.matchMedia();
+
+    // 💻 Desktop par animations chalti rahengi
+    ctx.add("(min-width: 768px)", () => {
       gsap.fromTo(paragraphRef.current, {
         opacity: 0,
         y: 80,
@@ -387,7 +395,12 @@ export default function Editing() {
           toggleActions: 'play none none reverse',
         }
       });
-    }, featuredSectionRef);
+    });
+
+    // 📱 Mobile par animations bilkul hata di hain (direct visible state)
+    ctx.add("(max-width: 767px)", () => {
+      gsap.set(paragraphRef.current, { opacity: 1, y: 0, scale: 1 });
+    });
 
     return () => ctx.revert();
   }, []);
