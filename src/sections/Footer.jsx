@@ -10,8 +10,8 @@ const SOCIAL_LINKS = [
   { id: 'LinkedIn', name: 'Linkedin', url: 'https://www.linkedin.com/in/akshay-shrivastava-735210210/?isSelfProfile=false' }
 ];
 
-const PULL_UP_DESKTOP = 240; 
-const PULL_UP_MOBILE = 90;  // Gap adjust karne ke liye mobile pull-up kam kar diya hai
+const PULL_UP_DESKTOP = 240;
+const PULL_UP_MOBILE = 90; // red torn strip ke neeche overlap adjust karne ke liye
 
 export default function Footer() {
   const footerRef = useRef(null);
@@ -55,6 +55,10 @@ export default function Footer() {
         .ft-root { margin-top: -${PULL_UP_MOBILE}px; }
         @media (min-width: 640px) { .ft-root { margin-top: -${PULL_UP_DESKTOP}px; } }
 
+        /* Notch / home-indicator wale phones par bottom spacing safe rahe */
+        .ft-root { padding-bottom: max(2rem, env(safe-area-inset-bottom)); }
+        @media (min-width: 640px) { .ft-root { padding-bottom: 3rem; } }
+
         .ft-pill-wrap {
           opacity: 0;
           transform: translateY(32px);
@@ -69,32 +73,32 @@ export default function Footer() {
 
       <footer
         ref={footerRef}
-        className={`ft-root w-full pt-0 pb-10 sm:pb-12 flex flex-col items-center justify-center relative z-20 bg-transparent text-center select-none ${shown ? 'ft-in' : ''}`}
+        className={`ft-root w-full pt-5 sm:pt-0 flex flex-col items-center justify-center relative z-20 bg-transparent text-center select-none ${shown ? 'ft-in' : ''}`}
       >
         {/* Contact Now */}
-        <div className="mb-6 sm:mb-8 w-full px-4">
+        <div className="mb-5 sm:mb-8 w-full px-4">
           <a
             href="https://mail.google.com/mail/?view=cm&to=Connectwithakshayshri@gmail.com&su=Project%20inquiry"
             target="_blank"
             rel="noopener noreferrer"
             style={{ fontFamily: "'SquidBoy', sans-serif", letterSpacing: '0.5px' }}
-            className="text-[#D42C2C] hover:text-[#b02222] transition-colors text-2xl sm:text-5xl leading-none cursor-pointer no-underline whitespace-nowrap"
+            className="inline-block py-1 text-[#D42C2C] hover:text-[#b02222] transition-colors text-[1.75rem] sm:text-5xl leading-none cursor-pointer no-underline whitespace-nowrap"
           >
             Contact Now
           </a>
         </div>
 
         {/* Social handles */}
-        <div className="ft-pill-wrap flex justify-center items-center px-3">
-          <div className="relative bg-[#D42C2C] text-white py-2.5 px-4 sm:py-3.5 sm:px-8 rounded-lg flex items-center justify-center shadow-lg overflow-hidden">
-            <div className="relative z-[2] flex items-center justify-center gap-1.5 sm:gap-3">
+        <div className="ft-pill-wrap flex justify-center items-center w-full px-3">
+          <div className="relative bg-[#D42C2C] text-white py-2 px-3 min-[380px]:px-4 sm:py-3.5 sm:px-8 rounded-lg flex items-center justify-center shadow-md sm:shadow-lg overflow-hidden max-w-full">
+            <div className="relative z-[2] flex items-center justify-center gap-1 min-[380px]:gap-1.5 sm:gap-3">
               {SOCIAL_LINKS.map((link, idx) => (
                 <React.Fragment key={link.id}>
                   <a
                     href={link.url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-white hover:text-[#FFC822] transition-colors text-[0.95rem] sm:text-[1.4rem] capitalize tracking-wide leading-none flex items-center px-0.5 sm:px-1"
+                    className="text-white hover:text-[#FFC822] transition-colors text-[0.85rem] min-[380px]:text-[0.95rem] sm:text-[1.4rem] capitalize tracking-wide leading-none flex items-center min-h-[36px] sm:min-h-0 px-1 sm:px-1"
                     style={{ fontFamily: "GourmetEatery, cursive, sans-serif" }}
                   >
                     <span className="leading-none relative top-[2px] sm:top-[4px]">{link.name}</span>

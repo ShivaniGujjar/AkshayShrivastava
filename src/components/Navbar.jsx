@@ -112,7 +112,7 @@ export default function Navbar({ onNavigate, activeSection = 'editing' }) {
               aria-expanded={isMobileMenuOpen}
               className="text-white bg-transparent p-2 cursor-pointer active:scale-90 transition-transform duration-150 touch-manipulation [-webkit-tap-highlight-color:transparent] pointer-events-auto border-0 outline-none"
             >
-              <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg className="w-6 h-6 text-[#D42C2C]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 {isMobileMenuOpen ? (
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.2" d="M6 18L18 6M6 6l12 12" />
                 ) : (
@@ -128,7 +128,7 @@ export default function Navbar({ onNavigate, activeSection = 'editing' }) {
         {isMobileMenuOpen && (
           <>
             <div
-              className="md:hidden fixed inset-0 z-[1] bg-black/70 backdrop-blur-md pointer-events-auto"
+              className="md:hidden  fixed inset-0 z-[1] bg-black/70 backdrop-blur-md pointer-events-auto"
               onClick={() => setIsMobileMenuOpen(false)}
               aria-hidden="true"
             />

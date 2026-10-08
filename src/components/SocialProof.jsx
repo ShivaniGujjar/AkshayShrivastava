@@ -150,7 +150,7 @@ const duplicateList = (arr, count = 6) => {
 export default function SocialProof({ brands = DEFAULT_BRANDS, testimonials = DEFAULT_TESTIMONIALS }) {
   return (
     <section
-      className="w-full relative overflow-hidden pt-4 pb-12 sm:pt-10 sm:pb-32 select-none bg-[#FFFCFB]"
+      className="w-full relative overflow-hidden pt-6 pb-8 sm:pt-10 sm:pb-32 select-none bg-[#FFFCFB]"
       style={{ fontFamily: "'HelveticaNeue', 'Helvetica Neue', Helvetica, Arial, sans-serif" }}
     >
       <style>{`
@@ -189,6 +189,17 @@ export default function SocialProof({ brands = DEFAULT_BRANDS, testimonials = DE
           mask-image: linear-gradient(to right, transparent 0, black 4%, black 96%, transparent 100%);
         }
 
+        /* PNG ke upar-neeche transparent margin hai, isliye mobile par vertically zoom karte hain.
+           Value badhao (160%, 170%) to red band lamba hoga, ghatao to chhota. */
+        .testi-bg {
+          background-size: 100% 150%;
+        }
+        @media (min-width: 640px) {
+          .testi-bg {
+            background-size: 100% 100%;
+          }
+        }
+
         .testi-card {
           transition: transform 0.25s ease;
         }
@@ -210,21 +221,21 @@ export default function SocialProof({ brands = DEFAULT_BRANDS, testimonials = DE
 
       {/* ────────────────── 1. WORKED WITH SECTION ────────────────── */}
       <div className="w-full relative overflow-hidden mb-0 text-center z-10">
-        <div className="inline-flex flex-col items-center mb-3 sm:mb-8 px-4">
+        <div className="inline-flex flex-col items-center mb-4 sm:mb-8 px-4">
           <h3
             style={{ fontFamily: "GenericFont, sans-serif", letterSpacing: '0.3px', fontWeight: 400 }}
-            className="text-lg sm:text-4xl m-0 text-[#D42C2C] leading-tight"
+            className="text-xl sm:text-4xl m-0 text-[#D42C2C] leading-tight"
           >
             Worked With
           </h3>
         </div>
 
         <div className="w-full overflow-hidden py-1 sm:py-3 brand-fade">
-          <div className="animate-marquee-slow-left gap-6 sm:gap-20 w-max items-center">
+          <div className="animate-marquee-slow-left gap-8 sm:gap-20 w-max items-center will-change-transform">
             {duplicateList(brands).map((logoUrl, idx) => (
               <div
                 key={`brand-logo-${idx}`}
-                className="inline-flex items-center justify-center shrink-0 h-5 sm:h-[46px] [--lh:20px] sm:[--lh:46px] opacity-90 hover:opacity-100 transition-opacity"
+                className="inline-flex items-center justify-center shrink-0 h-7 sm:h-[46px] [--lh:28px] sm:[--lh:46px] opacity-90 hover:opacity-100 transition-opacity"
               >
                 <BrandLogo src={logoUrl} />
               </div>
@@ -234,28 +245,24 @@ export default function SocialProof({ brands = DEFAULT_BRANDS, testimonials = DE
       </div>
 
       {/* ────────────────── 2. TESTIMONIALS SECTION ────────────────── */}
-      <div className="relative w-full -mt-2 sm:-mt-16 py-32 sm:py-72 flex flex-col items-center justify-center overflow-hidden">
+      <div className="relative w-full mt-0 sm:-mt-16 py-14 sm:py-72 flex flex-col items-center justify-center overflow-hidden">
         <div
-          className="absolute -left-[4.5%] -right-[4.5%] -top-4 -bottom-4 sm:-top-12 sm:-bottom-12 bg-no-repeat bg-center pointer-events-none z-0"
-          style={{
-            backgroundImage: `url('/testimonialRed.png')`,
-            backgroundSize: '100% 100%',
-          }}
+          className="testi-bg absolute -left-[4.5%] -right-[4.5%] top-0 bottom-0 sm:-top-12 sm:-bottom-12 bg-no-repeat bg-center pointer-events-none z-0"
+          style={{ backgroundImage: `url('/testimonialRed.png')` }}
         />
 
         {/* TICKER CARDS WRAPPER */}
         <div className="w-full overflow-hidden mb-0 py-2 sm:py-4 relative z-[15] testi-fade">
-          <div className="animate-marquee-slow-right gap-4 sm:gap-10 w-max items-stretch">
+          <div className="animate-marquee-slow-right gap-3 sm:gap-10 w-max items-stretch will-change-transform">
             {duplicateList(testimonials).map((testi, idx) => (
               <div
                 key={`testi-${idx}`}
-                className="testi-card relative text-[#FFFFFF] w-[220px] sm:w-[360px] p-4 sm:p-7 rounded-[12px] sm:rounded-[14px] bg-black/20 backdrop-blur-xs border border-white/10 inline-flex flex-col justify-between text-left shrink-0 whitespace-normal"
-                style={{ minHeight: '190px' }}
+                className="testi-card relative text-[#FFFFFF] w-[270px] sm:w-[360px] min-h-[170px] sm:min-h-[190px] p-4 sm:p-7 rounded-[12px] sm:rounded-[14px] bg-black/20 sm:backdrop-blur-xs border border-white/10 inline-flex flex-col justify-between text-left shrink-0 whitespace-normal"
               >
                 {/* Statement / Quote */}
                 <p
                   style={{ letterSpacing: '-0.1px', fontWeight: 300 }}
-                  className="text-white/95 text-[11px] sm:text-base leading-relaxed m-0 mb-3 sm:mb-6"
+                  className="text-white/95 text-xs sm:text-base leading-relaxed m-0 mb-3 sm:mb-6"
                 >
                   "{testi.quote}"
                 </p>
@@ -266,26 +273,23 @@ export default function SocialProof({ brands = DEFAULT_BRANDS, testimonials = DE
                   <div className="w-full flex flex-col">
                     <h4
                       style={{ letterSpacing: '0.5px', fontWeight: 800, color: '#FFD84D' }}
-                      className="text-[11px] sm:text-sm m-0 uppercase leading-tight"
+                      className="text-xs sm:text-sm m-0 uppercase leading-tight"
                     >
                       {testi.handle}
                     </h4>
                     <span
                       style={{ fontFamily: "'Talina', sans-serif", letterSpacing: '0.5px' }}
-                      className="text-white/70 text-[9px] sm:text-xs m-0 mt-0.5 tracking-wider uppercase"
+                      className="text-white/70 text-[10px] sm:text-xs m-0 mt-0.5 tracking-wider uppercase"
                     >
                       {testi.role}
                     </span>
                   </div>
                 </div>
-
               </div>
             ))}
           </div>
         </div>
-
       </div>
-
     </section>
   );
 }
