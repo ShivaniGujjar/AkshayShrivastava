@@ -105,7 +105,7 @@ function AppShell() {
         </Routes>
       </main>
       <Analytics/>
-      <ConsentBanner/>
+      {/* <ConsentBanner/> */}
     </div>
   );
 }

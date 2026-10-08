@@ -22,20 +22,20 @@ const LONG_FORMS = [
 ];
 
 const SHORT_FORMS_ROW1 = [
-  { id: 'sf7', title: 'Shorts', brand: 'Scratch', videoUrl: 'https://akshayshrivastava.com/videos/short1.mp4', poster: 'https://akshayshrivastava.com/images/short1.png' },
-  { id: 'sf1', name: "Masters' Union", type: 'Instagram Reel', title: 'Retention Hook 1', brand: 'Waywen', videoUrl: 'https://akshayshrivastava.com/videos/short3.mp4', poster: 'https://akshayshrivastava.com/images/short3.png' },
-  { id: 'sf2', name: 'Ankit_sr', type: "Instagram Reel", title: 'Viral Podcast Clip 2', brand: 'Edutainment', videoUrl: 'https://akshayshrivastava.com/videos/short19.mp4', poster: 'https://akshayshrivastava.com/images/short19.png' },
-  { id: 'sf3', name: 'Vishwmitra', type: 'Performance Reel', title: 'Brand Story Reel 3', brand: 'Kolkata Media', videoUrl: 'https://akshayshrivastava.com/videos/short5.mp4', poster: 'https://akshayshrivastava.com/images/short5.png' },
-  { id: 'sf5', title: 'Instagram Reel', brand: 'Ankit_sr', videoUrl: 'https://akshayshrivastava.com/videos/short17.mp4', poster: 'https://akshayshrivastava.com/images/short17.png' },
+  { id: 'sf7', title: 'Shorts', brand: 'Scratch', videoUrl: 'https://akshayshrivastava.com/videos/short1.mp4', poster: 'https://akshayshrivastava.com/images/short1.png', driveUrl: 'https://drive.google.com/file/d/1uwY-PFrG5BDBY7e5WlOJZIB18O-tCKwO/view?usp=sharing' },
+  { id: 'sf1', name: "Masters' Union", type: 'Instagram Reel', title: 'Retention Hook 1', brand: 'Waywen', videoUrl: 'https://akshayshrivastava.com/videos/short3.mp4', poster: 'https://akshayshrivastava.com/images/short3.png', driveUrl: 'https://drive.google.com/drive/folders/YOUR_DRIVE_FOLDER_ID' },
+  { id: 'sf2', name: 'Ankit_sr', type: "Instagram Reel", title: 'Viral Podcast Clip 2', brand: 'Edutainment', videoUrl: 'https://akshayshrivastava.com/videos/short19.mp4', poster: 'https://akshayshrivastava.com/images/short19.png', driveUrl: 'https://drive.google.com/drive/folders/YOUR_DRIVE_FOLDER_ID' },
+  { id: 'sf3', name: 'Vishwmitra', type: 'Performance Reel', title: 'Brand Story Reel 3', brand: 'Kolkata Media', videoUrl: 'https://akshayshrivastava.com/videos/short5.mp4', poster: 'https://akshayshrivastava.com/images/short5.png', driveUrl: 'https://drive.google.com/drive/folders/YOUR_DRIVE_FOLDER_ID' },
+  { id: 'sf5', title: 'Instagram Reel', brand: 'Ankit_sr', videoUrl: 'https://akshayshrivastava.com/videos/short17.mp4', poster: 'https://akshayshrivastava.com/images/short17.png', driveUrl: 'https://drive.google.com/drive/folders/YOUR_DRIVE_FOLDER_ID' },
 ];
 
 const SHORT_FORMS_ROW2 = [
-  { id: 'sf6', title: 'Personal Instagram Reel', brand: 'Akshay Shrivastava', videoUrl: 'https://akshayshrivastava.com/videos/short18.mp4', poster: 'https://akshayshrivastava.com/images/short18.png' },
-  { id: 'sf11', title: 'Instagram Reel', brand: 'Ankit_sr', videoUrl: 'https://akshayshrivastava.com/videos/short8.mp4', poster: 'https://akshayshrivastava.com/images/short8.png' },
-  { id: 'sf10', title: "UGC Ad's", brand: 'Frido', videoUrl: 'https://akshayshrivastava.com/videos/short11.mp4', poster: 'https://akshayshrivastava.com/images/short11.png' },
-  { id: 'sf9', title: 'Instagram Reel', brand: 'Ankit_sr', videoUrl: 'https://akshayshrivastava.com/videos/short16.mp4', poster: 'https://akshayshrivastava.com/images/short16.png' },
-  { id: 'sf8', title: "UGC Ad's", brand: 'Frido', videoUrl: 'https://akshayshrivastava.com/videos/short12.mp4', poster: 'https://akshayshrivastava.com/images/short12.png' },
-  { id: 'sf4', name: 'Ankit_sr', type: 'Instagram Reel', title: 'Instagram Reel', brand: 'Fit Tribe', videoUrl: 'https://akshayshrivastava.com/videos/short10.mp4', poster: 'https://akshayshrivastava.com/images/short10.png' },
+  { id: 'sf6', title: 'Personal Instagram Reel', brand: 'Akshay Shrivastava', videoUrl: 'https://akshayshrivastava.com/videos/short18.mp4', poster: 'https://akshayshrivastava.com/images/short18.png', driveUrl: 'https://drive.google.com/drive/folders/YOUR_DRIVE_FOLDER_ID' },
+  { id: 'sf11', title: 'Instagram Reel', brand: 'Ankit_sr', videoUrl: 'https://akshayshrivastava.com/videos/short8.mp4', poster: 'https://akshayshrivastava.com/images/short8.png', driveUrl: 'https://drive.google.com/drive/folders/YOUR_DRIVE_FOLDER_ID' },
+  { id: 'sf10', title: "UGC Ad's", brand: 'Frido', videoUrl: 'https://akshayshrivastava.com/videos/short11.mp4', poster: 'https://akshayshrivastava.com/images/short11.png', driveUrl: 'https://drive.google.com/drive/folders/YOUR_DRIVE_FOLDER_ID' },
+  { id: 'sf9', title: 'Instagram Reel', brand: 'Ankit_sr', videoUrl: 'https://akshayshrivastava.com/videos/short16.mp4', poster: 'https://akshayshrivastava.com/images/short16.png', driveUrl: 'https://drive.google.com/drive/folders/YOUR_DRIVE_FOLDER_ID' },
+  { id: 'sf8', title: "UGC Ad's", brand: 'Frido', videoUrl: 'https://akshayshrivastava.com/videos/short12.mp4', poster: 'https://akshayshrivastava.com/images/short12.png', driveUrl: 'https://drive.google.com/drive/folders/YOUR_DRIVE_FOLDER_ID' },
+  { id: 'sf4', name: 'Ankit_sr', type: 'Instagram Reel', title: 'Instagram Reel', brand: 'Fit Tribe', videoUrl: 'https://akshayshrivastava.com/videos/short10.mp4', poster: 'https://akshayshrivastava.com/images/short10.png', driveUrl: 'https://drive.google.com/drive/folders/YOUR_DRIVE_FOLDER_ID' },
 ];
 
 const duplicateList = (arr, count = 2) => {
@@ -51,7 +51,7 @@ function VideoCard({ item, aspectRatio = "wide", hoveredId, setHoveredId, onOpen
   const videoRef = useRef(null);
   const [isVisible, setIsVisible] = useState(false);
   const isHovered = hoveredId === item.id;
-  const isAnyHovered = hoveredId !== null;
+  const isShort = aspectRatio === "tall";
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -62,20 +62,31 @@ function VideoCard({ item, aspectRatio = "wide", hoveredId, setHoveredId, onOpen
     return () => { if (cardRef.current) observer.unobserve(cardRef.current); };
   }, []);
 
+  // Short video hover play & 4.5s repeat loop logic
   useEffect(() => {
-    if (!videoRef.current) return;
-    if (!isVisible) {
-      videoRef.current.pause();
-      return;
-    }
-    const shouldPlay = isAnyHovered ? isHovered : true;
-    if (shouldPlay) {
-      if (!videoRef.current.src) videoRef.current.src = item.videoUrl;
-      videoRef.current.play().catch(() => {});
+    const videoEl = videoRef.current;
+    if (!videoEl || !isShort) return;
+
+    if (isHovered && isVisible) {
+      if (!videoEl.src) videoEl.src = item.videoUrl;
+      videoEl.play().catch(() => {});
     } else {
-      videoRef.current.pause();
+      videoEl.pause();
+      videoEl.currentTime = 0;
     }
-  }, [isVisible, isHovered, isAnyHovered, item.videoUrl]);
+
+    const handleTimeUpdate = () => {
+      if (videoEl.currentTime >= 10.0) {
+        videoEl.currentTime = 0;
+        videoEl.play().catch(() => {});
+      }
+    };
+
+    videoEl.addEventListener('timeupdate', handleTimeUpdate);
+    return () => {
+      if (videoEl) videoEl.removeEventListener('timeupdate', handleTimeUpdate);
+    };
+  }, [isHovered, isVisible, item.videoUrl, isShort]);
 
   const [previewOn, setPreviewOn] = useState(false);
   const [previewReady, setPreviewReady] = useState(false);
@@ -95,20 +106,28 @@ function VideoCard({ item, aspectRatio = "wide", hoveredId, setHoveredId, onOpen
     ? "w-[220px] xs:w-[260px] sm:w-[420px] h-[124px] xs:h-[146px] sm:h-[240px]" 
     : "w-[140px] xs:w-[170px] sm:w-[300px] aspect-[9/16]";
 
-  const isShort = aspectRatio === "tall";
   const lineName = isShort ? (item.name || item.brand) : item.title;
   const lineType = isShort ? (item.type || item.title) : item.category;
   const isYoutubeOnly = item.youtubeId && !item.videoUrl;
+
+  const handleCardClick = () => {
+    if (isShort && item.driveUrl) {
+      window.open(item.driveUrl, '_blank');
+    } else {
+      onOpenModal(item);
+    }
+  };
 
   return (
     <div 
       ref={cardRef}
       onMouseEnter={() => setHoveredId(item.id)}
       onMouseLeave={() => setHoveredId(null)}
-      onClick={() => onOpenModal(item)}
+      onClick={handleCardClick}
       className={`relative inline-flex flex-col cursor-group shrink-0 cursor-pointer select-none group overflow-hidden bg-[#0f0e0c] shadow-[0_8px_30px_rgba(0,0,0,0.08)] transition-all duration-500 ease-out hover:-translate-y-1 hover:shadow-[0_16px_40px_rgba(212,44,44,0.2)] rounded-[12px] ${cardDimensions}`}
     >
-      <div className="absolute inset-0 block md:hidden z-[2]">
+      {/* Thumbnail Poster (Always visible by default, hidden on hover for shorts when video plays) */}
+      <div className={`absolute inset-0 z-[2] transition-opacity duration-300 ${isShort && isHovered ? 'opacity-0' : 'opacity-100'}`}>
         <img
           src={isYoutubeOnly ? ytThumb(item.youtubeId) : (item.poster || item.videoUrl)}
           alt={lineName}
@@ -117,19 +136,20 @@ function VideoCard({ item, aspectRatio = "wide", hoveredId, setHoveredId, onOpen
         />
       </div>
 
-      <div className="absolute inset-0 hidden md:block z-[2]">
-        {isYoutubeOnly ? (
+      {/* Video / Preview Layer on Hover */}
+      <div className="absolute inset-0 z-[1]">
+        {isShort ? (
+          <video
+            ref={videoRef}
+            poster={item.poster}
+            muted
+            playsInline
+            preload="none"
+            draggable={false}
+            className="absolute inset-0 w-full h-full object-cover outline-none pointer-events-none"
+          />
+        ) : isYoutubeOnly ? (
           <>
-            <img
-              src={ytThumb(item.youtubeId)}
-              alt={item.title}
-              draggable={false}
-              onError={(e) => {
-                const fb = ytThumbFallback(item.youtubeId);
-                if (e.currentTarget.src !== fb) e.currentTarget.src = fb;
-              }}
-              className="absolute inset-0 w-full h-full object-cover transition-all duration-700 filter brightness-[0.85] group-hover:brightness-100 group-hover:scale-105 pointer-events-none"
-            />
             {previewOn && (
               <iframe
                 src={`https://www.youtube.com/embed/${item.youtubeId}?autoplay=1&mute=1&controls=0&loop=1&playlist=${item.youtubeId}&playsinline=1&rel=0&modestbranding=1&disablekb=1&iv_load_policy=3&fs=0`}
@@ -150,12 +170,18 @@ function VideoCard({ item, aspectRatio = "wide", hoveredId, setHoveredId, onOpen
             playsInline
             preload="metadata"
             draggable={false}
-            className="absolute inset-0 w-full h-full object-cover transition-all duration-700 filter brightness-[0.85] group-hover:brightness-100 group-hover:scale-105 outline-none pointer-events-none"
+            className="absolute inset-0 w-full h-full object-cover outline-none pointer-events-none"
           />
         )}
       </div>
 
       <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent pointer-events-none z-[3]" />
+
+      {isShort && (
+        <div className="absolute top-2 right-2 z-10 opacity-0 group-hover:opacity-100 transition-opacity bg-[#D42C2C] text-white text-[9px] sm:text-[10px] px-2 py-1 rounded-md shadow-md flex items-center gap-1">
+          <span>Watch on Drive ↗</span>
+        </div>
+      )}
 
       <div className="absolute bottom-0 left-0 right-0 p-2 sm:p-5 flex flex-col items-start text-left z-10">
         <div
@@ -232,7 +258,7 @@ function MarqueeRow({ items, aspectRatio, direction = 'left', hoveredId, setHove
 
   const DRAG_THRESHOLD = 8;
 
-  const handleMouseDown = (e) => {
+  const handleStart = (clientX) => {
     const el = containerRef.current;
     if (!el) return;
 
@@ -242,35 +268,40 @@ function MarqueeRow({ items, aspectRatio, direction = 'left', hoveredId, setHove
     }
 
     draggedRef.current = false;
-    const startX = e.clientX;
+    const startX = clientX;
     const startScroll = el.scrollLeft;
-    let lastX = e.clientX;
+    let lastX = clientX;
     let lastTime = performance.now();
     let velocity = 0;
 
-    const handleMouseMove = (moveEvent) => {
-      const dx = moveEvent.clientX - startX;
+    const handleMove = (moveX) => {
+      const dx = moveX - startX;
 
       if (!isDraggingRef.current) {
         if (Math.abs(dx) < DRAG_THRESHOLD) return;
         isDraggingRef.current = true;
         draggedRef.current = true;
-        el.style.cursor = 'grabbing';
       }
 
       el.scrollLeft = startScroll - dx;
 
       const now = performance.now();
       const dt = now - lastTime;
-      if (dt > 0) velocity = (moveEvent.clientX - lastX) / dt;
-      lastX = moveEvent.clientX;
+      if (dt > 0) velocity = (moveX - lastX) / dt;
+      lastX = moveX;
       lastTime = now;
     };
 
-    const handleMouseUp = () => {
+    const handleMouseMove = (e) => handleMove(e.clientX);
+    const handleTouchMove = (e) => {
+      if (e.touches && e.touches[0]) handleMove(e.touches[0].clientX);
+    };
+
+    const handleEnd = () => {
       window.removeEventListener('mousemove', handleMouseMove);
-      window.removeEventListener('mouseup', handleMouseUp);
-      el.style.cursor = 'grab';
+      window.removeEventListener('mouseup', handleEnd);
+      window.removeEventListener('touchmove', handleTouchMove);
+      window.removeEventListener('touchend', handleEnd);
 
       let scrollVelocity = -velocity;
       let lastTs = null;
@@ -305,7 +336,14 @@ function MarqueeRow({ items, aspectRatio, direction = 'left', hoveredId, setHove
     };
 
     window.addEventListener('mousemove', handleMouseMove);
-    window.addEventListener('mouseup', handleMouseUp);
+    window.addEventListener('mouseup', handleEnd);
+    window.addEventListener('touchmove', handleTouchMove);
+    window.addEventListener('touchend', handleEnd);
+  };
+
+  const handleMouseDown = (e) => handleStart(e.clientX);
+  const handleTouchStart = (e) => {
+    if (e.touches && e.touches[0]) handleStart(e.touches[0].clientX);
   };
 
   const handleContainerMouseLeave = () => setHoveredId(null);
@@ -323,10 +361,9 @@ function MarqueeRow({ items, aspectRatio, direction = 'left', hoveredId, setHove
       ref={containerRef}
       onMouseLeave={handleContainerMouseLeave}
       onMouseDown={handleMouseDown}
-      onTouchStart={() => { isDraggingRef.current = true; }}
-      onTouchEnd={() => { isDraggingRef.current = false; }}
+      onTouchStart={handleTouchStart}
       onClickCapture={handleClickCapture}
-      className="w-full max-w-full overflow-x-scroll overflow-y-hidden pt-2 pb-6 cursor-grab select-none [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden px-3 sm:px-8"
+      className="w-full max-w-full overflow-x-scroll overflow-y-hidden pt-2 pb-6 cursor-grab active:cursor-grabbing select-none [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden px-3 sm:px-8"
       style={{ touchAction: 'pan-y' }}
     >
       <div className="inline-flex whitespace-nowrap gap-3 sm:gap-10 w-max items-start">

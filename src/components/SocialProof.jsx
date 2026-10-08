@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 
 const DEFAULT_BRANDS = [
   "/waywen.webp",
@@ -147,6 +147,172 @@ const duplicateList = (arr, count = 6) => {
   return output;
 };
 
+// Reusable Draggable Marquee Row Component with Mouse & Touch support
+function DraggableMarqueeContainer({ children, direction = 'left', speed = 45 }) {
+  const containerRef = useRef(null);
+  const isDraggingRef = useRef(false);
+  const rafRef = useRef(null);
+  const lastTimeRef = useRef(null);
+  const draggedRef = useRef(false);
+  const momentumRafRef = useRef(null);
+
+  useEffect(() => {
+    return () => {
+      if (momentumRafRef.current) cancelAnimationFrame(momentumRafRef.current);
+    };
+  }, []);
+
+  useEffect(() => {
+    const el = containerRef.current;
+    if (!el) return;
+
+    if (direction === 'right') {
+      el.scrollLeft = el.scrollWidth / 2;
+    }
+
+    const step = (timestamp) => {
+      if (lastTimeRef.current == null) lastTimeRef.current = timestamp;
+      const delta = timestamp - lastTimeRef.current;
+      lastTimeRef.current = timestamp;
+
+      if (!isDraggingRef.current) {
+        const half = el.scrollWidth / 2;
+        const dir = direction === 'left' ? 1 : -1;
+
+        el.scrollLeft += dir * speed * (delta / 1000);
+
+        if (half > 0) {
+          if (el.scrollLeft >= half) {
+            el.scrollLeft -= half;
+          } else if (el.scrollLeft <= 0) {
+            el.scrollLeft += half;
+          }
+        }
+      }
+
+      rafRef.current = requestAnimationFrame(step);
+    };
+
+    rafRef.current = requestAnimationFrame(step);
+
+    return () => {
+      if (rafRef.current) cancelAnimationFrame(rafRef.current);
+      lastTimeRef.current = null;
+    };
+  }, [direction, speed]);
+
+  const DRAG_THRESHOLD = 8;
+
+  const handleStart = (clientX) => {
+    const el = containerRef.current;
+    if (!el) return;
+
+    if (momentumRafRef.current) {
+      cancelAnimationFrame(momentumRafRef.current);
+      momentumRafRef.current = null;
+    }
+
+    draggedRef.current = false;
+    const startX = clientX;
+    const startScroll = el.scrollLeft;
+    let lastX = clientX;
+    let lastTime = performance.now();
+    let velocity = 0;
+
+    const handleMove = (moveX) => {
+      const dx = moveX - startX;
+
+      if (!isDraggingRef.current) {
+        if (Math.abs(dx) < DRAG_THRESHOLD) return;
+        isDraggingRef.current = true;
+        draggedRef.current = true;
+      }
+
+      el.scrollLeft = startScroll - dx;
+
+      const now = performance.now();
+      const dt = now - lastTime;
+      if (dt > 0) velocity = (moveX - lastX) / dt;
+      lastX = moveX;
+      lastTime = now;
+    };
+
+    const handleMouseMove = (e) => handleMove(e.clientX);
+    const handleTouchMove = (e) => {
+      if (e.touches && e.touches[0]) handleMove(e.touches[0].clientX);
+    };
+
+    const handleEnd = () => {
+      window.removeEventListener('mousemove', handleMouseMove);
+      window.removeEventListener('mouseup', handleEnd);
+      window.removeEventListener('touchmove', handleTouchMove);
+      window.removeEventListener('touchend', handleEnd);
+
+      let scrollVelocity = -velocity;
+      let lastTs = null;
+
+      const glide = (ts) => {
+        if (lastTs == null) lastTs = ts;
+        const dt = ts - lastTs;
+        lastTs = ts;
+
+        el.scrollLeft += scrollVelocity * dt;
+        scrollVelocity *= Math.pow(0.94, dt / 16.67);
+
+        const half = el.scrollWidth / 2;
+        if (half > 0) {
+          if (el.scrollLeft >= half) el.scrollLeft -= half;
+          else if (el.scrollLeft <= 0) el.scrollLeft += half;
+        }
+
+        if (Math.abs(scrollVelocity) > 0.02) {
+          momentumRafRef.current = requestAnimationFrame(glide);
+        } else {
+          momentumRafRef.current = null;
+          isDraggingRef.current = false;
+        }
+      };
+
+      if (draggedRef.current && Math.abs(scrollVelocity) > 0.02) {
+        momentumRafRef.current = requestAnimationFrame(glide);
+      } else {
+        isDraggingRef.current = false;
+      }
+    };
+
+    window.addEventListener('mousemove', handleMouseMove);
+    window.addEventListener('mouseup', handleEnd);
+    window.addEventListener('touchmove', handleTouchMove);
+    window.addEventListener('touchend', handleEnd);
+  };
+
+  const handleMouseDown = (e) => handleStart(e.clientX);
+  const handleTouchStart = (e) => {
+    if (e.touches && e.touches[0]) handleStart(e.touches[0].clientX);
+  };
+
+  const handleClickCapture = (e) => {
+    if (draggedRef.current) {
+      e.stopPropagation();
+      e.preventDefault();
+      draggedRef.current = false;
+    }
+  };
+
+  return (
+    <div
+      ref={containerRef}
+      onMouseDown={handleMouseDown}
+      onTouchStart={handleTouchStart}
+      onClickCapture={handleClickCapture}
+      className="w-full max-w-full overflow-x-scroll overflow-y-hidden cursor-grab active:cursor-grabbing select-none [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden"
+      style={{ touchAction: 'pan-y' }}
+    >
+      {children}
+    </div>
+  );
+}
+
 export default function SocialProof({ brands = DEFAULT_BRANDS, testimonials = DEFAULT_TESTIMONIALS }) {
   return (
     <section
@@ -154,32 +320,6 @@ export default function SocialProof({ brands = DEFAULT_BRANDS, testimonials = DE
       style={{ fontFamily: "'HelveticaNeue', 'Helvetica Neue', Helvetica, Arial, sans-serif" }}
     >
       <style>{`
-        @keyframes slowSmoothMarqueeLeft {
-          0% { transform: translate3d(0, 0, 0); }
-          100% { transform: translate3d(-50%, 0, 0); }
-        }
-        @keyframes slowSmoothMarqueeRight {
-          0% { transform: translate3d(-50%, 0, 0); }
-          100% { transform: translate3d(0, 0, 0); }
-        }
-        .animate-marquee-slow-left {
-          display: inline-flex;
-          white-space: nowrap;
-          animation: slowSmoothMarqueeLeft 60s linear infinite;
-        }
-        .animate-marquee-slow-right {
-          display: inline-flex;
-          white-space: nowrap;
-          animation: slowSmoothMarqueeRight 75s linear infinite;
-        }
-        .animate-marquee-slow-left:hover,
-        .animate-marquee-slow-right:hover {
-          animation-play-state: paused;
-        }
-        @media (prefers-reduced-motion: reduce) {
-          .animate-marquee-slow-left, .animate-marquee-slow-right { animation: none; }
-        }
-
         .brand-fade {
           -webkit-mask-image: linear-gradient(to right, transparent 0, black 6%, black 94%, transparent 100%);
           mask-image: linear-gradient(to right, transparent 0, black 6%, black 94%, transparent 100%);
@@ -229,16 +369,18 @@ export default function SocialProof({ brands = DEFAULT_BRANDS, testimonials = DE
         </div>
 
         <div className="w-full overflow-hidden py-1 sm:py-3 brand-fade">
-          <div className="animate-marquee-slow-left gap-8 sm:gap-20 w-max items-center will-change-transform">
-            {duplicateList(brands).map((logoUrl, idx) => (
-              <div
-                key={`brand-logo-${idx}`}
-                className="inline-flex items-center justify-center shrink-0 h-7 sm:h-[46px] [--lh:28px] sm:[--lh:46px] opacity-90 hover:opacity-100 transition-opacity"
-              >
-                <BrandLogo src={logoUrl} />
-              </div>
-            ))}
-          </div>
+          <DraggableMarqueeContainer direction="left" speed={45}>
+            <div className="inline-flex whitespace-nowrap gap-8 sm:gap-20 w-max items-center will-change-transform py-2">
+              {duplicateList(brands).map((logoUrl, idx) => (
+                <div
+                  key={`brand-logo-${idx}`}
+                  className="inline-flex items-center justify-center shrink-0 h-7 sm:h-[46px] [--lh:28px] sm:[--lh:46px] opacity-90 hover:opacity-100 transition-opacity"
+                >
+                  <BrandLogo src={logoUrl} />
+                </div>
+              ))}
+            </div>
+          </DraggableMarqueeContainer>
         </div>
       </div>
 
@@ -251,41 +393,43 @@ export default function SocialProof({ brands = DEFAULT_BRANDS, testimonials = DE
 
         {/* TICKER CARDS WRAPPER */}
         <div className="w-full overflow-hidden mb-0 py-2 sm:py-4 relative z-[15] testi-fade">
-          <div className="animate-marquee-slow-right gap-3 sm:gap-10 w-max items-stretch will-change-transform">
-            {duplicateList(testimonials).map((testi, idx) => (
-              <div
-                key={`testi-${idx}`}
-                className="testi-card relative text-[#FFFFFF] w-[240px] sm:w-[360px] min-h-[160px] sm:min-h-[190px] p-3.5 sm:p-7 rounded-[12px] sm:rounded-[14px] bg-black/20 sm:backdrop-blur-xs border border-white/10 inline-flex flex-col justify-between text-left shrink-0 whitespace-normal shadow-md"
-              >
-                {/* Statement / Quote */}
-                <p
-                  style={{ letterSpacing: '-0.1px', fontWeight: 300 }}
-                  className="text-white/95 text-[11px] sm:text-base leading-relaxed m-0 mb-3 sm:mb-6"
+          <DraggableMarqueeContainer direction="right" speed={40}>
+            <div className="inline-flex whitespace-nowrap gap-3 sm:gap-10 w-max items-stretch will-change-transform py-2">
+              {duplicateList(testimonials).map((testi, idx) => (
+                <div
+                  key={`testi-${idx}`}
+                  className="testi-card relative text-[#FFFFFF] w-[240px] sm:w-[360px] min-h-[160px] sm:min-h-[190px] p-3.5 sm:p-7 rounded-[12px] sm:rounded-[14px] bg-black/20 sm:backdrop-blur-xs border border-white/10 inline-flex flex-col justify-between text-left shrink-0 whitespace-normal shadow-md"
                 >
-                  "{testi.quote}"
-                </p>
+                  {/* Statement / Quote */}
+                  <p
+                    style={{ letterSpacing: '-0.1px', fontWeight: 300 }}
+                    className="text-white/95 text-[11px] sm:text-base leading-relaxed m-0 mb-3 sm:mb-6 whitespace-normal"
+                  >
+                    "{testi.quote}"
+                  </p>
 
-                {/* Bottom Info Group */}
-                <div className="w-full mt-auto">
-                  <div className="w-full h-[1px] bg-white/20 mb-2 sm:mb-4" />
-                  <div className="w-full flex flex-col">
-                    <h4
-                      style={{ letterSpacing: '0.5px', fontWeight: 800, color: '#FFD84D' }}
-                      className="text-[11px] sm:text-sm m-0 uppercase leading-tight"
-                    >
-                      {testi.handle}
-                    </h4>
-                    <span
-                      style={{ fontFamily: "'Talina', sans-serif", letterSpacing: '0.5px' }}
-                      className="text-white/70 text-[9px] sm:text-xs m-0 mt-0.5 tracking-wider uppercase"
-                    >
-                      {testi.role}
-                    </span>
+                  {/* Bottom Info Group */}
+                  <div className="w-full mt-auto">
+                    <div className="w-full h-[1px] bg-white/20 mb-2 sm:mb-4" />
+                    <div className="w-full flex flex-col">
+                      <h4
+                        style={{ letterSpacing: '0.5px', fontWeight: 800, color: '#FFD84D' }}
+                        className="text-[11px] sm:text-sm m-0 uppercase leading-tight"
+                      >
+                        {testi.handle}
+                      </h4>
+                      <span
+                        style={{ fontFamily: "'Talina', sans-serif", letterSpacing: '0.5px' }}
+                        className="text-white/70 text-[9px] sm:text-xs m-0 mt-0.5 tracking-wider uppercase"
+                      >
+                        {testi.role}
+                      </span>
+                    </div>
                   </div>
                 </div>
-              </div>
-            ))}
-          </div>
+              ))}
+            </div>
+          </DraggableMarqueeContainer>
         </div>
       </div>
     </section>
