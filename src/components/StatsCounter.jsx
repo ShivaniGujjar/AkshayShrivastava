@@ -69,51 +69,51 @@ export default function StatsCounter({ stats = DEFAULT_STATS }) {
   }, []);
 
   return (
-  <div
-    ref={sectionRef}
-    className="w-full max-w-[1100px] mx-auto px-3 sm:px-6 my-8 sm:my-20 pb-4 sm:pb-12"
-  >
-    <div className="flex flex-col items-center text-center mb-5 sm:mb-10">
-      <h3
-        style={{ fontFamily: "'SquidBoy', sans-serif", letterSpacing: '1px' }}
-        className="text-xl sm:text-4xl m-0 text-[#D42C2C] leading-tight capitalize"
-      >
-        Numbers Don't Lie
-      </h3>
-    </div>
-
-    {/* Mobile par bhi 3 columns, chhote gap ke saath */}
-    <div className="grid grid-cols-3 gap-2 sm:gap-8">
-      {stats.map((stat, idx) => (
-        <div
-          key={idx}
-          style={{ transitionDelay: isVisible ? `${idx * 100}ms` : '0ms' }}
-          className={`flex flex-col items-center justify-center text-center bg-white shadow-[0_4px_16px_rgba(0,0,0,0.06)] sm:shadow-[0_8px_30px_rgba(0,0,0,0.06)] rounded-lg py-4 sm:py-11 px-1.5 sm:px-4 border border-black/5 transition-all duration-500 ease-out sm:hover:-translate-y-1 hover:shadow-[0_16px_40px_rgba(212,44,44,0.15)] ${
-            isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'
-          }`}
+    <div
+      ref={sectionRef}
+      className="w-full max-w-[1100px] mx-auto px-3 sm:px-6 mt-16 sm:mt-32 mb-8 sm:mb-20 pb-4 sm:pb-12"
+    >
+      <div className="flex flex-col items-center text-center mb-5 sm:mb-10">
+        <h3
+          style={{ fontFamily: "'SquidBoy', sans-serif", letterSpacing: '1px' }}
+          className="text-xl sm:text-4xl m-0 text-[#D42C2C] leading-tight capitalize"
         >
-          <span
-            style={{ fontFamily: "'SquidBoy', sans-serif", letterSpacing: '0.5px' }}
-            className="text-[#D42C2C] text-[22px] min-[400px]:text-3xl sm:text-5xl md:text-6xl leading-none tabular-nums"
-          >
-            <CountUpNumber
-              value={stat.value}
-              suffix={stat.suffix}
-              startWhenVisible={isVisible}
-            />
-          </span>
+          Numbers Don't Lie
+        </h3>
+      </div>
 
-          <span className="w-5 sm:w-8 h-[2px] sm:h-[3px] rounded-full bg-[#FFC300] mt-2 sm:mt-3 mb-2 sm:mb-3" />
-
-          <span
-            style={{ fontFamily: "'ParaFont', sans-serif", letterSpacing: '0.5px' }}
-            className="text-[#3b352e] text-[10px] min-[400px]:text-xs sm:text-sm leading-snug capitalize"
+      {/* Mobile par bhi 3 columns, chhote gap ke saath */}
+      <div className="grid grid-cols-3 gap-2 sm:gap-8">
+        {stats.map((stat, idx) => (
+          <div
+            key={idx}
+            style={{ transitionDelay: isVisible ? `${idx * 100}ms` : '0ms' }}
+            className={`flex flex-col items-center justify-center text-center bg-white shadow-[0_4px_16px_rgba(0,0,0,0.06)] sm:shadow-[0_8px_30px_rgba(0,0,0,0.06)] rounded-lg py-4 sm:py-11 px-1.5 sm:px-4 border border-black/5 transition-all duration-500 ease-out sm:hover:-translate-y-1 hover:shadow-[0_16px_40px_rgba(212,44,44,0.15)] ${
+              isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'
+            }`}
           >
-            {stat.label}
-          </span>
-        </div>
-      ))}
+            <span
+              style={{ fontFamily: "'SquidBoy', sans-serif", letterSpacing: '0.5px' }}
+              className="text-[#D42C2C] text-[22px] min-[400px]:text-3xl sm:text-5xl md:text-6xl leading-none tabular-nums"
+            >
+              <CountUpNumber
+                value={stat.value}
+                suffix={stat.suffix}
+                startWhenVisible={isVisible}
+              />
+            </span>
+
+            <span className="w-5 sm:w-8 h-[2px] sm:h-[3px] rounded-full bg-[#FFC300] mt-2 sm:mt-3 mb-2 sm:mb-3" />
+
+            <span
+              style={{ fontFamily: "'ParaFont', sans-serif", letterSpacing: '0.5px' }}
+              className="text-[#3b352e] text-[10px] min-[400px]:text-xs sm:text-sm leading-snug capitalize"
+            >
+              {stat.label}
+            </span>
+          </div>
+        ))}
+      </div>
     </div>
-  </div>
-);
+  );
 }

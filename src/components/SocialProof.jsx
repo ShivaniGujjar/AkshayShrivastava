@@ -132,7 +132,7 @@ function BrandLogo({ src }) {
           height: `calc(var(--lh) * ${K})`,
           width: `calc(var(--lh) * ${imgW})`,
           left: `calc(var(--lh) * ${-m.bx0 * imgW})`,
-          top: `calc(var(--lh) * ${(1 - f) / 2 - m.by0 * K})`,
+          top: `calc(var(--lh) * ${((1 - f) / 2) - (m.by0 * K)})`,
         }}
       />
     </div>
@@ -189,8 +189,6 @@ export default function SocialProof({ brands = DEFAULT_BRANDS, testimonials = DE
           mask-image: linear-gradient(to right, transparent 0, black 4%, black 96%, transparent 100%);
         }
 
-        /* PNG ke upar-neeche transparent margin hai, isliye mobile par vertically zoom karte hain.
-           Value badhao (160%, 170%) to red band lamba hoga, ghatao to chhota. */
         .testi-bg {
           background-size: 100% 150%;
         }
@@ -257,29 +255,29 @@ export default function SocialProof({ brands = DEFAULT_BRANDS, testimonials = DE
             {duplicateList(testimonials).map((testi, idx) => (
               <div
                 key={`testi-${idx}`}
-                className="testi-card relative text-[#FFFFFF] w-[270px] sm:w-[360px] min-h-[170px] sm:min-h-[190px] p-4 sm:p-7 rounded-[12px] sm:rounded-[14px] bg-black/20 sm:backdrop-blur-xs border border-white/10 inline-flex flex-col justify-between text-left shrink-0 whitespace-normal"
+                className="testi-card relative text-[#FFFFFF] w-[240px] sm:w-[360px] min-h-[160px] sm:min-h-[190px] p-3.5 sm:p-7 rounded-[12px] sm:rounded-[14px] bg-black/20 sm:backdrop-blur-xs border border-white/10 inline-flex flex-col justify-between text-left shrink-0 whitespace-normal shadow-md"
               >
                 {/* Statement / Quote */}
                 <p
                   style={{ letterSpacing: '-0.1px', fontWeight: 300 }}
-                  className="text-white/95 text-xs sm:text-base leading-relaxed m-0 mb-3 sm:mb-6"
+                  className="text-white/95 text-[11px] sm:text-base leading-relaxed m-0 mb-3 sm:mb-6"
                 >
                   "{testi.quote}"
                 </p>
 
                 {/* Bottom Info Group */}
                 <div className="w-full mt-auto">
-                  <div className="w-full h-[1px] bg-white/20 mb-2.5 sm:mb-4" />
+                  <div className="w-full h-[1px] bg-white/20 mb-2 sm:mb-4" />
                   <div className="w-full flex flex-col">
                     <h4
                       style={{ letterSpacing: '0.5px', fontWeight: 800, color: '#FFD84D' }}
-                      className="text-xs sm:text-sm m-0 uppercase leading-tight"
+                      className="text-[11px] sm:text-sm m-0 uppercase leading-tight"
                     >
                       {testi.handle}
                     </h4>
                     <span
                       style={{ fontFamily: "'Talina', sans-serif", letterSpacing: '0.5px' }}
-                      className="text-white/70 text-[10px] sm:text-xs m-0 mt-0.5 tracking-wider uppercase"
+                      className="text-white/70 text-[9px] sm:text-xs m-0 mt-0.5 tracking-wider uppercase"
                     >
                       {testi.role}
                     </span>

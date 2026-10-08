@@ -11,7 +11,7 @@ const SOCIAL_LINKS = [
 ];
 
 const PULL_UP_DESKTOP = 240;
-const PULL_UP_MOBILE = 90; // red torn strip ke neeche overlap adjust karne ke liye
+const PULL_UP_MOBILE = 90;
 
 export default function Footer() {
   const footerRef = useRef(null);
@@ -55,7 +55,6 @@ export default function Footer() {
         .ft-root { margin-top: -${PULL_UP_MOBILE}px; }
         @media (min-width: 640px) { .ft-root { margin-top: -${PULL_UP_DESKTOP}px; } }
 
-        /* Notch / home-indicator wale phones par bottom spacing safe rahe */
         .ft-root { padding-bottom: max(2rem, env(safe-area-inset-bottom)); }
         @media (min-width: 640px) { .ft-root { padding-bottom: 3rem; } }
 
@@ -76,7 +75,7 @@ export default function Footer() {
         className={`ft-root w-full pt-5 sm:pt-0 flex flex-col items-center justify-center relative z-20 bg-transparent text-center select-none ${shown ? 'ft-in' : ''}`}
       >
         {/* Contact Now */}
-        <div className="mb-5 sm:mb-8 w-full px-4">
+        <div className="mb-4 sm:mb-6 w-full px-4">
           <a
             href="https://mail.google.com/mail/?view=cm&to=Connectwithakshayshri@gmail.com&su=Project%20inquiry"
             target="_blank"
@@ -88,23 +87,23 @@ export default function Footer() {
           </a>
         </div>
 
-        {/* Social handles */}
-        <div className="ft-pill-wrap flex justify-center items-center w-full px-3">
-          <div className="relative bg-[#D42C2C] text-white py-2 px-3 min-[380px]:px-4 sm:py-3.5 sm:px-8 rounded-lg flex items-center justify-center shadow-md sm:shadow-lg overflow-hidden max-w-full">
-            <div className="relative z-[2] flex items-center justify-center gap-1 min-[380px]:gap-1.5 sm:gap-3">
+        {/* Social handles - Sleek & Compact Pill */}
+        <div className="ft-pill-wrap flex justify-center items-center w-full px-4">
+          <div className="relative bg-[#D42C2C] text-white py-2 px-5 sm:py-2.5 sm:px-8 rounded-lg flex items-center justify-center shadow-md sm:shadow-lg overflow-hidden">
+            <div className="relative z-[2] flex items-center justify-center gap-3 sm:gap-5">
               {SOCIAL_LINKS.map((link, idx) => (
                 <React.Fragment key={link.id}>
                   <a
                     href={link.url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-white hover:text-[#FFC822] transition-colors text-[0.85rem] min-[380px]:text-[0.95rem] sm:text-[1.4rem] capitalize tracking-wide leading-none flex items-center min-h-[36px] sm:min-h-0 px-1 sm:px-1"
+                    className="text-white hover:text-[#FFC822] transition-colors text-[0.85rem] sm:text-[1.2rem] capitalize tracking-wide leading-none flex items-center py-1 px-1"
                     style={{ fontFamily: "GourmetEatery, cursive, sans-serif" }}
                   >
-                    <span className="leading-none relative top-[2px] sm:top-[4px]">{link.name}</span>
+                    <span className="leading-none relative top-[1px]">{link.name}</span>
                   </a>
                   {idx < SOCIAL_LINKS.length - 1 && (
-                    <span className="w-1.5 h-1.5 sm:w-[9px] sm:h-[9px] rounded-full bg-[#FFC822] inline-block select-none shrink-0" />
+                    <span className="w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full bg-[#FFC822] inline-block select-none shrink-0" />
                   )}
                 </React.Fragment>
               ))}
