@@ -161,106 +161,95 @@ export default function AboutMe() {
     let cancelled = false;
 
     const ctx = gsap.context(() => {
-      const mm = gsap.matchMedia();
-
-      mm.add("(min-width: 768px)", () => {
-        gsap.set('.name-word', { yPercent: 115, force3D: true });
-        const nameTl = gsap.timeline({ paused: true }).to('.name-word', {
-          yPercent: 0,
-          duration: 0.9,
-          ease: 'power3.out',
-          stagger: 0.12,
-        });
-        whenFontsReady('SquidBoy').then(() => {
-          if (!cancelled) nameTl.play();
-        });
-
-        gsap.set('.stat-card', { transition: 'none' });
-        gsap.from('.stat-card', {
-          y: 40,
-          opacity: 0,
-          duration: 0.8,
-          ease: 'power3.out',
-          stagger: 0.12,
-          force3D: true,
-          clearProps: 'transform,opacity,transition',
-          scrollTrigger: { trigger: '.stats-row', start: 'top 88%', once: true },
-        });
-
-        gsap.from(portraitRef.current, {
-          opacity: 0,
-          duration: 1.1,
-          ease: 'power2.out',
-          clearProps: 'opacity',
-          scrollTrigger: { trigger: imageRef.current, start: 'top 88%', once: true },
-        });
-        gsap.from(imageRef.current, {
-          x: 50,
-          scale: 0.95,
-          duration: 1.1,
-          ease: 'power3.out',
-          force3D: true,
-          clearProps: 'transform',
-          scrollTrigger: { trigger: imageRef.current, start: 'top 88%', once: true },
-        });
-
-        gsap.fromTo(
-          progressRef.current,
-          { scaleY: 0 },
-          {
-            scaleY: 1,
-            ease: 'none',
-            scrollTrigger: {
-              trigger: timelineRef.current,
-              start: 'top 65%',
-              end: 'bottom 75%',
-              scrub: true,
-            },
-          }
-        );
-
-        gsap.utils.toArray('.chapter').forEach((el) => {
-          const trigger = { trigger: el, start: 'top 85%', once: true };
-          const card = el.querySelector('.chapter-card');
-
-          gsap.set(card, { transition: 'none' });
-          gsap.from(card, {
-            y: 50,
-            opacity: 0,
-            duration: 0.9,
-            ease: 'power3.out',
-            force3D: true,
-            clearProps: 'transform,opacity,transition',
-            scrollTrigger: trigger,
-          });
-          gsap.from(el.querySelector('.chapter-dot'), {
-            scale: 0,
-            duration: 0.5,
-            ease: 'back.out(2.2)',
-            scrollTrigger: trigger,
-          });
-          el.querySelectorAll('.about-hl').forEach((mark) => {
-            gsap.fromTo(
-              mark,
-              { backgroundSize: '0% 100%' },
-              {
-                backgroundSize: '100% 100%',
-                duration: 0.8,
-                delay: 0.3,
-                ease: 'power2.out',
-                scrollTrigger: trigger,
-              }
-            );
-          });
-        });
+      // Name animation for all screen sizes
+      gsap.set('.name-word', { yPercent: 115, force3D: true });
+      const nameTl = gsap.timeline({ paused: true }).to('.name-word', {
+        yPercent: 0,
+        duration: 0.9,
+        ease: 'power3.out',
+        stagger: 0.12,
+      });
+      whenFontsReady('SquidBoy').then(() => {
+        if (!cancelled) nameTl.play();
       });
 
-      mm.add("(max-width: 767px)", () => {
-        gsap.set('.name-word', { yPercent: 0 });
-        gsap.set('.stat-card', { opacity: 1, y: 0 });
-        gsap.set(portraitRef.current, { opacity: 1 });
-        gsap.set(imageRef.current, { x: 0, scale: 1 });
-        gsap.set(progressRef.current, { scaleY: 1 });
+      gsap.set('.stat-card', { transition: 'none' });
+      gsap.from('.stat-card', {
+        y: 40,
+        opacity: 0,
+        duration: 0.8,
+        ease: 'power3.out',
+        stagger: 0.12,
+        force3D: true,
+        clearProps: 'transform,opacity,transition',
+        scrollTrigger: { trigger: '.stats-row', start: 'top 88%', once: true },
+      });
+
+      gsap.from(portraitRef.current, {
+        opacity: 0,
+        duration: 1.1,
+        ease: 'power2.out',
+        clearProps: 'opacity',
+        scrollTrigger: { trigger: imageRef.current, start: 'top 88%', once: true },
+      });
+      gsap.from(imageRef.current, {
+        x: 50,
+        scale: 0.95,
+        duration: 1.1,
+        ease: 'power3.out',
+        force3D: true,
+        clearProps: 'transform',
+        scrollTrigger: { trigger: imageRef.current, start: 'top 88%', once: true },
+      });
+
+      gsap.fromTo(
+        progressRef.current,
+        { scaleY: 0 },
+        {
+          scaleY: 1,
+          ease: 'none',
+          scrollTrigger: {
+            trigger: timelineRef.current,
+            start: 'top 65%',
+            end: 'bottom 75%',
+            scrub: true,
+          },
+        }
+      );
+
+      gsap.utils.toArray('.chapter').forEach((el) => {
+        const trigger = { trigger: el, start: 'top 85%', once: true };
+        const card = el.querySelector('.chapter-card');
+
+        gsap.set(card, { transition: 'none' });
+        gsap.from(card, {
+          y: 50,
+          opacity: 0,
+          duration: 0.9,
+          ease: 'power3.out',
+          force3D: true,
+          clearProps: 'transform,opacity,transition',
+          scrollTrigger: trigger,
+        });
+        gsap.from(el.querySelector('.chapter-dot'), {
+          scale: 0,
+          duration: 0.5,
+          ease: 'back.out(2.2)',
+          scrollTrigger: trigger,
+        });
+        el.querySelectorAll('.about-hl').forEach((mark) => {
+          gsap.fromTo(
+            mark,
+            { backgroundSize: '0% 100%' },
+            {
+              backgroundSize: '100% 100%',
+              duration: 0.8,
+              delay: 0.3,
+              ease: 'power2.out',
+              scrollTrigger: trigger,
+            }
+          );
+        });
       });
 
     }, rootRef);
@@ -397,6 +386,8 @@ export default function AboutMe() {
           display: inline;
           box-decoration-break: clone;
           -webkit-box-decoration-break: clone;
+          background-size: 0% 100%;
+          background-repeat: no-repeat;
         }
       `}</style>
 
@@ -417,28 +408,45 @@ export default function AboutMe() {
         </h2>
 
         {/* Numbers */}
-        <div className="stats-row w-full grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-8 mb-8 sm:mb-20">
+        <div className="stats-row w-full grid grid-cols-3 gap-2 sm:gap-8 mb-8 sm:mb-20">
           {STATS.map((st) => (
             <div
               key={st.label}
-              className={`stat-card relative ${st.tilt} hover:rotate-0 hover:-translate-y-1 transition-transform duration-300 drop-shadow-[0_10px_18px_rgba(0,0,0,0.12)]`}
+              className={`stat-card relative ${st.tilt} hover:rotate-0 hover:-translate-y-1 transition-transform duration-300 drop-shadow-[0_8px_15px_rgba(0,0,0,0.10)] w-full`}
             >
+              {/* Tape */}
               <div
-                className={`absolute -top-2.5 left-1/2 -translate-x-1/2 ${st.tape} w-12 sm:w-16 h-3.5 sm:h-5 bg-[#E8DCB8]/90 border border-amber-900/10 z-10 pointer-events-none`}
+                className={`absolute -top-2 left-1/2 -translate-x-1/2 ${st.tape}
+                w-10 sm:w-16 h-3 sm:h-5 bg-[#E8DCB8]/90
+                border border-amber-900/10 z-10 pointer-events-none`}
               />
+
+              {/* Card */}
               <div
-                className={`${st.paper} px-4 pt-6 pb-7 sm:pt-9 sm:pb-11 text-center`}
+                className={`${st.paper}
+                w-full
+                h-[125px] sm:h-auto
+                px-2 sm:px-4
+                py-4 sm:pt-9 sm:pb-11
+                flex flex-col items-center justify-center
+                text-center`}
                 style={tornMask}
               >
+                {/* Number */}
                 <div
                   style={{ fontFamily: "'SquidBoy', sans-serif" }}
-                  className="text-[#D42C2C] text-3xl sm:text-5xl leading-none"
+                  className="text-[#D42C2C] text-[1.7rem] sm:text-5xl leading-none"
                 >
                   <CountUp to={st.to} suffix={st.suffix} />
                 </div>
+
+                {/* Description */}
                 <p
-                  style={{ fontFamily: "'ParaFont', sans-serif", letterSpacing: '-0.2px' }}
-                  className="m-0 mt-1.5 sm:mt-2 text-[11px] sm:text-sm text-[#3b352e] leading-snug"
+                  style={{
+                    fontFamily: "'ParaFont', sans-serif",
+                    letterSpacing: '-0.2px',
+                  }}
+                  className="m-0 mt-2 text-[9px] sm:text-sm text-[#3b352e] leading-tight"
                 >
                   {st.label}
                 </p>

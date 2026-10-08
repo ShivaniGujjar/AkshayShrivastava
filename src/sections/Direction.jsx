@@ -617,7 +617,7 @@ export default function Direction() {
         <div ref={headingRef} className="inline-flex flex-col items-center z-20 px-4 mb-4 will-change-transform">
           <h2 
             style={{ fontFamily: "'SquidBoy', sans-serif", letterSpacing: '1px' }}
-            className="text-lg sm:text-4xl m-0 text-[#D42C2C] leading-tight capitalize"
+            className="text-2xl sm:text-4xl m-0 text-[#D42C2C] leading-tight capitalize"
           >
             Welcome to Direction section
           </h2>
