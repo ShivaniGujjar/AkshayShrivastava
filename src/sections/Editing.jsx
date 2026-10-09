@@ -126,8 +126,6 @@ function VideoCard({ item, aspectRatio = "wide", hoveredId, setHoveredId, onOpen
     return () => clearTimeout(t);
   }, [wantsPreview]);
 
-  // Wide forms ke liye 1 full + peek, aur tall forms ke liye 1.5 video width set ki hai
-  // Short forms ke liye mobile par exact 2 videos ek baar mein dikhane ke liye width adjust ki hai
   const cardDimensions = aspectRatio === "wide"
     ? "w-[82vw] xs:w-[290px] sm:w-[420px] aspect-video"
     : "w-[44vw] xs:w-[150px] sm:w-[300px] aspect-[9/16]";
@@ -600,7 +598,7 @@ export default function Editing() {
         <div className="inline-flex flex-col items-center z-20 px-4">
           <h2 
             style={{ fontFamily: "'SquidBoy', sans-serif", letterSpacing:'1px' }}
-            className="text-lg sm:text-4xl m-0 text-[#D42C2C] leading-tight capitalize"
+            className="text-2xl sm:text-4xl m-0 text-[#D42C2C] leading-tight capitalize"
           >
             Welcome To Editing Section
           </h2>
@@ -609,7 +607,7 @@ export default function Editing() {
         <div ref={paragraphRef} className="relative z-10 mt-2 sm:mt-3 mb-4 sm:mb-6 max-w-[700px] px-4">
           <p 
             style={{ fontFamily: "ParaFont, sans-serif", fontWeight: 200, letterSpacing : '-0.5px' }}
-            className="text-[#3b352e] text-xs sm:text-lg leading-relaxed text-center font-light tracking-wide"
+            className="text-[#3b352e] text-sm sm:text-lg leading-relaxed text-center font-light tracking-wide px-2"
           >
             A collection of some of my best work across UGC ads, brand films, podcasts, documentaries, YouTube videos, reels, shorts, social media campaigns, and more.
           </p>
@@ -632,14 +630,14 @@ export default function Editing() {
         <div className="max-w-[1100px] w-full mx-auto px-4 sm:px-6 flex flex-col items-center text-center mb-4 sm:mb-8">
           <h3 
             style={{ fontFamily: "'SquidBoy', sans-serif", letterSpacing : '1px' }}
-            className="text-lg sm:text-4xl m-0 text-[#D42C2C] leading-tight capitalize"
+            className="text-2xl sm:text-4xl m-0 text-[#D42C2C] leading-tight capitalize"
           >
             Long Forms
           </h3>
 
           <div 
             style={{ fontFamily: "'ParaFont', sans-serif", letterSpacing: '0.5px' }}
-            className="flex flex-wrap items-center justify-center gap-1.5 sm:gap-3 mt-2 sm:mt-3 text-[#3b352e] text-[10px] sm:text-base tracking-wider text-center capitalize"
+            className="flex flex-wrap items-center justify-center gap-1.5 sm:gap-3 mt-2 sm:mt-3 text-[#3b352e] text-xs sm:text-base tracking-wider text-center capitalize"
           >
             <span>Podcasts</span>
             <span className="text-[#FFC300]">•</span>
@@ -667,14 +665,14 @@ export default function Editing() {
         <div className="max-w-[1100px] w-full mx-auto px-4 sm:px-6 flex flex-col items-center text-center mb-4 sm:mb-8">
           <h3 
             style={{ fontFamily: "'SquidBoy', sans-serif", letterSpacing : '1px' }}
-            className="text-lg sm:text-4xl m-0 text-[#D42C2C] leading-tight capitalize"
+            className="text-2xl sm:text-4xl m-0 text-[#D42C2C] leading-tight capitalize"
           >
             Short Forms
           </h3>
 
           <div 
             style={{ fontFamily: "'ParaFont', sans-serif", letterSpacing: '0.5px' }}
-            className="flex flex-wrap items-center justify-center gap-1.5 sm:gap-3 mt-2 sm:mt-3 text-[#3b352e] text-[10px] sm:text-base tracking-wider text-center capitalize"
+            className="flex flex-wrap items-center justify-center gap-1.5 sm:gap-3 mt-2 sm:mt-3 text-[#3b352e] text-xs sm:text-base tracking-wider text-center capitalize"
           >
             <span>UGC Ads</span>
             <span className="text-[#FFC300]">•</span>

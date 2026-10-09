@@ -44,13 +44,6 @@ const duplicateList = (arr, count = 2) => {
   return output;
 };
 
-/* ───────────────────────────────────────────────────────────────
-   Paste the constant + icon ABOVE `function VideoCard`
-   (skip them if the same file already has them from the other VideoCard),
-   then replace your whole `VideoCard` function with the one below.
-   ─────────────────────────────────────────────────────────────── */
-
-// One single colour for the badge. To make it red, swap the class for 'bg-[#D42C2C]'.
 const BADGE_BG = 'bg-[#14120e]';
 
 const ArrowUpRightIcon = ({ className = '' }) => (
@@ -74,15 +67,13 @@ function VideoCard({ item, aspectRatio = "wide", hoveredId, setHoveredId, onOpen
   const videoRef = useRef(null);
   const lastTouchRef = useRef(0);
   const [isVisible, setIsVisible] = useState(false);
-  const [isPlaying, setIsPlaying] = useState(false); // true only once frames are really playing
+  const [isPlaying, setIsPlaying] = useState(false);
   const isHovered = hoveredId === item.id;
 
   const lineName = item.name || item.title;
   const lineType = item.type || item.brand || item.category;
   const isYoutubeOnly = Boolean(item.youtubeId && !item.videoUrl);
   const isShort = aspectRatio === "tall";
-
-  // Shorts with a Drive link are real links (right-click, middle-click, long-press preview all work)
   const isLink = isShort && Boolean(item.driveUrl);
 
   useEffect(() => {
@@ -94,7 +85,6 @@ function VideoCard({ item, aspectRatio = "wide", hoveredId, setHoveredId, onOpen
     return () => { if (cardRef.current) observer.unobserve(cardRef.current); };
   }, []);
 
-  // SHORT VIDEO: loads + plays on hover, resets on leave, restarts every 10s
   useEffect(() => {
     const videoEl = videoRef.current;
     if (!videoEl || !isShort) return;
@@ -108,7 +98,7 @@ function VideoCard({ item, aspectRatio = "wide", hoveredId, setHoveredId, onOpen
       if (p && p.catch) p.catch(() => {});
     } else {
       videoEl.pause();
-      try { videoEl.currentTime = 0; } catch (e) { /* not loaded yet */ }
+      try { videoEl.currentTime = 0; } catch (e) {}
       setIsPlaying(false);
     }
 
@@ -137,12 +127,11 @@ function VideoCard({ item, aspectRatio = "wide", hoveredId, setHoveredId, onOpen
     return () => clearTimeout(t);
   }, [wantsPreview]);
 
+  // Wide forms (long forms) ke liye 1 full + peek, aur tall forms (short forms) ke liye 2 cards width set ki hai
   const cardDimensions = aspectRatio === "wide"
     ? "w-[82vw] xs:w-[290px] sm:w-[420px] aspect-video"
     : "w-[44vw] xs:w-[150px] sm:w-[300px] aspect-[9/16]";
 
-  // Hover comes from the mouse only. Touch devices fire an emulated mouseenter right after a tap,
-  // so we ignore mouse events that arrive within 800ms of a touch.
   const handleTouchStart = () => { lastTouchRef.current = Date.now(); };
   const handleMouseEnter = () => {
     if (Date.now() - lastTouchRef.current < 800) return;
@@ -153,7 +142,6 @@ function VideoCard({ item, aspectRatio = "wide", hoveredId, setHoveredId, onOpen
     setHoveredId(null);
   };
 
-  // <a> for Drive shorts, accessible <div role="button"> for everything else (modal)
   const Tag = isLink ? 'a' : 'div';
   const tagProps = isLink
     ? {
@@ -162,18 +150,11 @@ function VideoCard({ item, aspectRatio = "wide", hoveredId, setHoveredId, onOpen
         rel: 'noopener noreferrer',
         draggable: false,
         title: 'Opens the full video on Google Drive',
-        'aria-label': `${[lineName, lineType].filter(Boolean).join(', ')}. Watch the full video on Google Drive (opens in a new tab)`,
       }
     : {
         role: 'button',
         tabIndex: 0,
         onClick: () => onOpenModal(item),
-        onKeyDown: (e) => {
-          if (e.key === 'Enter' || e.key === ' ') {
-            e.preventDefault();
-            onOpenModal(item);
-          }
-        },
       };
 
   return (
@@ -183,9 +164,8 @@ function VideoCard({ item, aspectRatio = "wide", hoveredId, setHoveredId, onOpen
       onTouchStart={handleTouchStart}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
-      className={`relative inline-block group overflow-hidden cursor-pointer bg-[#14120e] no-underline shadow-[0_8px_30px_rgba(0,0,0,0.06)] transition-all duration-500 ease-out md:hover:-translate-y-1 md:hover:shadow-[0_16px_40px_rgba(212,44,44,0.15)] active:scale-[0.97] md:active:scale-100 ${cardDimensions} shrink-0 outline-none focus-visible:ring-2 focus-visible:ring-[#D42C2C] focus-visible:ring-offset-2 select-none rounded-[8px]`}
+      className={`relative inline-block group overflow-hidden cursor-pointer bg-[#14120e] no-underline shadow-[0_8px_30px_rgba(0,0,0,0.06)] transition-all duration-500 ease-out md:hover:-translate-y-1 md:hover:shadow-[0_16px_40px_rgba(212,44,44,0.15)] active:scale-[0.97] md:active:scale-100 ${cardDimensions} shrink-0 outline-none focus-visible:ring-2 focus-visible:ring-[#D42C2C] focus-visible:ring-offset-2 select-none rounded-[12px]`}
     >
-      {/* Thumbnail: stays until the video is actually playing, then cross-fades out */}
       <div className={`absolute inset-0 z-[2] transition-opacity duration-300 ${isShort && isPlaying ? 'opacity-0' : 'opacity-100'}`}>
         <img
           src={isYoutubeOnly ? ytThumb(item.youtubeId) : (item.poster || item.videoUrl)}
@@ -237,20 +217,11 @@ function VideoCard({ item, aspectRatio = "wide", hoveredId, setHoveredId, onOpen
 
       <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent pointer-events-none z-[3]" />
 
-      {/* Loading hint while the hovered video is still buffering */}
-      {isShort && isHovered && !isPlaying && (
-        <span className="absolute left-0 right-0 bottom-0 h-[3px] bg-white/80 animate-pulse z-20 pointer-events-none" />
-      )}
-
-      {/* Watch-full-video badge: one solid colour, soft shadow + hairline ring for depth.
-          mobile: small square arrow button, always visible (no hover on touch)
-          desktop: label slides in on hover / keyboard focus */}
-      {/* Watch-full-video badge: Desktop par hover karne par dikhega, mobile par hidden rahega */}
       {isLink && (
         <span
           aria-hidden="true"
           style={{ fontFamily: "'GroteskFont', 'Helvetica Neue', Helvetica, Arial, sans-serif" }}
-          className={`absolute top-3 right-3 z-10 pointer-events-none hidden md:flex items-center gap-2 px-3 py-2 rounded-[4px] ${BADGE_BG} text-white text-[10px] font-semibold uppercase tracking-[0.14em] leading-none ring-1 ring-white/15 shadow-[0_6px_16px_rgba(0,0,0,0.35)] opacity-0 translate-y-1 group-hover:opacity-100 group-hover:translate-y-0 group-focus-visible:opacity-100 group-focus-visible:translate-y-0 transition-all duration-300`}
+          className={`absolute top-3 right-3 z-10 pointer-events-none hidden md:flex items-center gap-2 px-3 py-2 rounded-[4px] ${BADGE_BG} text-white text-[10px] font-semibold uppercase tracking-[0.14em] leading-none ring-1 ring-white/15 shadow-[0_6px_16px_rgba(0,0,0,0.35)] opacity-0 translate-y-1 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300`}
         >
           <span className="whitespace-nowrap">Watch Full Video</span>
           <ArrowUpRightIcon className="w-3 h-3 text-[#FFC300]" />
@@ -466,7 +437,6 @@ export default function MotionDesign() {
   const [isHeroMuted, setIsHeroMuted] = useState(true);
   const heroVideoRef = useRef(null);
 
-  // Featured Reel state & Drive redirect
   const featuredVideoRef = useRef(null);
   const driveUrl = "https://drive.google.com/drive/folders/YOUR_DRIVE_FOLDER_ID";
 
@@ -619,7 +589,7 @@ export default function MotionDesign() {
         <div className="flex flex-col items-center text-center mb-6 sm:mb-14">
           <h2 
             style={{ fontFamily: "'SquidBoy', sans-serif", letterSpacing:'1px' }}
-            className="text-lg sm:text-4xl m-0 text-[#D42C2C] leading-tight capitalize"
+            className="text-2xl sm:text-4xl m-0 text-[#D42C2C] leading-tight capitalize"
           >
             Welcome to Motion Design section
           </h2>
@@ -648,13 +618,13 @@ export default function MotionDesign() {
           <div ref={textContentRef} className="flex-1 flex flex-col items-center lg:items-start text-center lg:text-left px-2 sm:px-0 max-w-lg">
             <h3 
               style={{ fontFamily: "'SquidBoy', sans-serif", letterSpacing: '0.5px' }}
-              className="text-lg sm:text-3xl md:text-[2.2rem] text-[#D42C2C] leading-tight mb-2 sm:mb-4 capitalize"
+              className="text-xl sm:text-3xl md:text-[2.2rem] text-[#D42C2C] leading-tight mb-2 sm:mb-4 capitalize"
             >
               Bringing Ideas to Life <br />Through Motion
             </h3>
             <p 
               style={{ fontFamily: "'ParaFont', sans-serif", fontWeight: 400, letterSpacing: '-0.3px' }}
-              className="text-[#3b352e] text-xs sm:text-lg leading-relaxed font-light"
+              className="text-[#3b352e] text-sm sm:text-lg leading-relaxed font-light px-2"
             >
               I'm a superfan of motion. I love to play and experiment with countable layers and uncountable keyframes, because there's something ridiculously satisfying about watching a bunch of tiny movements come together and suddenly make sense.
             </p>
@@ -667,14 +637,14 @@ export default function MotionDesign() {
         <div className="max-w-[1100px] w-full mx-auto px-4 sm:px-6 flex flex-col items-center text-center mb-3 sm:mb-6">
           <h3 
             style={{ fontFamily: "'SquidBoy', sans-serif", letterSpacing : '1px' }}
-            className="text-lg sm:text-4xl m-0 text-[#D42C2C] leading-tight capitalize"
+            className="text-2xl sm:text-4xl m-0 text-[#D42C2C] leading-tight capitalize"
           >
             Short Forms
           </h3>
 
           <div 
             style={{ fontFamily: "'ParaFont', sans-serif", letterSpacing: '0.5px' }}
-            className="flex flex-wrap items-center justify-center gap-1.5 sm:gap-3 mt-1.5 sm:mt-3 text-[#3b352e] text-[10px] sm:text-base tracking-wider text-center capitalize"
+            className="flex flex-wrap items-center justify-center gap-1.5 sm:gap-3 mt-1.5 sm:mt-3 text-[#3b352e] text-xs sm:text-base tracking-wider text-center capitalize"
           >
             <span>UGC Ads</span>
             <span className="text-[#FFC300]">•</span>
@@ -702,14 +672,14 @@ export default function MotionDesign() {
         <div className="max-w-[1100px] w-full mx-auto px-4 sm:px-6 flex flex-col items-center text-center mb-3 sm:mb-6">
           <h3 
             style={{ fontFamily: "'SquidBoy', sans-serif", letterSpacing : '1px' }}
-            className="text-lg sm:text-4xl m-0 text-[#D42C2C] leading-tight capitalize"
+            className="text-2xl sm:text-4xl m-0 text-[#D42C2C] leading-tight capitalize"
           >
             Long Forms
           </h3>
 
           <div 
             style={{ fontFamily: "'ParaFont', sans-serif", letterSpacing: '0.5px' }}
-            className="flex flex-wrap items-center justify-center gap-1.5 sm:gap-3 mt-1.5 sm:mt-3 text-[#3b352e] text-[10px] sm:text-base tracking-wider text-center capitalize"
+            className="flex flex-wrap items-center justify-center gap-1.5 sm:gap-3 mt-1.5 sm:mt-3 text-[#3b352e] text-xs sm:text-base tracking-wider text-center capitalize"
           >
             <span>Podcasts</span>
             <span className="text-[#FFC300]">•</span>

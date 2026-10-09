@@ -379,7 +379,6 @@ function DirectionShortCard({ project, onOpenModal }) {
     return () => { if (cardRef.current) observer.unobserve(cardRef.current); };
   }, []);
 
-  // Autoplay video loop when visible
   useEffect(() => {
     const videoEl = videoRef.current;
     if (!videoEl) return;
@@ -396,7 +395,7 @@ function DirectionShortCard({ project, onOpenModal }) {
     <div 
       ref={cardRef}
       onClick={() => onOpenModal(project)}
-      className="w-[180px] xs:w-[210px] sm:w-[300px] aspect-[9/16] bg-[#14120e] rounded-[8px] overflow-hidden shadow-2xl relative transition-transform duration-500 hover:scale-[1.02] shrink-0 cursor-pointer group"
+      className="w-[44vw] xs:w-[150px] sm:w-[300px] aspect-[9/16] bg-[#14120e] rounded-[8px] overflow-hidden shadow-2xl relative transition-transform duration-500 hover:scale-[1.02] shrink-0 cursor-pointer group"
     >
       <div className="absolute inset-0 z-[1]">
         <video
@@ -621,27 +620,25 @@ export default function Direction() {
         }
       `}</style>
 
-      <div ref={featuredSectionRef} className="w-full mx-auto pt-14 sm:pt-32 pb-2 px-4 flex flex-col items-center relative z-20 text-center overflow-hidden">
-        {/* Upar wala gallery / visual part bada karne ke liye scale ya max-width adjust ki hai */}
-        <div className="w-full max-w-[850px] sm:max-w-[760px]">
+      <div ref={featuredSectionRef} className="w-full mx-auto pt-10 sm:pt-32 pb-2 px-2 sm:px-4 flex flex-col items-center relative z-20 text-center overflow-hidden">
+        {/* Gallery ko mobile par bada aur proper scale dene ke liye max-width increase ki hai */}
+        <div className="w-full max-w-[96vw] sm:max-w-[760px]">
           <ScrapbookGallery onReady={handleGalleryReady} />
         </div>
 
-        {/* Niche wala heading text mobile par compact/chhota kiya hai */}
-        <div ref={headingRef} className="inline-flex flex-col items-center z-20 px-4 mt-4 sm:mt-10 will-change-transform">
+        <div ref={headingRef} className="inline-flex flex-col items-center z-20 px-4 mt-6 sm:mt-10 will-change-transform">
           <h2
             style={{ fontFamily: "'SquidBoy', sans-serif", letterSpacing: '1px' }}
-            className="text-xl sm:text-4xl m-0 text-[#D42C2C] leading-tight capitalize"
+            className="text-2xl sm:text-4xl m-0 text-[#D42C2C] leading-tight capitalize"
           >
             Welcome to Direction section
           </h2>
         </div>
 
-        {/* Niche wala paragraph mobile par chhota aur readable banaya hai */}
         <div ref={paragraphRef} className="relative z-10 mt-3 mb-2 max-w-[650px] px-4 will-change-transform">
           <p
             style={{ fontFamily: "'ParaFont', sans-serif", letterSpacing: '-0.2px', fontWeight: 400 }}
-            className="text-[#3b352e] text-xs sm:text-lg leading-relaxed font-light text-center"
+            className="text-[#3b352e] text-sm sm:text-lg leading-relaxed font-light text-center px-2"
           >
             I’ve always had a head full of random, unhinged ideas, and at some point, I thought, why not actually make them? That’s how I started learning this craft. That curiosity slowly turned into a craft, and the appreciation I received kept me going pushing me deeper into storytelling, motion, and direction.
           </p>

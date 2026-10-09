@@ -11,7 +11,7 @@ const SOCIAL_LINKS = [
 ];
 
 const PULL_UP_DESKTOP = 240;
-const PULL_UP_MOBILE = 40; // Mobile par overlap fix karne ke liye spacing adjust ki hai
+const PULL_UP_MOBILE = 75;
 
 export default function Footer() {
   const footerRef = useRef(null);

@@ -47,7 +47,7 @@ const CHAPTERS = [
     body: [
       `After failing my math exam, my teacher told me, "`,
       { hl: `Akshay, I know you have more potential. You just have to put in more effort.` },
-      `" So I put all my effort into my creative journey.`,
+       `" So I put all my effort into my creative journey.`,
     ],
   },
   {
@@ -65,7 +65,7 @@ const CHAPTERS = [
     body: [
       `Life was pretty chill because I genuinely loved what I was doing, until one random comment said, "`,
       { hl: `This could be better in After Effects.` },
-      `" I don't know why, but maybe I was waiting for that moment. I opened my laptop and decided to make the best use of whatever potential I had. I started learning After Effects by experimenting with my very first video, and that video ended up crossing `,
+       `" I don't know why, but maybe I was waiting for that moment. I opened my laptop and decided to make the best use of whatever potential I had. I started learning After Effects by experimenting with my very first video, and that video ended up crossing `,
       { hl: `200K+ views` },
       ` on an account with just 253 followers.`,
     ],
@@ -114,7 +114,6 @@ function CountUp({ to, suffix = '' }) {
   const [val, setVal] = useState(prefersReducedMotion() ? to : 0);
 
   useEffect(() => {
-    // Agar mobile screen hai (e.g. width < 768px), toh animation skip karke direct final value dikhayein
     if (prefersReducedMotion() || window.innerWidth < 768) {
       setVal(to);
       return;
@@ -141,7 +140,6 @@ function CountUp({ to, suffix = '' }) {
     };
   }, [to]);
 
-  // Mobile ke liye agar suffix attached string hai ya number, toh direct render hoga
   return <span ref={ref}>{typeof to === 'number' && window.innerWidth >= 768 ? val : to}{suffix}</span>;
 }
 
@@ -268,7 +266,6 @@ export default function AboutMe() {
   useIsoLayoutEffect(() => {
     const mm = gsap.matchMedia();
 
-    // Desktop only pinning and tilt effects to prevent mobile glitches
     mm.add('(min-width: 1024px)', () => {
       const pinEl = portraitRef.current;
       const row = rowRef.current;
@@ -313,14 +310,10 @@ export default function AboutMe() {
         const py = (e.clientY - r.top) / r.height;
         ry((px - 0.5) * 16);
         rx(-(py - 0.5) * 12);
-        arch.style.setProperty('--mx', `${px * 100}%`);
-        arch.style.setProperty('--my', `${py * 100}%`);
       };
       const onLeave = () => {
         ry(0);
         rx(0);
-        arch.style.setProperty('--mx', '30%');
-        arch.style.setProperty('--my', '20%');
       };
       pinEl.addEventListener('mousemove', onMove);
       pinEl.addEventListener('mouseleave', onLeave);
@@ -401,10 +394,10 @@ export default function AboutMe() {
         ref={bioSectionRef}
         className="max-w-[1150px] w-full mx-auto pt-20 sm:pt-36 pb-6 px-4 sm:px-8 flex flex-col items-center relative z-20"
       >
-        {/* Name */}
+        {/* Name Heading - Mobile par size balanced kiya hai */}
         <h2
           style={{ fontFamily: "'SquidBoy', sans-serif", letterSpacing: '0.5px' }}
-          className="w-full text-center text-[#D42C2C] text-2xl sm:text-6xl md:text-[5rem] leading-[1.1] mb-3 sm:mb-6 capitalize"
+          className="w-full text-center text-[#D42C2C] text-[2.4rem] sm:text-6xl md:text-[5rem] leading-[1.1] mb-3 sm:mb-6 capitalize"
         >
           {['Akshay', 'Shrivastava'].map((w, i) => (
             <span key={w} className="inline-block overflow-hidden align-bottom pb-[0.14em] mr-[0.25em] last:mr-0">
@@ -413,46 +406,43 @@ export default function AboutMe() {
           ))}
         </h2>
 
-        {/* Numbers */}
+        {/* Numbers - Mobile par cards ki height compact ki hai taaki balanced lage */}
         <div className="stats-row w-full grid grid-cols-3 gap-2 sm:gap-8 mb-8 sm:mb-20">
           {STATS.map((st) => (
             <div
               key={st.label}
               className={`stat-card relative ${st.tilt} hover:rotate-0 hover:-translate-y-1 transition-transform duration-300 drop-shadow-[0_8px_15px_rgba(0,0,0,0.10)] w-full`}
             >
-              {/* Tape */}
               <div
                 className={`absolute -top-2 left-1/2 -translate-x-1/2 ${st.tape}
-                w-10 sm:w-16 h-3 sm:h-5 bg-[#E8DCB8]/90
+                w-8 sm:w-16 h-2.5 sm:h-5 bg-[#E8DCB8]/90
                 border border-amber-900/10 z-10 pointer-events-none`}
               />
 
-              {/* Card */}
               <div
                 className={`${st.paper}
                 w-full
-                h-[125px] sm:h-auto
-                px-2 sm:px-4
-                py-4 sm:pt-9 sm:pb-11
+                h-[105px] sm:h-auto
+                px-1.5 sm:px-4
+                py-2.5 sm:pt-9 sm:pb-11
                 flex flex-col items-center justify-center
                 text-center`}
                 style={tornMask}
               >
-                {/* Number */}
                 <div
                   style={{ fontFamily: "'SquidBoy', sans-serif" }}
-                  className="text-[#D42C2C] text-[1.7rem] sm:text-5xl leading-none"
+                  className="text-[#D42C2C] text-[1.35rem] sm:text-5xl leading-none"
                 >
                   <CountUp to={st.to} suffix={st.suffix} />
                 </div>
 
-                {/* Description */}
                 <p
                   style={{
                     fontFamily: "'ParaFont', sans-serif",
                     letterSpacing: '-0.2px',
+                    fontWeight: 400,
                   }}
-                  className="m-0 mt-2 text-[9px] sm:text-sm text-[#3b352e] leading-tight"
+                  className="m-0 mt-1 sm:mt-2 text-[8px] sm:text-sm text-[#3b352e] leading-tight px-1"
                 >
                   {st.label}
                 </p>
@@ -568,7 +558,7 @@ export default function AboutMe() {
         </div>
       </div>
 
-      <div className="m-0 p-0 mb-0">
+      <div className="m-0 p-0 mb-6 sm:mb-20">
         <SocialProof />
       </div>
 
