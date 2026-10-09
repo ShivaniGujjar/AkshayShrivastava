@@ -13,28 +13,47 @@ if (typeof window !== 'undefined') {
 const ytThumb = (id) => `https://i.ytimg.com/vi/${id}/maxresdefault.jpg`;
 const ytThumbFallback = (id) => `https://i.ytimg.com/vi/${id}/hqdefault.jpg`;
 
+
 const SHORT_FORMS = [
   { id: 'msf1', name: 'Scratch', type: 'Shorts', title: '3D Kinetic Typography', brand: 'UGC Ad', videoUrl: 'https://akshayshrivastava.com/videos/short2.mp4', poster: 'https://akshayshrivastava.com/images/short2.png', driveUrl: 'https://drive.google.com/file/d/1T1ZbDwywo7NeJtzUjsaMH0IyKixoZENh/view?usp=sharing' },
-  { id: 'msf2', name: 'Vishwmitra', type: 'Performance Reel', title: 'Abstract Product Reel', brand: '3D Motion', videoUrl: 'https://akshayshrivastava.com/videos/short4.mp4', poster: 'https://akshayshrivastava.com/images/short4.png', driveUrl: 'https://drive.google.com/file/d/1du-28m6tarHsR432u2SWzhcRVzKv-7YO/view?usp=sharing' },
-  { id: 'msf5', name: 'Scratch', type: 'Edutainment', title: 'Character Animation', brand: '2D Motion', videoUrl: 'https://akshayshrivastava.com/videos/short9.mp4', poster: 'https://akshayshrivastava.com/images/short9.png', driveUrl: 'https://drive.google.com/file/d/1uwY-PFrG5BDBY7e5WlOJZIB18O-tCKwO/view?usp=sharing' },
+
   { id: 'msf3', name: 'Ankur Warikoo', type: 'UGC Ads', title: 'Logo Reveal Loop', brand: 'VFX', videoUrl: 'https://akshayshrivastava.com/videos/short6.mp4', poster: 'https://akshayshrivastava.com/images/short6.png', driveUrl: 'https://drive.google.com/file/d/1sp9aXjCVTfg0ApluNZUyV45ZW3dupoVp/view?usp=sharing' },
+
+  { id: 'sf6', title: 'Akshay Shrivastava', brand: 'Personal Brand', videoUrl: 'https://akshayshrivastava.com/videos/short18.mp4', poster: 'https://akshayshrivastava.com/images/short18.png', driveUrl: 'https://drive.google.com/file/d/1nIuMt5bekFJO2I8aiZo6NA5E33uNegGN/view?usp=sharing' },
+
+  { id: 'msf5', name: 'Scratch', type: 'Edutainment', title: 'Character Animation', brand: '2D Motion', videoUrl: 'https://akshayshrivastava.com/videos/short9.mp4', poster: 'https://akshayshrivastava.com/images/short9.png', driveUrl: 'https://drive.google.com/file/d/1uwY-PFrG5BDBY7e5WlOJZIB18O-tCKwO/view?usp=sharing' },
+
+  { id: 'msf2', name: 'Vishwmitra', type: 'Performance Reel', title: 'Abstract Product Reel', brand: '3D Motion', videoUrl: 'https://akshayshrivastava.com/videos/short4.mp4', poster: 'https://akshayshrivastava.com/images/short4.png', driveUrl: 'https://drive.google.com/file/d/1du-28m6tarHsR432u2SWzhcRVzKv-7YO/view?usp=sharing' },
+
   { id: 'msf6', name: 'Scratch', type: 'Shorts', title: 'Character Animation', brand: '2D Motion', videoUrl: 'https://akshayshrivastava.com/videos/short13.mp4', poster: 'https://akshayshrivastava.com/images/short13.png', driveUrl: 'https://drive.google.com/file/d/1VCyEzMjQ-O9NZVKu5tELWizC8qOPQ8uP/view?usp=sharing' },
-  { id: 'msf4', name: 'Ankur Wariko', type: 'UGC Ads', title: 'Character Animation', brand: '2D Motion', videoUrl: 'https://akshayshrivastava.com/videos/short7.mp4', poster: 'https://akshayshrivastava.com/images/short7.png', driveUrl: 'https://drive.google.com/file/d/1G0GUMbQXBIAvnLRCs1lgs-BE9lCVvIMy/view?usp=sharing' },
+
+  { id: 'msf10', name: 'Akshay Shrivastava', type: 'Personal Brand', title: 'Character Animation', brand: '2D Motion', videoUrl: 'https://akshayshrivastava.com/videos/MotionMain.mp4', poster: 'https://akshayshrivastava.com/images/MotionMain.png', driveUrl: 'https://drive.google.com/file/d/1-2-YktwU9e8J9jWNR3EpLdP9_ugIPKGP/view?usp=sharing' },
+
   { id: 'msf7', name: 'Scratch', type: 'Edutainment', title: 'Character Animation', brand: '2D Motion', videoUrl: 'https://akshayshrivastava.com/videos/short14.mp4', poster: 'https://akshayshrivastava.com/images/short14.png', driveUrl: 'https://drive.google.com/file/d/1TSZ4IMxv0djTQgD1ZLkZvgIuC60FdeJn/view?usp=sharing' },
-  { id: 'msf8', name: 'Akshay Srivastava', type: 'Personal Instagram Reel', title: 'Character Animation', brand: '2D Motion', videoUrl: 'https://akshayshrivastava.com/videos/AboutMain.mp4', poster: 'https://akshayshrivastava.com/images/AboutMain.png', driveUrl: 'https://drive.google.com/file/d/1ifLdzvThtJoUQW94w3TUlKRbPaoHrl_H/view?usp=sharing' },
-  { id: 'msf9', name: 'Scratch', type: 'Shorts', title: 'Character Animation', brand: '2D Motion', videoUrl: 'https://akshayshrivastava.com/videos/short15.mp4', poster: 'https://akshayshrivastava.com/images/short15.png', driveUrl: 'https://drive.google.com/file/d/1dZal7IC0rY-PBxSiIBECSZaq70Tli-JV/view?usp=sharing&t=0.571' },
-  { id: 'msf10', name: 'Akshay Shrivastava', type: 'Instagram Personal Reel', title: 'Character Animation', brand: '2D Motion', videoUrl: 'https://akshayshrivastava.com/videos/MotionMain.mp4', poster: 'https://akshayshrivastava.com/images/MotionMain.png', driveUrl: 'https://drive.google.com/file/d/1-2-YktwU9e8J9jWNR3EpLdP9_ugIPKGP/view?usp=sharing' },
-  { id: 'msf11', name: 'Scratch', type: 'Edutainment', title: 'Character Animation', brand: '2D Motion', videoUrl: 'https://akshayshrivastava.com/videos/short20.mp4', poster: 'https://akshayshrivastava.com/images/short20.png', driveUrl: 'https://drive.google.com/file/d/1Ic-BfBiQuhe5S5tgqT_0bJlEFV01z66t/view?usp=sharing' },
+
   { id: 'msf12', name: 'Waywen', type: 'Promotional Reel', title: 'Character Animation', brand: '2D Motion', videoUrl: 'https://akshayshrivastava.com/videos/DirectionMain.mp4', poster: 'https://akshayshrivastava.com/images/DirectionMain.png', driveUrl: 'https://drive.google.com/file/d/15ke3BYxXFerTseLnU2yX_9Rxixn3iRul/view?usp=sharing' },
+
+  { id: 'msf9', name: 'Scratch', type: 'Shorts', title: 'Character Animation', brand: '2D Motion', videoUrl: 'https://akshayshrivastava.com/videos/short15.mp4', poster: 'https://akshayshrivastava.com/images/short15.png', driveUrl: 'https://drive.google.com/file/d/1dZal7IC0rY-PBxSiIBECSZaq70Tli-JV/view?usp=sharing&t=0.571' },
+
+  { id: 'msf4', name: 'Ankur Warikoo', type: 'UGC Ads', title: 'Character Animation', brand: '2D Motion', videoUrl: 'https://akshayshrivastava.com/videos/short7.mp4', poster: 'https://akshayshrivastava.com/images/short7.png', driveUrl: 'https://drive.google.com/file/d/1G0GUMbQXBIAvnLRCs1lgs-BE9lCVvIMy/view?usp=sharing' },
+
+  { id: 'msf11', name: 'Scratch', type: 'Edutainment', title: 'Character Animation', brand: '2D Motion', videoUrl: 'https://akshayshrivastava.com/videos/short20.mp4', poster: 'https://akshayshrivastava.com/images/short20.png', driveUrl: 'https://drive.google.com/file/d/1Ic-BfBiQuhe5S5tgqT_0bJlEFV01z66t/view?usp=sharing' },
+
+  { id: 'sf3', name: 'Vishwmitra', type: 'Performance Reel', title: 'Brand Story Reel 3', brand: 'Kolkata Media', videoUrl: 'https://akshayshrivastava.com/videos/short5.mp4', poster: 'https://akshayshrivastava.com/images/short5.png', driveUrl: 'https://drive.google.com/file/d/1KI4EhIOdQZ91bvBi_fLTbbzxloZrfPMJ/view?usp=sharing' },
+
+  { id: 'msf8', name: 'Akshay Shrivastava', type: 'Personal Brand', title: 'Character Animation', brand: '2D Motion', videoUrl: 'https://akshayshrivastava.com/videos/AboutMain.mp4', poster: 'https://akshayshrivastava.com/images/AboutMain.png', driveUrl: 'https://drive.google.com/file/d/1ifLdzvThtJoUQW94w3TUlKRbPaoHrl_H/view?usp=sharing' },
 ];
 
 const LONG_FORMS = [
-  { id: 'mlf1', title: 'Moradabad - The brass city', category: 'Documentary', youtubeId: 'VIzWHj8FrXA' },
-  { id: 'mlf2', title: 'Samsara - The gin', category: 'Documentary', youtubeId: 'JUCnkdyVsGI' },
-  { id: 'mlf3', title: 'Shamik - The comic', category: 'Podcast', youtubeId: 'On0S3Ym4FfA' },
-  { id: 'mlf4', title: 'Clovia - The lingerie brand', category: 'Edutainment', youtubeId: 'PTxuqvWqhu0' },
-  { id: 'mlf5', title: 'Biturbo', category: 'Edutainment', youtubeId: 'MfOuSuKKzdI' },
+  { id: 'lf1', title: 'Moradabad - The brass city', category: 'Documentary', youtubeId: 'VIzWHj8FrXA' },
+  { id: 'lf2', title: 'Biturbo', category: 'Edutainment', youtubeId: 'MfOuSuKKzdI' },
+  { id: 'lf3', title: 'Samsara - The gin', category: 'Documentary', youtubeId: 'JUCnkdyVsGI' },
+  { id: 'lf4', title: 'Clovia - The lingerie brand', category: 'Edutainment', youtubeId: 'PTxuqvWqhu0' },
+  { id: 'lf5', title: 'Inside the Business of HYROX', category: 'Documentary', youtubeId: 'iIhLVkXaXc8' },
+  { id: 'lf6', title: 'Shamik - The comic', category: 'Podcast', youtubeId: 'On0S3Ym4FfA' },
+  
 ];
+
 
 const duplicateList = (arr, count = 2) => {
   let output = [];
@@ -127,7 +146,6 @@ function VideoCard({ item, aspectRatio = "wide", hoveredId, setHoveredId, onOpen
     return () => clearTimeout(t);
   }, [wantsPreview]);
 
-  // Wide forms (long forms) ke liye 1 full + peek, aur tall forms (short forms) ke liye 2 cards width set ki hai
   const cardDimensions = aspectRatio === "wide"
     ? "w-[82vw] xs:w-[290px] sm:w-[420px] aspect-video"
     : "w-[44vw] xs:w-[150px] sm:w-[300px] aspect-[9/16]";
@@ -247,22 +265,53 @@ function VideoCard({ item, aspectRatio = "wide", hoveredId, setHoveredId, onOpen
   );
 }
 
+function RowArrow({ side, onClick }) {
+  const isLeft = side === 'left';
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      aria-label={isLeft ? 'Scroll left' : 'Scroll right'}
+      className={`absolute top-[calc(50%-8px)] -translate-y-1/2 z-30 flex h-8 w-8 sm:h-11 sm:w-11 items-center justify-center rounded-full bg-[#D42C2C] text-[#FFFCFB] shadow-[0_6px_16px_rgba(0,0,0,0.3)] transition-transform duration-200 hover:scale-110 active:scale-95 cursor-pointer outline-none focus-visible:ring-2 focus-visible:ring-[#14120e] focus-visible:ring-offset-2 ${
+        isLeft ? 'left-1.5 sm:left-4' : 'right-1.5 sm:right-4'
+      }`}
+    >
+      <svg
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2.4"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        className="h-4 w-4 sm:h-5 sm:w-5"
+        aria-hidden="true"
+      >
+        <path d={isLeft ? 'M15 5l-7 7 7 7' : 'M9 5l7 7-7 7'} />
+      </svg>
+    </button>
+  );
+}
+
 function MarqueeRow({ items, aspectRatio, direction = 'left', hoveredId, setHoveredId, onOpenModal, speed = 45 }) {
   const containerRef = useRef(null);
+  const innerRef = useRef(null);
   const hoveredIdRef = useRef(hoveredId);
-  const isDraggingRef = useRef(false);
   const rafRef = useRef(null);
   const lastTimeRef = useRef(null);
-  const draggedRef = useRef(false);
-  const momentumRafRef = useRef(null);
+  const slideRafRef = useRef(null);
+  const isSlidingRef = useRef(false);
+  const resumeAtRef = useRef(0);
 
   useEffect(() => {
     hoveredIdRef.current = hoveredId;
   }, [hoveredId]);
 
-  useEffect(() => {
-    return () => { if (momentumRafRef.current) cancelAnimationFrame(momentumRafRef.current); };
-  }, []);
+  const wrap = (el) => {
+    const half = el.scrollWidth / 2;
+    if (half <= 0) return;
+    if (el.scrollLeft >= half) el.scrollLeft -= half;
+    else if (el.scrollLeft <= 0) el.scrollLeft += half;
+  };
 
   useEffect(() => {
     const el = containerRef.current;
@@ -277,19 +326,15 @@ function MarqueeRow({ items, aspectRatio, direction = 'left', hoveredId, setHove
       const delta = timestamp - lastTimeRef.current;
       lastTimeRef.current = timestamp;
 
-      if (hoveredIdRef.current == null && !isDraggingRef.current) {
-        const half = el.scrollWidth / 2;
+      const paused =
+        hoveredIdRef.current != null ||
+        isSlidingRef.current ||
+        performance.now() < resumeAtRef.current;
+
+      if (!paused) {
         const dir = direction === 'left' ? 1 : -1;
-
         el.scrollLeft += dir * speed * (delta / 1000);
-
-        if (half > 0) {
-          if (el.scrollLeft >= half) {
-            el.scrollLeft -= half;
-          } else if (el.scrollLeft <= 0) {
-            el.scrollLeft += half;
-          }
-        }
+        wrap(el);
       }
 
       rafRef.current = requestAnimationFrame(step);
@@ -303,128 +348,70 @@ function MarqueeRow({ items, aspectRatio, direction = 'left', hoveredId, setHove
     };
   }, [direction, speed]);
 
-  const DRAG_THRESHOLD = 8;
+  useEffect(() => {
+    return () => { if (slideRafRef.current) cancelAnimationFrame(slideRafRef.current); };
+  }, []);
 
-  const handleStart = (clientX) => {
+  const slide = (sign) => {
     const el = containerRef.current;
-    if (!el) return;
+    const inner = innerRef.current;
+    if (!el || !inner || !inner.children[0]) return;
 
-    if (momentumRafRef.current) {
-      cancelAnimationFrame(momentumRafRef.current);
-      momentumRafRef.current = null;
-    }
+    if (slideRafRef.current) cancelAnimationFrame(slideRafRef.current);
 
-    draggedRef.current = false;
-    const startX = clientX;
-    const startScroll = el.scrollLeft;
-    let lastX = clientX;
-    let lastTime = performance.now();
-    let velocity = 0;
+    const gap = parseFloat(getComputedStyle(inner).columnGap) || 0;
+    const cardW = inner.children[0].getBoundingClientRect().width;
+    const cards = aspectRatio === 'tall' ? 2 : 1;
+    const total = sign * (cardW + gap) * cards;
 
-    const handleMove = (moveX) => {
-      const dx = moveX - startX;
+    const duration = 500;
+    const start = performance.now();
+    let done = 0;
+    isSlidingRef.current = true;
 
-      if (!isDraggingRef.current) {
-        if (Math.abs(dx) < DRAG_THRESHOLD) return;
-        isDraggingRef.current = true;
-        draggedRef.current = true;
-      }
+    const tick = (now) => {
+      const t = Math.min(1, Math.max(0, (now - start) / duration));
+      const eased = 1 - Math.pow(1 - t, 3);
+      const target = total * eased;
+      el.scrollLeft += target - done;
+      done = target;
+      wrap(el);
 
-      el.scrollLeft = startScroll - dx;
-
-      const now = performance.now();
-      const dt = now - lastTime;
-      if (dt > 0) velocity = (moveX - lastX) / dt;
-      lastX = moveX;
-      lastTime = now;
-    };
-
-    const handleMouseMove = (e) => handleMove(e.clientX);
-    const handleTouchMove = (e) => {
-      if (e.touches && e.touches[0]) handleMove(e.touches[0].clientX);
-    };
-
-    const handleEnd = () => {
-      window.removeEventListener('mousemove', handleMouseMove);
-      window.removeEventListener('mouseup', handleEnd);
-      window.removeEventListener('touchmove', handleTouchMove);
-      window.removeEventListener('touchend', handleEnd);
-
-      let scrollVelocity = -velocity;
-      let lastTs = null;
-
-      const glide = (ts) => {
-        if (lastTs == null) lastTs = ts;
-        const dt = ts - lastTs;
-        lastTs = ts;
-
-        el.scrollLeft += scrollVelocity * dt;
-        scrollVelocity *= Math.pow(0.94, dt / 16.67);
-
-        const half = el.scrollWidth / 2;
-        if (half > 0) {
-          if (el.scrollLeft >= half) el.scrollLeft -= half;
-          else if (el.scrollLeft <= 0) el.scrollLeft += half;
-        }
-
-        if (Math.abs(scrollVelocity) > 0.02) {
-          momentumRafRef.current = requestAnimationFrame(glide);
-        } else {
-          momentumRafRef.current = null;
-          isDraggingRef.current = false;
-        }
-      };
-
-      if (draggedRef.current && Math.abs(scrollVelocity) > 0.02) {
-        momentumRafRef.current = requestAnimationFrame(glide);
+      if (t < 1) {
+        slideRafRef.current = requestAnimationFrame(tick);
       } else {
-        isDraggingRef.current = false;
+        slideRafRef.current = null;
+        isSlidingRef.current = false;
+        resumeAtRef.current = performance.now() + 1500;
       }
     };
 
-    window.addEventListener('mousemove', handleMouseMove);
-    window.addEventListener('mouseup', handleEnd);
-    window.addEventListener('touchmove', handleTouchMove);
-    window.addEventListener('touchend', handleEnd);
-  };
-
-  const handleMouseDown = (e) => handleStart(e.clientX);
-  const handleTouchStart = (e) => {
-    if (e.touches && e.touches[0]) handleStart(e.touches[0].clientX);
-  };
-
-  const handleContainerMouseLeave = () => setHoveredId(null);
-
-  const handleClickCapture = (e) => {
-    if (draggedRef.current) {
-      e.stopPropagation();
-      e.preventDefault();
-      draggedRef.current = false;
-    }
+    slideRafRef.current = requestAnimationFrame(tick);
   };
 
   return (
-    <div
-      ref={containerRef}
-      onMouseLeave={handleContainerMouseLeave}
-      onMouseDown={handleMouseDown}
-      onTouchStart={handleTouchStart}
-      onClickCapture={handleClickCapture}
-      className="w-full max-w-full overflow-x-scroll overflow-y-hidden pt-2 pb-4 sm:pb-6 cursor-grab active:cursor-grabbing select-none [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden px-3 sm:px-8"
-      style={{ touchAction: 'pan-y' }}
-    >
-      <div className="inline-flex whitespace-nowrap gap-2.5 sm:gap-8 w-max">
-        {items.map((item, idx) => (
-          <VideoCard
-            key={`${item.id}-${idx}`}
-            item={item}
-            aspectRatio={aspectRatio}
-            hoveredId={hoveredId}
-            setHoveredId={setHoveredId}
-            onOpenModal={onOpenModal}
-          />
-        ))}
+    <div className="relative w-full max-w-full">
+      <div
+        ref={containerRef}
+        onMouseLeave={() => setHoveredId(null)}
+        className="w-full max-w-full overflow-x-hidden overflow-y-hidden pt-2 pb-6 select-none px-3 sm:px-8"
+      >
+        <div ref={innerRef} className="inline-flex whitespace-nowrap gap-3 sm:gap-10 w-max items-start">
+          {items.map((item, idx) => (
+            <VideoCard
+              key={`${item.id}-${idx}`}
+              item={item}
+              aspectRatio={aspectRatio}
+              hoveredId={hoveredId}
+              setHoveredId={setHoveredId}
+              onOpenModal={onOpenModal}
+            />
+          ))}
+        </div>
       </div>
+
+      <RowArrow side="left" onClick={() => slide(-1)} />
+      <RowArrow side="right" onClick={() => slide(1)} />
     </div>
   );
 }
@@ -438,7 +425,6 @@ export default function MotionDesign() {
   const heroVideoRef = useRef(null);
 
   const featuredVideoRef = useRef(null);
-  const driveUrl = "https://drive.google.com/drive/folders/YOUR_DRIVE_FOLDER_ID";
 
   const featuredSectionRef = useRef(null);
   const reelRef = useRef(null);
@@ -451,8 +437,15 @@ export default function MotionDesign() {
     }
   };
 
+  // Featured reel click opens the popup modal instead of Google Drive
   const handleFeaturedReelClick = () => {
-    window.open(driveUrl, '_blank');
+    setSelectedVideo({
+      id: 'featured-main',
+      name: 'Akshay Shrivastava',
+      type: 'Featured Motion Reel',
+      videoUrl: 'https://akshayshrivastava.com/videos/MotionMain.mp4',
+      poster: 'https://akshayshrivastava.com/images/MotionMain.png'
+    });
   };
 
   useEffect(() => {
@@ -502,7 +495,7 @@ export default function MotionDesign() {
     return () => ctx.revert();
   }, []);
 
-  const isShortForm = selectedVideo && SHORT_FORMS.some(s => s.id === selectedVideo.id);
+  const isShortForm = selectedVideo && (selectedVideo.id === 'featured-main' || SHORT_FORMS.some(s => s.id === selectedVideo.id));
 
   return (
     <div className="w-full min-h-screen bg-[#FFFCFB] relative overflow-x-hidden pb-12 sm:pb-24 m-0 text-[#14120e]">
@@ -600,7 +593,7 @@ export default function MotionDesign() {
             ref={reelRef} 
             onClick={handleFeaturedReelClick}
             className="w-[180px] xs:w-[220px] sm:w-[320px] aspect-[9/16] shrink-0 rounded-[8px] overflow-hidden shadow-2xl bg-black relative cursor-pointer group"
-            title="Click to watch full video on Google Drive"
+            title="Click to play full video"
           >
             <video 
               ref={featuredVideoRef}

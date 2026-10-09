@@ -14,22 +14,22 @@ const DEFAULT_TESTIMONIALS = [
   {
     quote: "Working with Akshay on editing our crucial videos was an absolute pleasure. Professional, highly attentive to detail, and delivered top-notch quality on time!",
     handle: "Aditya Verma",
-    role: "CONTENT STRATEGY AND PRODUCTION"
+    role: "Founder Venturescopilot"
   },
   {
-    quote: "Akshay just gets content. You don't have to explain every little thing to him, which honestly makes the process so much easier.",
-    handle: "Client Review",
-    role: "FOUNDER"
+    quote: "It was great working with Akshay. He gave clear, honest feedback and kept refining every detail until it felt right, from the spacing to the wording. The same attention to detail shows in his videos.",
+    handle: "Shivani Gujjar",
+    role: "Developer"
   },
   {
     quote: "I've worked with quite a few editors and Akshay is definitely one of the more creative ones. He understands content, not just the editing part, which makes a big difference.",
-    handle: "Client Review",
-    role: "MEDIA LEAD"
+    handle: "Abhiraj",
+    role: "Filmmaker"
   },
   {
     quote: "Been working with Akshay for some time now and he's been great. He understands the content, doesn't need much handholding and actually brings his own ideas in.",
-    handle: "Client Review",
-    role: "CREATOR"
+    handle: "Pankaj",
+    role: "Creative Associate"
   }
 ];
 
@@ -147,19 +147,23 @@ const duplicateList = (arr, count = 6) => {
   return output;
 };
 
-function DraggableMarqueeContainer({ children, direction = 'left', speed = 45 }) {
+// Pure auto-scroll container for Worked With section with responsive mobile speed
+function BrandMarqueeContainer({ children, direction = 'left', speed = 45 }) {
   const containerRef = useRef(null);
-  const isDraggingRef = useRef(false);
   const rafRef = useRef(null);
   const lastTimeRef = useRef(null);
-  const draggedRef = useRef(false);
-  const momentumRafRef = useRef(null);
+  const [effectiveSpeed, setEffectiveSpeed] = useState(speed);
 
   useEffect(() => {
-    return () => {
-      if (momentumRafRef.current) cancelAnimationFrame(momentumRafRef.current);
+    const handleResize = () => {
+      const isMobile = window.innerWidth < 768;
+      // Mobile par speed slow kar di hai (e.g., 20) taaki tez na bhage
+      setEffectiveSpeed(isMobile ? 22 : speed);
     };
-  }, []);
+    handleResize();
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, [speed]);
 
   useEffect(() => {
     const el = containerRef.current;
@@ -174,18 +178,16 @@ function DraggableMarqueeContainer({ children, direction = 'left', speed = 45 })
       const delta = timestamp - lastTimeRef.current;
       lastTimeRef.current = timestamp;
 
-      if (!isDraggingRef.current) {
-        const half = el.scrollWidth / 2;
-        const dir = direction === 'left' ? 1 : -1;
+      const half = el.scrollWidth / 2;
+      const dir = direction === 'left' ? 1 : -1;
 
-        el.scrollLeft += dir * speed * (delta / 1000);
+      el.scrollLeft += dir * effectiveSpeed * (delta / 1000);
 
-        if (half > 0) {
-          if (el.scrollLeft >= half) {
-            el.scrollLeft -= half;
-          } else if (el.scrollLeft <= 0) {
-            el.scrollLeft += half;
-          }
+      if (half > 0) {
+        if (el.scrollLeft >= half) {
+          el.scrollLeft -= half;
+        } else if (el.scrollLeft <= 0) {
+          el.scrollLeft += half;
         }
       }
 
@@ -198,116 +200,159 @@ function DraggableMarqueeContainer({ children, direction = 'left', speed = 45 })
       if (rafRef.current) cancelAnimationFrame(rafRef.current);
       lastTimeRef.current = null;
     };
-  }, [direction, speed]);
-
-  const DRAG_THRESHOLD = 8;
-
-  const handleStart = (clientX) => {
-    const el = containerRef.current;
-    if (!el) return;
-
-    if (momentumRafRef.current) {
-      cancelAnimationFrame(momentumRafRef.current);
-      momentumRafRef.current = null;
-    }
-
-    draggedRef.current = false;
-    const startX = clientX;
-    const startScroll = el.scrollLeft;
-    let lastX = clientX;
-    let lastTime = performance.now();
-    let velocity = 0;
-
-    const handleMove = (moveX) => {
-      const dx = moveX - startX;
-
-      if (!isDraggingRef.current) {
-        if (Math.abs(dx) < DRAG_THRESHOLD) return;
-        isDraggingRef.current = true;
-        draggedRef.current = true;
-      }
-
-      el.scrollLeft = startScroll - dx;
-
-      const now = performance.now();
-      const dt = now - lastTime;
-      if (dt > 0) velocity = (moveX - lastX) / dt;
-      lastX = moveX;
-      lastTime = now;
-    };
-
-    const handleMouseMove = (e) => handleMove(e.clientX);
-    const handleTouchMove = (e) => {
-      if (e.touches && e.touches[0]) handleMove(e.touches[0].clientX);
-    };
-
-    const handleEnd = () => {
-      window.removeEventListener('mousemove', handleMouseMove);
-      window.removeEventListener('mouseup', handleEnd);
-      window.removeEventListener('touchmove', handleTouchMove);
-      window.removeEventListener('touchend', handleEnd);
-
-      let scrollVelocity = -velocity;
-      let lastTs = null;
-
-      const glide = (ts) => {
-        if (lastTs == null) lastTs = ts;
-        const dt = ts - lastTs;
-        lastTs = ts;
-
-        el.scrollLeft += scrollVelocity * dt;
-        scrollVelocity *= Math.pow(0.94, dt / 16.67);
-
-        const half = el.scrollWidth / 2;
-        if (half > 0) {
-          if (el.scrollLeft >= half) el.scrollLeft -= half;
-          else if (el.scrollLeft <= 0) el.scrollLeft += half;
-        }
-
-        if (Math.abs(scrollVelocity) > 0.02) {
-          momentumRafRef.current = requestAnimationFrame(glide);
-        } else {
-          momentumRafRef.current = null;
-          isDraggingRef.current = false;
-        }
-      };
-
-      if (draggedRef.current && Math.abs(scrollVelocity) > 0.02) {
-        momentumRafRef.current = requestAnimationFrame(glide);
-      } else {
-        isDraggingRef.current = false;
-      }
-    };
-
-    window.addEventListener('mousemove', handleMouseMove);
-    window.addEventListener('mouseup', handleEnd);
-    window.addEventListener('touchmove', handleTouchMove);
-    window.addEventListener('touchend', handleEnd);
-  };
-
-  const handleMouseDown = (e) => handleStart(e.clientX);
-  const handleTouchStart = (e) => {
-    if (e.touches && e.touches[0]) handleStart(e.touches[0].clientX);
-  };
-
-  const handleClickCapture = (e) => {
-    if (draggedRef.current) {
-      e.stopPropagation();
-      e.preventDefault();
-      draggedRef.current = false;
-    }
-  };
+  }, [direction, effectiveSpeed]);
 
   return (
     <div
       ref={containerRef}
-      onMouseDown={handleMouseDown}
-      onTouchStart={handleTouchStart}
-      onClickCapture={handleClickCapture}
-      className="w-full max-w-full overflow-x-scroll overflow-y-hidden cursor-grab active:cursor-grabbing select-none [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden"
-      style={{ touchAction: 'pan-y' }}
+      className="w-full max-w-full overflow-x-hidden overflow-y-hidden select-none [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden"
     >
       {children}
+    </div>
+  );
+}
+
+// Testimonials container with auto-scroll (slowed down on mobile) + manual navigation arrows
+function RowArrow({ side, onClick }) {
+  const isLeft = side === 'left';
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      aria-label={isLeft ? 'Scroll left' : 'Scroll right'}
+      className={`absolute top-1/2 -translate-y-1/2 z-30 flex h-8 w-8 sm:h-11 sm:w-11 items-center justify-center rounded-full bg-[#D42C2C] text-[#FFFCFB] shadow-[0_6px_16px_rgba(0,0,0,0.3)] transition-transform duration-200 hover:scale-110 active:scale-95 cursor-pointer outline-none focus-visible:ring-2 focus-visible:ring-[#14120e] focus-visible:ring-offset-2 ${
+        isLeft ? 'left-1.5 sm:left-4' : 'right-1.5 sm:right-4'
+      }`}
+    >
+      <svg
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2.4"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        className="h-4 w-4 sm:h-5 sm:w-5"
+        aria-hidden="true"
+      >
+        <path d={isLeft ? 'M15 5l-7 7 7 7' : 'M9 5l7 7-7 7'} />
+      </svg>
+    </button>
+  );
+}
+
+function TestimonialMarqueeRow({ children, direction = 'right', speed = 40 }) {
+  const containerRef = useRef(null);
+  const innerRef = useRef(null);
+  const rafRef = useRef(null);
+  const lastTimeRef = useRef(null);
+  const slideRafRef = useRef(null);
+  const isSlidingRef = useRef(false);
+  const resumeAtRef = useRef(0);
+  const [effectiveSpeed, setEffectiveSpeed] = useState(speed);
+
+  useEffect(() => {
+    const handleResize = () => {
+      const isMobile = window.innerWidth < 768;
+      // Mobile par testimonials ki speed bhi slow kar di hai (e.g., 20)
+      setEffectiveSpeed(isMobile ? 20 : speed);
+    };
+    handleResize();
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, [speed]);
+
+  const wrap = (el) => {
+    const half = el.scrollWidth / 2;
+    if (half <= 0) return;
+    if (el.scrollLeft >= half) el.scrollLeft -= half;
+    else if (el.scrollLeft <= 0) el.scrollLeft += half;
+  };
+
+  useEffect(() => {
+    const el = containerRef.current;
+    if (!el) return;
+
+    if (direction === 'right') {
+      el.scrollLeft = el.scrollWidth / 2;
+    }
+
+    const step = (timestamp) => {
+      if (lastTimeRef.current == null) lastTimeRef.current = timestamp;
+      const delta = timestamp - lastTimeRef.current;
+      lastTimeRef.current = timestamp;
+
+      const paused = isSlidingRef.current || performance.now() < resumeAtRef.current;
+
+      if (!paused) {
+        const dir = direction === 'left' ? 1 : -1;
+        el.scrollLeft += dir * effectiveSpeed * (delta / 1000);
+        wrap(el);
+      }
+
+      rafRef.current = requestAnimationFrame(step);
+    };
+
+    rafRef.current = requestAnimationFrame(step);
+
+    return () => {
+      if (rafRef.current) cancelAnimationFrame(rafRef.current);
+      lastTimeRef.current = null;
+    };
+  }, [direction, effectiveSpeed]);
+
+  useEffect(() => {
+    return () => { if (slideRafRef.current) cancelAnimationFrame(slideRafRef.current); };
+  }, []);
+
+  const slide = (sign) => {
+    const el = containerRef.current;
+    const inner = innerRef.current;
+    if (!el || !inner || !inner.children[0]) return;
+
+    if (slideRafRef.current) cancelAnimationFrame(slideRafRef.current);
+
+    const gap = parseFloat(getComputedStyle(inner).columnGap) || 16;
+    const cardW = inner.children[0].getBoundingClientRect().width;
+    const total = sign * (cardW + gap);
+
+    const duration = 500;
+    const start = performance.now();
+    let done = 0;
+    isSlidingRef.current = true;
+
+    const tick = (now) => {
+      const t = Math.min(1, Math.max(0, (now - start) / duration));
+      const eased = 1 - Math.pow(1 - t, 3);
+      const target = total * eased;
+      el.scrollLeft += target - done;
+      done = target;
+      wrap(el);
+
+      if (t < 1) {
+        slideRafRef.current = requestAnimationFrame(tick);
+      } else {
+        slideRafRef.current = null;
+        isSlidingRef.current = false;
+        resumeAtRef.current = performance.now() + 1500;
+      }
+    };
+
+    slideRafRef.current = requestAnimationFrame(tick);
+  };
+
+  return (
+    <div className="relative w-full max-w-full">
+      <div
+        ref={containerRef}
+        className="w-full max-w-full overflow-x-hidden overflow-y-hidden select-none px-3 sm:px-12"
+      >
+        <div ref={innerRef} className="inline-flex whitespace-nowrap gap-2.5 sm:gap-10 w-max items-stretch">
+          {children}
+        </div>
+      </div>
+
+      <RowArrow side="left" onClick={() => slide(-1)} />
+      <RowArrow side="right" onClick={() => slide(1)} />
     </div>
   );
 }
@@ -328,8 +373,9 @@ export default function SocialProof({ brands = DEFAULT_BRANDS, testimonials = DE
           mask-image: linear-gradient(to right, transparent 0, black 4%, black 96%, transparent 100%);
         }
 
+        /* Mobile par PNG ki height badhane ke liye background-size increase kiya hai */
         .testi-bg {
-          background-size: 100% 140%;
+          background-size: 100% 190%;
         }
         @media (min-width: 640px) {
           .testi-bg {
@@ -368,8 +414,8 @@ export default function SocialProof({ brands = DEFAULT_BRANDS, testimonials = DE
         </div>
 
         <div className="w-full overflow-hidden py-1 sm:py-3 brand-fade">
-          <DraggableMarqueeContainer direction="left" speed={45}>
-            <div className="inline-flex whitespace-nowrap gap-8 sm:gap-20 w-max items-center will-change-transform py-2">
+          <BrandMarqueeContainer direction="left" speed={45}>
+            <div className="inline-flex whitespace-nowrap gap-8 sm:gap-20 w-max items-center py-2">
               {duplicateList(brands).map((logoUrl, idx) => (
                 <div
                   key={`brand-logo-${idx}`}
@@ -379,7 +425,7 @@ export default function SocialProof({ brands = DEFAULT_BRANDS, testimonials = DE
                 </div>
               ))}
             </div>
-          </DraggableMarqueeContainer>
+          </BrandMarqueeContainer>
         </div>
       </div>
 
@@ -392,43 +438,41 @@ export default function SocialProof({ brands = DEFAULT_BRANDS, testimonials = DE
 
         {/* TICKER CARDS WRAPPER */}
         <div className="w-full overflow-hidden mb-0 py-2 sm:py-4 relative z-[15] testi-fade">
-          <DraggableMarqueeContainer direction="right" speed={40}>
-            <div className="inline-flex whitespace-nowrap gap-2.5 sm:gap-10 w-max items-stretch will-change-transform py-2">
-              {duplicateList(testimonials).map((testi, idx) => (
-                <div
-                  key={`testi-${idx}`}
-                  className="testi-card relative text-[#FFFFFF] w-[190px] sm:w-[360px] min-h-[110px] sm:min-h-[190px] p-2.5 sm:p-7 rounded-[8px] sm:rounded-[14px] bg-black/25 sm:backdrop-blur-xs border border-white/10 inline-flex flex-col justify-between text-left shrink-0 whitespace-normal shadow-md"
+          <TestimonialMarqueeRow direction="right" speed={40}>
+            {duplicateList(testimonials).map((testi, idx) => (
+              <div
+                key={`testi-${idx}`}
+                className="testi-card relative text-[#FFFFFF] w-[190px] sm:w-[360px] min-h-[110px] sm:min-h-[190px] p-2.5 sm:p-7 rounded-[8px] sm:rounded-[14px] bg-black/25 sm:backdrop-blur-xs border border-white/10 inline-flex flex-col justify-between text-left shrink-0 whitespace-normal shadow-md"
+              >
+                {/* Statement / Quote */}
+                <p
+                  style={{ letterSpacing: '-0.1px', fontWeight: 300 }}
+                  className="text-white/95 text-[9px] sm:text-base leading-tight sm:leading-relaxed m-0 mb-2 sm:mb-6 whitespace-normal"
                 >
-                  {/* Statement / Quote */}
-                  <p
-                    style={{ letterSpacing: '-0.1px', fontWeight: 300 }}
-                    className="text-white/95 text-[9px] sm:text-base leading-tight sm:leading-relaxed m-0 mb-2 sm:mb-6 whitespace-normal"
-                  >
-                    "{testi.quote}"
-                  </p>
+                  "{testi.quote}"
+                </p>
 
-                  {/* Bottom Info Group */}
-                  <div className="w-full mt-auto">
-                    <div className="w-full h-[1px] bg-white/20 mb-1 sm:mb-4" />
-                    <div className="w-full flex flex-col">
-                      <h4
-                        style={{ letterSpacing: '0.5px', fontWeight: 800, color: '#FFD84D' }}
-                        className="text-[9px] sm:text-sm m-0 uppercase leading-tight"
-                      >
-                        {testi.handle}
-                      </h4>
-                      <span
-                        style={{ fontFamily: "'Talina', sans-serif", letterSpacing: '0.5px' }}
-                        className="text-white/70 text-[7px] sm:text-xs m-0 mt-0.5 tracking-wider uppercase"
-                      >
-                        {testi.role}
-                      </span>
-                    </div>
+                {/* Bottom Info Group */}
+                <div className="w-full mt-auto">
+                  <div className="w-full h-[1px] bg-white/20 mb-1 sm:mb-4" />
+                  <div className="w-full flex flex-col">
+                    <h4
+                      style={{ letterSpacing: '0.5px', fontWeight: 800, color: '#FFD84D' }}
+                      className="text-[9px] sm:text-sm m-0 uppercase leading-tight"
+                    >
+                      {testi.handle}
+                    </h4>
+                    <span
+                      style={{ fontFamily: "'Talina', sans-serif", letterSpacing: '0.5px' }}
+                      className="text-white/70 text-[7px] sm:text-xs m-0 mt-0.5 tracking-wider uppercase"
+                    >
+                      {testi.role}
+                    </span>
                   </div>
                 </div>
-              ))}
-            </div>
-          </DraggableMarqueeContainer>
+              </div>
+            ))}
+          </TestimonialMarqueeRow>
         </div>
       </div>
     </section>

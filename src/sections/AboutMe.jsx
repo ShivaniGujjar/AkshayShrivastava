@@ -42,16 +42,16 @@ const STATS = [
 
 const CHAPTERS = [
   {
-    num: '01',
+    year: '2022',
     title: 'Where It Started',
     body: [
       `After failing my math exam, my teacher told me, "`,
       { hl: `Akshay, I know you have more potential. You just have to put in more effort.` },
-       `" So I put all my effort into my creative journey.`,
+      `" So I put all my effort into my creative journey.`,
     ],
   },
   {
-    num: '02',
+    year: '2023',
     title: 'The First Brake',
     body: [
       `Right after school, I started working as a graphic designer, and then one day my employer told me, "Akshay, you're killing it with graphic design. I love it. Please make some videos for us too." That hit me, so once again, I put all my effort into learning Premiere Pro and cracked a completely new job as a full-time video editor in just `,
@@ -60,18 +60,18 @@ const CHAPTERS = [
     ],
   },
   {
-    num: '03',
+    year: '2024',
     title: 'Then Things Changed',
     body: [
       `Life was pretty chill because I genuinely loved what I was doing, until one random comment said, "`,
       { hl: `This could be better in After Effects.` },
-       `" I don't know why, but maybe I was waiting for that moment. I opened my laptop and decided to make the best use of whatever potential I had. I started learning After Effects by experimenting with my very first video, and that video ended up crossing `,
+      `" I don't know why, but maybe I was waiting for that moment. I opened my laptop and decided to make the best use of whatever potential I had. I started learning After Effects by experimenting with my very first video, and that video ended up crossing `,
       { hl: `200K+ views` },
       ` on an account with just 253 followers.`,
     ],
   },
   {
-    num: '04',
+    year: '2024',
     title: 'The Realisation',
     body: [
       `That day, I realised my teacher was right - `,
@@ -80,7 +80,7 @@ const CHAPTERS = [
     ],
   },
   {
-    num: '05',
+    year: '2025',
     title: 'Beyond Editing',
     body: [
       `Video after video, thousands of views, countless likes, comments and messages followed, and then people started saying, "Akshay, you're killing it with your motion design and storytelling." And I was like, wait... they actually love my storytelling. So along with all the editing, motion design and visual skills, `,
@@ -89,7 +89,7 @@ const CHAPTERS = [
     ],
   },
   {
-    num: '06',
+    year: '2026',
     title: 'Where I Am Now',
     finale: true,
     body: [
@@ -394,7 +394,7 @@ export default function AboutMe() {
         ref={bioSectionRef}
         className="max-w-[1150px] w-full mx-auto pt-20 sm:pt-36 pb-6 px-4 sm:px-8 flex flex-col items-center relative z-20"
       >
-        {/* Name Heading - Mobile par size balanced kiya hai */}
+        {/* Name Heading */}
         <h2
           style={{ fontFamily: "'SquidBoy', sans-serif", letterSpacing: '0.5px' }}
           className="w-full text-center text-[#D42C2C] text-[2.4rem] sm:text-6xl md:text-[5rem] leading-[1.1] mb-3 sm:mb-6 capitalize"
@@ -406,7 +406,7 @@ export default function AboutMe() {
           ))}
         </h2>
 
-        {/* Numbers - Mobile par cards ki height compact ki hai taaki balanced lage */}
+        {/* Numbers / Stats */}
         <div className="stats-row w-full grid grid-cols-3 gap-2 sm:gap-8 mb-8 sm:mb-20">
           {STATS.map((st) => (
             <div
@@ -464,13 +464,13 @@ export default function AboutMe() {
               className="absolute left-[9px] sm:left-[15px] top-2 bottom-2 w-[3px] rounded bg-[#D42C2C] origin-top"
             />
 
-            {CHAPTERS.map((c) => (
-              <article key={c.num} className="chapter relative mb-6 sm:mb-12 last:mb-0">
+            {CHAPTERS.map((c, i) => (
+              <article key={i} className="chapter relative mb-6 sm:mb-12 last:mb-0">
                 <span
                   style={{ fontFamily: "'SquidBoy', sans-serif" }}
-                  className="chapter-dot absolute -left-8 sm:-left-14 top-2.5 sm:top-3 w-5 h-5 sm:w-8 sm:h-8 rounded-full bg-[#FFFCFB] border-[2px] sm:border-[3px] border-[#D42C2C] flex items-center justify-center text-[8px] sm:text-xs text-[#D42C2C] z-10"
+                  className="chapter-dot absolute -left-8 sm:-left-14 top-2.5 sm:top-3 w-5 h-5 sm:w-8 sm:h-8 rounded-full bg-[#FFFCFB] border-[2px] sm:border-[3px] border-[#D42C2C] flex items-center justify-center text-[7px] sm:text-[10px] text-[#D42C2C] z-10"
                 >
-                  {c.num}
+                  {c.year}
                 </span>
 
                 <div
@@ -486,7 +486,7 @@ export default function AboutMe() {
                       c.finale ? 'text-white/70' : 'text-[#14120e]/50'
                     }`}
                   >
-                    Chapter {c.num}
+                    {c.year}
                   </span>
                   <h3
                     style={{ fontFamily: "'SquidBoy', sans-serif", letterSpacing: '0.5px' }}
@@ -541,7 +541,7 @@ export default function AboutMe() {
                         'radial-gradient(circle at var(--mx, 30%) var(--my, 20%), rgba(255,255,255,0.22), transparent 55%), #D42C2C',
                     }}
                   >
-                    <div className="absolute inset-3 rounded-t-[999px] border border-white/35 pointer-events-none" />
+                    <div className="absoulte inset-3 rounded-t-[999px] border border-white/35 pointer-events-none" />
                   </div>
 
                   <img

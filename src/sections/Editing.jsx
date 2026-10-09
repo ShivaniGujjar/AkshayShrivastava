@@ -15,27 +15,35 @@ const ytThumbFallback = (id) => `https://i.ytimg.com/vi/${id}/hqdefault.jpg`;
 
 const LONG_FORMS = [
   { id: 'lf1', title: 'Moradabad - The brass city', category: 'Documentary', youtubeId: 'VIzWHj8FrXA' },
-  { id: 'lf2', title: 'Samsara - The gin', category: 'Documentary', youtubeId: 'JUCnkdyVsGI' },
-  { id: 'lf3', title: 'Shamik - The comic', category: 'Podcast', youtubeId: 'On0S3Ym4FfA' },
+  { id: 'lf2', title: 'Biturbo', category: 'Edutainment', youtubeId: 'MfOuSuKKzdI' },
+  { id: 'lf3', title: 'Samsara - The gin', category: 'Documentary', youtubeId: 'JUCnkdyVsGI' },
   { id: 'lf4', title: 'Clovia - The lingerie brand', category: 'Edutainment', youtubeId: 'PTxuqvWqhu0' },
-  { id: 'lf5', title: 'Biturbo', category: 'Edutainment', youtubeId: 'MfOuSuKKzdI' },
+  { id: 'lf5', title: 'Inside the Business of HYROX', category: 'Documentary', youtubeId: 'iIhLVkXaXc8' },
+  { id: 'lf6', title: 'Shamik - The comic', category: 'Podcast', youtubeId: 'On0S3Ym4FfA' },
+  
 ];
 
-const SHORT_FORMS_ROW1 = [
-  { id: 'sf7', title: 'Shorts', brand: 'Scratch', videoUrl: 'https://akshayshrivastava.com/videos/short1.mp4', poster: 'https://akshayshrivastava.com/images/short1.png', driveUrl: 'https://drive.google.com/file/d/1YSYx60tZN3qbMVLEi2pqivC3TDGZTqy_/view?usp=sharing' },
-  { id: 'sf1', name: "Masters' Union", type: 'Instagram Reel', title: 'Retention Hook 1', brand: 'Waywen', videoUrl: 'https://akshayshrivastava.com/videos/short3.mp4', poster: 'https://akshayshrivastava.com/images/short3.png', driveUrl: 'https://drive.google.com/file/d/1Xw9i6DwueS00OjtjmihO6Un0RRNcal6v/view?usp=sharing' },
-  { id: 'sf2', name: 'Ankit_sr', type: "Instagram Reel", title: 'Viral Podcast Clip 2', brand: 'Edutainment', videoUrl: 'https://akshayshrivastava.com/videos/short19.mp4', poster: 'https://akshayshrivastava.com/images/short19.png', driveUrl: 'https://drive.google.com/file/d/1Al5OymoNf06OhEYKG0quCGF_qQWB4J2c/view?usp=sharing' },
+const SHORT_FORMS = [
+ { id: 'msf5', name: 'Scratch', type: 'Edutainment', title: 'Character Animation', brand: '2D Motion', videoUrl: 'https://akshayshrivastava.com/videos/short9.mp4', poster: 'https://akshayshrivastava.com/images/short9.png', driveUrl: 'https://drive.google.com/file/d/1uwY-PFrG5BDBY7e5WlOJZIB18O-tCKwO/view?usp=sharing' },
+
+  { id: 'sf1', name: "Masters' Union", type: 'Personal Brand', title: 'Retention Hook 1', brand: 'Waywen', videoUrl: 'https://akshayshrivastava.com/videos/short3.mp4', poster: 'https://akshayshrivastava.com/images/short3.png', driveUrl: 'https://drive.google.com/file/d/1Xw9i6DwueS00OjtjmihO6Un0RRNcal6v/view?usp=sharing' },
+
   { id: 'sf3', name: 'Vishwmitra', type: 'Performance Reel', title: 'Brand Story Reel 3', brand: 'Kolkata Media', videoUrl: 'https://akshayshrivastava.com/videos/short5.mp4', poster: 'https://akshayshrivastava.com/images/short5.png', driveUrl: 'https://drive.google.com/file/d/1KI4EhIOdQZ91bvBi_fLTbbzxloZrfPMJ/view?usp=sharing' },
-  { id: 'sf5', title: 'Instagram Reel', brand: 'Ankit_sr', videoUrl: 'https://akshayshrivastava.com/videos/short17.mp4', poster: 'https://akshayshrivastava.com/images/short17.png', driveUrl: 'https://drive.google.com/file/d/1BiH8dwQ1A-ScF4QV3gQdaUhpNKAPbepc/view?usp=sharing' },
-];
 
-const SHORT_FORMS_ROW2 = [
-  { id: 'sf6', title: 'Personal Instagram Reel', brand: 'Akshay Shrivastava', videoUrl: 'https://akshayshrivastava.com/videos/short18.mp4', poster: 'https://akshayshrivastava.com/images/short18.png', driveUrl: 'https://drive.google.com/file/d/1nIuMt5bekFJO2I8aiZo6NA5E33uNegGN/view?usp=sharing' },
-  { id: 'sf11', title: 'Instagram Reel', brand: 'Ankit_sr', videoUrl: 'https://akshayshrivastava.com/videos/short8.mp4', poster: 'https://akshayshrivastava.com/images/short8.png', driveUrl: 'https://drive.google.com/file/d/1CwHInJc7W6-3-qZOfA515stZHmgANWJ2/view?usp=sharing' },
+  { id: 'sf2', name: 'Ankit_sr', type: "Personal Brand", title: 'Viral Podcast Clip 2', brand: 'Edutainment', videoUrl: 'https://akshayshrivastava.com/videos/short19.mp4', poster: 'https://akshayshrivastava.com/images/short19.png', driveUrl: 'https://drive.google.com/file/d/1Al5OymoNf06OhEYKG0quCGF_qQWB4J2c/view?usp=sharing' },
+
+  
+  
+  { id: 'sf6', title: 'Personal Brand', brand: 'Akshay Shrivastava', videoUrl: 'https://akshayshrivastava.com/videos/short18.mp4', poster: 'https://akshayshrivastava.com/images/short18.png', driveUrl: 'https://drive.google.com/file/d/1nIuMt5bekFJO2I8aiZo6NA5E33uNegGN/view?usp=sharing' },
+ 
   { id: 'sf10', title: "UGC Ad's", brand: 'Frido', videoUrl: 'https://akshayshrivastava.com/videos/short11.mp4', poster: 'https://akshayshrivastava.com/images/short11.png', driveUrl: 'https://drive.google.com/file/d/1O6s9e9q8R4Zc0DdrUUB6MnNDF1km__94/view?usp=sharing' },
-  { id: 'sf9', title: 'Instagram Reel', brand: 'Ankit_sr', videoUrl: 'https://akshayshrivastava.com/videos/short16.mp4', poster: 'https://akshayshrivastava.com/images/short16.png', driveUrl: 'https://drive.google.com/file/d/1qHBc4J4Buvmc_pl-_LCXx5-nTI2e0yXS/view?usp=sharing' },
+
+  { id: 'msf2', name: 'Vishwmitra', type: 'Performance Reel', title: 'Abstract Product Reel', brand: '3D Motion', videoUrl: 'https://akshayshrivastava.com/videos/short4.mp4', poster: 'https://akshayshrivastava.com/images/short4.png', driveUrl: 'https://drive.google.com/file/d/1du-28m6tarHsR432u2SWzhcRVzKv-7YO/view?usp=sharing' },
+
+  { id: 'msf4', name: 'Ankur Wariko', type: 'UGC Ads', title: 'Character Animation', brand: '2D Motion', videoUrl: 'https://akshayshrivastava.com/videos/short7.mp4', poster: 'https://akshayshrivastava.com/images/short7.png', driveUrl: 'https://drive.google.com/file/d/1G0GUMbQXBIAvnLRCs1lgs-BE9lCVvIMy/view?usp=sharing' },
+ 
   { id: 'sf8', title: "UGC Ad's", brand: 'Frido', videoUrl: 'https://akshayshrivastava.com/videos/short12.mp4', poster: 'https://akshayshrivastava.com/images/short12.png', driveUrl: 'https://drive.google.com/file/d/1-S-L43uq4j1VoEQYINbmZS7iK1QigC_w/view?usp=sharing' },
-  { id: 'sf4', name: 'Ankit_sr', type: 'Instagram Reel', title: 'Instagram Reel', brand: 'Fit Tribe', videoUrl: 'https://akshayshrivastava.com/videos/short10.mp4', poster: 'https://akshayshrivastava.com/images/short10.png', driveUrl: 'https://drive.google.com/file/d/1gPB6TJ7HZ9_7vzIIjFbSedst69GTeRPx/view?usp=sharing' },
+  { id: 'sf4', name: 'Ankit_sr', type: 'Personal Brand', title: 'Instagram Reel', brand: 'Fit Tribe', videoUrl: 'https://akshayshrivastava.com/videos/short10.mp4', poster: 'https://akshayshrivastava.com/images/short10.png', driveUrl: 'https://drive.google.com/file/d/1gPB6TJ7HZ9_7vzIIjFbSedst69GTeRPx/view?usp=sharing' },
 ];
 
 const duplicateList = (arr, count = 2) => {
@@ -247,22 +255,53 @@ function VideoCard({ item, aspectRatio = "wide", hoveredId, setHoveredId, onOpen
   );
 }
 
+function RowArrow({ side, onClick }) {
+  const isLeft = side === 'left';
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      aria-label={isLeft ? 'Scroll left' : 'Scroll right'}
+      className={`absolute top-[calc(50%-8px)] -translate-y-1/2 z-30 flex h-8 w-8 sm:h-11 sm:w-11 items-center justify-center rounded-full bg-[#D42C2C] text-[#FFFCFB] shadow-[0_6px_16px_rgba(0,0,0,0.3)] transition-transform duration-200 hover:scale-110 active:scale-95 cursor-pointer outline-none focus-visible:ring-2 focus-visible:ring-[#14120e] focus-visible:ring-offset-2 ${
+        isLeft ? 'left-1.5 sm:left-4' : 'right-1.5 sm:right-4'
+      }`}
+    >
+      <svg
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2.4"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        className="h-4 w-4 sm:h-5 sm:w-5"
+        aria-hidden="true"
+      >
+        <path d={isLeft ? 'M15 5l-7 7 7 7' : 'M9 5l7 7-7 7'} />
+      </svg>
+    </button>
+  );
+}
+
 function MarqueeRow({ items, aspectRatio, direction = 'left', hoveredId, setHoveredId, onOpenModal, speed = 45 }) {
   const containerRef = useRef(null);
+  const innerRef = useRef(null);
   const hoveredIdRef = useRef(hoveredId);
-  const isDraggingRef = useRef(false);
   const rafRef = useRef(null);
   const lastTimeRef = useRef(null);
-  const draggedRef = useRef(false);
-  const momentumRafRef = useRef(null);
+  const slideRafRef = useRef(null);
+  const isSlidingRef = useRef(false);
+  const resumeAtRef = useRef(0);
 
   useEffect(() => {
     hoveredIdRef.current = hoveredId;
   }, [hoveredId]);
 
-  useEffect(() => {
-    return () => { if (momentumRafRef.current) cancelAnimationFrame(momentumRafRef.current); };
-  }, []);
+  const wrap = (el) => {
+    const half = el.scrollWidth / 2;
+    if (half <= 0) return;
+    if (el.scrollLeft >= half) el.scrollLeft -= half;
+    else if (el.scrollLeft <= 0) el.scrollLeft += half;
+  };
 
   useEffect(() => {
     const el = containerRef.current;
@@ -277,19 +316,15 @@ function MarqueeRow({ items, aspectRatio, direction = 'left', hoveredId, setHove
       const delta = timestamp - lastTimeRef.current;
       lastTimeRef.current = timestamp;
 
-      if (hoveredIdRef.current == null && !isDraggingRef.current) {
-        const half = el.scrollWidth / 2;
+      const paused =
+        hoveredIdRef.current != null ||
+        isSlidingRef.current ||
+        performance.now() < resumeAtRef.current;
+
+      if (!paused) {
         const dir = direction === 'left' ? 1 : -1;
-
         el.scrollLeft += dir * speed * (delta / 1000);
-
-        if (half > 0) {
-          if (el.scrollLeft >= half) {
-            el.scrollLeft -= half;
-          } else if (el.scrollLeft <= 0) {
-            el.scrollLeft += half;
-          }
-        }
+        wrap(el);
       }
 
       rafRef.current = requestAnimationFrame(step);
@@ -303,128 +338,70 @@ function MarqueeRow({ items, aspectRatio, direction = 'left', hoveredId, setHove
     };
   }, [direction, speed]);
 
-  const DRAG_THRESHOLD = 8;
+  useEffect(() => {
+    return () => { if (slideRafRef.current) cancelAnimationFrame(slideRafRef.current); };
+  }, []);
 
-  const handleStart = (clientX) => {
+  const slide = (sign) => {
     const el = containerRef.current;
-    if (!el) return;
+    const inner = innerRef.current;
+    if (!el || !inner || !inner.children[0]) return;
 
-    if (momentumRafRef.current) {
-      cancelAnimationFrame(momentumRafRef.current);
-      momentumRafRef.current = null;
-    }
+    if (slideRafRef.current) cancelAnimationFrame(slideRafRef.current);
 
-    draggedRef.current = false;
-    const startX = clientX;
-    const startScroll = el.scrollLeft;
-    let lastX = clientX;
-    let lastTime = performance.now();
-    let velocity = 0;
+    const gap = parseFloat(getComputedStyle(inner).columnGap) || 0;
+    const cardW = inner.children[0].getBoundingClientRect().width;
+    const cards = aspectRatio === 'tall' ? 2 : 1;
+    const total = sign * (cardW + gap) * cards;
 
-    const handleMove = (moveX) => {
-      const dx = moveX - startX;
+    const duration = 500;
+    const start = performance.now();
+    let done = 0;
+    isSlidingRef.current = true;
 
-      if (!isDraggingRef.current) {
-        if (Math.abs(dx) < DRAG_THRESHOLD) return;
-        isDraggingRef.current = true;
-        draggedRef.current = true;
-      }
+    const tick = (now) => {
+      const t = Math.min(1, Math.max(0, (now - start) / duration));
+      const eased = 1 - Math.pow(1 - t, 3);
+      const target = total * eased;
+      el.scrollLeft += target - done;
+      done = target;
+      wrap(el);
 
-      el.scrollLeft = startScroll - dx;
-
-      const now = performance.now();
-      const dt = now - lastTime;
-      if (dt > 0) velocity = (moveX - lastX) / dt;
-      lastX = moveX;
-      lastTime = now;
-    };
-
-    const handleMouseMove = (e) => handleMove(e.clientX);
-    const handleTouchMove = (e) => {
-      if (e.touches && e.touches[0]) handleMove(e.touches[0].clientX);
-    };
-
-    const handleEnd = () => {
-      window.removeEventListener('mousemove', handleMouseMove);
-      window.removeEventListener('mouseup', handleEnd);
-      window.removeEventListener('touchmove', handleTouchMove);
-      window.removeEventListener('touchend', handleEnd);
-
-      let scrollVelocity = -velocity;
-      let lastTs = null;
-
-      const glide = (ts) => {
-        if (lastTs == null) lastTs = ts;
-        const dt = ts - lastTs;
-        lastTs = ts;
-
-        el.scrollLeft += scrollVelocity * dt;
-        scrollVelocity *= Math.pow(0.94, dt / 16.67);
-
-        const half = el.scrollWidth / 2;
-        if (half > 0) {
-          if (el.scrollLeft >= half) el.scrollLeft -= half;
-          else if (el.scrollLeft <= 0) el.scrollLeft += half;
-        }
-
-        if (Math.abs(scrollVelocity) > 0.02) {
-          momentumRafRef.current = requestAnimationFrame(glide);
-        } else {
-          momentumRafRef.current = null;
-          isDraggingRef.current = false;
-        }
-      };
-
-      if (draggedRef.current && Math.abs(scrollVelocity) > 0.02) {
-        momentumRafRef.current = requestAnimationFrame(glide);
+      if (t < 1) {
+        slideRafRef.current = requestAnimationFrame(tick);
       } else {
-        isDraggingRef.current = false;
+        slideRafRef.current = null;
+        isSlidingRef.current = false;
+        resumeAtRef.current = performance.now() + 1500;
       }
     };
 
-    window.addEventListener('mousemove', handleMouseMove);
-    window.addEventListener('mouseup', handleEnd);
-    window.addEventListener('touchmove', handleTouchMove);
-    window.addEventListener('touchend', handleEnd);
-  };
-
-  const handleMouseDown = (e) => handleStart(e.clientX);
-  const handleTouchStart = (e) => {
-    if (e.touches && e.touches[0]) handleStart(e.touches[0].clientX);
-  };
-
-  const handleContainerMouseLeave = () => setHoveredId(null);
-
-  const handleClickCapture = (e) => {
-    if (draggedRef.current) {
-      e.stopPropagation();
-      e.preventDefault();
-      draggedRef.current = false;
-    }
+    slideRafRef.current = requestAnimationFrame(tick);
   };
 
   return (
-    <div
-      ref={containerRef}
-      onMouseLeave={handleContainerMouseLeave}
-      onMouseDown={handleMouseDown}
-      onTouchStart={handleTouchStart}
-      onClickCapture={handleClickCapture}
-      className="w-full max-w-full overflow-x-scroll overflow-y-hidden pt-2 pb-6 cursor-grab active:cursor-grabbing select-none [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden px-3 sm:px-8"
-      style={{ touchAction: 'pan-y' }}
-    >
-      <div className="inline-flex whitespace-nowrap gap-3 sm:gap-10 w-max items-start">
-        {items.map((item, idx) => (
-          <VideoCard
-            key={`${item.id}-${idx}`}
-            item={item}
-            aspectRatio={aspectRatio}
-            hoveredId={hoveredId}
-            setHoveredId={setHoveredId}
-            onOpenModal={onOpenModal}
-          />
-        ))}
+    <div className="relative w-full max-w-full">
+      <div
+        ref={containerRef}
+        onMouseLeave={() => setHoveredId(null)}
+        className="w-full max-w-full overflow-x-hidden overflow-y-hidden pt-2 pb-6 select-none px-3 sm:px-8"
+      >
+        <div ref={innerRef} className="inline-flex whitespace-nowrap gap-3 sm:gap-10 w-max items-start">
+          {items.map((item, idx) => (
+            <VideoCard
+              key={`${item.id}-${idx}`}
+              item={item}
+              aspectRatio={aspectRatio}
+              hoveredId={hoveredId}
+              setHoveredId={setHoveredId}
+              onOpenModal={onOpenModal}
+            />
+          ))}
+        </div>
       </div>
+
+      <RowArrow side="left" onClick={() => slide(-1)} />
+      <RowArrow side="right" onClick={() => slide(1)} />
     </div>
   );
 }
@@ -432,8 +409,7 @@ function MarqueeRow({ items, aspectRatio, direction = 'left', hoveredId, setHove
 export default function Editing() {
   const [selectedVideo, setSelectedVideo] = useState(null);
   const [hoveredLongId, setHoveredLongId] = useState(null);
-  const [hoveredShort1Id, setHoveredShort1Id] = useState(null);
-  const [hoveredShort2Id, setHoveredShort2Id] = useState(null);
+  const [hoveredShortId, setHoveredShortId] = useState(null);
   
   const [isHeroMuted, setIsHeroMuted] = useState(true);
   const heroVideoRef = useRef(null);
@@ -485,10 +461,7 @@ export default function Editing() {
     return () => ctx.revert();
   }, []);
 
-  const isShortForm = selectedVideo && (
-    SHORT_FORMS_ROW1.some(s => s.id === selectedVideo.id) || 
-    SHORT_FORMS_ROW2.some(s => s.id === selectedVideo.id)
-  );
+  const isShortForm = selectedVideo && SHORT_FORMS.some(s => s.id === selectedVideo.id);
 
   return (
     <div className="w-full min-h-screen bg-[#FFFCFB] relative overflow-x-hidden pb-12 sm:pb-24 m-0 text-[#14120e]">
@@ -660,7 +633,7 @@ export default function Editing() {
         />
       </div>
 
-      {/* SHORT FORMS */}
+      {/* SHORT FORMS (Single Row, Opposite Direction: 'right') */}
       <div className="w-full max-w-full relative overflow-hidden my-4 sm:my-20">
         <div className="max-w-[1100px] w-full mx-auto px-4 sm:px-6 flex flex-col items-center text-center mb-4 sm:mb-8">
           <h3 
@@ -686,25 +659,15 @@ export default function Editing() {
         
         <div className="mb-3 sm:mb-8">
           <MarqueeRow
-            items={duplicateList(SHORT_FORMS_ROW1)}
+            items={duplicateList(SHORT_FORMS)}
             aspectRatio="tall"
-            direction="left"
+            direction="right"
             speed={40}
-            hoveredId={hoveredShort1Id}
-            setHoveredId={setHoveredShort1Id}
+            hoveredId={hoveredShortId}
+            setHoveredId={setHoveredShortId}
             onOpenModal={setSelectedVideo}
           />
         </div>
-
-        <MarqueeRow
-          items={duplicateList(SHORT_FORMS_ROW2)}
-          aspectRatio="tall"
-          direction="right"
-          speed={40}
-          hoveredId={hoveredShort2Id}
-          setHoveredId={setHoveredShort2Id}
-          onOpenModal={setSelectedVideo}
-        />
       </div>
 
       {/* STATS COUNTER */}
