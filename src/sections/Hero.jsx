@@ -94,7 +94,7 @@ export default function Hero({ onColumnClick }) {
   };
 
   return (
-    <section ref={sectionRef} className="w-full h-dvh md:h-screen bg-[#08080a] overflow-hidden relative m-0 p-0 select-none">
+    <section ref={sectionRef} className="w-full md:h-screen bg-[#08080a] overflow-hidden relative m-0 p-0 select-none">
       
       <style>{`
         @font-face {
@@ -172,6 +172,16 @@ export default function Hero({ onColumnClick }) {
         @keyframes mobileRise {
           from { opacity: 0; transform: translate3d(0, 12px, 0); }
           to { opacity: 1; transform: translate3d(0, 0, 0); }
+        }
+
+        /* Mobile hero height. 100lvh = viewport with the browser URL bar hidden.
+           Using dvh here left a black strip when the URL bar was visible, because the
+           page itself is 100vh tall. */
+        @media (max-width: 767px) {
+          .hero-mobile-h {
+            min-height: 100vh;
+            min-height: 100lvh;
+          }
         }
 
         @media (max-width: 767px) {
@@ -372,7 +382,7 @@ export default function Hero({ onColumnClick }) {
 
       {/* ================= MOBILE STACKED LAYOUT (COLORFUL THUMBNAILS) ================= */}
       <div
-        className="md:hidden flex flex-col w-full h-dvh overflow-hidden relative z-[1] box-border"
+        className="hero-mobile-h md:hidden flex flex-col w-full overflow-hidden relative z-[1] box-border"
       >
         {COLUMNS.map((col, index) => {
           return (
