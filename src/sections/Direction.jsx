@@ -290,9 +290,8 @@ function ScrapbookGallery({ onReady }) {
                   left: `${(((strip.x0 + strip.x1) / 2) / layout.W) * 100}%`,
                   top: `${(((strip.y0 + strip.y1) / 2) / layout.H) * 100}%`,
                   transform: 'translate(-50%, -50%) rotate(-1deg)',
-                  fontSize: `${(((strip.y1 - strip.y0) * 0.5) / crop.w) * 100}cqw`,
                 }}
-                className="absolute z-20 m-0 text-[#D42C2C] leading-none whitespace-nowrap capitalize pointer-events-none"
+                className="absolute z-20 m-0 text-[#D42C2C] leading-none whitespace-nowrap capitalize pointer-events-none text-xl sm:text-4xl"
               >
                 Direction <span className='text-[#14120e]'>Work</span>
               </h2>
@@ -316,34 +315,8 @@ function ScrapbookGallery({ onReady }) {
 
               return (
                 <React.Fragment key={idx}>
-                  {/* 📱 MOBILE THUMBNAIL */}
-                  <div className="absolute inset-0 block md:hidden z-10 pointer-events-none"
-                    style={{
-                      maskImage: `url(${w.mask})`,
-                      WebkitMaskImage: `url(${w.mask})`,
-                      maskSize: '100% 100%',
-                      WebkitMaskSize: '100% 100%',
-                      maskRepeat: 'no-repeat',
-                      WebkitMaskRepeat: 'no-repeat',
-                    }}
-                  >
-                    <div
-                      className="absolute bg-black overflow-hidden"
-                      style={{
-                        left: `${((cx - vw / 2) / W) * 100}%`,
-                        top: `${((cy - vh / 2) / H) * 100}%`,
-                        width: `${(vw / W) * 100}%`,
-                        height: `${(vh / H) * 100}%`,
-                        transform: `rotate(${angle}rad)`,
-                      }}
-                    >
-                      <img src={v.poster} alt="" className="w-full h-full object-cover filter brightness-[0.9]" />
-                    </div>
-                  </div>
-
-                  {/* 💻 DESKTOP VIDEO */}
                   <div
-                    className="absolute inset-0 hidden md:block z-10 pointer-events-none"
+                    className="absolute inset-0 z-10 pointer-events-none"
                     style={{
                       maskImage: `url(${w.mask})`,
                       WebkitMaskImage: `url(${w.mask})`,
@@ -371,9 +344,7 @@ function ScrapbookGallery({ onReady }) {
                         muted
                         playsInline
                         preload="metadata"
-                        className={`w-full h-full object-cover transition-all duration-300 ${
-                          hoveredIdx === idx ? 'brightness-110' : 'brightness-95'
-                        }`}
+                        className="w-full h-full object-cover brightness-95"
                       />
                     </div>
                   </div>
@@ -394,26 +365,63 @@ function ScrapbookGallery({ onReady }) {
   );
 }
 
-function DirectionShortCard({ project }) {
+function DirectionShortCard({ project, onOpenModal }) {
+  const videoRef = useRef(null);
+  const [isHovered, setIsHovered] = useState(false);
+
+  useEffect(() => {
+    const videoEl = videoRef.current;
+    if (!videoEl) return;
+
+    if (isHovered) {
+      if (!videoEl.src) videoEl.src = project.videoUrl;
+      videoEl.play().catch(() => {});
+    } else {
+      videoEl.pause();
+      videoEl.currentTime = 0;
+    }
+
+    const handleTimeUpdate = () => {
+      if (videoEl.currentTime >= 10.0) {
+        videoEl.currentTime = 0;
+        videoEl.play().catch(() => {});
+      }
+    };
+
+    videoEl.addEventListener('timeupdate', handleTimeUpdate);
+    return () => {
+      if (videoEl) videoEl.removeEventListener('timeupdate', handleTimeUpdate);
+    };
+  }, [isHovered, project.videoUrl]);
+
   return (
-    <div className="w-[180px] xs:w-[210px] sm:w-[300px] aspect-[9/16] bg-[#14120e] rounded-[8px] overflow-hidden shadow-2xl relative transition-transform duration-500 hover:scale-[1.02] shrink-0 cursor-pointer">
-      <div className="absolute inset-0 block md:hidden z-10">
-        <img src={project.poster} alt={project.title} className="w-full h-full object-cover" />
+    <div 
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+      onClick={() => onOpenModal(project)}
+      className="w-[180px] xs:w-[210px] sm:w-[300px] aspect-[9/16] bg-[#14120e] rounded-[8px] overflow-hidden shadow-2xl relative transition-transform duration-500 hover:scale-[1.02] shrink-0 cursor-pointer group"
+    >
+      <div className={`absolute inset-0 z-[2] transition-opacity duration-300 ${isHovered ? 'opacity-0' : 'opacity-100'}`}>
+        <img src={project.poster} alt={project.title} className="w-full h-full object-cover filter brightness-[0.88]" />
       </div>
-      <div className="absolute inset-0 hidden md:block z-10">
-        <CustomVideoPlayer
-          src={project.videoUrl}
+
+      <div className="absolute inset-0 z-[1]">
+        <video
+          ref={videoRef}
           poster={project.poster}
-          badgeText={project.tag}
-          className="w-full h-full"
-          muted={true}
+          muted
+          playsInline
+          preload="none"
+          className="absolute inset-0 w-full h-full object-cover outline-none pointer-events-none"
         />
       </div>
+
+      <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent pointer-events-none z-[3]" />
     </div>
   );
 }
 
-function DirectionProjectRow({ project, index, activeHoverId, setActiveHoverId }) {
+function DirectionProjectRow({ project, index, onOpenModal }) {
   const rowRef = useRef(null);
   const videoWrapperRef = useRef(null);
   const textColRef = useRef(null);
@@ -425,8 +433,6 @@ function DirectionProjectRow({ project, index, activeHoverId, setActiveHoverId }
     ctx.add("(min-width: 768px)", () => {
       const videoInitialX = isReverse ? -120 : 120;
       const textInitialX = isReverse ? 80 : -80;
-      // Final offsets were 60 / 40, which pushed the video and the text far apart.
-      // Smaller values keep the staggered feel but bring each pair together.
       const videoFinalX = isReverse ? 24 : -24;
       const textFinalX = isReverse ? -16 : 16;
 
@@ -461,14 +467,13 @@ function DirectionProjectRow({ project, index, activeHoverId, setActiveHoverId }
       }`}
     >
       <div ref={videoWrapperRef} className="shrink-0 relative z-20 will-change-transform">
-        <DirectionShortCard project={project} />
+        <DirectionShortCard project={project} onOpenModal={onOpenModal} />
       </div>
 
       <div
         ref={textColRef}
         className="w-full md:max-w-[460px] flex flex-col items-center md:items-start justify-center text-center md:text-left shrink-0 relative z-10 px-4 will-change-transform"
       >
-        {/* Ghost numeral (decorative): sits cleanly above the title, scales for mobile */}
         <span
           aria-hidden="true"
           style={{ fontFamily: "'SquidBoy', sans-serif", letterSpacing: '1px' }}
@@ -496,16 +501,24 @@ function DirectionProjectRow({ project, index, activeHoverId, setActiveHoverId }
 }
 
 export default function Direction() {
+  const [selectedVideo, setSelectedVideo] = useState(null);
   const featuredSectionRef = useRef(null);
   const paragraphRef = useRef(null);
   const headingRef = useRef(null);
-  const [activeProjectHoverId, setActiveProjectHoverId] = useState(null);
   const [galleryReady, setGalleryReady] = useState(Boolean(layoutCache));
 
   const handleGalleryReady = useCallback(() => setGalleryReady(true), []);
 
   useIsoLayoutEffect(() => {
     window.scrollTo(0, 0);
+  }, []);
+
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.key === 'Escape') setSelectedVideo(null);
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
   }, []);
 
   useEffect(() => {
@@ -617,7 +630,6 @@ export default function Direction() {
       <div ref={featuredSectionRef} className="w-full mx-auto pt-20 sm:pt-32 pb-2 px-4 flex flex-col items-center relative z-20 text-center overflow-hidden">
         <ScrapbookGallery onReady={handleGalleryReady} />
 
-        {/* Heading first, then the intro paragraph (same order as the Editing page) */}
         <div ref={headingRef} className="inline-flex flex-col items-center z-20 px-4 mt-6 sm:mt-10 will-change-transform">
           <h2
             style={{ fontFamily: "'SquidBoy', sans-serif", letterSpacing: '1px' }}
@@ -643,8 +655,7 @@ export default function Direction() {
             key={project.id}
             project={project}
             index={idx}
-            activeHoverId={activeProjectHoverId}
-            setActiveHoverId={setActiveProjectHoverId}
+            onOpenModal={setSelectedVideo}
           />
         ))}
       </div>
@@ -654,6 +665,37 @@ export default function Direction() {
       <div className="m-0 p-0 mb-6 sm:mb-20">
         <SocialProof />
       </div>
+
+      {/* FULLSCREEN PREVIEW MODAL */}
+      {selectedVideo && (
+        <div 
+          onClick={() => setSelectedVideo(null)}
+          className="fixed inset-0 z-[99999] bg-black/85 backdrop-blur-xl flex items-center justify-center p-3 sm:p-8 cursor-pointer"
+        >
+          <div 
+            onClick={(e) => e.stopPropagation()}
+            className="relative w-full max-w-[300px] sm:max-w-[380px] aspect-[9/16] rounded-[8px] bg-black overflow-hidden shadow-2xl cursor-default flex flex-col"
+          >
+            <button 
+              onClick={() => setSelectedVideo(null)}
+              className="absolute top-3 right-3 sm:top-4 sm:right-4 z-[1000] w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-black/60 text-white flex items-center justify-center font-bold text-base sm:text-lg transition-all shadow-lg cursor-pointer backdrop-blur-md"
+            >
+              ✕
+            </button>
+
+            <div className="w-full h-full bg-black flex-1 relative">
+              <CustomVideoPlayer 
+                src={selectedVideo.videoUrl} 
+                autoPlay={true}
+                loop={true}
+                muted={false}
+                className="w-full h-full"
+                videoClassName="w-full h-full object-cover outline-none"
+              />
+            </div>
+          </div>
+        </div>
+      )}
 
       <Footer />
     </div>
