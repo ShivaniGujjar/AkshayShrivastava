@@ -38,6 +38,10 @@ const NAV_ITEMS = [
   { label: 'About Me', id: 'about' }
 ];
 
+// Mobile: the hero is exactly one screen tall, so the page should not scroll at all.
+// Set to false if you ever add more sections below the hero on the home page.
+const LOCK_MOBILE_SCROLL = true;
+
 const ID_TO_PATH = {
   editing: '/editing',
   motion: '/motion-design',
@@ -77,6 +81,41 @@ export default function Hero({ onColumnClick }) {
   useEffect(() => {
     if (!isHeroInView && isMobileMenuOpen) setIsMobileMenuOpen(false);
   }, [isHeroInView, isMobileMenuOpen]);
+
+  // Lock page scroll on mobile while the hero is on screen (removes the extra scroll + black strip)
+  useEffect(() => {
+    if (!LOCK_MOBILE_SCROLL || !isHeroInView) return;
+    const mq = window.matchMedia('(max-width: 767px)');
+    const html = document.documentElement;
+    const body = document.body;
+    const prev = {
+      htmlOverflow: html.style.overflow,
+      bodyOverflow: body.style.overflow,
+      htmlOverscroll: html.style.overscrollBehavior,
+    };
+
+    const restore = () => {
+      html.style.overflow = prev.htmlOverflow;
+      body.style.overflow = prev.bodyOverflow;
+      html.style.overscrollBehavior = prev.htmlOverscroll;
+    };
+    const apply = () => {
+      if (mq.matches) {
+        html.style.overflow = 'hidden';
+        body.style.overflow = 'hidden';
+        html.style.overscrollBehavior = 'none';
+      } else {
+        restore();
+      }
+    };
+
+    apply();
+    mq.addEventListener('change', apply);
+    return () => {
+      mq.removeEventListener('change', apply);
+      restore();
+    };
+  }, [isHeroInView]);
 
   const handleMouseEnter = (index) => {
     setHoveredIndex(index);
@@ -174,13 +213,12 @@ export default function Hero({ onColumnClick }) {
           to { opacity: 1; transform: translate3d(0, 0, 0); }
         }
 
-        /* Mobile hero height. 100lvh = viewport with the browser URL bar hidden.
-           Using dvh here left a black strip when the URL bar was visible, because the
-           page itself is 100vh tall. */
+        /* Mobile hero height = exactly the visible screen (dvh, with 100vh fallback).
+           Page scrolling is locked in JS below, so there is nothing left to scroll to. */
         @media (max-width: 767px) {
           .hero-mobile-h {
-            min-height: 100vh;
-            min-height: 100lvh;
+            height: 100vh;
+            height: 100dvh;
           }
         }
 
