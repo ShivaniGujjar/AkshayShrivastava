@@ -245,16 +245,15 @@ function VideoCard({ item, aspectRatio = "wide", hoveredId, setHoveredId, onOpen
       {/* Watch-full-video badge: one solid colour, soft shadow + hairline ring for depth.
           mobile: small square arrow button, always visible (no hover on touch)
           desktop: label slides in on hover / keyboard focus */}
+      {/* Watch-full-video badge: Desktop par hover karne par dikhega, mobile par hidden rahega */}
       {isLink && (
         <span
           aria-hidden="true"
           style={{ fontFamily: "'GroteskFont', 'Helvetica Neue', Helvetica, Arial, sans-serif" }}
-          className={`absolute top-2 right-2 sm:top-3 sm:right-3 z-10 pointer-events-none flex items-center justify-center w-7 h-7 rounded-[4px] ${BADGE_BG} text-white ring-1 ring-white/15 shadow-[0_6px_16px_rgba(0,0,0,0.35)] transition-all duration-300
-            md:w-auto md:h-auto md:gap-2 md:px-3 md:py-2 md:text-[10px] md:font-semibold md:uppercase md:tracking-[0.14em] md:leading-none
-            md:opacity-0 md:translate-y-1 md:group-hover:opacity-100 md:group-hover:translate-y-0 md:group-focus-visible:opacity-100 md:group-focus-visible:translate-y-0`}
+          className={`absolute top-3 right-3 z-10 pointer-events-none hidden md:flex items-center gap-2 px-3 py-2 rounded-[4px] ${BADGE_BG} text-white text-[10px] font-semibold uppercase tracking-[0.14em] leading-none ring-1 ring-white/15 shadow-[0_6px_16px_rgba(0,0,0,0.35)] opacity-0 translate-y-1 group-hover:opacity-100 group-hover:translate-y-0 group-focus-visible:opacity-100 group-focus-visible:translate-y-0 transition-all duration-300`}
         >
-          <span className="hidden md:inline whitespace-nowrap">Watch full video</span>
-          <ArrowUpRightIcon className="w-3.5 h-3.5 md:w-3 md:h-3" />
+          <span className="whitespace-nowrap">Watch Full Video</span>
+          <ArrowUpRightIcon className="w-3 h-3 text-[#FFC300]" />
         </span>
       )}
 

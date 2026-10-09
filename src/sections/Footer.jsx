@@ -89,7 +89,7 @@ export default function Footer() {
 
         {/* Social handles - Sleek & Compact Pill */}
         <div className="ft-pill-wrap flex justify-center items-center w-full px-4">
-          <div className="relative bg-[#D42C2C] text-white py-2 px-5 sm:py-2.5 sm:px-8 rounded-lg flex items-center justify-center shadow-md sm:shadow-lg overflow-hidden">
+          <div className="relative bg-[#D42C2C] text-white py-2 sm:pt-3 px-4 sm:py-2 sm:px-6 rounded-lg flex items-center justify-center shadow-md sm:shadow-lg overflow-hidden">
             <div className="relative z-[2] flex items-center justify-center gap-3 sm:gap-5">
               {SOCIAL_LINKS.map((link, idx) => (
                 <React.Fragment key={link.id}>
@@ -97,7 +97,7 @@ export default function Footer() {
                     href={link.url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-white hover:text-[#FFC822] transition-colors text-[0.85rem] sm:text-[1.2rem] capitalize tracking-wide leading-none flex items-center py-1 px-1"
+                    className="text-white hover:text-[#FFC822] transition-colors text-[0.85rem] sm:text-[1.2rem] capitalize tracking-wide leading-none flex items-center py-1 px-0"
                     style={{ fontFamily: "GourmetEatery, cursive, sans-serif" }}
                   >
                     <span className="leading-none relative top-[1px]">{link.name}</span>
