@@ -621,22 +621,27 @@ export default function Direction() {
         }
       `}</style>
 
-      <div ref={featuredSectionRef} className="w-full mx-auto pt-20 sm:pt-32 pb-2 px-4 flex flex-col items-center relative z-20 text-center overflow-hidden">
-        <ScrapbookGallery onReady={handleGalleryReady} />
+      <div ref={featuredSectionRef} className="w-full mx-auto pt-14 sm:pt-32 pb-2 px-4 flex flex-col items-center relative z-20 text-center overflow-hidden">
+        {/* Upar wala gallery / visual part bada karne ke liye scale ya max-width adjust ki hai */}
+        <div className="w-full max-w-[850px] sm:max-w-[760px]">
+          <ScrapbookGallery onReady={handleGalleryReady} />
+        </div>
 
-        <div ref={headingRef} className="inline-flex flex-col items-center z-20 px-4 mt-6 sm:mt-10 will-change-transform">
+        {/* Niche wala heading text mobile par compact/chhota kiya hai */}
+        <div ref={headingRef} className="inline-flex flex-col items-center z-20 px-4 mt-4 sm:mt-10 will-change-transform">
           <h2
             style={{ fontFamily: "'SquidBoy', sans-serif", letterSpacing: '1px' }}
-            className="text-2xl sm:text-4xl m-0 text-[#D42C2C] leading-tight capitalize"
+            className="text-xl sm:text-4xl m-0 text-[#D42C2C] leading-tight capitalize"
           >
             Welcome to Direction section
           </h2>
         </div>
 
-        <div ref={paragraphRef} className="relative z-10 mt-4 mb-2 max-w-[700px] px-4 will-change-transform">
+        {/* Niche wala paragraph mobile par chhota aur readable banaya hai */}
+        <div ref={paragraphRef} className="relative z-10 mt-3 mb-2 max-w-[650px] px-4 will-change-transform">
           <p
             style={{ fontFamily: "'ParaFont', sans-serif", letterSpacing: '-0.2px', fontWeight: 400 }}
-            className="text-[#3b352e] text-sm sm:text-lg leading-relaxed font-light text-center"
+            className="text-[#3b352e] text-xs sm:text-lg leading-relaxed font-light text-center"
           >
             I’ve always had a head full of random, unhinged ideas, and at some point, I thought, why not actually make them? That’s how I started learning this craft. That curiosity slowly turned into a craft, and the appreciation I received kept me going pushing me deeper into storytelling, motion, and direction.
           </p>

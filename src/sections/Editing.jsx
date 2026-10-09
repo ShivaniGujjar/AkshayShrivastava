@@ -46,12 +46,6 @@ const duplicateList = (arr, count = 2) => {
   return output;
 };
 
-/* ───────────────────────────────────────────────────────────────
-   Paste the constants + icon ABOVE `function VideoCard`
-   and replace your whole `VideoCard` function with the one below.
-   ─────────────────────────────────────────────────────────────── */
-
-// One single colour for the badge. To make it red, swap the class for 'bg-[#D42C2C]'.
 const BADGE_BG = 'bg-[#14120e]';
 
 const ArrowUpRightIcon = ({ className = '' }) => (
@@ -75,11 +69,10 @@ function VideoCard({ item, aspectRatio = "wide", hoveredId, setHoveredId, onOpen
   const videoRef = useRef(null);
   const lastTouchRef = useRef(0);
   const [isVisible, setIsVisible] = useState(false);
-  const [isPlaying, setIsPlaying] = useState(false); // true only once frames are really playing
+  const [isPlaying, setIsPlaying] = useState(false);
   const isHovered = hoveredId === item.id;
   const isShort = aspectRatio === "tall";
 
-  // Shorts with a Drive link are real links (right-click, middle-click, long-press preview all work)
   const isLink = isShort && Boolean(item.driveUrl);
 
   useEffect(() => {
@@ -91,7 +84,6 @@ function VideoCard({ item, aspectRatio = "wide", hoveredId, setHoveredId, onOpen
     return () => { if (cardRef.current) observer.unobserve(cardRef.current); };
   }, []);
 
-  // SHORT VIDEO: loads + plays on hover, resets on leave, restarts every 10s
   useEffect(() => {
     const videoEl = videoRef.current;
     if (!videoEl || !isShort) return;
@@ -105,7 +97,7 @@ function VideoCard({ item, aspectRatio = "wide", hoveredId, setHoveredId, onOpen
       if (p && p.catch) p.catch(() => {});
     } else {
       videoEl.pause();
-      try { videoEl.currentTime = 0; } catch (e) { /* not loaded yet */ }
+      try { videoEl.currentTime = 0; } catch (e) {}
       setIsPlaying(false);
     }
 
@@ -134,16 +126,16 @@ function VideoCard({ item, aspectRatio = "wide", hoveredId, setHoveredId, onOpen
     return () => clearTimeout(t);
   }, [wantsPreview]);
 
+  // Wide forms ke liye 1 full + peek, aur tall forms ke liye 1.5 video width set ki hai
+  // Short forms ke liye mobile par exact 2 videos ek baar mein dikhane ke liye width adjust ki hai
   const cardDimensions = aspectRatio === "wide"
-    ? "w-[220px] xs:w-[260px] sm:w-[420px] h-[124px] xs:h-[146px] sm:h-[240px]"
-    : "w-[140px] xs:w-[170px] sm:w-[300px] aspect-[9/16]";
+    ? "w-[82vw] xs:w-[290px] sm:w-[420px] aspect-video"
+    : "w-[44vw] xs:w-[150px] sm:w-[300px] aspect-[9/16]";
 
   const lineName = isShort ? (item.name || item.brand) : item.title;
   const lineType = isShort ? (item.type || item.title) : item.category;
   const isYoutubeOnly = item.youtubeId && !item.videoUrl;
 
-  // Hover comes from the mouse only. Touch devices fire an emulated mouseenter right after a tap,
-  // so we ignore mouse events that arrive within 800ms of a touch.
   const handleTouchStart = () => { lastTouchRef.current = Date.now(); };
   const handleMouseEnter = () => {
     if (Date.now() - lastTouchRef.current < 800) return;
@@ -154,7 +146,6 @@ function VideoCard({ item, aspectRatio = "wide", hoveredId, setHoveredId, onOpen
     setHoveredId(null);
   };
 
-  // <a> for Drive shorts, accessible <div role="button"> for everything else (modal)
   const Tag = isLink ? 'a' : 'div';
   const tagProps = isLink
     ? {
@@ -163,18 +154,11 @@ function VideoCard({ item, aspectRatio = "wide", hoveredId, setHoveredId, onOpen
         rel: 'noopener noreferrer',
         draggable: false,
         title: 'Opens the full video on Google Drive',
-        'aria-label': `${lineName}, ${lineType}. Watch the full video on Google Drive (opens in a new tab)`,
       }
     : {
         role: 'button',
         tabIndex: 0,
         onClick: () => onOpenModal(item),
-        onKeyDown: (e) => {
-          if (e.key === 'Enter' || e.key === ' ') {
-            e.preventDefault();
-            onOpenModal(item);
-          }
-        },
       };
 
   return (
@@ -184,9 +168,8 @@ function VideoCard({ item, aspectRatio = "wide", hoveredId, setHoveredId, onOpen
       onTouchStart={handleTouchStart}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
-      className={`relative inline-flex flex-col shrink-0 cursor-pointer select-none group overflow-hidden bg-[#0f0e0c] no-underline shadow-[0_8px_30px_rgba(0,0,0,0.08)] transition-all duration-500 ease-out md:hover:-translate-y-1 md:hover:shadow-[0_16px_40px_rgba(212,44,44,0.2)] active:scale-[0.97] md:active:scale-100 rounded-[12px] outline-none focus-visible:ring-2 focus-visible:ring-[#D42C2C] focus-visible:ring-offset-2 ${cardDimensions}`}
+      className={`relative inline-flex flex-col shrink-0 cursor-pointer select-none group overflow-hidden bg-[#0f0e0c] no-underline shadow-[0_8px_30px_rgba(0,0,0,0.08)] transition-all duration-500 ease-out md:hover:-translate-y-1 md:hover:shadow-[0_16px_40px_rgba(212,44,44,0.2)] active:scale-[0.97] md:active:scale-100 rounded-[12px] outline-none ${cardDimensions}`}
     >
-      {/* Thumbnail: stays until the video is actually playing, then cross-fades out */}
       <div className={`absolute inset-0 z-[2] transition-opacity duration-300 ${isShort && isPlaying ? 'opacity-0' : 'opacity-100'}`}>
         <img
           src={isYoutubeOnly ? ytThumb(item.youtubeId) : (item.poster || item.videoUrl)}
@@ -196,7 +179,6 @@ function VideoCard({ item, aspectRatio = "wide", hoveredId, setHoveredId, onOpen
         />
       </div>
 
-      {/* Video / preview layer */}
       <div className="absolute inset-0 z-[1]">
         {isShort ? (
           <video
@@ -239,20 +221,11 @@ function VideoCard({ item, aspectRatio = "wide", hoveredId, setHoveredId, onOpen
 
       <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent pointer-events-none z-[3]" />
 
-      {/* Loading hint while the hovered video is still buffering */}
-      {isShort && isHovered && !isPlaying && (
-        <span className="absolute left-0 right-0 bottom-0 h-[3px] bg-white/80 animate-pulse z-20 pointer-events-none" />
-      )}
-
-      {/* Watch-full-video badge: one solid colour, soft shadow + hairline ring for depth.
-          mobile: small square arrow button, always visible (no hover on touch)
-          desktop: label slides in on hover / keyboard focus */}
-      {/* Watch-full-video badge: Desktop par hover karne par dikhega, mobile par hidden rahega */}
       {isLink && (
         <span
           aria-hidden="true"
           style={{ fontFamily: "'GroteskFont', 'Helvetica Neue', Helvetica, Arial, sans-serif" }}
-          className={`absolute top-3 right-3 z-10 pointer-events-none hidden md:flex items-center gap-2 px-3 py-2 rounded-[4px] ${BADGE_BG} text-white text-[10px] font-semibold uppercase tracking-[0.14em] leading-none ring-1 ring-white/15 shadow-[0_6px_16px_rgba(0,0,0,0.35)] opacity-0 translate-y-1 group-hover:opacity-100 group-hover:translate-y-0 group-focus-visible:opacity-100 group-focus-visible:translate-y-0 transition-all duration-300`}
+          className={`absolute top-3 right-3 z-10 pointer-events-none hidden md:flex items-center gap-2 px-3 py-2 rounded-[4px] ${BADGE_BG} text-white text-[10px] font-semibold uppercase tracking-[0.14em] leading-none ring-1 ring-white/15 shadow-[0_6px_16px_rgba(0,0,0,0.35)] opacity-0 translate-y-1 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300`}
         >
           <span className="whitespace-nowrap">Watch Full Video</span>
           <ArrowUpRightIcon className="w-3 h-3 text-[#FFC300]" />
@@ -571,7 +544,6 @@ export default function Editing() {
       <div className="relative w-full h-[55vh] sm:h-screen bg-[#14120e] flex flex-col justify-center items-center overflow-hidden m-0 p-0 editing-cutout-mask"> 
         <video 
           ref={heroVideoRef}
-          // src="https://akshayshrivastava.com/videos/EditingMain.mp4" 
           poster= 'https://akshayshrivastava.com/images/EditingMain.png'
           autoPlay 
           loop 

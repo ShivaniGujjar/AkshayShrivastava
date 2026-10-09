@@ -138,8 +138,8 @@ function VideoCard({ item, aspectRatio = "wide", hoveredId, setHoveredId, onOpen
   }, [wantsPreview]);
 
   const cardDimensions = aspectRatio === "wide"
-    ? "w-[220px] xs:w-[260px] sm:w-[420px] h-[124px] xs:h-[146px] sm:h-[260px]"
-    : "w-[140px] xs:w-[170px] sm:w-[300px] aspect-[9/16]";
+    ? "w-[82vw] xs:w-[290px] sm:w-[420px] aspect-video"
+    : "w-[44vw] xs:w-[150px] sm:w-[300px] aspect-[9/16]";
 
   // Hover comes from the mouse only. Touch devices fire an emulated mouseenter right after a tap,
   // so we ignore mouse events that arrive within 800ms of a touch.

@@ -11,7 +11,7 @@ const SOCIAL_LINKS = [
 ];
 
 const PULL_UP_DESKTOP = 240;
-const PULL_UP_MOBILE = 90;
+const PULL_UP_MOBILE = 40; // Mobile par overlap fix karne ke liye spacing adjust ki hai
 
 export default function Footer() {
   const footerRef = useRef(null);
@@ -72,16 +72,16 @@ export default function Footer() {
 
       <footer
         ref={footerRef}
-        className={`ft-root w-full pt-5 sm:pt-0 flex flex-col items-center justify-center relative z-20 bg-transparent text-center select-none ${shown ? 'ft-in' : ''}`}
+        className={`ft-root w-full pt-8 sm:pt-0 flex flex-col items-center justify-center relative z-20 bg-transparent text-center select-none ${shown ? 'ft-in' : ''}`}
       >
         {/* Contact Now */}
-        <div className="mb-4 sm:mb-6 w-full px-4">
+        <div className="mb-3 sm:mb-6 w-full px-4">
           <a
             href="https://mail.google.com/mail/?view=cm&to=Connectwithakshayshri@gmail.com&su=Project%20inquiry"
             target="_blank"
             rel="noopener noreferrer"
             style={{ fontFamily: "'SquidBoy', sans-serif", letterSpacing: '0.5px' }}
-            className="inline-block py-1 text-[#D42C2C] hover:text-[#b02222] transition-colors text-[1.75rem] sm:text-5xl leading-none cursor-pointer no-underline whitespace-nowrap"
+            className="inline-block py-1 text-[#D42C2C] hover:text-[#b02222] transition-colors text-[1.85rem] sm:text-5xl leading-none cursor-pointer no-underline whitespace-nowrap"
           >
             Contact Now
           </a>
@@ -89,7 +89,7 @@ export default function Footer() {
 
         {/* Social handles - Sleek & Compact Pill */}
         <div className="ft-pill-wrap flex justify-center items-center w-full px-4">
-          <div className="relative bg-[#D42C2C] text-white py-2 sm:pt-3 px-4 sm:py-2 sm:px-6 rounded-lg flex items-center justify-center shadow-md sm:shadow-lg overflow-hidden">
+          <div className="relative bg-[#D42C2C] text-white py-2 px-4 sm:py-3 sm:px-6 rounded-lg flex items-center justify-center shadow-md sm:shadow-lg overflow-hidden">
             <div className="relative z-[2] flex items-center justify-center gap-3 sm:gap-5">
               {SOCIAL_LINKS.map((link, idx) => (
                 <React.Fragment key={link.id}>

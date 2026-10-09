@@ -12,7 +12,7 @@ const DEFAULT_BRANDS = [
 
 const DEFAULT_TESTIMONIALS = [
   {
-    quote: "I had the pleasure of working with Akshay on editing two crucial videos, and I couldn't be happier with the results. He was professional, attentive to detail, and delivered high-quality work on time. His creativity and ability to bring my vision to life were truly impressive!",
+    quote: "Working with Akshay on editing our crucial videos was an absolute pleasure. Professional, highly attentive to detail, and delivered top-notch quality on time!",
     handle: "Aditya Verma",
     role: "CONTENT STRATEGY AND PRODUCTION"
   },
@@ -147,7 +147,6 @@ const duplicateList = (arr, count = 6) => {
   return output;
 };
 
-// Reusable Draggable Marquee Row Component with Mouse & Touch support
 function DraggableMarqueeContainer({ children, direction = 'left', speed = 45 }) {
   const containerRef = useRef(null);
   const isDraggingRef = useRef(false);
@@ -330,7 +329,7 @@ export default function SocialProof({ brands = DEFAULT_BRANDS, testimonials = DE
         }
 
         .testi-bg {
-          background-size: 100% 150%;
+          background-size: 100% 140%;
         }
         @media (min-width: 640px) {
           .testi-bg {
@@ -374,7 +373,7 @@ export default function SocialProof({ brands = DEFAULT_BRANDS, testimonials = DE
               {duplicateList(brands).map((logoUrl, idx) => (
                 <div
                   key={`brand-logo-${idx}`}
-                  className="inline-flex items-center justify-center shrink-0 h-7 sm:h-[46px] [--lh:28px] sm:[--lh:46px] opacity-90 hover:opacity-100 transition-opacity"
+                  className="inline-flex items-center justify-center shrink-0 h-5 sm:h-[46px] [--lh:20px] sm:[--lh:46px] opacity-90 hover:opacity-100 transition-opacity"
                 >
                   <BrandLogo src={logoUrl} />
                 </div>
@@ -385,7 +384,7 @@ export default function SocialProof({ brands = DEFAULT_BRANDS, testimonials = DE
       </div>
 
       {/* ────────────────── 2. TESTIMONIALS SECTION ────────────────── */}
-      <div className="relative w-full mt-0 sm:-mt-16 py-14 sm:py-72 flex flex-col items-center justify-center overflow-hidden">
+      <div className="relative w-full mt-0 sm:-mt-16 py-6 sm:py-42 flex flex-col items-center justify-center overflow-hidden">
         <div
           className="testi-bg absolute -left-[4.5%] -right-[4.5%] top-0 bottom-0 sm:-top-12 sm:-bottom-12 bg-no-repeat bg-center pointer-events-none z-0"
           style={{ backgroundImage: `url('/testimonialRed.png')` }}
@@ -394,33 +393,33 @@ export default function SocialProof({ brands = DEFAULT_BRANDS, testimonials = DE
         {/* TICKER CARDS WRAPPER */}
         <div className="w-full overflow-hidden mb-0 py-2 sm:py-4 relative z-[15] testi-fade">
           <DraggableMarqueeContainer direction="right" speed={40}>
-            <div className="inline-flex whitespace-nowrap gap-3 sm:gap-10 w-max items-stretch will-change-transform py-2">
+            <div className="inline-flex whitespace-nowrap gap-2.5 sm:gap-10 w-max items-stretch will-change-transform py-2">
               {duplicateList(testimonials).map((testi, idx) => (
                 <div
                   key={`testi-${idx}`}
-                  className="testi-card relative text-[#FFFFFF] w-[240px] sm:w-[360px] min-h-[160px] sm:min-h-[190px] p-3.5 sm:p-7 rounded-[12px] sm:rounded-[14px] bg-black/20 sm:backdrop-blur-xs border border-white/10 inline-flex flex-col justify-between text-left shrink-0 whitespace-normal shadow-md"
+                  className="testi-card relative text-[#FFFFFF] w-[190px] sm:w-[360px] min-h-[110px] sm:min-h-[190px] p-2.5 sm:p-7 rounded-[8px] sm:rounded-[14px] bg-black/25 sm:backdrop-blur-xs border border-white/10 inline-flex flex-col justify-between text-left shrink-0 whitespace-normal shadow-md"
                 >
                   {/* Statement / Quote */}
                   <p
                     style={{ letterSpacing: '-0.1px', fontWeight: 300 }}
-                    className="text-white/95 text-[11px] sm:text-base leading-relaxed m-0 mb-3 sm:mb-6 whitespace-normal"
+                    className="text-white/95 text-[9px] sm:text-base leading-tight sm:leading-relaxed m-0 mb-2 sm:mb-6 whitespace-normal"
                   >
                     "{testi.quote}"
                   </p>
 
                   {/* Bottom Info Group */}
                   <div className="w-full mt-auto">
-                    <div className="w-full h-[1px] bg-white/20 mb-2 sm:mb-4" />
+                    <div className="w-full h-[1px] bg-white/20 mb-1 sm:mb-4" />
                     <div className="w-full flex flex-col">
                       <h4
                         style={{ letterSpacing: '0.5px', fontWeight: 800, color: '#FFD84D' }}
-                        className="text-[11px] sm:text-sm m-0 uppercase leading-tight"
+                        className="text-[9px] sm:text-sm m-0 uppercase leading-tight"
                       >
                         {testi.handle}
                       </h4>
                       <span
                         style={{ fontFamily: "'Talina', sans-serif", letterSpacing: '0.5px' }}
-                        className="text-white/70 text-[9px] sm:text-xs m-0 mt-0.5 tracking-wider uppercase"
+                        className="text-white/70 text-[7px] sm:text-xs m-0 mt-0.5 tracking-wider uppercase"
                       >
                         {testi.role}
                       </span>
