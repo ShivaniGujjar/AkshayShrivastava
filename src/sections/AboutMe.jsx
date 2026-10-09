@@ -114,7 +114,12 @@ function CountUp({ to, suffix = '' }) {
   const [val, setVal] = useState(prefersReducedMotion() ? to : 0);
 
   useEffect(() => {
-    if (prefersReducedMotion()) return;
+    // Agar mobile screen hai (e.g. width < 768px), toh animation skip karke direct final value dikhayein
+    if (prefersReducedMotion() || window.innerWidth < 768) {
+      setVal(to);
+      return;
+    }
+
     const obj = { v: 0 };
     let tween;
     const st = ScrollTrigger.create({
@@ -136,7 +141,8 @@ function CountUp({ to, suffix = '' }) {
     };
   }, [to]);
 
-  return <span ref={ref}>{val}{suffix}</span>;
+  // Mobile ke liye agar suffix attached string hai ya number, toh direct render hoga
+  return <span ref={ref}>{typeof to === 'number' && window.innerWidth >= 768 ? val : to}{suffix}</span>;
 }
 
 export default function AboutMe() {
@@ -161,7 +167,6 @@ export default function AboutMe() {
     let cancelled = false;
 
     const ctx = gsap.context(() => {
-      // Name animation for all screen sizes
       gsap.set('.name-word', { yPercent: 115, force3D: true });
       const nameTl = gsap.timeline({ paused: true }).to('.name-word', {
         yPercent: 0,
@@ -193,7 +198,7 @@ export default function AboutMe() {
         scrollTrigger: { trigger: imageRef.current, start: 'top 88%', once: true },
       });
       gsap.from(imageRef.current, {
-        x: 50,
+        x: 30,
         scale: 0.95,
         duration: 1.1,
         ease: 'power3.out',
@@ -223,7 +228,7 @@ export default function AboutMe() {
 
         gsap.set(card, { transition: 'none' });
         gsap.from(card, {
-          y: 50,
+          y: 40,
           opacity: 0,
           duration: 0.9,
           ease: 'power3.out',
@@ -263,6 +268,7 @@ export default function AboutMe() {
   useIsoLayoutEffect(() => {
     const mm = gsap.matchMedia();
 
+    // Desktop only pinning and tilt effects to prevent mobile glitches
     mm.add('(min-width: 1024px)', () => {
       const pinEl = portraitRef.current;
       const row = rowRef.current;
@@ -342,7 +348,7 @@ export default function AboutMe() {
   return (
     <div
       ref={rootRef}
-      className="w-full min-h-screen bg-[#FFFCFB] relative overflow-x-clip pb-0 m-0 text-[#14120e]"
+      className="w-full min-h-screen bg-[#FFFCFB] relative overflow-x-hidden pb-0 m-0 text-[#14120e]"
     >
       <style>{`
         @font-face {

@@ -43,14 +43,17 @@ function AppShell() {
   const cleanPath = pathname.replace(/\/+$/, '') || '/';
   const activeSection = PATH_TO_SECTION[cleanPath] || 'home';
 
-  // 🛹 LENIS SMOOTH SCROLL INTEGRATION
+  
+ // 🛹 LENIS SMOOTH SCROLL INTEGRATION
   useEffect(() => {
     const lenis = new Lenis({
       duration: 1.2,
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
       direction: 'vertical',
       smooth: true,
-      touchMultiplier: 2,
+      // Mobile ke liye native touch scrolling enable karte hain taaki lag feel na ho
+      smoothTouch: false, 
+      touchMultiplier: 1.5,
     });
 
     lenisRef.current = lenis;
