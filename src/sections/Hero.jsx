@@ -393,26 +393,29 @@ export default function Hero({ onColumnClick }) {
               <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/15 to-black/20 pointer-events-none z-10" />
               
               <div
-                className="mobile-rise absolute inset-0 flex flex-col items-center justify-center text-center z-20 px-4"
+                className="mobile-rise absolute inset-0 flex flex-col items-center justify-center text-center z-20 px-5"
                 style={{ '--i': index }}
               >
+                {/* Smaller, responsive text: scales with width, but also with screen height
+                    so it never overflows a panel on short phones / landscape. */}
                 <h1 
                   style={{ 
                     fontFamily: "'SquidBoy', sans-serif",
-                    fontSize: 'clamp(2.2rem, 10vw, 3.2rem)',
+                    fontSize: 'clamp(1.4rem, min(6.4vw, 5.2dvh), 2.1rem)',
                     letterSpacing: '0.01em',
                     lineHeight: '1.1'
                   }}
-                  className="text-[#FFC300] mb-0.5 drop-shadow-[0_4px_8px_rgba(0,0,0,0.9)] text-center w-full font-normal"
+                  className="text-[#FFC300] mb-1 drop-shadow-[0_4px_8px_rgba(0,0,0,0.9)] text-center w-full font-normal"
                 >
                   {col.title}
                 </h1>
                 <p 
                   style={{ 
                     fontFamily: "'HelveticaNeue', sans-serif",
-                    fontSize: 'clamp(0.75rem, 3.2vw, 0.9rem)'
+                    fontSize: 'clamp(0.68rem, min(2.9vw, 2.3dvh), 0.8rem)',
+                    textWrap: 'balance'
                   }}
-                  className="text-neutral-200 max-w-[85%] leading-snug drop-shadow-[0_2px_6px_rgba(0,0,0,0.9)]"
+                  className="text-neutral-200 max-w-[80%] leading-snug drop-shadow-[0_2px_6px_rgba(0,0,0,0.9)]"
                 >
                   {col.subtitle}
                 </p>

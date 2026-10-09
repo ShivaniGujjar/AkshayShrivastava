@@ -401,8 +401,8 @@ function DirectionShortCard({ project }) {
         <img src={project.poster} alt={project.title} className="w-full h-full object-cover" />
       </div>
       <div className="absolute inset-0 hidden md:block z-10">
-        <CustomVideoPlayer 
-          src={project.videoUrl} 
+        <CustomVideoPlayer
+          src={project.videoUrl}
           poster={project.poster}
           badgeText={project.tag}
           className="w-full h-full"
@@ -425,8 +425,10 @@ function DirectionProjectRow({ project, index, activeHoverId, setActiveHoverId }
     ctx.add("(min-width: 768px)", () => {
       const videoInitialX = isReverse ? -120 : 120;
       const textInitialX = isReverse ? 80 : -80;
-      const videoFinalX = isReverse ? 60 : -60;
-      const textFinalX = isReverse ? -40 : 40;
+      // Final offsets were 60 / 40, which pushed the video and the text far apart.
+      // Smaller values keep the staggered feel but bring each pair together.
+      const videoFinalX = isReverse ? 24 : -24;
+      const textFinalX = isReverse ? -16 : 16;
 
       gsap.set(videoWrapperRef.current, { x: videoInitialX, autoAlpha: 0, force3D: true });
       gsap.set(textColRef.current, { autoAlpha: 0, x: textInitialX, y: 0, scale: 0.95, force3D: true });
@@ -452,28 +454,39 @@ function DirectionProjectRow({ project, index, activeHoverId, setActiveHoverId }
   }, [isReverse]);
 
   return (
-    <div 
+    <div
       ref={rowRef}
-      className={`flex flex-col ${isReverse ? 'md:flex-row-reverse' : 'md:flex-row'} items-center justify-center gap-6 md:gap-12 w-full group py-4 relative min-h-[300px] sm:min-h-[500px]`}
+      className={`flex flex-col ${isReverse ? 'md:flex-row-reverse' : 'md:flex-row'} items-center justify-center gap-6 md:gap-14 w-full group py-2 md:py-4 relative md:min-h-[420px] ${
+        index > 0 ? 'md:border-t md:border-black/[0.06] md:pt-12' : ''
+      }`}
     >
       <div ref={videoWrapperRef} className="shrink-0 relative z-20 will-change-transform">
         <DirectionShortCard project={project} />
       </div>
 
-      <div 
-        ref={textColRef} 
-        className="w-full md:max-w-[480px] flex flex-col justify-center text-center md:text-left shrink-0 relative z-10 px-4 will-change-transform"
+      <div
+        ref={textColRef}
+        className="w-full md:max-w-[460px] flex flex-col items-center md:items-start justify-center text-center md:text-left shrink-0 relative z-10 px-4 will-change-transform"
       >
-        <h3 
+        {/* Ghost numeral (decorative): sits cleanly above the title, scales for mobile */}
+        <span
+          aria-hidden="true"
+          style={{ fontFamily: "'SquidBoy', sans-serif", letterSpacing: '1px' }}
+          className="block md:px-4 text-[2.5rem] sm:text-5xl md:text-6xl leading-none text-[#D42C2C]/20 select-none mb-2 sm:mb-3"
+        >
+          {project.num}
+        </span>
+
+        <h3
           style={{ fontFamily: "'SquidBoy', sans-serif", letterSpacing: '0.5px' }}
-          className="text-[#D42C2C] text-lg sm:text-3xl md:text-[2.2rem] m-0 leading-tight capitalize relative md:px-4"
+          className="text-[#D42C2C] text-xl sm:text-3xl md:text-[2.2rem] m-0 leading-tight capitalize relative z-10 md:px-4"
         >
           {project.title}
         </h3>
 
-        <p 
+        <p
           style={{ fontFamily: "'ParaFont', sans-serif", letterSpacing: '-0.2px', fontWeight: 400 }}
-          className="text-[#3b352e] text-xs sm:text-lg mt-2 sm:mt-4 m-0 leading-relaxed font-light md:px-4"
+          className="text-[#3b352e] text-sm sm:text-lg mt-2 sm:mt-4 m-0 leading-relaxed font-light md:px-4"
         >
           {project.description}
         </p>
@@ -566,7 +579,7 @@ export default function Direction() {
 
   return (
     <div className="w-full min-h-screen bg-[#FFFCFB] relative overflow-x-hidden pb-12 sm:pb-24 m-0 text-[#14120e]">
-      
+
       <style>{`
         @font-face {
           font-family: 'SquidBoy';
@@ -601,35 +614,35 @@ export default function Direction() {
         }
       `}</style>
 
-      <div ref={featuredSectionRef} className="w-full mx-auto pt-20 sm:pt-32 pb-4 px-4 flex flex-col items-center relative z-20 text-center overflow-hidden">
+      <div ref={featuredSectionRef} className="w-full mx-auto pt-20 sm:pt-32 pb-2 px-4 flex flex-col items-center relative z-20 text-center overflow-hidden">
         <ScrapbookGallery onReady={handleGalleryReady} />
 
-        <div ref={paragraphRef} className="relative z-10 mt-3 mb-6 max-w-[750px] px-4 flex flex-col gap-3 will-change-transform">
-          <p 
-            style={{ fontFamily: "'ParaFont', sans-serif", letterSpacing: '-0.2px', fontWeight: 400 }}
-            className="text-[#3b352e] text-xs sm:text-lg leading-relaxed font-light text-center"
-          >
-            I’ve always had a head full of random, unhinged ideas, and at some point, I thought, why not actually make them? That’s how I started learning this craft. That curiosity slowly turned into a craft, and the appreciation I received kept me going pushing me deeper into storytelling, motion, and direction.
-          </p>
-        </div>
-
-        {/* Welcome Heading added right after the paragraph */}
-        <div ref={headingRef} className="inline-flex flex-col items-center z-20 px-4 mb-4 will-change-transform">
-          <h2 
+        {/* Heading first, then the intro paragraph (same order as the Editing page) */}
+        <div ref={headingRef} className="inline-flex flex-col items-center z-20 px-4 mt-6 sm:mt-10 will-change-transform">
+          <h2
             style={{ fontFamily: "'SquidBoy', sans-serif", letterSpacing: '1px' }}
             className="text-2xl sm:text-4xl m-0 text-[#D42C2C] leading-tight capitalize"
           >
             Welcome to Direction section
           </h2>
         </div>
+
+        <div ref={paragraphRef} className="relative z-10 mt-4 mb-2 max-w-[700px] px-4 will-change-transform">
+          <p
+            style={{ fontFamily: "'ParaFont', sans-serif", letterSpacing: '-0.2px', fontWeight: 400 }}
+            className="text-[#3b352e] text-sm sm:text-lg leading-relaxed font-light text-center"
+          >
+            I’ve always had a head full of random, unhinged ideas, and at some point, I thought, why not actually make them? That’s how I started learning this craft. That curiosity slowly turned into a craft, and the appreciation I received kept me going pushing me deeper into storytelling, motion, and direction.
+          </p>
+        </div>
       </div>
 
-      <div className="max-w-[1100px] w-full mx-auto px-4 sm:px-6 flex flex-col gap-8 md:gap-24 my-6 sm:my-20">
+      <div className="max-w-[1100px] w-full mx-auto px-4 sm:px-6 flex flex-col gap-10 md:gap-12 my-8 sm:my-14">
         {DIRECTION_PROJECTS.map((project, idx) => (
-          <DirectionProjectRow 
-            key={project.id} 
-            project={project} 
-            index={idx} 
+          <DirectionProjectRow
+            key={project.id}
+            project={project}
+            index={idx}
             activeHoverId={activeProjectHoverId}
             setActiveHoverId={setActiveProjectHoverId}
           />

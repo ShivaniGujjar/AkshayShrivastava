@@ -14,18 +14,18 @@ const ytThumb = (id) => `https://i.ytimg.com/vi/${id}/maxresdefault.jpg`;
 const ytThumbFallback = (id) => `https://i.ytimg.com/vi/${id}/hqdefault.jpg`;
 
 const SHORT_FORMS = [
-  { id: 'msf1', name: 'Scratch', type: 'Shorts', title: '3D Kinetic Typography', brand: 'UGC Ad', videoUrl: 'https://akshayshrivastava.com/videos/short2.mp4', poster: 'https://akshayshrivastava.com/images/short2.png', driveUrl: 'https://drive.google.com/drive/folders/YOUR_DRIVE_FOLDER_ID' },
-  { id: 'msf2', name: 'Vishwmitra', type: 'Performance Reel', title: 'Abstract Product Reel', brand: '3D Motion', videoUrl: 'https://akshayshrivastava.com/videos/short4.mp4', poster: 'https://akshayshrivastava.com/images/short4.png', driveUrl: 'https://drive.google.com/drive/folders/YOUR_DRIVE_FOLDER_ID' },
-  { id: 'msf5', name: 'Scratch', type: 'Edutainment', title: 'Character Animation', brand: '2D Motion', videoUrl: 'https://akshayshrivastava.com/videos/short9.mp4', poster: 'https://akshayshrivastava.com/images/short9.png', driveUrl: 'https://drive.google.com/drive/folders/YOUR_DRIVE_FOLDER_ID' },
-  { id: 'msf3', name: 'Ankur Warikoo', type: 'UGC Ads', title: 'Logo Reveal Loop', brand: 'VFX', videoUrl: 'https://akshayshrivastava.com/videos/short6.mp4', poster: 'https://akshayshrivastava.com/images/short6.png', driveUrl: 'https://drive.google.com/drive/folders/YOUR_DRIVE_FOLDER_ID' },
-  { id: 'msf6', name: 'Scratch', type: 'Shorts', title: 'Character Animation', brand: '2D Motion', videoUrl: 'https://akshayshrivastava.com/videos/short13.mp4', poster: 'https://akshayshrivastava.com/images/short13.png', driveUrl: 'https://drive.google.com/drive/folders/YOUR_DRIVE_FOLDER_ID' },
-  { id: 'msf4', name: 'Ankur Wariko', type: 'UGC Ads', title: 'Character Animation', brand: '2D Motion', videoUrl: 'https://akshayshrivastava.com/videos/short7.mp4', poster: 'https://akshayshrivastava.com/images/short7.png', driveUrl: 'https://drive.google.com/drive/folders/YOUR_DRIVE_FOLDER_ID' },
-  { id: 'msf7', name: 'Scratch', type: 'Edutainment', title: 'Character Animation', brand: '2D Motion', videoUrl: 'https://akshayshrivastava.com/videos/short14.mp4', poster: 'https://akshayshrivastava.com/images/short14.png', driveUrl: 'https://drive.google.com/drive/folders/YOUR_DRIVE_FOLDER_ID' },
-  { id: 'msf8', name: 'Akshay Srivastava', type: 'Personal Instagram Reel', title: 'Character Animation', brand: '2D Motion', videoUrl: 'https://akshayshrivastava.com/videos/AboutMain.mp4', poster: 'https://akshayshrivastava.com/images/AboutMain.png', driveUrl: 'https://drive.google.com/drive/folders/YOUR_DRIVE_FOLDER_ID' },
-  { id: 'msf9', name: 'Scratch', type: 'Shorts', title: 'Character Animation', brand: '2D Motion', videoUrl: 'https://akshayshrivastava.com/videos/short15.mp4', poster: 'https://akshayshrivastava.com/images/short15.png', driveUrl: 'https://drive.google.com/drive/folders/YOUR_DRIVE_FOLDER_ID' },
-  { id: 'msf10', name: 'Akshay Shrivastava', type: 'Instagram Personal Reel', title: 'Character Animation', brand: '2D Motion', videoUrl: 'https://akshayshrivastava.com/videos/MotionMain.mp4', poster: 'https://akshayshrivastava.com/images/MotionMain.png', driveUrl: 'https://drive.google.com/drive/folders/YOUR_DRIVE_FOLDER_ID' },
-  { id: 'msf11', name: 'Scratch', type: 'Edutainment', title: 'Character Animation', brand: '2D Motion', videoUrl: 'https://akshayshrivastava.com/videos/short20.mp4', poster: 'https://akshayshrivastava.com/images/short20.png', driveUrl: 'https://drive.google.com/drive/folders/YOUR_DRIVE_FOLDER_ID' },
-  { id: 'msf12', name: 'Waywen', type: 'Promotional Reel', title: 'Character Animation', brand: '2D Motion', videoUrl: 'https://akshayshrivastava.com/videos/DirectionMain.mp4', poster: 'https://akshayshrivastava.com/images/DirectionMain.png', driveUrl: 'https://drive.google.com/drive/folders/YOUR_DRIVE_FOLDER_ID' },
+  { id: 'msf1', name: 'Scratch', type: 'Shorts', title: '3D Kinetic Typography', brand: 'UGC Ad', videoUrl: 'https://akshayshrivastava.com/videos/short2.mp4', poster: 'https://akshayshrivastava.com/images/short2.png', driveUrl: 'https://drive.google.com/file/d/1T1ZbDwywo7NeJtzUjsaMH0IyKixoZENh/view?usp=sharing' },
+  { id: 'msf2', name: 'Vishwmitra', type: 'Performance Reel', title: 'Abstract Product Reel', brand: '3D Motion', videoUrl: 'https://akshayshrivastava.com/videos/short4.mp4', poster: 'https://akshayshrivastava.com/images/short4.png', driveUrl: 'https://drive.google.com/file/d/1du-28m6tarHsR432u2SWzhcRVzKv-7YO/view?usp=sharing' },
+  { id: 'msf5', name: 'Scratch', type: 'Edutainment', title: 'Character Animation', brand: '2D Motion', videoUrl: 'https://akshayshrivastava.com/videos/short9.mp4', poster: 'https://akshayshrivastava.com/images/short9.png', driveUrl: 'https://drive.google.com/file/d/1uwY-PFrG5BDBY7e5WlOJZIB18O-tCKwO/view?usp=sharing' },
+  { id: 'msf3', name: 'Ankur Warikoo', type: 'UGC Ads', title: 'Logo Reveal Loop', brand: 'VFX', videoUrl: 'https://akshayshrivastava.com/videos/short6.mp4', poster: 'https://akshayshrivastava.com/images/short6.png', driveUrl: 'https://drive.google.com/file/d/1sp9aXjCVTfg0ApluNZUyV45ZW3dupoVp/view?usp=sharing' },
+  { id: 'msf6', name: 'Scratch', type: 'Shorts', title: 'Character Animation', brand: '2D Motion', videoUrl: 'https://akshayshrivastava.com/videos/short13.mp4', poster: 'https://akshayshrivastava.com/images/short13.png', driveUrl: 'https://drive.google.com/file/d/1VCyEzMjQ-O9NZVKu5tELWizC8qOPQ8uP/view?usp=sharing' },
+  { id: 'msf4', name: 'Ankur Wariko', type: 'UGC Ads', title: 'Character Animation', brand: '2D Motion', videoUrl: 'https://akshayshrivastava.com/videos/short7.mp4', poster: 'https://akshayshrivastava.com/images/short7.png', driveUrl: 'https://drive.google.com/file/d/1G0GUMbQXBIAvnLRCs1lgs-BE9lCVvIMy/view?usp=sharing' },
+  { id: 'msf7', name: 'Scratch', type: 'Edutainment', title: 'Character Animation', brand: '2D Motion', videoUrl: 'https://akshayshrivastava.com/videos/short14.mp4', poster: 'https://akshayshrivastava.com/images/short14.png', driveUrl: 'https://drive.google.com/file/d/1TSZ4IMxv0djTQgD1ZLkZvgIuC60FdeJn/view?usp=sharing' },
+  { id: 'msf8', name: 'Akshay Srivastava', type: 'Personal Instagram Reel', title: 'Character Animation', brand: '2D Motion', videoUrl: 'https://akshayshrivastava.com/videos/AboutMain.mp4', poster: 'https://akshayshrivastava.com/images/AboutMain.png', driveUrl: 'https://drive.google.com/file/d/1ifLdzvThtJoUQW94w3TUlKRbPaoHrl_H/view?usp=sharing' },
+  { id: 'msf9', name: 'Scratch', type: 'Shorts', title: 'Character Animation', brand: '2D Motion', videoUrl: 'https://akshayshrivastava.com/videos/short15.mp4', poster: 'https://akshayshrivastava.com/images/short15.png', driveUrl: 'https://drive.google.com/file/d/1dZal7IC0rY-PBxSiIBECSZaq70Tli-JV/view?usp=sharing&t=0.571' },
+  { id: 'msf10', name: 'Akshay Shrivastava', type: 'Instagram Personal Reel', title: 'Character Animation', brand: '2D Motion', videoUrl: 'https://akshayshrivastava.com/videos/MotionMain.mp4', poster: 'https://akshayshrivastava.com/images/MotionMain.png', driveUrl: 'https://drive.google.com/file/d/1-2-YktwU9e8J9jWNR3EpLdP9_ugIPKGP/view?usp=sharing' },
+  { id: 'msf11', name: 'Scratch', type: 'Edutainment', title: 'Character Animation', brand: '2D Motion', videoUrl: 'https://akshayshrivastava.com/videos/short20.mp4', poster: 'https://akshayshrivastava.com/images/short20.png', driveUrl: 'https://drive.google.com/file/d/1Ic-BfBiQuhe5S5tgqT_0bJlEFV01z66t/view?usp=sharing' },
+  { id: 'msf12', name: 'Waywen', type: 'Promotional Reel', title: 'Character Animation', brand: '2D Motion', videoUrl: 'https://akshayshrivastava.com/videos/DirectionMain.mp4', poster: 'https://akshayshrivastava.com/images/DirectionMain.png', driveUrl: 'https://drive.google.com/file/d/15ke3BYxXFerTseLnU2yX_9Rxixn3iRul/view?usp=sharing' },
 ];
 
 const LONG_FORMS = [
@@ -44,16 +44,46 @@ const duplicateList = (arr, count = 2) => {
   return output;
 };
 
+/* ───────────────────────────────────────────────────────────────
+   Paste the constant + icon ABOVE `function VideoCard`
+   (skip them if the same file already has them from the other VideoCard),
+   then replace your whole `VideoCard` function with the one below.
+   ─────────────────────────────────────────────────────────────── */
+
+// One single colour for the badge. To make it red, swap the class for 'bg-[#D42C2C]'.
+const BADGE_BG = 'bg-[#14120e]';
+
+const ArrowUpRightIcon = ({ className = '' }) => (
+  <svg
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2.4"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    className={className}
+    aria-hidden="true"
+  >
+    <path d="M7 17 17 7" />
+    <path d="M8 7h9v9" />
+  </svg>
+);
+
 function VideoCard({ item, aspectRatio = "wide", hoveredId, setHoveredId, onOpenModal }) {
   const cardRef = useRef(null);
   const videoRef = useRef(null);
+  const lastTouchRef = useRef(0);
   const [isVisible, setIsVisible] = useState(false);
+  const [isPlaying, setIsPlaying] = useState(false); // true only once frames are really playing
   const isHovered = hoveredId === item.id;
 
   const lineName = item.name || item.title;
   const lineType = item.type || item.brand || item.category;
   const isYoutubeOnly = Boolean(item.youtubeId && !item.videoUrl);
   const isShort = aspectRatio === "tall";
+
+  // Shorts with a Drive link are real links (right-click, middle-click, long-press preview all work)
+  const isLink = isShort && Boolean(item.driveUrl);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -64,17 +94,22 @@ function VideoCard({ item, aspectRatio = "wide", hoveredId, setHoveredId, onOpen
     return () => { if (cardRef.current) observer.unobserve(cardRef.current); };
   }, []);
 
-  // Short video hover play & 10s repeat loop logic
+  // SHORT VIDEO: loads + plays on hover, resets on leave, restarts every 10s
   useEffect(() => {
     const videoEl = videoRef.current;
     if (!videoEl || !isShort) return;
 
     if (isHovered && isVisible) {
-      if (!videoEl.src) videoEl.src = item.videoUrl;
-      videoEl.play().catch(() => {});
+      if (!videoEl.getAttribute('src')) {
+        videoEl.src = item.videoUrl;
+        videoEl.load();
+      }
+      const p = videoEl.play();
+      if (p && p.catch) p.catch(() => {});
     } else {
       videoEl.pause();
-      videoEl.currentTime = 0;
+      try { videoEl.currentTime = 0; } catch (e) { /* not loaded yet */ }
+      setIsPlaying(false);
     }
 
     const handleTimeUpdate = () => {
@@ -85,9 +120,7 @@ function VideoCard({ item, aspectRatio = "wide", hoveredId, setHoveredId, onOpen
     };
 
     videoEl.addEventListener('timeupdate', handleTimeUpdate);
-    return () => {
-      if (videoEl) videoEl.removeEventListener('timeupdate', handleTimeUpdate);
-    };
+    return () => videoEl.removeEventListener('timeupdate', handleTimeUpdate);
   }, [isHovered, isVisible, item.videoUrl, isShort]);
 
   const [previewOn, setPreviewOn] = useState(false);
@@ -104,28 +137,56 @@ function VideoCard({ item, aspectRatio = "wide", hoveredId, setHoveredId, onOpen
     return () => clearTimeout(t);
   }, [wantsPreview]);
 
-  const cardDimensions = aspectRatio === "wide" 
-    ? "w-[220px] xs:w-[260px] sm:w-[420px] h-[124px] xs:h-[146px] sm:h-[260px]" 
+  const cardDimensions = aspectRatio === "wide"
+    ? "w-[220px] xs:w-[260px] sm:w-[420px] h-[124px] xs:h-[146px] sm:h-[260px]"
     : "w-[140px] xs:w-[170px] sm:w-[300px] aspect-[9/16]";
 
-  const handleCardClick = () => {
-    if (isShort && item.driveUrl) {
-      window.open(item.driveUrl, '_blank');
-    } else {
-      onOpenModal(item);
-    }
+  // Hover comes from the mouse only. Touch devices fire an emulated mouseenter right after a tap,
+  // so we ignore mouse events that arrive within 800ms of a touch.
+  const handleTouchStart = () => { lastTouchRef.current = Date.now(); };
+  const handleMouseEnter = () => {
+    if (Date.now() - lastTouchRef.current < 800) return;
+    setHoveredId(item.id);
+  };
+  const handleMouseLeave = () => {
+    if (Date.now() - lastTouchRef.current < 800) return;
+    setHoveredId(null);
   };
 
+  // <a> for Drive shorts, accessible <div role="button"> for everything else (modal)
+  const Tag = isLink ? 'a' : 'div';
+  const tagProps = isLink
+    ? {
+        href: item.driveUrl,
+        target: '_blank',
+        rel: 'noopener noreferrer',
+        draggable: false,
+        title: 'Opens the full video on Google Drive',
+        'aria-label': `${[lineName, lineType].filter(Boolean).join(', ')}. Watch the full video on Google Drive (opens in a new tab)`,
+      }
+    : {
+        role: 'button',
+        tabIndex: 0,
+        onClick: () => onOpenModal(item),
+        onKeyDown: (e) => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            onOpenModal(item);
+          }
+        },
+      };
+
   return (
-    <div 
+    <Tag
       ref={cardRef}
-      onMouseEnter={() => setHoveredId(item.id)}
-      onMouseLeave={() => setHoveredId(null)}
-      onClick={handleCardClick}
-      className={`relative group overflow-hidden cursor-pointer bg-[#14120e] shadow-[0_8px_30px_rgba(0,0,0,0.06)] transition-all duration-500 ease-out hover:-translate-y-1 hover:shadow-[0_16px_40px_rgba(212,44,44,0.15)] ${cardDimensions} shrink-0 outline-none focus:outline-none select-none rounded-[8px]`}
+      {...tagProps}
+      onTouchStart={handleTouchStart}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+      className={`relative inline-block group overflow-hidden cursor-pointer bg-[#14120e] no-underline shadow-[0_8px_30px_rgba(0,0,0,0.06)] transition-all duration-500 ease-out md:hover:-translate-y-1 md:hover:shadow-[0_16px_40px_rgba(212,44,44,0.15)] active:scale-[0.97] md:active:scale-100 ${cardDimensions} shrink-0 outline-none focus-visible:ring-2 focus-visible:ring-[#D42C2C] focus-visible:ring-offset-2 select-none rounded-[8px]`}
     >
-      {/* Thumbnail Poster */}
-      <div className={`absolute inset-0 z-[2] transition-opacity duration-300 ${isShort && isHovered ? 'opacity-0' : 'opacity-100'}`}>
+      {/* Thumbnail: stays until the video is actually playing, then cross-fades out */}
+      <div className={`absolute inset-0 z-[2] transition-opacity duration-300 ${isShort && isPlaying ? 'opacity-0' : 'opacity-100'}`}>
         <img
           src={isYoutubeOnly ? ytThumb(item.youtubeId) : (item.poster || item.videoUrl)}
           alt={lineName}
@@ -138,11 +199,13 @@ function VideoCard({ item, aspectRatio = "wide", hoveredId, setHoveredId, onOpen
         {isShort ? (
           <video
             ref={videoRef}
-            poster={item.poster}
             muted
+            loop
             playsInline
             preload="none"
             draggable={false}
+            onPlaying={() => setIsPlaying(true)}
+            onWaiting={() => setIsPlaying(false)}
             className="absolute inset-0 w-full h-full object-cover outline-none pointer-events-none"
           />
         ) : isYoutubeOnly ? (
@@ -174,10 +237,25 @@ function VideoCard({ item, aspectRatio = "wide", hoveredId, setHoveredId, onOpen
 
       <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent pointer-events-none z-[3]" />
 
-      {isShort && (
-        <div className="absolute top-2 right-2 z-10 opacity-0 group-hover:opacity-100 transition-opacity bg-[#D42C2C] text-white text-[9px] sm:text-[10px] px-2 py-1 rounded-md shadow-md flex items-center gap-1">
-          <span>Watch on Drive ↗</span>
-        </div>
+      {/* Loading hint while the hovered video is still buffering */}
+      {isShort && isHovered && !isPlaying && (
+        <span className="absolute left-0 right-0 bottom-0 h-[3px] bg-white/80 animate-pulse z-20 pointer-events-none" />
+      )}
+
+      {/* Watch-full-video badge: one solid colour, soft shadow + hairline ring for depth.
+          mobile: small square arrow button, always visible (no hover on touch)
+          desktop: label slides in on hover / keyboard focus */}
+      {isLink && (
+        <span
+          aria-hidden="true"
+          style={{ fontFamily: "'GroteskFont', 'Helvetica Neue', Helvetica, Arial, sans-serif" }}
+          className={`absolute top-2 right-2 sm:top-3 sm:right-3 z-10 pointer-events-none flex items-center justify-center w-7 h-7 rounded-[4px] ${BADGE_BG} text-white ring-1 ring-white/15 shadow-[0_6px_16px_rgba(0,0,0,0.35)] transition-all duration-300
+            md:w-auto md:h-auto md:gap-2 md:px-3 md:py-2 md:text-[10px] md:font-semibold md:uppercase md:tracking-[0.14em] md:leading-none
+            md:opacity-0 md:translate-y-1 md:group-hover:opacity-100 md:group-hover:translate-y-0 md:group-focus-visible:opacity-100 md:group-focus-visible:translate-y-0`}
+        >
+          <span className="hidden md:inline whitespace-nowrap">Watch full video</span>
+          <ArrowUpRightIcon className="w-3.5 h-3.5 md:w-3 md:h-3" />
+        </span>
       )}
 
       <div className="absolute bottom-0 left-0 right-0 p-2 sm:p-5 pointer-events-none z-10">
@@ -195,7 +273,7 @@ function VideoCard({ item, aspectRatio = "wide", hoveredId, setHoveredId, onOpen
           )}
         </div>
       </div>
-    </div>
+    </Tag>
   );
 }
 
