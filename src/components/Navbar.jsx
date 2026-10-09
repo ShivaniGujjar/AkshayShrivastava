@@ -46,7 +46,7 @@ export default function Navbar({ onNavigate, activeSection = 'editing' }) {
       `}</style>
 
       <header 
-        className={`fixed top-4 sm:top-8 md:top-12 left-0 w-full box-border z-[9999] px-3 sm:px-8 md:px-12 pointer-events-none transition-all duration-400 ease-out border-none outline-none bg-transparent ${
+        className={`fixed top-4 sm:top-6 md:top-8 left-0 w-full box-border z-[9999] px-3 sm:px-8 md:px-12 pointer-events-none transition-all duration-400 ease-out border-none outline-none bg-transparent ${
           isVisible ? 'translate-y-0 opacity-100' : '-translate-y-[200%] opacity-0'
         }`}
       >
@@ -74,7 +74,7 @@ export default function Navbar({ onNavigate, activeSection = 'editing' }) {
 
           {/* CENTER: DESKTOP CAPSULE NAVIGATION (Untouched) */}
           <div className="hidden md:flex absolute left-1/2 -translate-x-1/2 items-center justify-center pointer-events-auto">
-            <div className="relative bg-[#D42C2C] clean-pill pt-3 pb-3 px-6 rounded-lg overflow-hidden flex items-center justify-center shadow-lg border-none outline-none">
+            <div className="relative bg-[#D42C2C] clean-pill pt-4 pb-3 px-6 rounded-lg overflow-hidden flex items-center justify-center shadow-lg border-none outline-none">
               <div className="relative z-[2] flex items-center justify-center">
                 {NAV_ITEMS.map((item, idx) => {
                   const isActive = activeSection === item.id;
