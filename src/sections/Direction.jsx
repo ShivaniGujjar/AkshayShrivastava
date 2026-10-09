@@ -20,6 +20,7 @@ const DIRECTION_PROJECTS = [
     description: 'This intro video was my attempt to show who I really am, instead of just going through the motions like every other intro. I poured effort into the story and visuals and somehow, it struck a chord: 200K+ views from an account with only 256 followers.',
     videoUrl: 'https://akshayshrivastava.com/videos/AboutMain.mp4',
     poster: 'https://akshayshrivastava.com/images/AboutMain.png',
+    instagramUrl: 'https://www.instagram.com/reel/DMFoWfjBJ4T/?utm_source=ig_web_copy_link&psln=MzRlODBiNWFlZA==&srtk=MzRlODBiNWFlZA=='
   },
   {
     id: 'dp2',
@@ -28,6 +29,7 @@ const DIRECTION_PROJECTS = [
     description: 'Exploratory visual storytelling with structured lighting, precise camera movement, and cinematic color grading.',
     videoUrl: 'https://akshayshrivastava.com/videos/MotionMain.mp4',
     poster: 'https://akshayshrivastava.com/images/MotionMain.png',
+    instagramUrl: 'https://www.instagram.com/reel/DZKjTSuRw77/?utm_source=ig_web_copy_link&mdxt=MzRlODBiNWFlZA==&srtk=MzRlODBiNWFlZA=='
   },
   {
     id: 'dp3',
@@ -36,6 +38,7 @@ const DIRECTION_PROJECTS = [
     description: 'Directing on-set talent and seamless motion graphics integration for modern tech positioning.',
     videoUrl: 'https://akshayshrivastava.com/videos/DirectionMain.mp4',
     poster: 'https://akshayshrivastava.com/images/DirectionMain.png',
+    instagramUrl: 'https://www.instagram.com/reel/DB8uIugv5Ob/?xtok=MWMxeWoxdXVsYXp0Nw=='
   }
 ];
 
@@ -391,10 +394,18 @@ function DirectionShortCard({ project, onOpenModal }) {
     }
   }, [isVisible, project.videoUrl]);
 
+  const handleClick = () => {
+    if (project.instagramUrl) {
+      window.open(project.instagramUrl, '_blank', 'noopener,noreferrer');
+    } else {
+      onOpenModal(project);
+    }
+  };
+
   return (
     <div 
       ref={cardRef}
-      onClick={() => onOpenModal(project)}
+      onClick={handleClick}
       className="w-[44vw] xs:w-[150px] sm:w-[300px] aspect-[9/16] bg-[#14120e] rounded-[8px] overflow-hidden shadow-2xl relative transition-transform duration-500 hover:scale-[1.02] shrink-0 cursor-pointer group"
     >
       <div className="absolute inset-0 z-[1]">
@@ -621,7 +632,6 @@ export default function Direction() {
       `}</style>
 
       <div ref={featuredSectionRef} className="w-full mx-auto pt-10 sm:pt-32 pb-2 px-2 sm:px-4 flex flex-col items-center relative z-20 text-center overflow-hidden">
-        {/* Gallery ko mobile par bada aur proper scale dene ke liye max-width increase ki hai */}
         <div className="w-full max-w-[96vw] sm:max-w-[760px]">
           <ScrapbookGallery onReady={handleGalleryReady} />
         </div>

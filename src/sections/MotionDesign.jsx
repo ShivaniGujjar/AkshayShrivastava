@@ -437,15 +437,9 @@ export default function MotionDesign() {
     }
   };
 
-  // Featured reel click opens the popup modal instead of Google Drive
+  // Featured reel click opens Instagram directly
   const handleFeaturedReelClick = () => {
-    setSelectedVideo({
-      id: 'featured-main',
-      name: 'Akshay Shrivastava',
-      type: 'Featured Motion Reel',
-      videoUrl: 'https://akshayshrivastava.com/videos/MotionMain.mp4',
-      poster: 'https://akshayshrivastava.com/images/MotionMain.png'
-    });
+    window.open('https://www.instagram.com/reel/DZKjTSuRw77/?utm_source=ig_web_copy_link&mdxt=MzRlODBiNWFlZA==&srtk=MzRlODBiNWFlZA==', '_blank', 'noopener,noreferrer');
   };
 
   useEffect(() => {
@@ -593,7 +587,7 @@ export default function MotionDesign() {
             ref={reelRef} 
             onClick={handleFeaturedReelClick}
             className="w-[180px] xs:w-[220px] sm:w-[320px] aspect-[9/16] shrink-0 rounded-[8px] overflow-hidden shadow-2xl bg-black relative cursor-pointer group"
-            title="Click to play full video"
+            title="Click to open on Instagram"
           >
             <video 
               ref={featuredVideoRef}
