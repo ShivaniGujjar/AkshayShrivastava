@@ -367,51 +367,45 @@ function ScrapbookGallery({ onReady }) {
 
 function DirectionShortCard({ project, onOpenModal }) {
   const videoRef = useRef(null);
-  const [isHovered, setIsHovered] = useState(false);
+  const [isVisible, setIsVisible] = useState(false);
+  const cardRef = useRef(null);
 
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => setIsVisible(entry.isIntersecting),
+      { threshold: 0.15 }
+    );
+    if (cardRef.current) observer.observe(cardRef.current);
+    return () => { if (cardRef.current) observer.unobserve(cardRef.current); };
+  }, []);
+
+  // Autoplay video loop when visible
   useEffect(() => {
     const videoEl = videoRef.current;
     if (!videoEl) return;
 
-    if (isHovered) {
+    if (isVisible) {
       if (!videoEl.src) videoEl.src = project.videoUrl;
       videoEl.play().catch(() => {});
     } else {
       videoEl.pause();
-      videoEl.currentTime = 0;
     }
-
-    const handleTimeUpdate = () => {
-      if (videoEl.currentTime >= 10.0) {
-        videoEl.currentTime = 0;
-        videoEl.play().catch(() => {});
-      }
-    };
-
-    videoEl.addEventListener('timeupdate', handleTimeUpdate);
-    return () => {
-      if (videoEl) videoEl.removeEventListener('timeupdate', handleTimeUpdate);
-    };
-  }, [isHovered, project.videoUrl]);
+  }, [isVisible, project.videoUrl]);
 
   return (
     <div 
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
+      ref={cardRef}
       onClick={() => onOpenModal(project)}
       className="w-[180px] xs:w-[210px] sm:w-[300px] aspect-[9/16] bg-[#14120e] rounded-[8px] overflow-hidden shadow-2xl relative transition-transform duration-500 hover:scale-[1.02] shrink-0 cursor-pointer group"
     >
-      <div className={`absolute inset-0 z-[2] transition-opacity duration-300 ${isHovered ? 'opacity-0' : 'opacity-100'}`}>
-        <img src={project.poster} alt={project.title} className="w-full h-full object-cover filter brightness-[0.88]" />
-      </div>
-
       <div className="absolute inset-0 z-[1]">
         <video
           ref={videoRef}
           poster={project.poster}
           muted
+          loop
           playsInline
-          preload="none"
+          preload="metadata"
           className="absolute inset-0 w-full h-full object-cover outline-none pointer-events-none"
         />
       </div>
