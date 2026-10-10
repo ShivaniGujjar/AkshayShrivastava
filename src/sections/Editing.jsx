@@ -17,9 +17,13 @@ const LONG_FORMS = [
   { id: 'lf1', title: 'Moradabad - The brass city', category: 'Documentary', youtubeId: 'VIzWHj8FrXA' },
   { id: 'lf2', title: 'Biturbo', category: 'Edutainment', youtubeId: 'MfOuSuKKzdI' },
   { id: 'lf3', title: 'Samsara - The gin', category: 'Documentary', youtubeId: 'JUCnkdyVsGI' },
-  { id: 'lf4', title: 'Clovia - The lingerie brand', category: 'Edutainment', youtubeId: 'PTxuqvWqhu0' },
-  { id: 'lf5', title: 'Inside the Business of HYROX', category: 'Documentary', youtubeId: 'iIhLVkXaXc8' },
-  { id: 'lf6', title: 'Shamik - The comic', category: 'Podcast', youtubeId: 'On0S3Ym4FfA' },
+  { id: 'lf4', title: 'INDmoney Founder Masterclass', category: 'Masterclass', youtubeId: 'aYqgXabUWWs' },
+  { id: 'lf5', title: 'Clovia - The lingerie brand', category: 'Edutainment', youtubeId: 'PTxuqvWqhu0' },
+  { id: 'lf6', title: 'Inside the Business of HYROX', category: 'Documentary', youtubeId: 'iIhLVkXaXc8' },
+  { id: 'lf7', title: 'Shamik - The comic', category: 'Podcast', youtubeId: 'On0S3Ym4FfA' },
+  { id: 'lf8', title: 'Zomato & Zepto Masterclass', category: 'Podcast', youtubeId: 'uOhVaUvRVPE' },
+  
+
   
 ];
 
@@ -32,8 +36,6 @@ const SHORT_FORMS = [
 
   { id: 'sf2', name: 'Ankit_sr', type: "Personal Brand", title: 'Viral Podcast Clip 2', brand: 'Edutainment', videoUrl: 'https://akshayshrivastava.com/videos/short19.mp4', poster: 'https://akshayshrivastava.com/images/short19.png', driveUrl: 'https://drive.google.com/file/d/1Al5OymoNf06OhEYKG0quCGF_qQWB4J2c/view?usp=sharing' },
 
-  
-  
   { id: 'sf6', title: 'Personal Brand', brand: 'Akshay Shrivastava', videoUrl: 'https://akshayshrivastava.com/videos/short18.mp4', poster: 'https://akshayshrivastava.com/images/short18.png', driveUrl: 'https://drive.google.com/file/d/1nIuMt5bekFJO2I8aiZo6NA5E33uNegGN/view?usp=sharing' },
  
   { id: 'sf10', title: "UGC Ad's", brand: 'Frido', videoUrl: 'https://akshayshrivastava.com/videos/short11.mp4', poster: 'https://akshayshrivastava.com/images/short11.png', driveUrl: 'https://drive.google.com/file/d/1O6s9e9q8R4Zc0DdrUUB6MnNDF1km__94/view?usp=sharing' },
@@ -152,25 +154,22 @@ function VideoCard({ item, aspectRatio = "wide", hoveredId, setHoveredId, onOpen
     setHoveredId(null);
   };
 
-  const Tag = isLink ? 'a' : 'div';
-  const tagProps = isLink
-    ? {
-        href: item.driveUrl,
-        target: '_blank',
-        rel: 'noopener noreferrer',
-        draggable: false,
-        title: 'Opens the full video on Google Drive',
-      }
-    : {
-        role: 'button',
-        tabIndex: 0,
-        onClick: () => onOpenModal(item),
-      };
+  const handleClick = (e) => {
+    if (isLink) {
+      e.preventDefault();
+      e.stopPropagation();
+      window.open(item.driveUrl, '_blank', 'noopener,noreferrer');
+    } else {
+      onOpenModal(item);
+    }
+  };
 
   return (
-    <Tag
+    <div
       ref={cardRef}
-      {...tagProps}
+      role="button"
+      tabIndex={0}
+      onClick={handleClick}
       onTouchStart={handleTouchStart}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
@@ -251,7 +250,7 @@ function VideoCard({ item, aspectRatio = "wide", hoveredId, setHoveredId, onOpen
           </p>
         </div>
       </div>
-    </Tag>
+    </div>
   );
 }
 

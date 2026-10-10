@@ -17,7 +17,7 @@ const DEFAULT_TESTIMONIALS = [
     role: "Founder Venturescopilot"
   },
   {
-    quote: "It was great working with Akshay. He gave clear, honest feedback and kept refining every detail until it felt right, from the spacing to the wording. The same attention to detail shows in his videos.",
+    quote: "Akshay just gets content. You don't have to explain every little thing to him, which honestly makes the process so much easier.",
     handle: "Shivani Gujjar",
     role: "Developer"
   },
@@ -139,7 +139,7 @@ function BrandLogo({ src }) {
   );
 }
 
-const duplicateList = (arr, count = 6) => {
+const duplicateList = (arr, count = 8) => {
   let output = [];
   for (let i = 0; i < count; i++) {
     output = [...output, ...arr];
@@ -147,7 +147,7 @@ const duplicateList = (arr, count = 6) => {
   return output;
 };
 
-// Pure auto-scroll container for Worked With section with responsive mobile speed
+// Smooth GPU-accelerated auto-scroll container for Worked With section
 function BrandMarqueeContainer({ children, direction = 'left', speed = 45 }) {
   const containerRef = useRef(null);
   const rafRef = useRef(null);
@@ -157,7 +157,6 @@ function BrandMarqueeContainer({ children, direction = 'left', speed = 45 }) {
   useEffect(() => {
     const handleResize = () => {
       const isMobile = window.innerWidth < 768;
-      // Mobile par speed slow kar di hai (e.g., 20) taaki tez na bhage
       setEffectiveSpeed(isMobile ? 22 : speed);
     };
     handleResize();
@@ -170,7 +169,7 @@ function BrandMarqueeContainer({ children, direction = 'left', speed = 45 }) {
     if (!el) return;
 
     if (direction === 'right') {
-      el.scrollLeft = el.scrollWidth / 2;
+      el.scrollLeft = el.scrollWidth / 3;
     }
 
     const step = (timestamp) => {
@@ -178,16 +177,16 @@ function BrandMarqueeContainer({ children, direction = 'left', speed = 45 }) {
       const delta = timestamp - lastTimeRef.current;
       lastTimeRef.current = timestamp;
 
-      const half = el.scrollWidth / 2;
+      const third = el.scrollWidth / 3;
       const dir = direction === 'left' ? 1 : -1;
 
       el.scrollLeft += dir * effectiveSpeed * (delta / 1000);
 
-      if (half > 0) {
-        if (el.scrollLeft >= half) {
-          el.scrollLeft -= half;
+      if (third > 0) {
+        if (el.scrollLeft >= third * 2) {
+          el.scrollLeft -= third;
         } else if (el.scrollLeft <= 0) {
-          el.scrollLeft += half;
+          el.scrollLeft += third;
         }
       }
 
@@ -205,14 +204,14 @@ function BrandMarqueeContainer({ children, direction = 'left', speed = 45 }) {
   return (
     <div
       ref={containerRef}
-      className="w-full max-w-full overflow-x-hidden overflow-y-hidden select-none [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden"
+      className="w-full max-w-full overflow-x-hidden overflow-y-hidden select-none [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden will-change-scroll transform-gpu"
     >
       {children}
     </div>
   );
 }
 
-// Testimonials container with auto-scroll (slowed down on mobile) + manual navigation arrows
+// Testimonials container with smooth auto-scroll + manual navigation arrows
 function RowArrow({ side, onClick }) {
   const isLeft = side === 'left';
   return (
@@ -253,8 +252,7 @@ function TestimonialMarqueeRow({ children, direction = 'right', speed = 40 }) {
   useEffect(() => {
     const handleResize = () => {
       const isMobile = window.innerWidth < 768;
-      // Mobile par testimonials ki speed bhi slow kar di hai (e.g., 20)
-      setEffectiveSpeed(isMobile ? 20 : speed);
+      setEffectiveSpeed(isMobile ? 18 : speed);
     };
     handleResize();
     window.addEventListener('resize', handleResize);
@@ -262,10 +260,10 @@ function TestimonialMarqueeRow({ children, direction = 'right', speed = 40 }) {
   }, [speed]);
 
   const wrap = (el) => {
-    const half = el.scrollWidth / 2;
-    if (half <= 0) return;
-    if (el.scrollLeft >= half) el.scrollLeft -= half;
-    else if (el.scrollLeft <= 0) el.scrollLeft += half;
+    const third = el.scrollWidth / 3;
+    if (third <= 0) return;
+    if (el.scrollLeft >= third * 2) el.scrollLeft -= third;
+    else if (el.scrollLeft <= 0) el.scrollLeft += third;
   };
 
   useEffect(() => {
@@ -273,7 +271,7 @@ function TestimonialMarqueeRow({ children, direction = 'right', speed = 40 }) {
     if (!el) return;
 
     if (direction === 'right') {
-      el.scrollLeft = el.scrollWidth / 2;
+      el.scrollLeft = el.scrollWidth / 3;
     }
 
     const step = (timestamp) => {
@@ -344,7 +342,7 @@ function TestimonialMarqueeRow({ children, direction = 'right', speed = 40 }) {
     <div className="relative w-full max-w-full">
       <div
         ref={containerRef}
-        className="w-full max-w-full overflow-x-hidden overflow-y-hidden select-none px-3 sm:px-12"
+        className="w-full max-w-full overflow-x-hidden overflow-y-hidden select-none px-3 sm:px-12 will-change-scroll transform-gpu [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden"
       >
         <div ref={innerRef} className="inline-flex whitespace-nowrap gap-2.5 sm:gap-10 w-max items-stretch">
           {children}
@@ -373,13 +371,12 @@ export default function SocialProof({ brands = DEFAULT_BRANDS, testimonials = DE
           mask-image: linear-gradient(to right, transparent 0, black 4%, black 96%, transparent 100%);
         }
 
-        /* Mobile par PNG ki height badhane ke liye background-size increase kiya hai */
         .testi-bg {
-          background-size: 100% 190%;
+          background-size: 100% 100%;
         }
-        @media (min-width: 640px) {
+        @media (max-width: 639px) {
           .testi-bg {
-            background-size: 100% 100%;
+            background-size: cover;
           }
         }
 
@@ -430,14 +427,14 @@ export default function SocialProof({ brands = DEFAULT_BRANDS, testimonials = DE
       </div>
 
       {/* ────────────────── 2. TESTIMONIALS SECTION ────────────────── */}
-      <div className="relative w-full mt-0 sm:-mt-16 py-6 sm:py-42 flex flex-col items-center justify-center overflow-hidden">
+      <div className="relative w-full mt-0 sm:-mt-16 py-12 sm:py-42 flex flex-col items-center justify-center overflow-hidden">
         <div
           className="testi-bg absolute -left-[4.5%] -right-[4.5%] top-0 bottom-0 sm:-top-12 sm:-bottom-12 bg-no-repeat bg-center pointer-events-none z-0"
           style={{ backgroundImage: `url('/testimonialRed.png')` }}
         />
 
         {/* TICKER CARDS WRAPPER */}
-        <div className="w-full overflow-hidden mb-0 py-2 sm:py-4 relative z-[15] testi-fade">
+        <div className="w-full overflow-hidden mb-0 py-4 sm:py-4 relative z-[15] testi-fade">
           <TestimonialMarqueeRow direction="right" speed={40}>
             {duplicateList(testimonials).map((testi, idx) => (
               <div

@@ -394,8 +394,10 @@ function DirectionShortCard({ project, onOpenModal }) {
     }
   }, [isVisible, project.videoUrl]);
 
-  const handleClick = () => {
+  const handleClick = (e) => {
     if (project.instagramUrl) {
+      e.preventDefault();
+      e.stopPropagation();
       window.open(project.instagramUrl, '_blank', 'noopener,noreferrer');
     } else {
       onOpenModal(project);
@@ -405,6 +407,8 @@ function DirectionShortCard({ project, onOpenModal }) {
   return (
     <div 
       ref={cardRef}
+      role="button"
+      tabIndex={0}
       onClick={handleClick}
       className="w-[44vw] xs:w-[150px] sm:w-[300px] aspect-[9/16] bg-[#14120e] rounded-[8px] overflow-hidden shadow-2xl relative transition-transform duration-500 hover:scale-[1.02] shrink-0 cursor-pointer group"
     >

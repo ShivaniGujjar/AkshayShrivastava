@@ -48,9 +48,11 @@ const LONG_FORMS = [
   { id: 'lf1', title: 'Moradabad - The brass city', category: 'Documentary', youtubeId: 'VIzWHj8FrXA' },
   { id: 'lf2', title: 'Biturbo', category: 'Edutainment', youtubeId: 'MfOuSuKKzdI' },
   { id: 'lf3', title: 'Samsara - The gin', category: 'Documentary', youtubeId: 'JUCnkdyVsGI' },
-  { id: 'lf4', title: 'Clovia - The lingerie brand', category: 'Edutainment', youtubeId: 'PTxuqvWqhu0' },
-  { id: 'lf5', title: 'Inside the Business of HYROX', category: 'Documentary', youtubeId: 'iIhLVkXaXc8' },
-  { id: 'lf6', title: 'Shamik - The comic', category: 'Podcast', youtubeId: 'On0S3Ym4FfA' },
+  { id: 'lf4', title: 'INDmoney Founder Masterclass', category: 'Masterclass', youtubeId: 'aYqgXabUWWs' },
+  { id: 'lf5', title: 'Clovia - The lingerie brand', category: 'Edutainment', youtubeId: 'PTxuqvWqhu0' },
+  { id: 'lf6', title: 'Inside the Business of HYROX', category: 'Documentary', youtubeId: 'iIhLVkXaXc8' },
+  { id: 'lf7', title: 'Shamik - The comic', category: 'Podcast', youtubeId: 'On0S3Ym4FfA' },
+  { id: 'lf8', title: 'Zomato & Zepto Masterclass', category: 'Podcast', youtubeId: 'uOhVaUvRVPE' },
   
 ];
 
@@ -160,25 +162,22 @@ function VideoCard({ item, aspectRatio = "wide", hoveredId, setHoveredId, onOpen
     setHoveredId(null);
   };
 
-  const Tag = isLink ? 'a' : 'div';
-  const tagProps = isLink
-    ? {
-        href: item.driveUrl,
-        target: '_blank',
-        rel: 'noopener noreferrer',
-        draggable: false,
-        title: 'Opens the full video on Google Drive',
-      }
-    : {
-        role: 'button',
-        tabIndex: 0,
-        onClick: () => onOpenModal(item),
-      };
+  const handleClick = (e) => {
+    if (isLink) {
+      e.preventDefault();
+      e.stopPropagation();
+      window.open(item.driveUrl, '_blank', 'noopener,noreferrer');
+    } else {
+      onOpenModal(item);
+    }
+  };
 
   return (
-    <Tag
+    <div
       ref={cardRef}
-      {...tagProps}
+      role="button"
+      tabIndex={0}
+      onClick={handleClick}
       onTouchStart={handleTouchStart}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
@@ -261,7 +260,7 @@ function VideoCard({ item, aspectRatio = "wide", hoveredId, setHoveredId, onOpen
           )}
         </div>
       </div>
-    </Tag>
+    </div>
   );
 }
 
