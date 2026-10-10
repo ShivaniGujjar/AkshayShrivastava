@@ -497,7 +497,7 @@ export default function SocialProof({
       </div>
 
       {/* ────────────────── 2. TESTIMONIALS SECTION ────────────────── */}
-      <div className="relative w-full mt-0 sm:-mt-16 py-6 sm:py-42 flex flex-col items-center justify-center overflow-hidden">
+      <div className="relative w-full mt-4 sm:-mt-16 py-6 sm:py-42 flex flex-col items-center justify-center overflow-hidden">
         <div
           className="testi-bg absolute -left-[4.5%] -right-[4.5%] top-0 bottom-0 sm:-top-12 sm:-bottom-12 bg-no-repeat bg-center pointer-events-none z-0"
           style={{ backgroundImage: `url('/testimonialRed.png')` }}
