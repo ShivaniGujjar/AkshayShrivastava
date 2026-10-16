@@ -49,6 +49,18 @@ const ID_TO_PATH = {
   about: '/about'
 };
 
+const FOOTER_LINKS = [
+  { label: 'Instagram', href: 'https://www.instagram.com/akshay__shri/?hl=en' },
+  {
+    label: 'Gmail',
+    href: 'https://mail.google.com/mail/u/0/?to=Connectwithakshayshri@gmail.com&su=Project+inquiry&fs=1&tf=cm'
+  },
+  {
+    label: 'Linkedin',
+    href: 'https://www.linkedin.com/in/akshay-shrivastava-735210210/?isSelfProfile=false'
+  }
+];
+
 export default function Hero({ onColumnClick }) {
   const videoRefs = useRef([]);
   const sectionRef = useRef(null);
@@ -472,6 +484,28 @@ export default function Hero({ onColumnClick }) {
           );
         })}
       </div>
+
+            {/* 📌 DESKTOP-ONLY FOOTER (hidden on mobile) */}
+      <footer className="hidden md:flex absolute bottom-8 left-0 w-full justify-center z-[30] pointer-events-none">
+        <div className="pointer-events-auto bg-[#08080a] rounded-lg px-5 pt-4 pb-3.5 flex items-center justify-center shadow-lg">
+          {FOOTER_LINKS.map((link, idx) => (
+            <React.Fragment key={link.label}>
+              <a
+                href={link.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{ fontFamily: "GourmetEatery, cursive, sans-serif" }}
+                className="inline-flex items-center text-base lg:text-lg tracking-wide text-white hover:text-[#FFC300] transition-colors duration-200 whitespace-nowrap px-2 no-underline"
+              >
+                <span className="leading-none pt-0.5">{link.label}</span>
+              </a>
+              {idx < FOOTER_LINKS.length - 1 && (
+                <span className="w-2 h-2 rounded-full bg-[#D42C2C] inline-block shrink-0 mx-1" />
+              )}
+            </React.Fragment>
+          ))}
+        </div>
+      </footer>
 
     </section>
   );
