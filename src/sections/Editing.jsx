@@ -22,17 +22,28 @@ const LONG_FORMS = [
   { id: 'lf6', title: 'Inside the Business of HYROX', category: 'Documentary', youtubeId: 'iIhLVkXaXc8' },
   { id: 'lf7', title: 'Shamik - The comic', category: 'Podcast', youtubeId: 'On0S3Ym4FfA' },
   { id: 'lf8', title: 'Zomato & Zepto Masterclass', category: 'Podcast', youtubeId: 'uOhVaUvRVPE' },
+  
+
+  
 ];
 
 const SHORT_FORMS = [
  { id: 'msf5', name: 'Scratch', type: 'Edutainment', title: 'Character Animation', brand: '2D Motion', videoUrl: 'https://akshayshrivastava.com/videos/short9.mp4', poster: 'https://akshayshrivastava.com/images/short9.png', driveUrl: 'https://drive.google.com/file/d/1uwY-PFrG5BDBY7e5WlOJZIB18O-tCKwO/view?usp=sharing' },
+
   { id: 'sf1', name: "Masters' Union", type: 'Personal Brand', title: 'Retention Hook 1', brand: 'Waywen', videoUrl: 'https://akshayshrivastava.com/videos/short3.mp4', poster: 'https://akshayshrivastava.com/images/short3.png', driveUrl: 'https://drive.google.com/file/d/1Xw9i6DwueS00OjtjmihO6Un0RRNcal6v/view?usp=sharing' },
+
   { id: 'sf3', name: 'Vishwmitra', type: 'Performance Reel', title: 'Brand Story Reel 3', brand: 'Kolkata Media', videoUrl: 'https://akshayshrivastava.com/videos/short5.mp4', poster: 'https://akshayshrivastava.com/images/short5.png', driveUrl: 'https://drive.google.com/file/d/1KI4EhIOdQZ91bvBi_fLTbbzxloZrfPMJ/view?usp=sharing' },
+
   { id: 'sf2', name: 'Ankit_sr', type: "Personal Brand", title: 'Viral Podcast Clip 2', brand: 'Edutainment', videoUrl: 'https://akshayshrivastava.com/videos/short19.mp4', poster: 'https://akshayshrivastava.com/images/short19.png', driveUrl: 'https://drive.google.com/file/d/1Al5OymoNf06OhEYKG0quCGF_qQWB4J2c/view?usp=sharing' },
+
   { id: 'sf6', title: 'Personal Brand', brand: 'Akshay Shrivastava', videoUrl: 'https://akshayshrivastava.com/videos/short18.mp4', poster: 'https://akshayshrivastava.com/images/short18.png', driveUrl: 'https://drive.google.com/file/d/1nIuMt5bekFJO2I8aiZo6NA5E33uNegGN/view?usp=sharing' },
+ 
   { id: 'sf10', title: "UGC Ad's", brand: 'Frido', videoUrl: 'https://akshayshrivastava.com/videos/short11.mp4', poster: 'https://akshayshrivastava.com/images/short11.png', driveUrl: 'https://drive.google.com/file/d/1O6s9e9q8R4Zc0DdrUUB6MnNDF1km__94/view?usp=sharing' },
+
   { id: 'msf2', name: 'Vishwmitra', type: 'Performance Reel', title: 'Abstract Product Reel', brand: '3D Motion', videoUrl: 'https://akshayshrivastava.com/videos/short4.mp4', poster: 'https://akshayshrivastava.com/images/short4.png', driveUrl: 'https://drive.google.com/file/d/1du-28m6tarHsR432u2SWzhcRVzKv-7YO/view?usp=sharing' },
+
   { id: 'msf4', name: 'Ankur Wariko', type: 'UGC Ads', title: 'Character Animation', brand: '2D Motion', videoUrl: 'https://akshayshrivastava.com/videos/short7.mp4', poster: 'https://akshayshrivastava.com/images/short7.png', driveUrl: 'https://drive.google.com/file/d/1G0GUMbQXBIAvnLRCs1lgs-BE9lCVvIMy/view?usp=sharing' },
+ 
   { id: 'sf8', title: "UGC Ad's", brand: 'Frido', videoUrl: 'https://akshayshrivastava.com/videos/short12.mp4', poster: 'https://akshayshrivastava.com/images/short12.png', driveUrl: 'https://drive.google.com/file/d/1-S-L43uq4j1VoEQYINbmZS7iK1QigC_w/view?usp=sharing' },
   { id: 'sf4', name: 'Ankit_sr', type: 'Personal Brand', title: 'Instagram Reel', brand: 'Fit Tribe', videoUrl: 'https://akshayshrivastava.com/videos/short10.mp4', poster: 'https://akshayshrivastava.com/images/short10.png', driveUrl: 'https://drive.google.com/file/d/1gPB6TJ7HZ9_7vzIIjFbSedst69GTeRPx/view?usp=sharing' },
 ];
@@ -69,18 +80,10 @@ function VideoCard({ item, aspectRatio = "wide", hoveredId, setHoveredId, onOpen
   const lastTouchRef = useRef(0);
   const [isVisible, setIsVisible] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
-  const [isDesktop, setIsDesktop] = useState(false);
   const isHovered = hoveredId === item.id;
   const isShort = aspectRatio === "tall";
 
   const isLink = isShort && Boolean(item.driveUrl);
-
-  useEffect(() => {
-    const checkScreen = () => setIsDesktop(window.innerWidth >= 768);
-    checkScreen();
-    window.addEventListener('resize', checkScreen);
-    return () => window.removeEventListener('resize', checkScreen);
-  }, []);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -93,37 +96,23 @@ function VideoCard({ item, aspectRatio = "wide", hoveredId, setHoveredId, onOpen
 
   useEffect(() => {
     const videoEl = videoRef.current;
-    if (!videoEl) return;
+    if (!videoEl || !isShort) return;
 
-    if (isShort && !isDesktop) {
-      videoEl.pause();
-      setIsPlaying(false);
-      return;
-    }
-
-    // Agar desktop hai, toh agar koi card hovered hai toh sirf wahi play hoga, baaki pause rahenge. Agar koi hover nahi hai toh default autoplay chalega.
-    const shouldPlay = isVisible && (hoveredId === null || isHovered);
-
-    if (shouldPlay) {
+    if (isHovered && isVisible) {
       if (!videoEl.getAttribute('src')) {
-        videoEl.src = item.videoUrl || '';
+        videoEl.src = item.videoUrl;
         videoEl.load();
       }
-      const playPromise = videoEl.play();
-      if (playPromise !== undefined) {
-        playPromise.then(() => {
-          setIsPlaying(true);
-        }).catch(() => {
-          setIsPlaying(false);
-        });
-      }
+      const p = videoEl.play();
+      if (p && p.catch) p.catch(() => {});
     } else {
       videoEl.pause();
+      try { videoEl.currentTime = 0; } catch (e) {}
       setIsPlaying(false);
     }
 
     const handleTimeUpdate = () => {
-      if (isShort && videoEl.currentTime >= 10.0) {
+      if (videoEl.currentTime >= 10.0) {
         videoEl.currentTime = 0;
         videoEl.play().catch(() => {});
       }
@@ -131,7 +120,7 @@ function VideoCard({ item, aspectRatio = "wide", hoveredId, setHoveredId, onOpen
 
     videoEl.addEventListener('timeupdate', handleTimeUpdate);
     return () => videoEl.removeEventListener('timeupdate', handleTimeUpdate);
-  }, [isVisible, isHovered, hoveredId, isDesktop, item.videoUrl, isShort]);
+  }, [isHovered, isVisible, item.videoUrl, isShort]);
 
   const [previewOn, setPreviewOn] = useState(false);
   const [previewReady, setPreviewReady] = useState(false);
@@ -186,7 +175,7 @@ function VideoCard({ item, aspectRatio = "wide", hoveredId, setHoveredId, onOpen
       onMouseLeave={handleMouseLeave}
       className={`relative inline-flex flex-col shrink-0 cursor-pointer select-none group overflow-hidden bg-[#0f0e0c] no-underline shadow-[0_8px_30px_rgba(0,0,0,0.08)] transition-all duration-500 ease-out md:hover:-translate-y-1 md:hover:shadow-[0_16px_40px_rgba(212,44,44,0.2)] active:scale-[0.97] md:active:scale-100 rounded-[12px] outline-none ${cardDimensions}`}
     >
-      <div className={`absolute inset-0 z-[2] transition-opacity duration-300 ${isShort && !isDesktop ? 'opacity-100' : (isPlaying ? 'opacity-0' : 'opacity-100')}`}>
+      <div className={`absolute inset-0 z-[2] transition-opacity duration-300 ${isShort && isPlaying ? 'opacity-0' : 'opacity-100'}`}>
         <img
           src={isYoutubeOnly ? ytThumb(item.youtubeId) : (item.poster || item.videoUrl)}
           alt={lineName}
@@ -196,7 +185,19 @@ function VideoCard({ item, aspectRatio = "wide", hoveredId, setHoveredId, onOpen
       </div>
 
       <div className="absolute inset-0 z-[1]">
-        {isShort && !isDesktop ? null : isYoutubeOnly ? (
+        {isShort ? (
+          <video
+            ref={videoRef}
+            muted
+            loop
+            playsInline
+            preload="none"
+            draggable={false}
+            onPlaying={() => setIsPlaying(true)}
+            onWaiting={() => setIsPlaying(false)}
+            className="absolute inset-0 w-full h-full object-cover outline-none pointer-events-none"
+          />
+        ) : isYoutubeOnly ? (
           <>
             {previewOn && (
               <iframe
@@ -216,10 +217,8 @@ function VideoCard({ item, aspectRatio = "wide", hoveredId, setHoveredId, onOpen
             muted
             loop
             playsInline
-            preload="none"
+            preload="metadata"
             draggable={false}
-            onPlaying={() => setIsPlaying(true)}
-            onWaiting={() => setIsPlaying(false)}
             className="absolute inset-0 w-full h-full object-cover outline-none pointer-events-none"
           />
         )}
@@ -633,7 +632,7 @@ export default function Editing() {
         />
       </div>
 
-      {/* SHORT FORMS */}
+      {/* SHORT FORMS (Single Row, Opposite Direction: 'right') */}
       <div className="w-full max-w-full relative overflow-hidden my-4 sm:my-20">
         <div className="max-w-[1100px] w-full mx-auto px-4 sm:px-6 flex flex-col items-center text-center mb-4 sm:mb-8">
           <h3 

@@ -190,17 +190,20 @@ const duplicateList = (arr, count = 6) => {
   return output;
 };
 
-// Pure auto-scroll container for Worked With section with responsive mobile speed
+// Auto-scroll for Worked With section.
+// Uses transform: translate3d instead of scrollLeft, because iOS Safari
+// rounds fractional scrollLeft values and the slow mobile speed gets stuck.
 function BrandMarqueeContainer({ children, direction = "left", speed = 45 }) {
   const containerRef = useRef(null);
+  const innerRef = useRef(null);
   const rafRef = useRef(null);
   const lastTimeRef = useRef(null);
+  const posRef = useRef(0);
   const [effectiveSpeed, setEffectiveSpeed] = useState(speed);
 
   useEffect(() => {
     const handleResize = () => {
       const isMobile = window.innerWidth < 768;
-      // Mobile par speed slow kar di hai (e.g., 20) taaki tez na bhage
       setEffectiveSpeed(isMobile ? 22 : speed);
     };
     handleResize();
@@ -209,31 +212,24 @@ function BrandMarqueeContainer({ children, direction = "left", speed = 45 }) {
   }, [speed]);
 
   useEffect(() => {
-    const el = containerRef.current;
-    if (!el) return;
-
-    if (direction === "right") {
-      el.scrollLeft = el.scrollWidth / 2;
-    }
+    const inner = innerRef.current;
+    if (!inner) return;
 
     const step = (timestamp) => {
       if (lastTimeRef.current == null) lastTimeRef.current = timestamp;
       const delta = timestamp - lastTimeRef.current;
       lastTimeRef.current = timestamp;
 
-      const half = el.scrollWidth / 2;
+      const half = inner.scrollWidth / 2;
       const dir = direction === "left" ? 1 : -1;
-
-      el.scrollLeft += dir * effectiveSpeed * (delta / 1000);
+      posRef.current += dir * effectiveSpeed * (delta / 1000);
 
       if (half > 0) {
-        if (el.scrollLeft >= half) {
-          el.scrollLeft -= half;
-        } else if (el.scrollLeft <= 0) {
-          el.scrollLeft += half;
-        }
+        if (posRef.current >= half) posRef.current -= half;
+        else if (posRef.current < 0) posRef.current += half;
       }
 
+      inner.style.transform = `translate3d(${-posRef.current}px, 0, 0)`;
       rafRef.current = requestAnimationFrame(step);
     };
 
@@ -248,9 +244,11 @@ function BrandMarqueeContainer({ children, direction = "left", speed = 45 }) {
   return (
     <div
       ref={containerRef}
-      className="w-full max-w-full overflow-x-hidden overflow-y-hidden select-none testimonial-container [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden"
+      className="w-full max-w-full overflow-hidden select-none"
     >
-      {children}
+      <div ref={innerRef} className="w-max will-change-transform">
+        {children}
+      </div>
     </div>
   );
 }

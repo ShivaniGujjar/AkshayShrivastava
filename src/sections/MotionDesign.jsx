@@ -13,20 +13,34 @@ if (typeof window !== 'undefined') {
 const ytThumb = (id) => `https://i.ytimg.com/vi/${id}/maxresdefault.jpg`;
 const ytThumbFallback = (id) => `https://i.ytimg.com/vi/${id}/hqdefault.jpg`;
 
+
 const SHORT_FORMS = [
   { id: 'msf1', name: 'Scratch', type: 'Shorts', title: '3D Kinetic Typography', brand: 'UGC Ad', videoUrl: 'https://akshayshrivastava.com/videos/short2.mp4', poster: 'https://akshayshrivastava.com/images/short2.png', driveUrl: 'https://drive.google.com/file/d/1T1ZbDwywo7NeJtzUjsaMH0IyKixoZENh/view?usp=sharing' },
+
   { id: 'msf3', name: 'Ankur Warikoo', type: 'UGC Ads', title: 'Logo Reveal Loop', brand: 'VFX', videoUrl: 'https://akshayshrivastava.com/videos/short6.mp4', poster: 'https://akshayshrivastava.com/images/short6.png', driveUrl: 'https://drive.google.com/file/d/1sp9aXjCVTfg0ApluNZUyV45ZW3dupoVp/view?usp=sharing' },
+
   { id: 'sf6', title: 'Akshay Shrivastava', brand: 'Personal Brand', videoUrl: 'https://akshayshrivastava.com/videos/short18.mp4', poster: 'https://akshayshrivastava.com/images/short18.png', driveUrl: 'https://drive.google.com/file/d/1nIuMt5bekFJO2I8aiZo6NA5E33uNegGN/view?usp=sharing' },
+
   { id: 'msf5', name: 'Scratch', type: 'Edutainment', title: 'Character Animation', brand: '2D Motion', videoUrl: 'https://akshayshrivastava.com/videos/short9.mp4', poster: 'https://akshayshrivastava.com/images/short9.png', driveUrl: 'https://drive.google.com/file/d/1uwY-PFrG5BDBY7e5WlOJZIB18O-tCKwO/view?usp=sharing' },
+
   { id: 'msf2', name: 'Vishwmitra', type: 'Performance Reel', title: 'Abstract Product Reel', brand: '3D Motion', videoUrl: 'https://akshayshrivastava.com/videos/short4.mp4', poster: 'https://akshayshrivastava.com/images/short4.png', driveUrl: 'https://drive.google.com/file/d/1du-28m6tarHsR432u2SWzhcRVzKv-7YO/view?usp=sharing' },
+
   { id: 'msf6', name: 'Scratch', type: 'Shorts', title: 'Character Animation', brand: '2D Motion', videoUrl: 'https://akshayshrivastava.com/videos/short13.mp4', poster: 'https://akshayshrivastava.com/images/short13.png', driveUrl: 'https://drive.google.com/file/d/1VCyEzMjQ-O9NZVKu5tELWizC8qOPQ8uP/view?usp=sharing' },
+
   { id: 'msf10', name: 'Akshay Shrivastava', type: 'Personal Brand', title: 'Character Animation', brand: '2D Motion', videoUrl: 'https://akshayshrivastava.com/videos/MotionMain.mp4', poster: 'https://akshayshrivastava.com/images/MotionMain.png', driveUrl: 'https://drive.google.com/file/d/1-2-YktwU9e8J9jWNR3EpLdP9_ugIPKGP/view?usp=sharing' },
+
   { id: 'msf7', name: 'Scratch', type: 'Edutainment', title: 'Character Animation', brand: '2D Motion', videoUrl: 'https://akshayshrivastava.com/videos/short14.mp4', poster: 'https://akshayshrivastava.com/images/short14.png', driveUrl: 'https://drive.google.com/file/d/1TSZ4IMxv0djTQgD1ZLkZvgIuC60FdeJn/view?usp=sharing' },
+
   { id: 'msf12', name: 'Waywen', type: 'Promotional Reel', title: 'Character Animation', brand: '2D Motion', videoUrl: 'https://akshayshrivastava.com/videos/DirectionMain.mp4', poster: 'https://akshayshrivastava.com/images/DirectionMain.png', driveUrl: 'https://drive.google.com/file/d/15ke3BYxXFerTseLnU2yX_9Rxixn3iRul/view?usp=sharing' },
+
   { id: 'msf9', name: 'Scratch', type: 'Shorts', title: 'Character Animation', brand: '2D Motion', videoUrl: 'https://akshayshrivastava.com/videos/short15.mp4', poster: 'https://akshayshrivastava.com/images/short15.png', driveUrl: 'https://drive.google.com/file/d/1dZal7IC0rY-PBxSiIBECSZaq70Tli-JV/view?usp=sharing&t=0.571' },
+
   { id: 'msf4', name: 'Ankur Warikoo', type: 'UGC Ads', title: 'Character Animation', brand: '2D Motion', videoUrl: 'https://akshayshrivastava.com/videos/short7.mp4', poster: 'https://akshayshrivastava.com/images/short7.png', driveUrl: 'https://drive.google.com/file/d/1G0GUMbQXBIAvnLRCs1lgs-BE9lCVvIMy/view?usp=sharing' },
+
   { id: 'msf11', name: 'Scratch', type: 'Edutainment', title: 'Character Animation', brand: '2D Motion', videoUrl: 'https://akshayshrivastava.com/videos/short20.mp4', poster: 'https://akshayshrivastava.com/images/short20.png', driveUrl: 'https://drive.google.com/file/d/1Ic-BfBiQuhe5S5tgqT_0bJlEFV01z66t/view?usp=sharing' },
+
   { id: 'sf3', name: 'Vishwmitra', type: 'Performance Reel', title: 'Brand Story Reel 3', brand: 'Kolkata Media', videoUrl: 'https://akshayshrivastava.com/videos/short5.mp4', poster: 'https://akshayshrivastava.com/images/short5.png', driveUrl: 'https://drive.google.com/file/d/1KI4EhIOdQZ91bvBi_fLTbbzxloZrfPMJ/view?usp=sharing' },
+
   { id: 'msf8', name: 'Akshay Shrivastava', type: 'Personal Brand', title: 'Character Animation', brand: '2D Motion', videoUrl: 'https://akshayshrivastava.com/videos/AboutMain.mp4', poster: 'https://akshayshrivastava.com/images/AboutMain.png', driveUrl: 'https://drive.google.com/file/d/1ifLdzvThtJoUQW94w3TUlKRbPaoHrl_H/view?usp=sharing' },
 ];
 
@@ -39,7 +53,9 @@ const LONG_FORMS = [
   { id: 'lf6', title: 'Inside the Business of HYROX', category: 'Documentary', youtubeId: 'iIhLVkXaXc8' },
   { id: 'lf7', title: 'Shamik - The comic', category: 'Podcast', youtubeId: 'On0S3Ym4FfA' },
   { id: 'lf8', title: 'Zomato & Zepto Masterclass', category: 'Podcast', youtubeId: 'uOhVaUvRVPE' },
+  
 ];
+
 
 const duplicateList = (arr, count = 2) => {
   let output = [];
@@ -73,7 +89,6 @@ function VideoCard({ item, aspectRatio = "wide", hoveredId, setHoveredId, onOpen
   const lastTouchRef = useRef(0);
   const [isVisible, setIsVisible] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
-  const [isDesktop, setIsDesktop] = useState(false);
   const isHovered = hoveredId === item.id;
 
   const lineName = item.name || item.title;
@@ -81,13 +96,6 @@ function VideoCard({ item, aspectRatio = "wide", hoveredId, setHoveredId, onOpen
   const isYoutubeOnly = Boolean(item.youtubeId && !item.videoUrl);
   const isShort = aspectRatio === "tall";
   const isLink = isShort && Boolean(item.driveUrl);
-
-  useEffect(() => {
-    const checkScreen = () => setIsDesktop(window.innerWidth >= 768);
-    checkScreen();
-    window.addEventListener('resize', checkScreen);
-    return () => window.removeEventListener('resize', checkScreen);
-  }, []);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -100,36 +108,23 @@ function VideoCard({ item, aspectRatio = "wide", hoveredId, setHoveredId, onOpen
 
   useEffect(() => {
     const videoEl = videoRef.current;
-    if (!videoEl) return;
+    if (!videoEl || !isShort) return;
 
-    if (isShort && !isDesktop) {
-      videoEl.pause();
-      setIsPlaying(false);
-      return;
-    }
-
-    const shouldPlay = isVisible && (hoveredId === null || isHovered);
-
-    if (shouldPlay) {
+    if (isHovered && isVisible) {
       if (!videoEl.getAttribute('src')) {
-        videoEl.src = item.videoUrl || '';
+        videoEl.src = item.videoUrl;
         videoEl.load();
       }
-      const playPromise = videoEl.play();
-      if (playPromise !== undefined) {
-        playPromise.then(() => {
-          setIsPlaying(true);
-        }).catch(() => {
-          setIsPlaying(false);
-        });
-      }
+      const p = videoEl.play();
+      if (p && p.catch) p.catch(() => {});
     } else {
       videoEl.pause();
+      try { videoEl.currentTime = 0; } catch (e) {}
       setIsPlaying(false);
     }
 
     const handleTimeUpdate = () => {
-      if (isShort && videoEl.currentTime >= 10.0) {
+      if (videoEl.currentTime >= 10.0) {
         videoEl.currentTime = 0;
         videoEl.play().catch(() => {});
       }
@@ -137,7 +132,7 @@ function VideoCard({ item, aspectRatio = "wide", hoveredId, setHoveredId, onOpen
 
     videoEl.addEventListener('timeupdate', handleTimeUpdate);
     return () => videoEl.removeEventListener('timeupdate', handleTimeUpdate);
-  }, [isVisible, isHovered, hoveredId, isDesktop, item.videoUrl, isShort]);
+  }, [isHovered, isVisible, item.videoUrl, isShort]);
 
   const [previewOn, setPreviewOn] = useState(false);
   const [previewReady, setPreviewReady] = useState(false);
@@ -188,7 +183,7 @@ function VideoCard({ item, aspectRatio = "wide", hoveredId, setHoveredId, onOpen
       onMouseLeave={handleMouseLeave}
       className={`relative inline-block group overflow-hidden cursor-pointer bg-[#14120e] no-underline shadow-[0_8px_30px_rgba(0,0,0,0.06)] transition-all duration-500 ease-out md:hover:-translate-y-1 md:hover:shadow-[0_16px_40px_rgba(212,44,44,0.15)] active:scale-[0.97] md:active:scale-100 ${cardDimensions} shrink-0 outline-none focus-visible:ring-2 focus-visible:ring-[#D42C2C] focus-visible:ring-offset-2 select-none rounded-[12px]`}
     >
-      <div className={`absolute inset-0 z-[2] transition-opacity duration-300 ${isShort && !isDesktop ? 'opacity-100' : (isPlaying ? 'opacity-0' : 'opacity-100')}`}>
+      <div className={`absolute inset-0 z-[2] transition-opacity duration-300 ${isShort && isPlaying ? 'opacity-0' : 'opacity-100'}`}>
         <img
           src={isYoutubeOnly ? ytThumb(item.youtubeId) : (item.poster || item.videoUrl)}
           alt={lineName}
@@ -198,7 +193,19 @@ function VideoCard({ item, aspectRatio = "wide", hoveredId, setHoveredId, onOpen
       </div>
 
       <div className="absolute inset-0 z-[1]">
-        {isShort && !isDesktop ? null : isYoutubeOnly ? (
+        {isShort ? (
+          <video
+            ref={videoRef}
+            muted
+            loop
+            playsInline
+            preload="none"
+            draggable={false}
+            onPlaying={() => setIsPlaying(true)}
+            onWaiting={() => setIsPlaying(false)}
+            className="absolute inset-0 w-full h-full object-cover outline-none pointer-events-none"
+          />
+        ) : isYoutubeOnly ? (
           <>
             {previewOn && (
               <iframe
@@ -218,10 +225,8 @@ function VideoCard({ item, aspectRatio = "wide", hoveredId, setHoveredId, onOpen
             muted
             loop
             playsInline
-            preload="none"
+            preload="metadata"
             draggable={false}
-            onPlaying={() => setIsPlaying(true)}
-            onWaiting={() => setIsPlaying(false)}
             className="absolute inset-0 w-full h-full object-cover outline-none pointer-events-none"
           />
         )}
@@ -431,6 +436,7 @@ export default function MotionDesign() {
     }
   };
 
+  // Featured reel click opens Instagram directly
   const handleFeaturedReelClick = () => {
     window.open('https://www.instagram.com/reel/DZKjTSuRw77/?utm_source=ig_web_copy_link&mdxt=MzRlODBiNWFlZA==&srtk=MzRlODBiNWFlZA==', '_blank', 'noopener,noreferrer');
   };
