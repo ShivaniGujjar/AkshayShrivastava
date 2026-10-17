@@ -5,7 +5,7 @@ const SOCIAL_LINKS = [
   {
     id: 'Gmail',
     name: 'Gmail',
-    url: 'https://mail.google.com/mail/?view=cm&to=Connectwithakshayshri@gmail.com&su=Project%20inquiry',
+    url: 'https://mail.google.com/mail/?view=cm&to=akshayshri1304@gmail.com&su=Project%20inquiry',
   },
   { id: 'LinkedIn', name: 'Linkedin', url: 'https://www.linkedin.com/in/akshay-shrivastava-735210210/?isSelfProfile=false' }
 ];

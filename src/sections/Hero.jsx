@@ -53,7 +53,7 @@ const FOOTER_LINKS = [
   { label: 'Instagram', href: 'https://www.instagram.com/akshay__shri/?hl=en' },
   {
     label: 'Gmail',
-    href: 'https://mail.google.com/mail/u/0/?to=Connectwithakshayshri@gmail.com&su=Project+inquiry&fs=1&tf=cm'
+    href: 'https://mail.google.com/mail/u/0/?to=akshayshri1304@gmail.com&su=Project+inquiry&fs=1&tf=cm'
   },
   {
     label: 'Linkedin',
