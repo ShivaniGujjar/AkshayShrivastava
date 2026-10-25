@@ -539,36 +539,33 @@ export default function MotionDesign() {
       `}</style>
 
       {/* HERO BANNER */}
-      <div className="relative w-full h-[55vh] sm:h-screen bg-[#14120e] flex flex-col justify-center items-center overflow-hidden m-0 p-0 editing-cutout-mask"> 
-        <video 
-          ref={heroVideoRef}
-          poster="https://akshayshrivastava.com/images/MotionHome.jpeg"
-          autoPlay 
-          loop 
-          muted={isHeroMuted} 
-          playsInline 
-          preload="auto"
-          className="absolute top-0 left-0 w-full h-full object-cover z-0 filter brightness-[0.55] contrast-105"
-        />
+<div className="relative w-full h-[55vh] sm:h-screen bg-[#14120e] flex flex-col justify-center items-center overflow-hidden m-0 p-0 editing-cutout-mask"> 
+  <img
+    src="https://akshayshrivastava.com/images/MotionNew.jpeg"
+    alt="Motion Work"
+    loading="eager"
+    fetchPriority="high"
+    className="absolute top-0 left-0 w-full h-full object-cover z-0 scale-110 filter brightness-[0.8] contrast-105"
+  />
 
-        <div className="absolute inset-0 bg-gradient-to-b from-[#14120e]/70 via-[#14120e]/20 to-[#14120e]/80 z-[1] pointer-events-none" />
+  <div className="absolute inset-0 bg-gradient-to-b from-[#14120e]/40 via-transparent to-[#14120e]/50 z-[1] pointer-events-none" />
 
-        <div className="relative z-10 flex flex-col justify-center items-center px-4 text-center max-w-[850px] mx-auto">
-          <h1 
-            style={{ fontFamily: "'SquidBoy', sans-serif", letterSpacing: '1px' }}
-            className="text-[2.2rem] sm:text-[5.5rem] text-[#FFC300] m-0 text-center leading-none drop-shadow-lg capitalize"
-          >
-            Motion Work
-          </h1>
+  <div className="relative z-10 flex flex-col justify-center items-center px-4 text-center max-w-[850px] mx-auto">
+    <h1 
+      style={{ fontFamily: "'SquidBoy', sans-serif", letterSpacing: '1px' }}
+      className="text-[2.2rem] sm:text-[5.5rem] text-[#FFC300] m-0 text-center leading-none drop-shadow-lg capitalize"
+    >
+      Motion Work
+    </h1>
 
-          <p 
-            style={{ fontFamily: "'ParaFont', sans-serif", fontWeight: 400, letterSpacing: '-0.3px' }}
-            className="text-[#FFFCFB] text-[11px] sm:text-base md:text-lg max-w-[550px] leading-relaxed font-light drop-shadow-[0_2px_10px_rgba(0,0,0,0.95)] px-2 mt-3 sm:mt-6"
-          >
-            Making things move is easy. Making them move for a reason is the tricky part. Here you'll find animated typography, graphics, 2D/3D work and visual experiments built to actually add something to the story.
-          </p>
-        </div>
-      </div>
+    <p 
+      style={{ fontFamily: "'ParaFont', sans-serif", fontWeight: 400, letterSpacing: '-0.3px' }}
+      className="text-[#FFFCFB] text-[11px] sm:text-base md:text-lg max-w-[550px] leading-relaxed font-light drop-shadow-[0_2px_10px_rgba(0,0,0,0.95)] px-2 mt-3 sm:mt-6"
+    >
+      Making things move is easy. Making them move for a reason is the tricky part. Here you'll find animated typography, graphics, 2D/3D work and visual experiments built to actually add something to the story.
+    </p>
+  </div>
+</div>
 
       {/* HEADER & FEATURED REEL */}
       <div ref={featuredSectionRef} className="w-full mx-auto pt-6 sm:pt-16 pb-6 sm:pb-8 px-4 sm:px-12 relative z-20 overflow-hidden">

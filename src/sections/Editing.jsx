@@ -509,47 +509,41 @@ export default function Editing() {
           -webkit-mask-position: bottom center;
         }
       `}</style>
+{/* HERO BANNER */}
+<div className="relative w-full h-[55vh] sm:h-screen bg-[#14120e] flex flex-col justify-center items-center overflow-hidden m-0 p-0 editing-cutout-mask"> 
+  <img
+    src="https://akshayshrivastava.com/images/EditingNew.jpeg"
+    alt="Editing Work"
+    loading="eager"
+    fetchPriority="high"
+    className="absolute top-0 left-0 w-full h-full object-cover z-0 filter brightness-[0.75] contrast-100"
+  />
 
-      {/* HERO BANNER */}
-      <div className="relative w-full h-[55vh] sm:h-screen bg-[#14120e] flex flex-col justify-center items-center overflow-hidden m-0 p-0 editing-cutout-mask"> 
-        <video 
-          ref={heroVideoRef}
-          poster= 'https://akshayshrivastava.com/images/EditingMain.png'
-          autoPlay 
-          loop 
-          muted={isHeroMuted} 
-          playsInline 
-          preload="auto"
-          className="absolute top-0 left-0 w-full h-full object-cover z-0 filter brightness-[0.75] contrast-100"
-        />
+  <div className="absolute inset-0 bg-gradient-to-b from-[#14120e]/70 via-[#14120e]/20 to-[#14120e]/80 z-[2] pointer-events-none" />
 
-        
-        <div className="absolute inset-0 bg-gradient-to-b from-[#14120e]/70 via-[#14120e]/20 to-[#14120e]/80 z-[2] pointer-events-none" />
+  <div className="relative z-10 flex flex-col justify-center items-center px-4 text-center max-w-[850px] mx-auto">
+    <h1 
+      style={{ fontFamily: "'SquidBoy', sans-serif", letterSpacing: '1px' }}
+      className="text-[2.2rem] sm:text-[5.5rem] text-[#FFC300] m-0 leading-none drop-shadow-lg capitalize mb-3 sm:mb-6"
+    >
+      Editing Work
+    </h1>
 
-        <div className="relative z-10 flex flex-col justify-center items-center px-4 text-center max-w-[850px] mx-auto">
-          <h1 
-            style={{ fontFamily: "'SquidBoy', sans-serif", letterSpacing: '1px' }}
-            className="text-[2.2rem] sm:text-[5.5rem] text-[#FFC300] m-0 leading-none drop-shadow-lg capitalize mb-3 sm:mb-6"
-          >
-            Editing Work
-          </h1>
+    <p 
+      style={{ fontFamily: "'ParaFont', sans-serif", fontWeight: 100, letterSpacing: '-0.3px' }}
+      className="text-[#FFFCFB] text-[11px] sm:text-base md:text-lg max-w-[750px] leading-relaxed font-light drop-shadow-[0_2px_10px_rgba(0,0,0,0.95)] px-2 mb-2 sm:mb-3"
+    >
+      The camera captures everything. Editing decides what matters. Through pacing, rhythm, sound, and restraint, an edit can turn the same footage into completely different stories. That’s what makes editing less of a technical process and more of a storytelling language.
+    </p>
 
-          <p 
-            style={{ fontFamily: "'ParaFont', sans-serif", fontWeight: 100, letterSpacing: '-0.3px' }}
-            className="text-[#FFFCFB] text-[11px] sm:text-base md:text-lg max-w-[750px] leading-relaxed font-light drop-shadow-[0_2px_10px_rgba(0,0,0,0.95)] px-2 mb-2 sm:mb-3"
-          >
-            The camera captures everything. Editing decides what matters. Through pacing, rhythm, sound, and restraint, an edit can turn the same footage into completely different stories. That’s what makes editing less of a technical process and more of a storytelling language.
-          </p>
-
-          <p 
-            style={{ fontFamily: "'ParaFont', sans-serif", fontWeight: 100, letterSpacing: '0.2px' }}
-            className="text-[#FFC300] text-[11px] sm:text-sm md:text-base drop-shadow-[0_2px_8px_rgba(0,0,0,0.95)]"
-          >
-            Here are a few stories I've helped shape. Scroll on.
-          </p>
-        </div>
-      </div>
-
+    <p 
+      style={{ fontFamily: "'ParaFont', sans-serif", fontWeight: 100, letterSpacing: '0.2px' }}
+      className="text-[#FFC300] text-[11px] sm:text-sm md:text-base drop-shadow-[0_2px_8px_rgba(0,0,0,0.95)]"
+    >
+      Here are a few stories I've helped shape. Scroll on.
+    </p>
+  </div>
+</div>
       {/* FEATURED MASTERPIECE SECTION */}
       <div ref={featuredSectionRef} className="w-full mx-auto pt-6 sm:pt-16 pb-4 px-4 flex flex-col items-center relative z-20 text-center overflow-hidden">
         <div className="inline-flex flex-col items-center z-20 px-4">

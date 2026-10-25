@@ -45,7 +45,7 @@ const CHAPTERS = [
     year: '2022',
     title: 'Where It Started',
     body: [
-      `After failing my math exam, my teacher told me, "`,
+      `After failing my math test, my teacher told me, "`,
       { hl: `Akshay, I know you have more potential. You just have to put in more effort.` },
       `" So I put all my effort into my creative journey.`,
     ],
@@ -93,7 +93,7 @@ const CHAPTERS = [
     title: 'Where I Am Now',
     finale: true,
     body: [
-      `In short, I was learning when I had nothing to do; I'm still learning when I have a hundred things to do, and I'll probably keep learning while doing some crazy, crazy work. Because I've realised that the most real and visible results come when `,
+      `In short, I was learning when I had nothing to do. I'm still learning when I have a hundred things to do, and I'll probably keep learning while doing some crazy, crazy work. Because I've realised that the most real and visible results come when `,
       { hl: `you learn by doing` },
       `.`,
     ],
