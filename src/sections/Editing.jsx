@@ -512,7 +512,7 @@ export default function Editing() {
 {/* HERO BANNER */}
 <div className="relative w-full h-[55vh] sm:h-screen bg-[#14120e] flex flex-col justify-center items-center overflow-hidden m-0 p-0 editing-cutout-mask"> 
   <img
-    src="https://akshayshrivastava.com/images/EditingNew.jpeg"
+    src="https://akshayshrivastava.com/images/EditingNew.png"
     alt="Editing Work"
     loading="eager"
     fetchPriority="high"
