@@ -22,13 +22,10 @@ const LONG_FORMS = [
   { id: 'lf6', title: 'Inside the Business of HYROX', category: 'Documentary', youtubeId: 'iIhLVkXaXc8' },
   { id: 'lf7', title: 'Shamik - The comic', category: 'Podcast', youtubeId: 'On0S3Ym4FfA' },
   { id: 'lf8', title: 'Zomato & Zepto Masterclass', category: 'Podcast', youtubeId: 'uOhVaUvRVPE' },
-  
-
-  
 ];
 
 const SHORT_FORMS = [
- { id: 'msf5', name: 'Scratch', type: 'Edutainment', title: 'Character Animation', brand: '2D Motion', videoUrl: 'https://akshayshrivastava.com/videos/short9.mp4', poster: 'https://akshayshrivastava.com/images/short9.png', driveUrl: 'https://drive.google.com/file/d/1uwY-PFrG5BDBY7e5WlOJZIB18O-tCKwO/view?usp=sharing' },
+  { id: 'msf5', name: 'Scratch', type: 'Edutainment', title: 'Character Animation', brand: '2D Motion', videoUrl: 'https://akshayshrivastava.com/videos/short9.mp4', poster: 'https://akshayshrivastava.com/images/short9.png', driveUrl: 'https://drive.google.com/file/d/1uwY-PFrG5BDBY7e5WlOJZIB18O-tCKwO/view?usp=sharing' },
 
   { id: 'sf1', name: "Masters' Union", type: 'Personal Brand', title: 'Retention Hook 1', brand: 'Waywen', videoUrl: 'https://akshayshrivastava.com/videos/short3.mp4', poster: 'https://akshayshrivastava.com/images/short3.png', driveUrl: 'https://drive.google.com/file/d/1Xw9i6DwueS00OjtjmihO6Un0RRNcal6v/view?usp=sharing' },
 
@@ -37,13 +34,13 @@ const SHORT_FORMS = [
   { id: 'sf2', name: 'Ankit_sr', type: "Personal Brand", title: 'Viral Podcast Clip 2', brand: 'Edutainment', videoUrl: 'https://akshayshrivastava.com/videos/short19.mp4', poster: 'https://akshayshrivastava.com/images/short19.png', driveUrl: 'https://drive.google.com/file/d/1Al5OymoNf06OhEYKG0quCGF_qQWB4J2c/view?usp=sharing' },
 
   { id: 'sf6', title: 'Personal Brand', brand: 'Akshay Shrivastava', videoUrl: 'https://akshayshrivastava.com/videos/short18.mp4', poster: 'https://akshayshrivastava.com/images/short18.png', driveUrl: 'https://drive.google.com/file/d/1nIuMt5bekFJO2I8aiZo6NA5E33uNegGN/view?usp=sharing' },
- 
+
   { id: 'sf10', title: "UGC Ad's", brand: 'Frido', videoUrl: 'https://akshayshrivastava.com/videos/short11.mp4', poster: 'https://akshayshrivastava.com/images/short11.png', driveUrl: 'https://drive.google.com/file/d/1O6s9e9q8R4Zc0DdrUUB6MnNDF1km__94/view?usp=sharing' },
 
   { id: 'msf2', name: 'Vishwmitra', type: 'Performance Reel', title: 'Abstract Product Reel', brand: '3D Motion', videoUrl: 'https://akshayshrivastava.com/videos/short4.mp4', poster: 'https://akshayshrivastava.com/images/short4.png', driveUrl: 'https://drive.google.com/file/d/1du-28m6tarHsR432u2SWzhcRVzKv-7YO/view?usp=sharing' },
 
   { id: 'msf4', name: 'Ankur Wariko', type: 'UGC Ads', title: 'Character Animation', brand: '2D Motion', videoUrl: 'https://akshayshrivastava.com/videos/short7.mp4', poster: 'https://akshayshrivastava.com/images/short7.png', driveUrl: 'https://drive.google.com/file/d/1G0GUMbQXBIAvnLRCs1lgs-BE9lCVvIMy/view?usp=sharing' },
- 
+
   { id: 'sf8', title: "UGC Ad's", brand: 'Frido', videoUrl: 'https://akshayshrivastava.com/videos/short12.mp4', poster: 'https://akshayshrivastava.com/images/short12.png', driveUrl: 'https://drive.google.com/file/d/1-S-L43uq4j1VoEQYINbmZS7iK1QigC_w/view?usp=sharing' },
   { id: 'sf4', name: 'Ankit_sr', type: 'Personal Brand', title: 'Instagram Reel', brand: 'Fit Tribe', videoUrl: 'https://akshayshrivastava.com/videos/short10.mp4', poster: 'https://akshayshrivastava.com/images/short10.png', driveUrl: 'https://drive.google.com/file/d/1gPB6TJ7HZ9_7vzIIjFbSedst69GTeRPx/view?usp=sharing' },
 ];
@@ -73,6 +70,128 @@ const ArrowUpRightIcon = ({ className = '' }) => (
     <path d="M8 7h9v9" />
   </svg>
 );
+
+/* ------------------------------------------------------------------
+   YouTube autoplay-on-scroll player (captions off + keeps playing)
+------------------------------------------------------------------- */
+const YT_ZOOM = 1.32;
+
+function YouTubeAutoplay({ id, title }) {
+  const wrapRef = useRef(null);
+  const iframeRef = useRef(null);
+  const [mounted, setMounted] = useState(false);
+  const [ready, setReady] = useState(false);
+  const [muted, setMuted] = useState(true);
+
+  const send = (func, args = '') => {
+    const win = iframeRef.current && iframeRef.current.contentWindow;
+    if (win) win.postMessage(JSON.stringify({ event: 'command', func, args }), '*');
+  };
+
+  useEffect(() => {
+    const el = wrapRef.current;
+    if (!el) return;
+    const io = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setMounted(true);
+          send('playVideo');
+        }
+      },
+      { threshold: 0.25 }
+    );
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
+
+  // Manual loop + keep playing on state updates
+  useEffect(() => {
+    const onMsg = (e) => {
+      if (!iframeRef.current || e.source !== iframeRef.current.contentWindow) return;
+      let data = e.data;
+      if (typeof data === 'string') {
+        try { data = JSON.parse(data); } catch { return; }
+      }
+      if (data && data.event === 'onStateChange') {
+        if (data.info === 0) {
+          send('seekTo', [0, true]);
+          send('playVideo');
+        } else if (data.info === 2 && mounted) {
+          send('playVideo');
+        }
+      }
+    };
+    window.addEventListener('message', onMsg);
+    return () => window.removeEventListener('message', onMsg);
+  }, [mounted]);
+
+  const toggleSound = () => {
+    send(muted ? 'unMute' : 'mute');
+    if (muted) send('setVolume', [100]);
+    setMuted(!muted);
+  };
+
+  const origin = typeof window !== 'undefined' ? encodeURIComponent(window.location.origin) : '';
+  const src =
+    `https://www.youtube-nocookie.com/embed/${id}?autoplay=1&mute=1&controls=0` +
+    `&cc_load_policy=0&cc_lang_pref=none&playsinline=1&rel=0&modestbranding=1&disablekb=1&iv_load_policy=3&fs=0&enablejsapi=1&origin=${origin}`;
+
+  return (
+    <div ref={wrapRef} className="relative w-full h-full bg-[#0f0e0c] overflow-hidden">
+      <img
+        src={ytThumb(id)}
+        onError={(e) => { e.currentTarget.src = ytThumbFallback(id); }}
+        alt={title}
+        draggable={false}
+        style={{ transform: `scale(${YT_ZOOM})`, transformOrigin: 'center center' }}
+        className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-700 ${ready ? 'opacity-0' : 'opacity-100'}`}
+      />
+
+      {mounted && (
+        <iframe
+          ref={iframeRef}
+          src={src}
+          title={title}
+          allow="autoplay; encrypted-media; picture-in-picture"
+          tabIndex={-1}
+          onLoad={() => {
+            const win = iframeRef.current?.contentWindow;
+            win?.postMessage(
+              JSON.stringify({ event: 'listening', id: 1, channel: 'widget' }), '*'
+            );
+            send('unloadModule', 'captions');
+            send('playVideo');
+            setTimeout(() => setReady(true), 600);
+          }}
+          style={{ transform: `scale(${YT_ZOOM})`, transformOrigin: 'center center' }}
+          className={`absolute inset-0 w-full h-full border-0 pointer-events-none transition-opacity duration-700 ${ready ? 'opacity-100' : 'opacity-0'}`}
+        />
+      )}
+
+      <button
+        type="button"
+        onClick={toggleSound}
+        aria-label={muted ? 'Unmute video' : 'Mute video'}
+        className="absolute bottom-3 right-3 sm:bottom-5 sm:right-5 z-10 flex h-9 w-9 sm:h-11 sm:w-11 items-center justify-center rounded-full bg-[#14120e]/75 text-[#FFFCFB] ring-1 ring-white/15 backdrop-blur-sm transition-transform duration-200 hover:scale-110 active:scale-95 cursor-pointer outline-none"
+      >
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-4 w-4 sm:h-5 sm:w-5" aria-hidden="true">
+          <path d="M11 5 6 9H3v6h3l5 4V5z" />
+          {muted ? (
+            <>
+              <path d="m16 9 5 6" />
+              <path d="m21 9-5 6" />
+            </>
+          ) : (
+            <>
+              <path d="M15.5 8.5a5 5 0 0 1 0 7" />
+              <path d="M18.5 5.5a9 9 0 0 1 0 13" />
+            </>
+          )}
+        </svg>
+      </button>
+    </div>
+  );
+}
 
 function VideoCard({ item, aspectRatio = "wide", hoveredId, setHoveredId, onOpenModal }) {
   const cardRef = useRef(null);
@@ -201,7 +320,7 @@ function VideoCard({ item, aspectRatio = "wide", hoveredId, setHoveredId, onOpen
           <>
             {previewOn && (
               <iframe
-                src={`https://www.youtube.com/embed/${item.youtubeId}?autoplay=1&mute=1&controls=0&loop=1&playlist=${item.youtubeId}&playsinline=1&rel=0&modestbranding=1&disablekb=1&iv_load_policy=3&fs=0`}
+                src={`https://www.youtube.com/embed/${item.youtubeId}?autoplay=1&mute=1&controls=0&cc_load_policy=0&loop=1&playlist=${item.youtubeId}&playsinline=1&rel=0&modestbranding=1&disablekb=1&iv_load_policy=3&fs=0`}
                 title={`${item.title} preview`}
                 allow="autoplay; encrypted-media"
                 tabIndex={-1}
@@ -409,19 +528,9 @@ export default function Editing() {
   const [selectedVideo, setSelectedVideo] = useState(null);
   const [hoveredLongId, setHoveredLongId] = useState(null);
   const [hoveredShortId, setHoveredShortId] = useState(null);
-  
-  const [isHeroMuted, setIsHeroMuted] = useState(true);
-  const heroVideoRef = useRef(null);
 
   const featuredSectionRef = useRef(null);
   const paragraphRef = useRef(null);
-
-  const toggleHeroSound = () => {
-    if (heroVideoRef.current) {
-      heroVideoRef.current.muted = !isHeroMuted;
-      setIsHeroMuted(!isHeroMuted);
-    }
-  };
 
   useEffect(() => {
     const handleKeyDown = (e) => {
@@ -464,7 +573,7 @@ export default function Editing() {
 
   return (
     <div className="w-full min-h-screen bg-[#FFFCFB] relative overflow-x-hidden pb-12 sm:pb-24 m-0 text-[#14120e]">
-      
+
       <style>{`
         @font-face {
           font-family: 'SquidBoy';
@@ -509,46 +618,48 @@ export default function Editing() {
           -webkit-mask-position: bottom center;
         }
       `}</style>
-{/* HERO BANNER */}
-<div className="relative w-full h-[55vh] sm:h-screen bg-[#14120e] flex flex-col justify-center items-center overflow-hidden m-0 p-0 editing-cutout-mask"> 
-  <img
-    src="https://akshayshrivastava.com/images/EditingNew.png"
-    alt="Editing Work"
-    loading="eager"
-    fetchPriority="high"
-    className="absolute top-0 left-0 w-full h-full object-cover z-0 filter brightness-[0.75] contrast-100"
-  />
 
-  <div className="absolute inset-0 bg-gradient-to-b from-[#14120e]/70 via-[#14120e]/20 to-[#14120e]/80 z-[2] pointer-events-none" />
+      {/* HERO BANNER */}
+      <div className="relative w-full h-[55vh] sm:h-screen bg-[#14120e] flex flex-col justify-center items-center overflow-hidden m-0 p-0 editing-cutout-mask">
+        <img
+          src="https://akshayshrivastava.com/images/EditingNew.png"
+          alt="Editing Work"
+          loading="eager"
+          fetchPriority="high"
+          className="absolute top-0 left-0 w-full h-full object-cover z-0 filter brightness-[0.75] contrast-100"
+        />
 
-  <div className="relative z-10 flex flex-col justify-center items-center px-4 text-center max-w-[850px] mx-auto">
-    <h1 
-      style={{ fontFamily: "'SquidBoy', sans-serif", letterSpacing: '1px' }}
-      className="text-[2.2rem] sm:text-[5.5rem] text-[#FFC300] m-0 leading-none drop-shadow-lg capitalize mb-3 sm:mb-6"
-    >
-      Editing Work
-    </h1>
+        <div className="absolute inset-0 bg-gradient-to-b from-[#14120e]/70 via-[#14120e]/20 to-[#14120e]/80 z-[2] pointer-events-none" />
 
-    <p 
-      style={{ fontFamily: "'ParaFont', sans-serif", fontWeight: 100, letterSpacing: '-0.3px' }}
-      className="text-[#FFFCFB] text-[11px] sm:text-base md:text-lg max-w-[750px] leading-relaxed font-light drop-shadow-[0_2px_10px_rgba(0,0,0,0.95)] px-2 mb-2 sm:mb-3"
-    >
-      The camera captures everything. Editing decides what matters. Through pacing, rhythm, sound, and restraint, an edit can turn the same footage into completely different stories. That’s what makes editing less of a technical process and more of a storytelling language.
-    </p>
+        <div className="relative z-10 flex flex-col justify-center items-center px-4 text-center max-w-[850px] mx-auto">
+          <h1
+            style={{ fontFamily: "'SquidBoy', sans-serif", letterSpacing: '1px' }}
+            className="text-[2.2rem] sm:text-[5.5rem] text-[#FFC300] m-0 leading-none drop-shadow-lg capitalize mb-3 sm:mb-6"
+          >
+            Editing Work
+          </h1>
 
-    <p 
-      style={{ fontFamily: "'ParaFont', sans-serif", fontWeight: 100, letterSpacing: '0.2px' }}
-      className="text-[#FFC300] text-[11px] sm:text-sm md:text-base drop-shadow-[0_2px_8px_rgba(0,0,0,0.95)]"
-    >
-      Here are a few stories I've helped shape. Scroll on.
-    </p>
-  </div>
-</div>
+          <p
+            style={{ fontFamily: "'ParaFont', sans-serif", fontWeight: 100, letterSpacing: '-0.3px' }}
+            className="text-[#FFFCFB] text-[11px] sm:text-base md:text-lg max-w-[750px] leading-relaxed font-light drop-shadow-[0_2px_10px_rgba(0,0,0,0.95)] px-2 mb-2 sm:mb-3"
+          >
+            The camera captures everything. Editing decides what matters. Through pacing, rhythm, sound, and restraint, an edit can turn the same footage into completely different stories. That’s what makes editing less of a technical process and more of a storytelling language.
+          </p>
+
+          <p
+            style={{ fontFamily: "'ParaFont', sans-serif", fontWeight: 100, letterSpacing: '0.2px' }}
+            className="text-[#FFC300] text-[11px] sm:text-sm md:text-base drop-shadow-[0_2px_8px_rgba(0,0,0,0.95)]"
+          >
+            Here are a few stories I've helped shape. Scroll on.
+          </p>
+        </div>
+      </div>
+
       {/* FEATURED MASTERPIECE SECTION */}
       <div ref={featuredSectionRef} className="w-full mx-auto pt-6 sm:pt-16 pb-4 px-4 flex flex-col items-center relative z-20 text-center overflow-hidden">
         <div className="inline-flex flex-col items-center z-20 px-4">
-          <h2 
-            style={{ fontFamily: "'SquidBoy', sans-serif", letterSpacing:'1px' }}
+          <h2
+            style={{ fontFamily: "'SquidBoy', sans-serif", letterSpacing: '1px' }}
             className="text-2xl sm:text-4xl m-0 text-[#D42C2C] leading-tight capitalize"
           >
             Welcome To Editing Section
@@ -556,8 +667,8 @@ export default function Editing() {
         </div>
 
         <div ref={paragraphRef} className="relative z-10 mt-2 sm:mt-3 mb-4 sm:mb-6 max-w-[700px] px-4">
-          <p 
-            style={{ fontFamily: "ParaFont, sans-serif", fontWeight: 200, letterSpacing : '-0.5px' }}
+          <p
+            style={{ fontFamily: "ParaFont, sans-serif", fontWeight: 200, letterSpacing: '-0.5px' }}
             className="text-[#3b352e] text-sm sm:text-lg leading-relaxed text-center font-light tracking-wide px-2"
           >
             A collection of some of my best work across UGC ads, brand films, podcasts, documentaries, YouTube videos, reels, shorts, social media campaigns, and more.
@@ -566,12 +677,7 @@ export default function Editing() {
 
         <div className="max-w-[950px] w-full px-2 sm:px-6 mb-6 sm:mb-10 relative z-20">
           <div className="w-full aspect-video rounded-[8px] overflow-hidden shadow-[0_18px_50px_rgba(0,0,0,0.15)] bg-[#0f0e0c]">
-            <CustomVideoPlayer 
-              src="https://akshayshrivastava.com/videos/EditingFull.mp4"
-              poster= 'https://akshayshrivastava.com/images/EditingMain.png'
-              className="w-full h-full"
-              muted={true}
-            />
+            <YouTubeAutoplay id="N5Crw6YCkSU" title="Masters' Union Campus Tour 2026" />
           </div>
         </div>
       </div>
@@ -579,14 +685,14 @@ export default function Editing() {
       {/* LONG FORMS */}
       <div id="long-forms" className="w-full max-w-full relative overflow-hidden my-4 sm:my-16">
         <div className="max-w-[1100px] w-full mx-auto px-4 sm:px-6 flex flex-col items-center text-center mb-4 sm:mb-8">
-          <h3 
-            style={{ fontFamily: "'SquidBoy', sans-serif", letterSpacing : '1px' }}
+          <h3
+            style={{ fontFamily: "'SquidBoy', sans-serif", letterSpacing: '1px' }}
             className="text-2xl sm:text-4xl m-0 text-[#D42C2C] leading-tight capitalize"
           >
             Long Forms
           </h3>
 
-          <div 
+          <div
             style={{ fontFamily: "'ParaFont', sans-serif", letterSpacing: '0.5px' }}
             className="flex flex-wrap items-center justify-center gap-1.5 sm:gap-3 mt-2 sm:mt-3 text-[#3b352e] text-xs sm:text-base tracking-wider text-center capitalize"
           >
@@ -614,14 +720,14 @@ export default function Editing() {
       {/* SHORT FORMS (Single Row, Opposite Direction: 'right') */}
       <div className="w-full max-w-full relative overflow-hidden my-4 sm:my-20">
         <div className="max-w-[1100px] w-full mx-auto px-4 sm:px-6 flex flex-col items-center text-center mb-4 sm:mb-8">
-          <h3 
-            style={{ fontFamily: "'SquidBoy', sans-serif", letterSpacing : '1px' }}
+          <h3
+            style={{ fontFamily: "'SquidBoy', sans-serif", letterSpacing: '1px' }}
             className="text-2xl sm:text-4xl m-0 text-[#D42C2C] leading-tight capitalize"
           >
             Short Forms
           </h3>
 
-          <div 
+          <div
             style={{ fontFamily: "'ParaFont', sans-serif", letterSpacing: '0.5px' }}
             className="flex flex-wrap items-center justify-center gap-1.5 sm:gap-3 mt-2 sm:mt-3 text-[#3b352e] text-xs sm:text-base tracking-wider text-center capitalize"
           >
@@ -634,7 +740,7 @@ export default function Editing() {
             <span>Reels</span>
           </div>
         </div>
-        
+
         <div className="mb-3 sm:mb-8">
           <MarqueeRow
             items={duplicateList(SHORT_FORMS)}
@@ -658,15 +764,15 @@ export default function Editing() {
 
       {/* FULLSCREEN PREVIEW MODAL */}
       {selectedVideo && (
-        <div 
+        <div
           onClick={() => setSelectedVideo(null)}
           className="fixed inset-0 z-[99999] bg-black/85 backdrop-blur-xl flex items-center justify-center p-3 sm:p-8 cursor-pointer"
         >
-          <div 
+          <div
             onClick={(e) => e.stopPropagation()}
             className={`relative w-full ${isShortForm ? 'max-w-[300px] sm:max-w-[380px] aspect-[9/16] rounded-[8px] bg-black' : 'max-w-5xl rounded-[8px] bg-[#FFFCFB]'} overflow-hidden shadow-2xl cursor-default flex flex-col`}
           >
-            <button 
+            <button
               onClick={() => setSelectedVideo(null)}
               className={`absolute top-3 right-3 sm:top-4 sm:right-4 z-[1000] w-8 h-8 sm:w-10 sm:h-10 rounded-full ${isShortForm ? 'bg-black/60 text-white' : 'bg-[#14120e] text-[#FFFCFB] hover:bg-[#D42C2C]'} flex items-center justify-center font-bold text-base sm:text-lg transition-all shadow-lg cursor-pointer backdrop-blur-md`}
             >
@@ -675,8 +781,8 @@ export default function Editing() {
 
             {isShortForm ? (
               <div className="w-full h-full bg-black flex-1 relative">
-                <CustomVideoPlayer 
-                  src={selectedVideo.videoUrl} 
+                <CustomVideoPlayer
+                  src={selectedVideo.videoUrl}
                   autoPlay={true}
                   loop={true}
                   muted={false}
@@ -696,9 +802,9 @@ export default function Editing() {
                       allowFullScreen
                     />
                   ) : (
-                    <CustomVideoPlayer 
-                      src={selectedVideo.videoUrl} 
-                      badgeText={selectedVideo.category || selectedVideo.brand || "Preview"} 
+                    <CustomVideoPlayer
+                      src={selectedVideo.videoUrl}
+                      badgeText={selectedVideo.category || selectedVideo.brand || "Preview"}
                       className="w-full h-full"
                       autoPlay={true}
                       muted={false}
@@ -706,7 +812,7 @@ export default function Editing() {
                   )}
                 </div>
                 <div className="p-3 sm:p-6 bg-[#111] text-[#14120e] flex items-center justify-between border-t border-black/5">
-                  <h3 
+                  <h3
                     style={{ fontFamily: "'GroteskFont', 'Helvetica Neue', Helvetica, Arial, sans-serif" }}
                     className="m-0 text-sm sm:text-xl font-bold text-white"
                   >
@@ -714,7 +820,7 @@ export default function Editing() {
                   </h3>
                   <div className="flex items-center gap-2 sm:gap-3 shrink-0 ml-2">
                     {(selectedVideo.category || selectedVideo.brand) && (
-                      <span 
+                      <span
                         style={{ fontFamily: "'GroteskFont', sans-serif", letterSpacing: '-0.3px', fontWeight: 300 }}
                         className="text-[9px] sm:text-xs text-white bg-[#333] px-2 py-0.5 sm:px-2.5 sm:py-1 rounded-[4px]"
                       >
